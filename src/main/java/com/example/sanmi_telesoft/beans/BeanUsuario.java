@@ -14,7 +14,7 @@ public class BeanUsuario {
     private String telefonoUsuario;
     private int idUrbanizacion;
     private String activationToken;
-    private boolean isActivated;
+    private boolean isActive;
     private Date nacimientoDate;
     private int idTipoCoordinadora;
     private int idEstadoVecinoEvento;
@@ -109,12 +109,12 @@ public class BeanUsuario {
         this.activationToken = activationToken;
     }
 
-    public boolean isActivated() {
-        return isActivated;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setActivated(boolean activated) {
-        isActivated = activated;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Date getNacimientoDate() {
