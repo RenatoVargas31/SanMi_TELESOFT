@@ -1,6 +1,6 @@
 package com.example.sanmi_telesoft.beans;
 
-public class BeanSerenazgo {
+public class Serenazgo {
     private int idSerenazgos;
     private String nombreSereno;
     private String apellidoSereno;

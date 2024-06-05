@@ -1,11 +1,12 @@
 package com.example.sanmi_telesoft.beans;
 
-public class BeanProfesor {
+public class Profesor {
 
     private int idProfesores;
     private String nombreProfesor;
     private String apellidoProfesor;
     private String dniProfesor;
+    private String tipoProfesor;
     private String cursoProfesor;
 
     public int getIdProfesores() {
@@ -38,6 +39,14 @@ public class BeanProfesor {
 
     public void setDniProfesor(String dniProfesor) {
         this.dniProfesor = dniProfesor;
+    }
+
+    public String getTipoProfesor() {
+        return tipoProfesor;
+    }
+
+    public void setTipoProfesor(String tipoProfesor) {
+        this.tipoProfesor = tipoProfesor;
     }
 
     public String getCursoProfesor() {

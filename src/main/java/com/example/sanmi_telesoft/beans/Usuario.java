@@ -2,7 +2,7 @@ package com.example.sanmi_telesoft.beans;
 
 import java.util.Date;
 
-public class BeanUsuario {
+public class Usuario {
     private int idUsuarios;
     private int idRoles;
     private String correoUsuario;
