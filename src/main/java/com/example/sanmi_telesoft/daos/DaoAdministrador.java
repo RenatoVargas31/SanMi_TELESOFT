@@ -17,7 +17,7 @@ public class DaoAdministrador {
             throw new RuntimeException(e);
         }
 
-        String url = "jdbc:mysql://localhost:3306/Sanmi_TelesoftBD";
+        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
         String username = "root";
         String password = "root";
 
@@ -47,7 +47,7 @@ public class DaoAdministrador {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        String url = "jdbc:mysql://localhost:3306/Sanmi_TelesoftBD";
+        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
         String username = "root";
         String password = "root";
 
@@ -87,7 +87,7 @@ public class DaoAdministrador {
             throw new RuntimeException(e);
         }
 
-        String url = "jdbc:mysql://localhost:3306/Sanmi_TelesoftBD";
+        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
         String username = "root";
         String password = "root";
 
@@ -114,7 +114,7 @@ public class DaoAdministrador {
             throw new RuntimeException(e);
         }
 
-        String url = "jdbc:mysql://localhost:3306/Sanmi_TelesoftBD";
+        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
         String username = "root";
         String password = "root";
 
