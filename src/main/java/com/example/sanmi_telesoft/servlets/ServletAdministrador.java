@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "ServletAdmin", value = "/ServletAdmin")
+@WebServlet(name = "ServletAdministrador", value = "/ServletAdministrador")
 public class ServletAdministrador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,8 +26,9 @@ public class ServletAdministrador extends HttpServlet {
                 ArrayList<Profesor> listaProfesores = daoAdministrador.listarProfesores();
                 //Mandar a la vista -> adm-instructores.jsp
                 request.setAttribute("listaProfesores", listaProfesores);
-                RequestDispatcher rd = request.getRequestDispatcher("adm-instructores.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Administrador/adm-instructores.jsp");
                 rd.forward(request, response);
+                break;
         }
     }
 
