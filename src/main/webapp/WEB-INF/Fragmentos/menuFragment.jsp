@@ -3,7 +3,7 @@
 
     <div class="app-brand demo ">
         <a href="index.html" class="app-brand-link">
-            <img class="img-fluid" width="33" src="../../assets/img/illustrations/logo-San-Miguel-1.webp"
+            <img class="img-fluid" width="33" src="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"
                  alt="logo-sanmiguel">
             <span class="app-brand-text demo menu-text fw-bold ms-4">SanMI</span>
 

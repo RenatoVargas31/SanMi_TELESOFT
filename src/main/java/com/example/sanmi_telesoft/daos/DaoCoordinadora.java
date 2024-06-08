@@ -18,7 +18,7 @@ public class DaoCoordinadora extends BaseDao{
                 Evento evento = new Evento();
                 evento.setIdEventos(rs.getInt("idEventos"));
                 evento.setNombreEvento(rs.getString("nombreEvento"));
-                evento.setNombreEvento(rs.getString("descriptionEvento"));
+                evento.setDescriptionEvento(rs.getString("descriptionEvento"));
 
                 listaEventos.add(evento);
             }

@@ -21,7 +21,7 @@ public class ServletCoordinadora extends HttpServlet {
 
         switch (action){
             case "listarEventos":
-                ArrayList<Evento> listaEventos = new ArrayList<>();
+                ArrayList<Evento> listaEventos = daoCoordinadora.listaEventos();
                 request.setAttribute("listaEventos", listaEventos);
                 RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp");
                 rd.forward(request, response);
