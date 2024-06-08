@@ -1,6 +1,6 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Profesor" %>
 <%@ page import="java.util.ArrayList" %><%--
-  Created by IntelliJ IDEA.
+
   User: rlvs_
   Date: 4/06/2024
   Time: 19:32
@@ -635,6 +635,68 @@
                                     <i class='bx bx-chalkboard me-2'></i>
                                     <h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Instructor</h2></a>
                                 </button>
+                                <!-- Modal de registro -->
+                                <div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
+                                        <div class="modal-content p-3 p-md-5">
+                                            <div class="modal-body">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <div class="text-center mb-4">
+                                                    <h3 class="address-title fw-bold">Registrar Instructor</h3>
+                                                </div>
+                                                <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=crearProfesor">
+
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-md mb-md-0 mb-3">
+                                                                <div class="form-check custom-option custom-option-icon">
+                                                                    <label class="form-check-label custom-option-content" for="customRadioHome">
+                                                                        <span class="custom-option-body">
+                                                                          <i class="bx bx-tennis-ball"></i>
+                                                                          <span class="custom-option-title">Deporte</span>
+                                                                        </span>
+                                                                        <input name="tipoProfesor" class="form-check-input" type="radio" value="Deporte"/>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md mb-md-0 mb-3">
+                                                                <div class="form-check custom-option custom-option-icon">
+                                                                    <label class="form-check-label custom-option-content" for="customRadioOffice">
+                                                                        <span class="custom-option-body">
+                                                                          <i class='bx bxs-book-reader'></i>
+                                                                          <span class="custom-option-title"> Cultura </span>
+                                                                        </span>
+                                                                        <input name="tipoProfesor" class="form-check-input" type="radio" value="Cultura"/>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="form-label" for="nombreProfesor">Nombre</label>
+                                                        <input type="text" id="nombreProfesor" name="nombreProfesor" class="form-control" placeholder="Nombre" />
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="form-label" for="apellidoProfesor">Apellidos</label>
+                                                        <input type="text" id="apellidoProfesor" name="apellidoProfesor" class="form-control" placeholder="Apellido" />
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="form-label" for="dniProfesor">DNI</label>
+                                                        <input type="text" id="dniProfesor" name="dniProfesor" class="form-control" placeholder="DNI (8 dígitos)" />
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="form-label" for="cursoProfesor">Curso</label>
+                                                        <input type="text" id="cursoProfesor" name="cursoProfesor" class="form-control" placeholder="Curso a dictar" />
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
+                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <table id="table-personalSerenazgo" class="datatables-basic table border-top">
                                 <thead>
@@ -651,6 +713,7 @@
                                     ArrayList<Profesor> listaProfesores = (ArrayList<Profesor>) request.getAttribute("listaProfesores");
                                     for (Profesor profesor : listaProfesores) {
                                 %>
+
                                 <tbody>
                                 <tr>
 
@@ -659,94 +722,108 @@
                                     <td><%= profesor.getDniProfesor() %></td>
                                     <td><%= profesor.getCursoProfesor()%></td>
                                     <td>
-                                        <button type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " data-bs-toggle="modal" data-bs-target="#editarPersonal">
+                                        <button type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " data-bs-toggle="modal" data-bs-target="#editarPersonal<%= profesor.getIdProfesores()%>">
                                             <i class='bx bx-edit'></i>
                                         </button>
+                                        <!-- Modal de edición -->
+                                        <div class="modal fade" id="editarPersonal<%= profesor.getIdProfesores()%>" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
+                                                <div class="modal-content p-3 p-md-5">
+                                                    <div class="modal-body">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <div class="text-center mb-4">
+                                                            <h3 class="address-title fw-bold">Editar Personal</h3>
+                                                        </div>
+                                                        <form id="editarPersonalForm<%= profesor.getIdProfesores()%>" class="row g-3" method="Post" action="<%=request.getContextPath()%>/ServletAdministrador?action=editarProfesor&idProfesor=<%=profesor.getIdProfesores()%>">
+
+                                                            <div class="col-12">
+                                                                <div class="row">
+                                                                    <div class="col-md mb-md-0 mb-3">
+                                                                        <div class="form-check custom-option custom-option-icon">
+                                                                            <label class="form-check-label custom-option-content" for="customRadioHome">
+                                                                                <span class="custom-option-body">
+                                                                                  <i class="bx bx-tennis-ball"></i>
+                                                                                  <span class="custom-option-title">Deporte</span>
+                                                                                </span>
+                                                                                <input name="tipoProfesor" class="form-check-input" type="radio" value="Deporte" id="customRadioHome" />
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md mb-md-0 mb-3">
+                                                                        <div class="form-check custom-option custom-option-icon">
+                                                                            <label class="form-check-label custom-option-content" for="customRadioOffice">
+                                                                                <span class="custom-option-body">
+                                                                                  <i class='bx bxs-book-reader'></i>
+                                                                                  <span class="custom-option-title"> Cultura</span>
+                                                                                </span>
+                                                                                <input name="tipoProfesor" class="form-check-input" type="radio" value="Cultura" id="customRadioOffice" />
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <label class="form-label" for="nombreProfesorEdit">Nombre</label>
+                                                                <input type="text" id="nombreProfesorEdit" name="nombreProfesorEdit" class="form-control" value="<%= profesor.getNombreProfesor()%>" />
+
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <label class="form-label" for="apellidoProfesorEdit">Apellidos</label>
+                                                                <input type="text" id="apellidoProfesorEdit" name="apellidoProfesorEdit" class="form-control" value="<%= profesor.getApellidoProfesor()%>" />
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <label class="form-label" for="dniProfesorEdit">DNI</label>
+                                                                <input type="text" id="dniProfesorEdit" name="dniProfesorEditmodalDNI" class="form-control" value="<%= profesor.getDniProfesor()%>" />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6">
+                                                                <label class="form-label" for="cursoProfesorEdit">Curso</label>
+                                                                <input type="text" id="cursoProfesorEdit" name="cursoProfesorEdit" class="form-control" value="<%= profesor.getCursoProfesor()%>" />
+                                                            </div>
+
+                                                            <div class="col-12 text-center">
+                                                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
+                                                                <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                onclick="promptDeletion();" id="confirm-color"><i
-                                                class='bx bx-trash'></i></button>
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalToggle<%= profesor.getIdProfesores() %>"><i
+                                                class='bx bx-trash'></i>
+                                        </button>
+                                        <!-- Modal de eliminación y confirmación -->
+
+                                        <div class="modal fade" id="modalToggle<%= profesor.getIdProfesores() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalToggleLabel">Eliminar de la Lista</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b> ¿Está seguro de eliminar a este instructor? </b>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-primary"  href="<%=request.getContextPath()%>/ServletAdministrador?action=eliminarProfesor&idProfesor=<%= profesor.getIdProfesores() %>">Si</a>
+                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
                                 <% } %>
                             </table>
-                        </div>
-                    </div>
-                    <!-- Modal to add new record -->
-                    <div class="offcanvas offcanvas-end" id="add-new-record">
-                        <div class="offcanvas-header border-bottom">
-                            <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body flex-grow-1">
-                            <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicFullname">Full Name</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicFullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <input type="text" id="basicFullname" class="form-control dt-full-name"
-                                               name="basicFullname" placeholder="John Doe" aria-label="John Doe"
-                                               aria-describedby="basicFullname2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicPost">Post</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                                        <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                                               placeholder="Web Developer" aria-label="Web Developer"
-                                               aria-describedby="basicPost2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicEmail">Email</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                        <input type="text" id="basicEmail" name="basicEmail"
-                                               class="form-control dt-email" placeholder="john.doe@example.com"
-                                               aria-label="john.doe@example.com"/>
-                                    </div>
-                                    <div class="form-text">
-                                        You can use letters, numbers & periods
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicDate">Joining Date</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicDate2" class="input-group-text"><i
-                                                class='bx bx-calendar'></i></span>
-                                        <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                                               aria-describedby="basicDate2" placeholder="MM/DD/YYYY"
-                                               aria-label="MM/DD/YYYY"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicSalary">Salary</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicSalary2" class="input-group-text"><i
-                                                class='bx bx-dollar'></i></span>
-                                        <input type="number" id="basicSalary" name="basicSalary"
-                                               class="form-control dt-salary" placeholder="12000" aria-label="12000"
-                                               aria-describedby="basicSalary2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit
-                                    </button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
 
                         </div>
-                    </div>
+                    </div> <!-- Modal to add new record -->
                     <!--/ DataTable with Buttons -->
-
-                    <hr class="my-5">
 
 
                 </div>
@@ -786,67 +863,12 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="address-title fw-bold">Registrar Instructor</h3>
-                </div>
-                <form id="addNewAddressForm" class="row g-3" onsubmit="return false">
 
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-md mb-md-0 mb-3">
-                                <div class="form-check custom-option custom-option-icon">
-                                    <label class="form-check-label custom-option-content" for="customRadioHome">
-                    <span class="custom-option-body">
-                      <i class="bx bx-tennis-ball"></i>
-                      <span class="custom-option-title">Deporte</span>
-                    </span>
-                                        <input name="customRadioIcon" class="form-check-input" type="radio" value="" id="customRadioHome" checked />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md mb-md-0 mb-3">
-                                <div class="form-check custom-option custom-option-icon">
-                                    <label class="form-check-label custom-option-content" for="customRadioOffice">
-                    <span class="custom-option-body">
-                      <i class='bx bxs-book-reader'></i>
-                      <span class="custom-option-title"> Cultura </span>
-                    </span>
-                                        <input name="customRadioIcon" class="form-check-input" type="radio" value="" id="customRadioOffice" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressFirstName">Nombre</label>
-                        <input type="text" id="modalAddressFirstName" name="modalAddressFirstName" class="form-control" placeholder="John" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressLastName">Apellidos</label>
-                        <input type="text" id="modalAddressLastName" name="modalAddressLastName" class="form-control" placeholder="Doe" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalDNI">DNI</label>
-                        <input type="text" id="modalDNI" name="modalDNI" class="form-control" placeholder="99950" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalCurso">Curso</label>
-                        <input type="text" id="modalCurso" name="modalCurso" class="form-control" placeholder="99950" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
+
+
+
+
 <script>
     $(function () {
         var e = $(".select2");
@@ -884,69 +906,7 @@
         })
     });
 </script>
-<div class="modal fade" id="editarPersonal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="address-title fw-bold">Editar Personal</h3>
-                </div>
-                <form id="editarPersonalForm" class="row g-3" onsubmit="return false">
 
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-md mb-md-0 mb-3">
-                                <div class="form-check custom-option custom-option-icon">
-                                    <label class="form-check-label custom-option-content" for="customRadioHome">
-                    <span class="custom-option-body">
-                      <i class="bx bx-tennis-ball"></i>
-                      <span class="custom-option-title">Deporte</span>
-                    </span>
-                                        <input name="customRadioIcon" class="form-check-input" type="radio" value="" id="customRadioHome" checked />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md mb-md-0 mb-3">
-                                <div class="form-check custom-option custom-option-icon">
-                                    <label class="form-check-label custom-option-content" for="customRadioOffice">
-                    <span class="custom-option-body">
-                      <i class='bx bxs-book-reader'></i>
-                      <span class="custom-option-title"> Cultura</span>
-                    </span>
-                                        <input name="customRadioIcon" class="form-check-input" type="radio" value="" id="customRadioOffice" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressFirstName">Nombre</label>
-                        <input type="text" id="modalPersonalFirstName" name="modalAddressFirstName" class="form-control" value="Arturo" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressLastName">Apellidos</label>
-                        <input type="text" id="modalPersonalLastName" name="modalAddressLastName" class="form-control" value="Martinez Lara" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalDNI">DNI</label>
-                        <input type="text" id="modalPersonalDNI" name="modalDNI" class="form-control" value="87422011" />
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalCurso">Curso</label>
-                        <input type="text" id="modalPesonalCurso" name="modalCurso" class="form-control" value="992130132" />
-                    </div>
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     $(function () {
         var e = $(".select2");

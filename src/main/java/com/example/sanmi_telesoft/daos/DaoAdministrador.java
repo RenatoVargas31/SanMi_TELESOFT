@@ -7,7 +7,46 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DaoAdministrador {
+    //Método para buscar profesor por ID
+    public Profesor buscarProfesorPorId(String id){
 
+        Profesor profesor = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
+        String username = "root";
+        String password = "root";
+
+        String sql = "select * from profesores where idProfesores = ?";
+
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1,id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    profesor = new Profesor();
+                    profesor.setIdProfesores(rs.getInt(1));
+                    profesor.setNombreProfesor(rs.getString(2));
+                    profesor.setApellidoProfesor(rs.getString(3));
+                    profesor.setDniProfesor(rs.getString(4));
+                    profesor.setTipoProfesor(rs.getString(5));
+                    profesor.setCursoProfesor(rs.getString(6));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return profesor;
+    }
     //Método para crear profesor (Create)
     public void crearProfesores(String nombreProfesor, String apellidoProfesor, String dniProfesor, String tipoProfesor, String cursoProfesor){
 
@@ -106,7 +145,7 @@ public class DaoAdministrador {
         }
     }
     //Método para borrar profesor (Delete)
-    public void borrar(String idprofesor){
+    public void borrarProfesores(String idprofesor) throws SQLException {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -127,8 +166,6 @@ public class DaoAdministrador {
 
             pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 

@@ -49,18 +49,20 @@ $('#serenazgo-table-incidenciasfalsas').DataTable({
     ]
 });
 //Administrador
-$('#table-personalSerenazgo').DataTable({
-    responsive:true,
-    lengthChange:false,
-    pageLength: 7,
-    info:false,
-    language: {
-        url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
-    },
-    order: [[2, 'asc']],
-    columnDefs: [
-        {orderable: false, targets: [0, -1]}
-    ]
+$(document).ready(function() {
+    $('#table-personalSerenazgo').DataTable({
+        responsive:true,
+        lengthChange:false,
+        pageLength: 7,
+        info:false,
+        language: {
+            url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
+        },
+        order: [[2, 'asc']],
+        columnDefs: [
+            {orderable: false, targets: [0, -1]}
+        ]
+    });
 });
 $('#table-solicitudRegistro').DataTable({
     responsive:true,
