@@ -23,8 +23,15 @@ public class ServletCoordinadora extends HttpServlet {
             case "listarEventos":
                 ArrayList<Evento> listaEventos = daoCoordinadora.listaEventos();
                 request.setAttribute("listaEventos", listaEventos);
-                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp");
-                rd.forward(request, response);
+                request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
+                break;
+            case "detalleEvento":
+                String id = request.getParameter("id");
+                if (id.isEmpty() || !daoCoordinadora.validarIdEvento(id)) {
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarEventos");
+                }else {
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
                 break;
         }
 

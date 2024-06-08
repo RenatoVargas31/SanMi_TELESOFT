@@ -29,4 +29,22 @@ public class DaoCoordinadora extends BaseDao{
         return listaEventos;
     }
 
+    public boolean validarIdEvento(String id){
+        String sql = "SELECT * FROM eventos WHERE idEventos=?";
+        try (Connection conn = this.getConection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
 }

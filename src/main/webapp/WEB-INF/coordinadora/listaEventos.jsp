@@ -99,7 +99,7 @@
                                                 <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
 
                                                     <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center"
-                                                       href="details.html">
+                                                       href="<%=request.getContextPath()%>/ServletCoordinadora?action=detalleEvento&id=<%=evento.getIdEventos()%>">
                                                         <span class="me-2">Ver detalles</span><i
                                                             class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
                                                     </a>
