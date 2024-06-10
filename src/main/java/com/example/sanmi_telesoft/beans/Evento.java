@@ -1,26 +1,25 @@
 package com.example.sanmi_telesoft.beans;
 
 import java.sql.Time;
-import java.util.Date;
 
 public class Evento {
-    private Byte[] fotosStart;
+    private byte[] fotosStart;
     private String descriptionEvento;
     private int vacantesDisp;
     private String lugarEvento;
-    private Date fechaEventoStart;
-    private Date fechaEventoEnd;
-    private Time horaEventoStart;
-    private Time horaEventoEnd;
+    private String fechaEventoStart;
+    private String fechaEventoEnd;
+    private String horaEventoStart;
+    private String horaEventoEnd;
     private String materialesEvento;
-    private int Profesores_idProfesores;
-    private Byte[] fotosEnd;
-    private int TipoEvento_idTipoEvento;
-    private int FrecuenciaEvento_idFrecuenciaEvento;
-    private int EstadoEvento_idEstadoEvento;
+    private Profesor profesor;
+    private byte[] fotosEnd;
+    private TipoEvento tipoEvento;
+    private FrecuenciaEvento frecuenciaEvento;
+    private EstadoEvento estadoEvento;
     private boolean asistenciaCoordi;
-    private Time asistenciaLlegada;
-    private Time asistenciaSalida;
+    private String asistenciaLlegada;
+    private String asistenciaSalida;
 
     private int idEventos;
     private String nombreEvento;
@@ -33,7 +32,7 @@ public class Evento {
         this.nombreEvento = nombreEvento;
     }
 
-    public void setFotosStart(Byte[] fotosStart) {
+    public void setFotosStart(byte[] fotosStart) {
         this.fotosStart = fotosStart;
     }
 
@@ -49,19 +48,19 @@ public class Evento {
         this.lugarEvento = lugarEvento;
     }
 
-    public void setFechaEventoStart(Date fechaEventoStart) {
+    public void setFechaEventoStart(String fechaEventoStart) {
         this.fechaEventoStart = fechaEventoStart;
     }
 
-    public void setFechaEventoEnd(Date fechaEventoEnd) {
+    public void setFechaEventoEnd(String fechaEventoEnd) {
         this.fechaEventoEnd = fechaEventoEnd;
     }
 
-    public void setHoraEventoStart(Time horaEventoStart) {
+    public void setHoraEventoStart(String horaEventoStart) {
         this.horaEventoStart = horaEventoStart;
     }
 
-    public void setHoraEventoEnd(Time horaEventoEnd) {
+    public void setHoraEventoEnd(String horaEventoEnd) {
         this.horaEventoEnd = horaEventoEnd;
     }
 
@@ -69,35 +68,35 @@ public class Evento {
         this.materialesEvento = materialesEvento;
     }
 
-    public void setProfesores_idProfesores(int profesores_idProfesores) {
-        Profesores_idProfesores = profesores_idProfesores;
-    }
-
-    public void setFotosEnd(Byte[] fotosEnd) {
+    public void setFotosEnd(byte[] fotosEnd) {
         this.fotosEnd = fotosEnd;
     }
 
-    public void setTipoEvento_idTipoEvento(int tipoEvento_idTipoEvento) {
-        TipoEvento_idTipoEvento = tipoEvento_idTipoEvento;
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 
-    public void setFrecuenciaEvento_idFrecuenciaEvento(int frecuenciaEvento_idFrecuenciaEvento) {
-        FrecuenciaEvento_idFrecuenciaEvento = frecuenciaEvento_idFrecuenciaEvento;
+    public void setTipoEvento(TipoEvento tipoEvento) {
+        this.tipoEvento = tipoEvento;
     }
 
-    public void setEstadoEvento_idEstadoEvento(int estadoEvento_idEstadoEvento) {
-        EstadoEvento_idEstadoEvento = estadoEvento_idEstadoEvento;
+    public void setFrecuenciaEvento(FrecuenciaEvento frecuenciaEvento) {
+        this.frecuenciaEvento = frecuenciaEvento;
+    }
+
+    public void setEstadoEvento(EstadoEvento estadoEvento) {
+        this.estadoEvento = estadoEvento;
     }
 
     public void setAsistenciaCoordi(boolean asistenciaCoordi) {
         this.asistenciaCoordi = asistenciaCoordi;
     }
 
-    public void setAsistenciaLlegada(Time asistenciaLlegada) {
+    public void setAsistenciaLlegada(String asistenciaLlegada) {
         this.asistenciaLlegada = asistenciaLlegada;
     }
 
-    public void setAsistenciaSalida(Time asistenciaSalida) {
+    public void setAsistenciaSalida(String asistenciaSalida) {
         this.asistenciaSalida = asistenciaSalida;
     }
 
@@ -109,7 +108,7 @@ public class Evento {
         return nombreEvento;
     }
 
-    public Byte[] getFotosStart() {
+    public byte[] getFotosStart() {
         return fotosStart;
     }
 
@@ -125,19 +124,19 @@ public class Evento {
         return lugarEvento;
     }
 
-    public Date getFechaEventoStart() {
+    public String getFechaEventoStart() {
         return fechaEventoStart;
     }
 
-    public Date getFechaEventoEnd() {
+    public String getFechaEventoEnd() {
         return fechaEventoEnd;
     }
 
-    public Time getHoraEventoStart() {
+    public String getHoraEventoStart() {
         return horaEventoStart;
     }
 
-    public Time getHoraEventoEnd() {
+    public String getHoraEventoEnd() {
         return horaEventoEnd;
     }
 
@@ -145,35 +144,35 @@ public class Evento {
         return materialesEvento;
     }
 
-    public int getProfesores_idProfesores() {
-        return Profesores_idProfesores;
+    public Profesor getProfesor() {
+        return profesor;
     }
 
-    public Byte[] getFotosEnd() {
+    public TipoEvento getTipoEvento() {
+        return tipoEvento;
+    }
+
+    public FrecuenciaEvento getFrecuenciaEvento() {
+        return frecuenciaEvento;
+    }
+
+    public EstadoEvento getEstadoEvento() {
+        return estadoEvento;
+    }
+
+    public byte[] getFotosEnd() {
         return fotosEnd;
-    }
-
-    public int getTipoEvento_idTipoEvento() {
-        return TipoEvento_idTipoEvento;
-    }
-
-    public int getFrecuenciaEvento_idFrecuenciaEvento() {
-        return FrecuenciaEvento_idFrecuenciaEvento;
-    }
-
-    public int getEstadoEvento_idEstadoEvento() {
-        return EstadoEvento_idEstadoEvento;
     }
 
     public boolean isAsistenciaCoordi() {
         return asistenciaCoordi;
     }
 
-    public Time getAsistenciaLlegada() {
+    public String getAsistenciaLlegada() {
         return asistenciaLlegada;
     }
 
-    public Time getAsistenciaSalida() {
+    public String getAsistenciaSalida() {
         return asistenciaSalida;
     }
 
