@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ServletVecino extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action")==null?"inicio":request.getParameter("action");
+        String action = request.getParameter("action")==null?"lista":request.getParameter("action");
         RequestDispatcher view;
         DaoEvento eventoDao = new DaoEvento();
 
@@ -34,18 +34,18 @@ public class ServletVecino extends HttpServlet {
                     request.setAttribute("listarEventos",eventoDao.listaEventosCultura());
 
                 }
-                view = request.getRequestDispatcher("/vecinos/listaEventos.jsp");
+                view = request.getRequestDispatcher("/vecino/listaEventos.jsp");
                 view.forward(request, response);
                 break;
             case "view":
                 String id = request.getParameter("id");
                 if(eventoDao.searchEventobyId(Integer.parseInt(id)) != null){
                 eventoDao.searchEventobyId(Integer.parseInt(id));}
-                view = request.getRequestDispatcher("/vecinos/viewEventos.jsp");
+                view = request.getRequestDispatcher("/vecino/viewEventos.jsp");
                 view.forward(request, response);
                 break;
             case "inscribir":
-                view = request.getRequestDispatcher("/vecinos/inscribirEvento.jsp");
+                view = request.getRequestDispatcher("/vecino/inscribirEvento.jsp");
                 view.forward(request, response);
                 break;
 
@@ -54,7 +54,7 @@ public class ServletVecino extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action")==null?"inicio":request.getParameter("action");
+        String action = request.getParameter("action")==null?"lista":request.getParameter("action");
         ArrayList<Evento> lista;
         ArrayList<String> filtrado = new ArrayList<>();
         filtrado.add("Todo");
@@ -68,7 +68,7 @@ public class ServletVecino extends HttpServlet {
                 lista = eventoDao.searchEventobyName(textSearch);
                 request.setAttribute("listarEventos", lista);
 
-                request.getRequestDispatcher("/vecinos/listaEventos.jsp").forward(request, response);
+                request.getRequestDispatcher("/vecino/listaEventos.jsp").forward(request, response);
                 break;
 
         }
