@@ -2,7 +2,7 @@
 
 
     <div class="app-brand demo ">
-        <a href="index.html" class="app-brand-link">
+        <a href="<%= request.getContextPath()%>/ServletCoordinadora" class="app-brand-link">
             <img class="img-fluid" width="33" src="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"
                  alt="logo-sanmiguel">
             <span class="app-brand-text demo menu-text fw-bold ms-4">SanMI</span>
@@ -37,7 +37,7 @@
 
     <ul class="menu-inner py-1">
         <li class="menu-item">
-            <a href="index.html" target="_blank" class="menu-link">
+            <a href="<%= request.getContextPath()%>/ServletCoordinadora" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home"></i>
                 <div class="text-truncate" data-i18n="Inicio">Inicio</div>
             </a>
@@ -55,7 +55,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item active">
-                    <a href="todos-los-eventos.html" class="menu-link">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=listarEventos" class="menu-link">
                         <div class="text-truncate" data-i18n="Todos los eventos">Todos los eventos</div>
                     </a>
                 </li>
@@ -104,7 +104,7 @@
                                                            data-i18n="Ayuda">Ayuda</span></li>
         <!-- Cards -->
         <li class="menu-item">
-            <a href="coordinadora_ayuda.html" class="menu-link">
+            <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=ayuda" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-help-circle"></i>
                 <div class="text-truncate" data-i18n="Ayuda">Ayuda</div>
             </a>

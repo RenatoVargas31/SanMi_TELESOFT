@@ -126,7 +126,7 @@
 
             <ul class="menu-inner py-1">
                 <li class="menu-item">
-                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=inicio" target="_blank" class="menu-link">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora"  class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home"></i>
                         <div class="text-truncate" data-i18n="Inicio">Inicio</div>
                     </a>
@@ -144,7 +144,7 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item">
-                            <a href="todos-los-eventos.html" class="menu-link">
+                            <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=listarEventos" class="menu-link">
                                 <div class="text-truncate" data-i18n="Todos los eventos">Todos los eventos</div>
                             </a>
                         </li>
