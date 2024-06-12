@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class DaoAdministrador {
     //Método para buscar profesor por ID
-    public Profesor buscarProfesorPorId(String id){
+    public Profesor buscarProfesorPorId(String id) {
 
         Profesor profesor = null;
 
@@ -137,6 +137,7 @@ public class DaoAdministrador {
 
             pstmt.setString(1,profesor.getTipoProfesor());
             pstmt.setString(2,profesor.getCursoProfesor());
+            pstmt.setInt(3,profesor.getIdProfesores());
 
             pstmt.executeUpdate();
 

@@ -16,19 +16,47 @@ public class ServletAdministrador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
-        String action = request.getParameter("action") == null ? "listarProfesores" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
 
         //Instancia de la clase DaoAdministrador (métodos)
         DaoAdministrador daoAdministrador = new DaoAdministrador();
 
         switch (action){
-            case "listarProfesores":
-                //Sacar del modelo
+            case "mostrarInicio":
+                request.setAttribute("activeMenu", "Inicio");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request, response);
+                break;
+            case "mostrarInstructores":
+                request.setAttribute("activeMenu", "Instructores");
+                //Listar instructores
                 ArrayList<Profesor> listaProfesores = daoAdministrador.listarProfesores();
-                //Mandar a la vista -> adm-instructores.jsp
                 request.setAttribute("listaProfesores", listaProfesores);
-                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Administrador/adm-instructores.jsp");
-                rd.forward(request, response);
+                //Redireccionar a la vista
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-instructores.jsp").forward(request, response);
+                break;
+            case "nuevoProfesor":
+                request.setAttribute("activeMenu", "Instructores");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarInstructor.jsp").forward(request, response);
+                break;
+            case "actualizarProfesor":
+                request.setAttribute("activeMenu", "Instructores");
+                String id = request.getParameter("id");
+                Profesor profesor = daoAdministrador.buscarProfesorPorId(id);
+
+                if(profesor != null){
+                    request.setAttribute("profesor",profesor);
+                    String checkedForm = profesor.getTipoProfesor();
+                    if(checkedForm.equals("Deporte")){
+                        request.setAttribute("checkedForm", "Deporte");
+                    }else{
+                        request.setAttribute("checkedForm", "Cultura");
+                    }
+
+                    request.getRequestDispatcher("WEB-INF/Administrador/adm-editarInstructor.jsp").forward(request,response);
+                }else{
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+                }
+
                 break;
             case "eliminarProfesor":
                 String idDelete = request.getParameter("idProfesor");
@@ -41,7 +69,11 @@ public class ServletAdministrador extends HttpServlet {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
                 }
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador");
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+                break;
+            case "mostrarAyuda":
+                request.setAttribute("activeMenu", "Ayuda");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-ayuda.jsp").forward(request, response);
                 break;
         }
     }
@@ -64,18 +96,16 @@ public class ServletAdministrador extends HttpServlet {
                 String cursoProfesor = request.getParameter("cursoProfesor");
                 System.out.println(tipoProfesor + nombreProfesor + apellidoProfesor + dniProfesor + cursoProfesor);
                 daoAdministrador.crearProfesores(nombreProfesor, apellidoProfesor, dniProfesor, tipoProfesor, cursoProfesor);
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador");
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
                 break;
             case "editarProfesor":
-                String idEdit = request.getParameter("idProfesor");
+                String tipoProfesorEdit = request.getParameter("tipoProfesor");
                 String nombreProfesorEdit = request.getParameter("nombreProfesor");
                 String apellidoProfesorEdit = request.getParameter("apellidoProfesor");
                 String dniProfesorEdit = request.getParameter("dniProfesor");
-                String tipoProfesorEdit = request.getParameter("tipoProfesor");
                 String cursoProfesorEdit = request.getParameter("cursoProfesor");
 
                 Profesor profesor = new Profesor();
-                profesor.setIdProfesores(Integer.parseInt(idEdit));
                 profesor.setNombreProfesor(nombreProfesorEdit);
                 profesor.setApellidoProfesor(apellidoProfesorEdit);
                 profesor.setDniProfesor(dniProfesorEdit);
@@ -83,7 +113,7 @@ public class ServletAdministrador extends HttpServlet {
                 profesor.setCursoProfesor(cursoProfesorEdit);
 
                 daoAdministrador.actualizar(profesor);
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador");
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
                 break;
         }
     }

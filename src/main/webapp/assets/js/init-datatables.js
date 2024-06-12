@@ -17,44 +17,45 @@ $('#table-incidenciasGenerales').DataTable({
     },
     order: [[3, 'asc']],
     columnDefs: [
-        {orderable: false, targets: [0,-1]}
+        {orderable: false, targets: [0, -1]}
     ]
 });
 
 //Tablas Serenazgo
 $('#serenazgo-table-incidencias').DataTable({
-    responsive:true,
-    lengthChange:false,
+    responsive: true,
+    lengthChange: false,
     pageLength: 10,
-    info:false,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
     order: [[3, 'asc']],
     columnDefs: [
-        {orderable: false, targets: [0,1, -1]}
+        {orderable: false, targets: [0, 1, -1]}
     ]
 });
 $('#serenazgo-table-incidenciasfalsas').DataTable({
-    responsive:true,
-    lengthChange:false,
+    responsive: true,
+    lengthChange: false,
     pageLength: 10,
-    info:false,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
     order: [[2, 'asc']],
     columnDefs: [
-        {orderable: false, targets: [0,1, -1]}
+        {orderable: false, targets: [0, 1, -1]}
     ]
 });
 //Administrador
-$(document).ready(function() {
-    $('#table-personalSerenazgo').DataTable({
-        responsive:true,
-        lengthChange:false,
+$(document).ready(function () {
+    var table = $('#table-personalSerenazgo').DataTable({
+        responsive: true,
+        lengthChange: false,
         pageLength: 7,
-        info:false,
+        info: false,
+        paging: true,
         language: {
             url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
         },
@@ -63,38 +64,44 @@ $(document).ready(function() {
             {orderable: false, targets: [0, -1]}
         ]
     });
+    $('.searchInTable').keyup(function() {
+        console.log('searchInTable keyup'); // Verifica si se ejecuta
+        var searchTerm = $(this).val(); // Almacena el valor del campo de búsqueda
+        table.DataTable().search(searchTerm).draw(); // Realiza la búsqueda
+    });
 });
+
 $('#table-solicitudRegistro').DataTable({
-    responsive:true,
-    lengthChange:false,
+    responsive: true,
+    lengthChange: false,
     pageLength: 5,
-    info:false,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
     order: [[2, 'asc']],
     columnDefs: [
-        {orderable: false, targets: [0,1, -1]}
+        {orderable: false, targets: [0, 1, -1]}
     ]
 });
 $('#table-usuariosHabilitados').DataTable({
-    responsive:true,
-    lengthChange:false,
+    responsive: true,
+    lengthChange: false,
     pageLength: 7,
-    info:false,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
     order: [[1, 'asc']],
     columnDefs: [
-        {orderable: false, targets: [0,2, -1]}
+        {orderable: false, targets: [0, 2, -1]}
     ]
 });
 $('#table-usuariosBaneados').DataTable({
-    responsive:true,
-    lengthChange:false,
+    responsive: true,
+    lengthChange: false,
     pageLength: 7,
-    info:false,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
@@ -102,17 +109,4 @@ $('#table-usuariosBaneados').DataTable({
     columnDefs: [
         {orderable: false, targets: [0, -1]}
     ]
-});
-$('#select-all').click(function () {
-    // Obtiene el estado actual del checkbox "select-all" (seleccionado o no seleccionado)
-    var isChecked = $(this).prop('checked');
-    // Cambia el estado de todos los otros checkboxes en las tablas
-    $('#table-incidenciasGenerales tbody input[type="checkbox"], ' +
-        '#table-misincidencias tbody input[type="checkbox"], ' +
-        '#serenazgo-table-incidenciasfalsas tbody input[type="checkbox"],' +
-        '#serenazgo-table-incidencias tbody input[type="checkbox"], ' +
-        '#table-personalSerenazgo tbody input[type="checkbox"],'+
-        '#table-solicitudRegistro tbody input[type="checkbox"],'+
-        '#table-usuariosHabilitados tbody input[type="checkbox"],'+
-        '#table-usuariosBaneados tbody input[type="checkbox"]').prop('checked', isChecked);
 });
