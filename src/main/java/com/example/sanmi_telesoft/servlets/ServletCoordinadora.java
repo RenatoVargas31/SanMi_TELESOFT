@@ -15,11 +15,19 @@ import java.util.ArrayList;
 public class ServletCoordinadora extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action") == null ? "listarEventos" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "inicio" : request.getParameter("action");
 
         DaoCoordinadora daoCoordinadora = new DaoCoordinadora();
 
         switch (action){
+            case "inicio":
+                request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
+                break;
+
+            case "ayuda":
+                request.getRequestDispatcher("WEB-INF/coordinadora/ayudaCoordinadora.jsp").forward(request, response);
+                break;
+
             case "listarEventos":
                 ArrayList<Evento> listaEventos = daoCoordinadora.listaEventos();
                 request.setAttribute("listaEventos", listaEventos);
@@ -30,7 +38,7 @@ public class ServletCoordinadora extends HttpServlet {
                 if (id.isEmpty() || !daoCoordinadora.validarIdEvento(id)) {
                     response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarEventos");
                 }else {
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.getRequestDispatcher("indexCoordinadora.jsp").forward(request, response);
                 }
                 break;
         }
