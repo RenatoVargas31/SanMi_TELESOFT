@@ -17,7 +17,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Administrador: Personal de Serenazgo de Campo</title>
+    <title>Administrador: Personal de Serenazgo Dispatcher</title>
 
 
     <meta name="description"
@@ -25,6 +25,23 @@
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
     <!-- Canonical SEO -->
     <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
+
+
+    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            '${pageContext.request.contextPath}/${pageContext.request.contextPath}/www.googletagmanager.com/gtm5445.html?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script>
+    <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
@@ -101,6 +118,7 @@
         <!-- Layout container -->
         <div class="layout-page">
             <!-- Navbar -->
+
             <jsp:include page="navBar.jsp"/>
             <!-- / Navbar -->
 
@@ -117,11 +135,11 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Lista de Personal de Serenazgo de Campo</h3>
+                                <h3 class="m-4 fw-bold">Lista de Personal de Serenazgo Dispatcher</h3>
 
-                                <button type="button" class="btn btn-primary me-3 ">
+                                <button type="button" class="btn btn-primary me-3 " data-bs-toggle="modal" data-bs-target="#addNewAddress">
                                     <i class='bx bx-shield-plus me-2'></i>
-                                    <a href="adm-generacionSerenazgo.html"><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Personal</h2></a>
+                                    <h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Personal</h2></a>
                                 </button>
                             </div>
                             <table id="table-personalSerenazgo" class="datatables-basic table border-top">
@@ -274,6 +292,8 @@
 
 
 
+
+
                                 <tbody>
                                 <tr>
 
@@ -291,7 +311,6 @@
                                         </button>
 
                                         <!--Nuevo boton implementado -->
-
 
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -318,7 +337,6 @@
 
                                         <!--Nuevo boton implementado -->
 
-
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
                                                 data-bs-toggle="modal"
@@ -341,9 +359,13 @@
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
                                                 data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
+
+                                        <!--Nuevo boton implementado -->
+
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalToggle"><i
                                                 class='bx bx-trash'></i></button>
                                     </td>
                                 </tr>
@@ -600,9 +622,6 @@
                                     </td>
                                 </tr>
                                 </tbody>
-
-
-
                             </table>
                         </div>
                     </div>
@@ -714,12 +733,6 @@
                 <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
-
-                <!-- Modal Agregado-->
-
-                <script src="${pageContext.request.contextPath}/assets/js/ui-modals.js"></script>
-
-
 
             </div>
         </div>

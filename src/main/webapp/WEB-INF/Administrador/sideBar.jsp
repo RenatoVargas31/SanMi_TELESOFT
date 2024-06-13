@@ -83,7 +83,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item ${activeMenu == 'DeCampo' ? 'active' : ''}">
-                    <a href=<%=request.getContextPath()%>/ServletAdministrador?action=mostrarDeCampo" class="menu-link"><!--Zona de linkeo href: -->
+                    <a href=<%=request.getContextPath()%>/ServletAdministrador?action=mostrarDeCampo class="menu-link"><!--Zona de linkeo href: -->
                         <div class="text-truncate" data-i18n="De Campo">De Campo</div>
                     </a>
                 </li>

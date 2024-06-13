@@ -26,6 +26,16 @@ public class ServletAdministrador extends HttpServlet {
                 request.setAttribute("activeMenu", "Inicio");
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request, response);
                 break;
+            case "mostrarDeCampo":
+                request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
+                request.setAttribute("activeMenu", "DeCampo");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-SerenazgoDeCampo.jsp").forward(request, response);
+                break;
+            case "mostrarDispatcher":
+                request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
+                request.setAttribute("activeMenu", "Dispatcher");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-SerenazgoDispatcher.jsp").forward(request, response);
+                break;
             case "mostrarInstructores":
                 request.setAttribute("activeMenu", "Instructores");
                 //Listar instructores
