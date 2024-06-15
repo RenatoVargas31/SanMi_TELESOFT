@@ -13,7 +13,8 @@ import java.util.ArrayList;
 @WebServlet(name = "ServletAdministrador", value = "/ServletAdministrador")
 public class ServletAdministrador extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html");
 
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");

@@ -89,7 +89,7 @@
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label" for="password">Contraseña</label>
-                                <a href="sis-passOlvidada.jsp">
+                                <a href="<%=request.getContextPath()%>/ServletSistema?action=passOlvidada">
                                     <small>¿Contraseña olvidada?</small>
                                 </a>
                             </div>
@@ -107,13 +107,14 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <!-- /Ingresar lógica -->
                             <button class="btn btn-primary d-grid w-100" type="submit">Ingresar</button>
                         </div>
                     </form>
 
                     <p class="text-center">
                         <span>¿Nuevo usuario?</span>
-                        <a href="sis-register-multisteps.jsp">
+                        <a href="<%=request.getContextPath()%>/ServletSistema?action=registrarUsuario">
                             <span>Crear una cuenta</span>
                         </a>
                     </p>
