@@ -8,7 +8,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
-<%@ page import="com.example.sanmi_telesoft.daos.IncidenciaDao" %>
+<%@ page import="com.example.sanmi_telesoft.daos.DaoIncidencia" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   String pageName = "incidenciasGenerales";
@@ -20,7 +20,7 @@
 <jsp:include page="../Fragmentos/FragmentosVecino/navbarFragmentVecino.jsp"/>
 
 <%
-  IncidenciaDao incidenciaDao = new IncidenciaDao();
+  DaoIncidencia incidenciaDao = new DaoIncidencia();
   List<Incidencia> incidencias = incidenciaDao.getAllIncidenciasConDetalle();
   request.setAttribute("incidencias", incidencias);
 %>
