@@ -87,7 +87,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="total-incidencias.html" class="menu-link">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=listarIncidencias" class="menu-link">
                         <div class="text-truncate" data-i18n="Todas las incidencias">Todas las incidencias</div>
                     </a>
                 </li>

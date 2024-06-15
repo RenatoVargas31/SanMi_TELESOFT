@@ -1,9 +1,11 @@
 package com.example.sanmi_telesoft.servlets;
 
 import com.example.sanmi_telesoft.beans.Evento;
+import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.beans.Profesor;
 import com.example.sanmi_telesoft.daos.DaoAdministrador;
 import com.example.sanmi_telesoft.daos.DaoCoordinadora;
+import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -22,12 +24,18 @@ public class ServletCoordinadora extends HttpServlet {
         switch (action){
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
-                request.getRequestDispatcher("WEB-INF/Coordinadora/indexCoordinadora.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
                 break;
 
             case "mostrarAyuda":
                 request.setAttribute("activeMenu", "Ayuda");
-                request.getRequestDispatcher("WEB-INF/Coordinadora/ayudaCoordinadora.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/coordinadora/ayudaCoordinadora.jsp").forward(request, response);
+                break;
+            case "listarIncidencias":
+                DaoIncidencia daoIncidencia = new DaoIncidencia();
+                ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidencias();
+                request.setAttribute("listaIncidencias", listaIncidencias);
+                request.getRequestDispatcher("WEB-INF/coordinadora/listaIncidenciasCoordinadora.jsp").forward(request, response);
                 break;
 
             case "listarEventos":

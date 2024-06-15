@@ -1,19 +1,85 @@
 package com.example.sanmi_telesoft.beans;
 
-public class BeanIncidencia {
+public class Incidencia {
     private int idIncidencias;
     private String nombreIncidencia;
     private String lugarIncidencia;
     private String referenciaIncidencia;
     private String fotoIncidencia;
-    private String victimaIncidencia;
     private boolean requiereAmbulancia;
     private boolean requierePolicia;
+    private boolean requiereBombero;
     private String descripcionSolucion;
-    private int idUsuario;
+    private String nameUsuario;
     private int idTipoIncidencia;
     private String nombreUsuario;
     private String nombreUrbanizacion;
+    private int telefono;
+    private int serenazgoid;
+    private int ambulalciaid;
+    private int estado;
+    private int criticidad;
+    private int tipo;
+
+    public int getCriticidad() {
+        return criticidad;
+    }
+
+    public void setCriticidad(int criticidad) {
+        this.criticidad = criticidad;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getSerenazgoid() {
+        return serenazgoid;
+    }
+
+    public void setSerenazgoid(int serenazgoid) {
+        this.serenazgoid = serenazgoid;
+    }
+
+    public int getAmbulalciaid() {
+        return ambulalciaid;
+    }
+
+    public void setAmbulalciaid(int ambulalciaid) {
+        this.ambulalciaid = ambulalciaid;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+
+
+    public boolean isRequiereBombero() {
+        return requiereBombero;
+    }
+
+    public void setRequiereBombero(boolean requiereBombero) {
+        this.requiereBombero = requiereBombero;
+    }
+
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
 
     // Getters y Setters
     public int getIdIncidencias() {
@@ -56,14 +122,6 @@ public class BeanIncidencia {
         this.fotoIncidencia = fotoIncidencia;
     }
 
-    public String getVictimaIncidencia() {
-        return victimaIncidencia;
-    }
-
-    public void setVictimaIncidencia(String victimaIncidencia) {
-        this.victimaIncidencia = victimaIncidencia;
-    }
-
     public boolean isRequiereAmbulancia() {
         return requiereAmbulancia;
     }
@@ -88,14 +146,6 @@ public class BeanIncidencia {
         this.descripcionSolucion = descripcionSolucion;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     public int getIdTipoIncidencia() {
         return idTipoIncidencia;
     }
@@ -118,6 +168,14 @@ public class BeanIncidencia {
 
     public void setNombreUrbanizacion(String nombreUrbanizacion) {
         this.nombreUrbanizacion = nombreUrbanizacion;
+    }
+
+    public String getNameUsuario() {
+        return nameUsuario;
+    }
+
+    public void setNameUsuario(String nameUsuario) {
+        this.nameUsuario = nameUsuario;
     }
 }
 

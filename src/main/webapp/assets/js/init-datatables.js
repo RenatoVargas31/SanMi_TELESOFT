@@ -1,6 +1,9 @@
 //Tablas Vecino
 $('#table-misincidencias').DataTable({
-    lengthMenu: [7, 10, 15, 20],
+    responsive: true,
+    lengthChange: false,
+    pageLength: 10,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
@@ -11,7 +14,10 @@ $('#table-misincidencias').DataTable({
 });
 
 $('#table-incidenciasGenerales').DataTable({
-    lengthMenu: [7, 10, 15, 20],
+    responsive: true,
+    lengthChange: false,
+    pageLength: 10,
+    info: false,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
@@ -128,6 +134,8 @@ $('#table-usuariosBaneados').DataTable({
         {orderable: false, targets: [0, -1]}
     ]
 });
+
+
 $('#table-instructores').DataTable({
     responsive: true,
     lengthChange: false,
