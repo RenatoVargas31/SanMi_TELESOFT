@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
@@ -97,7 +98,7 @@
 
 
             <div class="app-brand demo ">
-                <a href="serenazgo.html" class="app-brand-link">
+                <a href="indexSerenazgo.jsp" class="app-brand-link">
                     <img class="img-fluid" width="33" src="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"
                          alt="logo-sanmiguel">
                     <span class="app-brand-text demo menu-text fw-bold ms-4">SanMI</span>
@@ -128,7 +129,7 @@
                 <!-- e-commerce-app menu end -->
                 <!-- Academy menu start -->
                 <li class="menu-item">
-                    <a href="serenazgo-dashboard.html" class="menu-link menu">
+                    <a href="indexSerenazgo.jsp" class="menu-link menu">
                         <i class="menu-icon tf-icons bx bx-home-alt"></i>
                         <div class="text-truncate" data-i18n="Inicio">Inicio</div>
                     </a>
@@ -145,12 +146,12 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item active open">
-                            <a href="serenazgo-incidencias.html" class="menu-link">
+                            <a href="incidenciasSerenazgo.jsp" class="menu-link">
                                 <div class="text-truncate" data-i18n="Reporte de Incidencias">Reporte de Incidencias</div>
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="serenazgo-incidenciasfalsas.html" class="menu-link">
+                            <a href="incidenciasFalsasSerenazgo.jsp" class="menu-link">
                                 <div class="text-truncate" data-i18n="Incidencias Falsas">Incidencias Falsas</div>
                             </a>
                         </li>
@@ -162,7 +163,7 @@
                                                                    data-i18n="Ayuda">Ayuda</span></li>
                 <!-- Cards -->
                 <li class="menu-item">
-                    <a href="serenazgo-ayuda.html" class="menu-link">
+                    <a href="ayudaSerenazgo.jsp" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-help-circle"></i>
                         <div class="text-truncate" data-i18n="Ayuda">Ayuda</div>
                     </a>

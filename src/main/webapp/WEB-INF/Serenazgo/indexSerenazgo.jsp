@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
@@ -73,6 +74,13 @@
 
 <body>
 
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe>
+</noscript>
+
+
+
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
@@ -80,97 +88,7 @@
 
         <!-- Menu -->
 
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-
-
-            <div class="app-brand demo ">
-                <a href="serenazgo.html" class="app-brand-link">
-                    <img class="img-fluid" width="33" src="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"
-                         alt="logo-sanmiguel">
-                    <span class="app-brand-text demo menu-text fw-bold ms-4">SanMI</span>
-                </a>
-                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-                    <i class="bx bx-chevron-left bx-sm align-middle"></i>
-                </a>
-            </div>
-
-            <div class="menu-inner-shadow"></div>
-
-
-            <ul class="menu-inner py-1">
-
-                <!-- Layouts -->
-
-                <!-- Front Pages -->
-
-                <!-- Apps & Pages -->
-                <!--<li class="menu-header small text-uppercase">
-                  <span class="menu-header-text" data-i18n="Inicio">Inicio</span>
-                </li>-->
-
-
-
-
-                <!-- e-commerce-app menu start -->
-                <!-- e-commerce-app menu end -->
-                <!-- Academy menu start -->
-                <li class="menu-item active open">
-                    <a href="serenazgo-dashboard.html" class="menu-link menu">
-                        <i class="menu-icon tf-icons bx bx-home-alt"></i>
-                        <div class="text-truncate" data-i18n="Inicio">Inicio</div>
-                    </a>
-                </li>
-                <!-- Academy menu end -->
-                <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text" data-i18n="Incidencias">Incidencias</span>
-                </li>
-
-                <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="menu-icon tf-icons bx bx-bell"></i>
-                        <div class="text-truncate" data-i18n="Incidencias">Incidencias</div>
-                    </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="serenazgo-incidencias.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Reporte de Incidencias">Reporte de Incidencias</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="serenazgo-incidenciasfalsas.html" class="menu-link">
-                                <div class="text-truncate" data-i18n="Incidencias Falsas">Incidencias Falsas</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Components -->
-                <li class="menu-header small text-uppercase"><span class="menu-header-text"
-                                                                   data-i18n="Ayuda">Ayuda</span></li>
-                <!-- Cards -->
-                <li class="menu-item">
-                    <a href="serenazgo-ayuda.html" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-help-circle"></i>
-                        <div class="text-truncate" data-i18n="Ayuda">Ayuda</div>
-                    </a>
-                </li>
-
-                <!-- Extended components -->
-
-                <!-- Icons -->
-
-                <!-- Forms & Tables -->
-
-                <!-- Forms -->
-
-                <!-- Tables -->
-
-
-                <!-- Misc -->
-            </ul>
-
-
-        </aside>
+        <jsp:include page="sideBar.jsp"/>
         <!-- / Menu -->
 
 
@@ -179,6 +97,7 @@
 
 
             <!-- Navbar -->
+            <jsp:include page="navBar.jsp"/>
 
 
             <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
