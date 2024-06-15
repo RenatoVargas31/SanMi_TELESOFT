@@ -35,6 +35,9 @@ public class ServletVecino extends HttpServlet {
             case "incidenciasGenerales":
                 manejarIncidenciasGenerales(request, response);
                 break;
+            case "reportarIncidencia":
+                mostrarFormularioReportarIncidencia(request, response);
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -48,10 +51,36 @@ public class ServletVecino extends HttpServlet {
             case "buscarEventos":
                 manejarBuscarEventos(request, response);
                 break;
+            case "guardarIncidencia":
+                guardarIncidencia(request, response);
+                break;
             default:
                 doGet(request, response);
                 break;
         }
+    }
+    private void mostrarFormularioReportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-reportarIncidencia.jsp");
+        dispatcher.forward(request, response);
+    }
+    private void guardarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nombreIncidencia = request.getParameter("fullname");
+        String lugarExacto = request.getParameter("LugarExacto");
+        String referencia = request.getParameter("Referencia");
+        String telefonoStr = request.getParameter("phone");
+        boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
+        int telefono = telefonoStr != null && !telefonoStr.isEmpty() ? Integer.parseInt(telefonoStr) : 0;
+
+        Incidencia incidencia = new Incidencia();
+        incidencia.setNombreIncidencia(nombreIncidencia);
+        incidencia.setLugarIncidencia(lugarExacto);
+        incidencia.setReferenciaIncidencia(referencia);
+        incidencia.setTelefono(telefono);
+        incidencia.setRequiereAmbulancia(requiereAmbulancia);
+
+        incidenciaDao.guardarIncidencia(incidencia);
+
+        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
     }
 
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

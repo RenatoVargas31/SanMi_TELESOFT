@@ -4,6 +4,8 @@ import com.example.sanmi_telesoft.beans.Incidencia;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
+
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -43,6 +45,24 @@ public class DaoIncidencia extends BaseDao{
         }
 
         return listaIncidencia;
+    }
+    public void guardarIncidencia(Incidencia incidencia) {
+        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarIncidencia, referenciaIncidencia, telefono, requiereAmbulancia, fotoIncidencia, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, incidencia.getNombreIncidencia());
+            stmt.setString(2, incidencia.getLugarIncidencia());
+            stmt.setString(3, incidencia.getReferenciaIncidencia());
+            stmt.setInt(4, incidencia.getTelefono());
+            stmt.setBoolean(5, incidencia.isRequiereAmbulancia());
+            stmt.setString(6, incidencia.getFotoIncidencia());
+            stmt.setInt(7, incidencia.getTipo());
+
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

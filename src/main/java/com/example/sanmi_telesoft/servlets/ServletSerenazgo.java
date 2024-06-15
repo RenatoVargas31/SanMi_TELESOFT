@@ -2,7 +2,7 @@ package com.example.sanmi_telesoft.servlets;
 
 import com.example.sanmi_telesoft.beans.Evento;
 import com.example.sanmi_telesoft.beans.Usuario;
-import com.example.sanmi_telesoft.beans.BeanIncidencia;
+import com.example.sanmi_telesoft.beans.Incidencia;
 
 import com.example.sanmi_telesoft.daos.DaoCoordinadora;
 import com.example.sanmi_telesoft.daos.DaoSerenazgo;
