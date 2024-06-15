@@ -10,6 +10,7 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
 <%@ page import="com.example.sanmi_telesoft.daos.DaoIncidencia" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%
   String pageName = "incidenciasGenerales";
   request.setAttribute("pageName", pageName);
@@ -21,7 +22,7 @@
 
 <%
   DaoIncidencia incidenciaDao = new DaoIncidencia();
-  List<Incidencia> incidencias = incidenciaDao.getAllIncidenciasConDetalle();
+  List<Incidencia> incidencias = incidenciaDao.listarIncidencias();
   request.setAttribute("incidencias", incidencias);
 %>
 
@@ -50,8 +51,8 @@
             <td>${incidencia.nombreIncidencia}</td>
             <td>${incidencia.nombreUrbanizacion}</td>
             <td><span class="badge ${incidencia.estado == 'Pendiente' ? 'bg-danger' : 'bg-success'}">${incidencia.estado}</span></td>
-            <td><span class="badge ${incidencia.prioridad == 'Alta' ? 'bg-danger' : 'bg-warning'}">${incidencia.prioridad}</span></td>
-            <td>${incidencia.nombreUsuario}</td>
+            <td><span class="badge ${incidencia.criticidad == 'Alta' ? 'bg-danger' : 'bg-warning'}">${incidencia.criticidad}</span></td>
+            <td>${incidencia.nameUsuario}</td>
             <td>
               <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i class='bx bx-show'></i></button>
             </td>
@@ -122,5 +123,6 @@
 <jsp:include page="../Fragmentos/FragmentosVecino/strylesFragmentVecino.jsp"/>
 </body>
 </html>
+
 
 
