@@ -25,17 +25,24 @@ public class ServletSerenazgo extends HttpServlet {
 
         switch (action){
             case "mostrarInicio":
+                request.setAttribute("activeMenu", "Inicio");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/indexSerenazgo.jsp").forward(request, response);
                 break;
+
             case "mostrarAyuda":
+                request.setAttribute("activeMenu", "Ayuda");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/ayudaSerenazgo.jsp").forward(request, response);
                 break;
 
             case "mostrarReportesIncidencias":
+                request.setAttribute("activeMenuToggle", "Incidencias");
+                request.setAttribute("activeMenu", "ReporteIncidencias");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasSerenazgo.jsp").forward(request, response);
                 break;
 
             case "mostrarIncidenciasFalsas":
+                request.setAttribute("activeMenuToggle", "Incidencias");
+                request.setAttribute("activeMenu", "IncidenciasFalsas");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasFalsasSerenazgo.jsp").forward(request, response);
                 break;
         }
