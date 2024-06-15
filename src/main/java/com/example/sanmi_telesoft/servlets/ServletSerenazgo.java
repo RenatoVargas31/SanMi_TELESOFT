@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ServletSerenazgo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action") == null ? "inicio" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
 
         DaoSerenazgo daoSerenazgo = new DaoSerenazgo();
 
@@ -29,6 +29,14 @@ public class ServletSerenazgo extends HttpServlet {
                 break;
             case "mostrarAyuda":
                 request.getRequestDispatcher("WEB-INF/Serenazgo/ayudaSerenazgo.jsp").forward(request, response);
+                break;
+
+            case "mostrarReportesIncidencias":
+                request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasSerenazgo.jsp").forward(request, response);
+                break;
+
+            case "mostrarIncidenciasFalsas":
+                request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasFalsasSerenazgo.jsp").forward(request, response);
                 break;
         }
 
