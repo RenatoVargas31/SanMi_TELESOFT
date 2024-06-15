@@ -162,8 +162,12 @@
                                 <label class="form-label" for="cursoProfesor">Curso</label>
                                 <input type="text" id="cursoProfesor" name="cursoProfesor" class="form-control" value="<%= profesor.getCursoProfesor()%>" />
                             </div>
+
+                            <div>
+                                <input type="hidden" id="idProfesor" name="idProfesor" value="<%= profesor.getIdProfesores() %>">
+                            </div>
                             <div class="col-12 col-md-6">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
+                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
                                 <a href="ServletAdministrador?action=mostrarInstructores" class="btn btn-label-secondary">Cancelar</a>
                             </div>
                         </form>
@@ -207,25 +211,6 @@
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-                    <script>
-                        document.getElementById('registerButton').addEventListener('click', function(event) {
-                            event.preventDefault(); // Evitar el envío del formulario
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Registro Exitoso',
-                                text: 'El personal de serenazgo ha sido registrado correctamente.',
-                                confirmButtonText: 'Aceptar'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = 'adm-personalSerenazgoDeCampo.html';
-                                }
-                            });
-                        });
-
-                        document.getElementById('cancelButton').addEventListener('click', function() {
-                            window.location.href = 'adm-personalSerenazgoDeCampo.html';
-                        });
-                    </script>
                 </div>
             </div>
         </div>

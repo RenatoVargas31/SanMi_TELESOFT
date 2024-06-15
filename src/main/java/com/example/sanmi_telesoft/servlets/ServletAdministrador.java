@@ -65,7 +65,7 @@ public class ServletAdministrador extends HttpServlet {
                 break;
             case "actualizarProfesor":
                 request.setAttribute("activeMenu", "Instructores");
-                String id = request.getParameter("id");
+                String id = request.getParameter("idProfesor");
                 Profesor profesor = daoAdministrador.buscarProfesorPorId(id);
 
                 if(profesor != null){
@@ -129,16 +129,28 @@ public class ServletAdministrador extends HttpServlet {
                 String apellidoProfesorEdit = request.getParameter("apellidoProfesor");
                 String dniProfesorEdit = request.getParameter("dniProfesor");
                 String cursoProfesorEdit = request.getParameter("cursoProfesor");
+                String idProfesorEdit = request.getParameter("idProfesor");
 
-                Profesor profesor = new Profesor();
-                profesor.setNombreProfesor(nombreProfesorEdit);
-                profesor.setApellidoProfesor(apellidoProfesorEdit);
-                profesor.setDniProfesor(dniProfesorEdit);
-                profesor.setTipoProfesor(tipoProfesorEdit);
-                profesor.setCursoProfesor(cursoProfesorEdit);
+                boolean isAllValid2 = true;
 
-                daoAdministrador.actualizar(profesor);
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+                if(dniProfesorEdit.length() > 8){
+                    isAllValid2 = false;
+                }
+                if(isAllValid2) {
+                    Profesor profesor = new Profesor();
+                    profesor.setNombreProfesor(nombreProfesorEdit);
+                    profesor.setApellidoProfesor(apellidoProfesorEdit);
+                    profesor.setDniProfesor(dniProfesorEdit);
+                    profesor.setTipoProfesor(tipoProfesorEdit);
+                    profesor.setCursoProfesor(cursoProfesorEdit);
+                    profesor.setIdProfesores(Integer.parseInt(idProfesorEdit));
+
+                    daoAdministrador.actualizar(profesor);
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+                }else{
+                        request.setAttribute("job",daoAdministrador.buscarProfesorPorId(dniProfesorEdit));
+                        request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request,response);
+                    }
                 break;
         }
     }

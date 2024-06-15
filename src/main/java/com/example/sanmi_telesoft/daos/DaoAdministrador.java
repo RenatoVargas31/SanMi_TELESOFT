@@ -10,7 +10,7 @@ public class DaoAdministrador {
     //Método para buscar profesor por ID
     public Profesor buscarProfesorPorId(String id) {
 
-        Profesor profesor = null;
+        Profesor profesor = new Profesor();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -130,14 +130,19 @@ public class DaoAdministrador {
         String username = "root";
         String password = "root";
 
-        String sql = "update profesores set tipoProfesor = ?, cursoProfesor = ? where idProfesores = ?";
+        String sql = "update profesores set nombreProfesor=?, apellidoProfesor=?, dniProfesor=?, tipoProfesor = ?, cursoProfesor = ? where idProfesores = ?";
+
+
 
         try(Connection connection = DriverManager.getConnection(url,username,password);
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 
-            pstmt.setString(1,profesor.getTipoProfesor());
-            pstmt.setString(2,profesor.getCursoProfesor());
-            pstmt.setInt(3,profesor.getIdProfesores());
+            pstmt.setString(1,profesor.getNombreProfesor());
+            pstmt.setString(2,profesor.getApellidoProfesor());
+            pstmt.setString(3,profesor.getDniProfesor());
+            pstmt.setString(4,profesor.getTipoProfesor());
+            pstmt.setString(5,profesor.getCursoProfesor());
+            pstmt.setInt(6,profesor.getIdProfesores());
 
             pstmt.executeUpdate();
 
