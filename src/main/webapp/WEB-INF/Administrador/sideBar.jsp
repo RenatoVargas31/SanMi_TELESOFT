@@ -9,7 +9,7 @@
 
 
     <div class="app-brand demo ">
-        <a href="adm-dashboard.html" class="app-brand-link">
+        <a href="<%=request.getContextPath()%>/ServletAdministrador" class="app-brand-link">
             <img class="img-fluid" width="33" src="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"
                  alt="logo-sanmiguel">
             <span class="app-brand-text demo menu-text fw-bold ms-4">SanMI</span>
@@ -33,7 +33,7 @@
           <span class="menu-header-text" data-i18n="Inicio">Inicio</span>
         </li>-->
         <li class="menu-item ${activeMenu == 'Inicio' ? 'active' : ''}">
-            <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarInicio" class="menu-link">
+            <a href="<%=request.getContextPath()%>/ServletAdministrador" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-alt"></i>
                 <div class="text-truncate" data-i18n="Inicio">Inicio</div>
                 <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>-->
