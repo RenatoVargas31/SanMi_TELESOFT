@@ -184,7 +184,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table id="table-personalSerenazgo" class="datatables-basic table border-top">
+                            <table id="table-instructores" class="datatables-basic table border-top">
                                 <thead>
                                 <tr>
 

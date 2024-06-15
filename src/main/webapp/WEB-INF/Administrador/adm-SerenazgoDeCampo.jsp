@@ -124,7 +124,7 @@
                                     <a href="adm-generacionSerenazgo.html"><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Personal</h2></a>
                                 </button>
                             </div>
-                            <table id="table-personalSerenazgo" class="datatables-basic table border-top">
+                            <table id="table-personalSerenazgoDeCampo" class="datatables-basic table border-top">
                                 <thead>
                                 <tr>
 

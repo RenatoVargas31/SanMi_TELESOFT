@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: rlvs_
-  Date: 12/06/2024
-  Time: 15:02
+  Date: 15/06/2024
+  Time: 01:33
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -17,31 +17,12 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Administrador: Personal de Serenazgo Dispatcher</title>
+    <title>Administrador: Usuarios Habilitados</title>
 
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
-
-
-    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <script>(function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            '${pageContext.request.contextPath}/${pageContext.request.contextPath}/www.googletagmanager.com/gtm5445.html?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script>
-    <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
@@ -71,7 +52,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
 
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
@@ -135,85 +115,23 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Lista de Personal de Serenazgo Dispatcher</h3>
-
-                                <button type="button" class="btn btn-primary me-3 " data-bs-toggle="modal" data-bs-target="#addNewAddress">
-                                    <i class='bx bx-shield-plus me-2'></i>
-                                    <h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Personal</h2></a>
-                                </button>
+                                <h3 class="m-4 fw-bold">Lista General de Usuarios</h3>
                             </div>
-                            <table id="table-personalSerenazgoDispatcher" class="datatables-basic table border-top">
+                            <table id="table-usuariosHabilitados" class="datatables-basic table border-top">
                                 <thead>
                                 <tr>
 
-                                    <th>Nombre Y apellido</th>
-                                    <th>Telefono</th>
-                                    <th>Tipo</th>
-                                    <th>Turno</th>
+                                    <th>Nombre y Apellido</th>
+                                    <th>Rol</th>
+                                    <th>Contacto</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
 
+
+
+
                                 <!-- Modal -->
-                                <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                                        <div class="modal-content p-3 p-md-5">
-                                            <div class="modal-body">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                <div class="text-center mb-4">
-                                                    <h3>Editar Estado de la Incidencia</h3>
-                                                    <p>Por favor colocar las medidas a tomar según la incidencia.</p>
-                                                </div>
-                                                <form id="editUserForm" class="row g-3" onsubmit="return false">
-
-                                                    <div class="col-12">
-                                                        <label class="form-label" >Escribir una breve respuesta de las medidas a tomar</label>
-                                                        <textarea class="form-control" id="basic-default-bio" name="basic-default-bio" rows="3" required></textarea>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-6">
-                                                        <label class="form-label" for="modalEditUserStatus">Seleccione la ayuda a solicitar</label>
-                                                        <select id="modalEditUserStatus" name="modalEditUserStatus" class="form-select" aria-label="Default select example">
-                                                            <option selected>Seleccionar</option>
-                                                            <option value="1">Ambulancia</option>
-                                                            <option value="2">Bombero</option>
-                                                            <option value="3">Policia</option>
-
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-6">
-                                                        <label class="form-label" for="modalEditUserStatus">Editar Estado de Incidencia</label>
-                                                        <select id="modalEditUserStatus1" name="modalEditUserStatus" class="form-select" aria-label="Default select example">
-                                                            <option selected>Seleccionar</option>
-                                                            <option value="1">En Proceso</option>
-                                                            <option value="2">Cerrada</option>
-                                                            <option value="3">Falsa Alarma</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-6">
-                                                        <label class="form-label" for="modalEditUserStatus">Seleccione la prioridad</label>
-                                                        <select id="modalEditUserStatus2" name="modalEditUserStatus" class="form-select" aria-label="Default select example">
-                                                            <option selected>Seleccionar</option>
-                                                            <option value="1">Alta</option>
-                                                            <option value="2">Media</option>
-                                                            <option value="3">Baja</option>
-
-                                                        </select>
-                                                    </div>
-
-
-
-                                                    <div style="margin-top: 20px" class="col-12 text-center" >
-                                                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Actualizar Estado</button>
-                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="modal fade" id="modalVerUsuario" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
@@ -223,9 +141,9 @@
                                             </div>
                                             <div class="modal-body">
 
-                                                <p>Nombre de Usuario: Arturo Martinez Lara</p>
+                                                <p>Nombre de Usuario: Victoria Ruiz Vega</p>
 
-                                                <p>Correo: art.mart@gmail.com </p>
+                                                <p>Correo: vic.vega@gmail.com </p>
 
                                                 <p>DNI: 87422011</p>
 
@@ -248,83 +166,32 @@
                                 <!-- /Modal -->
 
 
-                                <!-- Modal de eliminación y confirmación -->
-
-
-
-                                <div class="modal fade" id="modalToggle" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalToggleLabel">Eliminar de la Lista</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <b> ¿Eliminar este elemento? </b>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-primary" data-bs-target="#modalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Si</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modalToggle2" aria-hidden="true" aria-labelledby="modalToggleLabel2" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalToggleLabel2">Eliminar de la lista</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <b> ¿Está seguro? </b>
-                                            </div>
-                                            <div class="modal-footer">
-
-                                                <button type="reset" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal">Si</button>
-
-                                                <!-- <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button> -->
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-
-
                                 <tbody>
                                 <tr>
 
                                     <td>Arturo Martinez Lara</td>
-                                    <td>Dispatcher</td>
-                                    <td><span>-</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Vecino</td>
+                                    <td><span>985632145</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
                                                 class='bx bx-show'></i></button>
-                                        <button type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " data-bs-toggle="modal" data-bs-target="#editarPersonal">
-                                            <i class='bx bx-edit'></i>
-                                        </button>
-
-                                        <!--Nuevo boton implementado -->
-
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalToggle"><i
+                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
+                                                class='bx bx-edit'></i></button>
+                                        <button type="button"
+                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
+                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
                                                 class='bx bx-trash'></i></button>
                                     </td>
                                 </tr>
                                 <tr>
 
                                     <td>José García López</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>A pie</span></td>
-                                    <td>Diurno</td>
+                                    <td>Serenazgo Dispatcher</td>
+                                    <td><span>985632145</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -334,22 +201,17 @@
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
                                                 data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
-
-                                        <!--Nuevo boton implementado -->
-
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalToggle"><i
+                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
                                                 class='bx bx-trash'></i></button>
                                     </td>
                                 </tr>
                                 <tr>
 
                                     <td>Sofía Martínez Valdez</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Bicicleta</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Vecino</td>
+                                    <td><span>742198563</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -359,22 +221,17 @@
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
                                                 data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
-
-                                        <!--Nuevo boton implementado -->
-
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalToggle"><i
+                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
                                                 class='bx bx-trash'></i></button>
                                     </td>
                                 </tr>
                                 <tr>
 
                                     <td>Alejandro García Sánchez</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Vehículo</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Vecino</td>
+                                    <td><span>316895247</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -393,9 +250,8 @@
                                 <tr>
 
                                     <td>Valentina Rodríguez Reyes</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Canino</span></td>
-                                    <td>Diurno</td>
+                                    <td>Coordinadora - Cultura</td>
+                                    <td><span>524178936</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -414,9 +270,8 @@
                                 <tr>
 
                                     <td>Juan López Ramírez</td>
-                                    <td>Dispatcher</td>
-                                    <td><span>-</span></td>
-                                    <td>Diurno</td>
+                                    <td>Vecino</td>
+                                    <td><span>897451236</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -435,9 +290,8 @@
                                 <tr>
 
                                     <td>Isabella Pérez Gómez</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>A pie</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Coordinadora - Deporte</td>
+                                    <td><span>631254789</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -456,9 +310,8 @@
                                 <tr>
 
                                     <td>Diego Hernández Flores</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Canino</span></td>
-                                    <td>Diurno</td>
+                                    <td>Vecino</td>
+                                    <td><span>458796321</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -477,9 +330,8 @@
                                 <tr>
 
                                     <td>Camila Díaz Mendoza</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Bicicleta</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Vecino</td>
+                                    <td><span>369857412</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -498,9 +350,8 @@
                                 <tr>
 
                                     <td>Lucas González Cruz</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Vehículo</span></td>
-                                    <td>Diurno</td>
+                                    <td>Vecino</td>
+                                    <td><span>214563897</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -519,9 +370,8 @@
                                 <tr>
 
                                     <td>Emma Vázquez Morales</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Canino</span></td>
-                                    <td>Diurno</td>
+                                    <td>Vecino</td>
+                                    <td><span>785632149</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -540,9 +390,8 @@
                                 <tr>
 
                                     <td>Mateo Torres Ortiz</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>A pie</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Vecino</td>
+                                    <td><span>632145789</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -561,13 +410,12 @@
                                 <tr>
 
                                     <td>Victoria Ruiz Vega</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Vehículo</span></td>
-                                    <td>Diurno</td>
+                                    <td>Vecino</td>
+                                    <td><span>159487632</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
+                                                data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
                                                 class='bx bx-show'></i></button>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -575,16 +423,15 @@
                                                 class='bx bx-edit'></i></button>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
+                                                onclick="promptDeletion();" id="confirm-color"><i
                                                 class='bx bx-trash'></i></button>
                                     </td>
                                 </tr>
                                 <tr>
 
                                     <td>Nicolás Castro Jiménez</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>Canino</span></td>
-                                    <td>Nocturno</td>
+                                    <td>Vecino</td>
+                                    <td><span>874596321</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -603,9 +450,8 @@
                                 <tr>
 
                                     <td>Olivia Herrera Silva</td>
-                                    <td>Serenazgo</td>
-                                    <td><span>A pie</span></td>
-                                    <td>Diurno</td>
+                                    <td>Vecino</td>
+                                    <td><span>365214978</span></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -700,7 +546,6 @@
 
                     <hr class="my-5">
 
-
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
@@ -716,7 +561,7 @@
 
                 <!-- Vendors JS -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
+                <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
                 <!-- Flat Picker -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
@@ -731,6 +576,7 @@
 
                 <!-- Page JS -->
                 <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
+
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
 
@@ -738,191 +584,6 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="address-title fw-bold">Registrar Personal</h3>
-                </div>
-                <form id="addNewAddressForm" class="row g-3" onsubmit="return false">
-
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressFirstName">Nombre</label>
-                        <input type="text" id="modalAddressFirstName" name="modalAddressFirstName" class="form-control" placeholder="John" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressLastName">Apellidos</label>
-                        <input type="text" id="modalAddressLastName" name="modalAddressLastName" class="form-control" placeholder="Doe" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalDNI">DNI</label>
-                        <input type="text" id="modalDNI" name="modalDNI" class="form-control" placeholder="99950" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTipo">Tipo</label>
-                        <select id="modalTipo" name="modalTipo" class="select2 form-select" data-allow-clear="true">
-                            <option value="">Select</option>
-                            <option value="Bicicleta">Bicicleta</option>
-                            <option value="A pie">A pie</option>
-                            <option value="Canino">Canino</option>
-                            <option value="Vehículo">Vehículo</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTelefono">Teléfono</label>
-                        <input type="text" id="modalTelefono" name="modalTelefono" class="form-control" placeholder="99950" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTurno">Turno</label>
-                        <select id="modalTurno" name="modalTurno" class="select2 form-select" data-allow-clear="true">
-                            <option value="">Select</option>
-                            <option value="Diurno">Diurno</option>
-                            <option value="Nocturno">Nocturno</option>
-                        </select>
-                    </div>
-                    <div class="col-12 ">
-                        <label class="form-label" for="modalMail">Correo Electrónico</label>
-                        <input type="text" id="modalMail" name="modalMail" class="form-control" placeholder="jhonDoe@gmail.com" />
-                    </div>
-                    <div class="col-12 ">
-                        <label class="form-label" for="modalDireccion">Dirección</label>
-                        <input type="text" id="modalDireccion" name="modalDireccion" class="form-control" placeholder="12, Business Park" />
-                    </div>
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(function () {
-        var e = $(".select2");
-        e.length && e.each(function () {
-            var e = $(this);
-            e.wrap('<div class="position-relative"></div>').select2({
-                placeholder: "Seleccione",
-                dropdownParent: e.parent()
-            })
-        })
-    }), document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("addNewAddress").addEventListener("show.bs.modal", function (e) {
-            window.Helpers.initCustomOptionCheck()
-        }), FormValidation.formValidation(document.getElementById("addNewAddressForm"), {
-            fields: {
-                modalAddressFirstName: {
-                    validators: {
-                        notEmpty: {message: "Please enter your first name"},
-                        regexp: {regexp: /^[a-zA-Zs]+$/, message: "The first name can only consist of alphabetical"}
-                    }
-                },
-                modalAddressLastName: {
-                    validators: {
-                        notEmpty: {message: "Please enter your last name"},
-                        regexp: {regexp: /^[a-zA-Zs]+$/, message: "The last name can only consist of alphabetical"}
-                    }
-                }
-            },
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger,
-                bootstrap5: new FormValidation.plugins.Bootstrap5({eleValidClass: "", rowSelector: ".col-12"}),
-                submitButton: new FormValidation.plugins.SubmitButton,
-                autoFocus: new FormValidation.plugins.AutoFocus
-            }
-        })
-    });
-</script>
-<div class="modal fade" id="editarPersonal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="address-title fw-bold">Editar Personal</h3>
-                </div>
-                <form id="editarPersonalForm" class="row g-3" onsubmit="return false">
-
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressFirstName">Nombre</label>
-                        <input type="text" id="modalPersonalFirstName" name="modalAddressFirstName" class="form-control" value="Arturo" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressLastName">Apellidos</label>
-                        <input type="text" id="modalPersonalLastName" name="modalAddressLastName" class="form-control" value="Martinez Lara" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalDNI">DNI</label>
-                        <input type="text" id="modalPersonalDNI" name="modalDNI" class="form-control" value="87422011" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTipo">Tipo</label>
-                        <select id="modalPersonalTipo" name="modalTipo" class="select2 form-select" data-allow-clear="true">
-                            <option value="Valor actual">-</option>
-                            <option value="Bicicleta">Bicicleta</option>
-                            <option value="A pie">A pie</option>
-                            <option value="Canino">Canino</option>
-                            <option value="Vehículo">Vehículo</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTelefono">Teléfono</label>
-                        <input type="text" id="modalPesonalTelefono" name="modalTelefono" class="form-control" value="992130132" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTurno">Turno</label>
-                        <select id="modalPersonalTurno" name="modalTurno" class="select2 form-select" data-allow-clear="true">
-                            <option value="Valor actual">Nocturno</option>
-                            <option value="Diurno">Diurno</option>
-                            <option value="Nocturno">Nocturno</option>
-                        </select>
-                    </div>
-                    <div class="col-12 ">
-                        <label class="form-label" for="modalMail">Correo Electrónico</label>
-                        <input type="text" id="modalPersonalMail" name="modalMail" class="form-control" value="art.mart@gmail.com" />
-                    </div>
-                    <div class="col-12 ">
-                        <label class="form-label" for="modalDireccion">Dirección</label>
-                        <input type="text" id="modalPersonalDireccion" name="modalDireccion" class="form-control" value="Jr Las Magnolias 166" />
-                    </div>
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(function () {
-        var e = $(".select2");
-        e.length && e.each(function () {
-            var e = $(this);
-            e.wrap('<div class="position-relative"></div>').select2({
-                placeholder: "Seleccione",
-                dropdownParent: e.parent()
-            })
-        })
-    }), document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("editarPersonal").addEventListener("show.bs.modal", function (e) {
-            window.Helpers.initCustomOptionCheck()
-        }), FormValidation.formValidation(document.getElementById("editarPersonalForm"), {
-
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger,
-                bootstrap5: new FormValidation.plugins.Bootstrap5({eleValidClass: "", rowSelector: ".col-12"}),
-                submitButton: new FormValidation.plugins.SubmitButton,
-                autoFocus: new FormValidation.plugins.AutoFocus
-            }
-        })
-    });
-</script>
 <div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -972,7 +633,6 @@
     }
 
 </script>
-
 </body>
 
 

@@ -50,7 +50,7 @@ $('#serenazgo-table-incidenciasfalsas').DataTable({
 });
 //Administrador
 $(document).ready(function () {
-    var table = $('#table-personalSerenazgo').DataTable({
+    var table = $('#table-personalSerenazgoDeCampo').DataTable({
         responsive: true,
         lengthChange: false,
         pageLength: 7,
@@ -71,6 +71,22 @@ $(document).ready(function () {
     });
 });
 
+$('#table-personalSerenazgoDispatcher').DataTable({
+    responsive: true,
+    lengthChange: false,
+    pageLength: 7,
+    info: false,
+    paging: true,
+    language: {
+        url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
+    },
+    order: [[2, 'asc']],
+    columnDefs: [
+        {orderable: false, targets: [0, -1]}
+    ]
+});
+
+
 $('#table-solicitudRegistro').DataTable({
     responsive: true,
     lengthChange: false,
@@ -84,6 +100,8 @@ $('#table-solicitudRegistro').DataTable({
         {orderable: false, targets: [0, 1, -1]}
     ]
 });
+
+
 $('#table-usuariosHabilitados').DataTable({
     responsive: true,
     lengthChange: false,
@@ -102,6 +120,20 @@ $('#table-usuariosBaneados').DataTable({
     lengthChange: false,
     pageLength: 7,
     info: false,
+    language: {
+        url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
+    },
+    order: [[2, 'asc']],
+    columnDefs: [
+        {orderable: false, targets: [0, -1]}
+    ]
+});
+$('#table-instructores').DataTable({
+    responsive: true,
+    lengthChange: false,
+    pageLength: 7,
+    info: false,
+    paging: true,
     language: {
         url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
     },
