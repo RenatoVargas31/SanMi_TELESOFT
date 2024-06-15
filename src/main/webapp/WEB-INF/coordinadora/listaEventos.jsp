@@ -6,23 +6,17 @@
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 <jsp:include page="../Fragmentos/headFragment.jsp"/>
 <body>
-<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
         <!-- / Menu -->
-        <jsp:include page="../Fragmentos/menuFragment.jsp"/>
+        <jsp:include page="sideBar.jsp"/>
         <!-- Layout container -->
         <div class="layout-page">
 
 
             <!-- Navbar -->
-            <jsp:include page="../Fragmentos/navbarFragment.jsp"/>
+            <jsp:include page="navBar.jsp"/>
             <!-- / Navbar -->
 
 
