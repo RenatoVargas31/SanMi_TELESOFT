@@ -5,6 +5,8 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-instructores.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/ayudaCoodinadora.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/sis- register-multisteps.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/sis-verificarEmailPassOlvidada.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>
   </component>
