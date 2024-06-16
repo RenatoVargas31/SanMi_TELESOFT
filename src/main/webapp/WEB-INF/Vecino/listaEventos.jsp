@@ -683,7 +683,7 @@
                                     <div class="col-sm-6 col-lg-4">
                                         <div class="card p-2 h-100 shadow-none border" data-value="<%= evento.getTipoEvento() %>">
                                             <div class="rounded-2 text-center mb-3">
-                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>">
+                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
                                                     <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento">
                                                 </a>
                                             </div>
@@ -696,10 +696,10 @@
                                                     <span class="badge bg-label-hover-success">Deporte</span>
                                                     <% } %>
                                                 </div>
-                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>" class="h5"><%= evento.getNombreEvento() %></a>
+                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5"><%= evento.getNombreEvento() %></a>
                                                 <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
                                                 <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
-                                                    <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>">
+                                                    <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
                                                         <span class="me-2">Inscríbete aquí</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
                                                     </a>
                                                 </div>
@@ -749,8 +749,8 @@
                         </nav>
                     </div>
                 </div>
-
-
+    </div>
+</div>
 
 
                 <!-- Footer -->

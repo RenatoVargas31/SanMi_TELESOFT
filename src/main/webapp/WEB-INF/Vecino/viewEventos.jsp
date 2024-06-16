@@ -897,7 +897,7 @@
                                                 </div>
                                                 <div class="form d-flex align-content-center mb-3"
                                                      style="margin-top: 30px;">
-                                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=inscribir&id=<%= evento.getIdEventos() %>"
+                                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %>"
                                                        class="btn btn-primary" style="flex: auto;">Inscríbete aquí</a>
                                                 </div>
                                             </div>
