@@ -40,6 +40,9 @@ public class ServletVecino extends HttpServlet {
             case "incidenciasGenerales":
                 manejarIncidenciasGenerales(request, response);
                 break;
+            case "misIncidencias":
+                manejarMisIncidencias(request, response);
+                break;
             case "reportarIncidencia":
                 mostrarFormularioReportarIncidencia(request, response);
                 break;
@@ -63,6 +66,9 @@ public class ServletVecino extends HttpServlet {
             case "buscarEventos":
                 manejarBuscarEventos(request, response);
                 break;
+            case "eliminarIncidencia":
+                eliminarIncidencia(request, response);
+                break;
             default:
                 doGet(request, response);
                 break;
@@ -72,6 +78,24 @@ public class ServletVecino extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-reportarIncidencia.jsp");
         dispatcher.forward(request, response);
     }
+    private void eliminarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idIncidencia = Integer.parseInt(request.getParameter("id"));
+        incidenciaDao.eliminarIncidencia(idIncidencia);
+        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+    }
+    private void manejarMisIncidencias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer vecinoId = (Integer) session.getAttribute("usuarioId");
+        if (vecinoId != null) {
+            List<Incidencia> misIncidencias = incidenciaDao.listarIncidenciasPorVecino(vecinoId);
+            request.setAttribute("misIncidencias", misIncidencias);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-misIncidencias.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            manejarError(request, response, "Usuario no logueado");
+        }
+    }
+
     private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nombreIncidencia = request.getParameter("fullname");
         String telefono = request.getParameter("phone");
