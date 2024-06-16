@@ -12,7 +12,6 @@ public class Incidencia {
     private String descripcionSolucion;
     private String nameUsuario;
     private int idTipoIncidencia;
-    private String nombreUsuario;
     private String nombreUrbanizacion;
     private int telefono;
     private int serenazgoid;
@@ -152,14 +151,6 @@ public class Incidencia {
 
     public void setIdTipoIncidencia(int idTipoIncidencia) {
         this.idTipoIncidencia = idTipoIncidencia;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
     }
 
     public String getNombreUrbanizacion() {

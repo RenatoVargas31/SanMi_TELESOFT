@@ -397,65 +397,78 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <div class="modal fade" id="modalScrollable5" tabindex="-1" aria-hidden="true">
+                                <%
+                                    int i = 1;
+                                    for (Incidencia incidencia : listaIncidencias) {
+                                        String modalId = "modalScrollable" + i;
+                                %>
+                                <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalScrollableTitle5">Detalles del Reporte.</h5>
+                                                <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <p>Estimado Serenazgo de la Zona,</p>
 
-                                                <p>Me dirijo a ustedes con gran urgencia para informar sobre un incendio que está ocurriendo en este momento en la Calle 1 de Villa del Mar. Soy Katiuska Quispe, una vecina preocupada por la seguridad de nuestra comunidad.</p>
+                                                <% if(incidencia.getDescripcionSolucion() == null) { %>
+                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente sobre <%=incidencia.getIdTipoIncidencia()%> que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
+                                                <% } else { %>
+                                                <p><%= incidencia.getDescripcionSolucion() %></p>
+                                                <% } %>
 
                                                 <p>Atentamente,</p>
-
-                                                <p>Katiuska Quispe. Vecina de la Calle 1 - Villa del Mar</p>
+                                                <p><%= incidencia.getNameUsuario() %></p>
 
                                                 <div class="card h-100">
-                                                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio2.jpg" alt="Card image cap" />
+                                                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio1.jpg" alt="Card image cap" />
                                                     <div class="card-body">
                                                         <h5 class="card-title">Foto del reporte</h5>
-                                                        <p class="card-text">Lugar: Calle 3- San Miguel.</p>
-                                                        <p class="card-text">Referencia: 2 cuadras de Modo.</p>
-
+                                                        <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
+                                                        <p class="card-text">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <%
-                                    int i = 1;
-                                    for (Incidencia incidencia : listaIncidencias) {
-                                %>
                                 <tr>
-                                    <td><%= incidencia.getNombreIncidencia()%></td>
-                                    <td><%= incidencia.getLugarIncidencia()%></td>
-                                    <% if(incidencia.getEstado() == 1) {%> <td><span class="badge bg-danger">Nueva</span></td><%} %>
-                                    <% if(incidencia.getEstado() == 2) {%> <td><span class="badge bg-warning">En proceso</span></td> <%} %>
-                                    <% if(incidencia.getEstado() == 3) {%> <td><span class="badge bg-success">Resuelta</span></td><%} %>
-                                    <% if(incidencia.getCriticidad() == 1) {%> <td><span class="badge bg-primary">Baja</span></td>
-                                    <% }else if(incidencia.getCriticidad()  == 2) {%> <td><span class="badge bg-warning">Media</span></td>
-                                    <% }else if(incidencia.getCriticidad()  == 3) {%> <td><span class="badge bg-danger">Alta</span></td>
-                                    <% }else {%> <td><span class="badge bg-secondary">No revisado</span></td><%} %>
-                                    <td><%= incidencia.getNameUsuario()%></td>
+                                    <td><%= incidencia.getNombreIncidencia() %></td>
+                                    <td><%= incidencia.getLugarIncidencia() %></td>
+                                    <% if(incidencia.getEstado() == 1) { %>
+                                    <td><span class="badge bg-danger">Nueva</span></td>
+                                    <% } else if(incidencia.getEstado() == 2) { %>
+                                    <td><span class="badge bg-warning">En proceso</span></td>
+                                    <% } else if(incidencia.getEstado() == 3) { %>
+                                    <td><span class="badge bg-success">Resuelta</span></td>
+                                    <% } %>
+                                    <% if(incidencia.getCriticidad() == 1) { %>
+                                    <td><span class="badge bg-primary">Baja</span></td>
+                                    <% } else if(incidencia.getCriticidad() == 2) { %>
+                                    <td><span class="badge bg-warning">Media</span></td>
+                                    <% } else if(incidencia.getCriticidad() == 3) { %>
+                                    <td><span class="badge bg-danger">Alta</span></td>
+                                    <% } else { %>
+                                    <td><span class="badge bg-secondary">No revisado</span></td>
+                                    <% } %>
+                                    <td><%= incidencia.getNameUsuario() %></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalScrollable5"><i
-                                                class='bx bx-show'></i></button>
+                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>">
+                                            <i class='bx bx-show'></i>
+                                        </button>
                                     </td>
-                                    <%} %>
                                 </tr>
+                                <%
+                                        i++;
+                                    }
+                                %>
 
                                 </tbody>
                             </table>
