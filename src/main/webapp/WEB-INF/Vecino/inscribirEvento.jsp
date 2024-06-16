@@ -45,7 +45,7 @@
     </style>
 
 
-    <title>Entradas | Festival de Música</title>
+    <title>Entradas | <%= evento.getNombreEvento() %></title>
 
 
     <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
@@ -636,7 +636,7 @@
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
                             <li><a href="<%=request.getContextPath()%>/ServletVecino">Todos los eventos</a></li>
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>">Festival de Música Peruana</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>"> <%= evento.getNombreEvento() %></a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribir&id=<%= evento.getIdEventos() %> " style="color:black">Entradas</a></li>
                         </ul>
                     </nav>
@@ -650,8 +650,8 @@
                                     </div>
                                     <div class="me-10" style="flex:auto; margin-left:30px"  >
 
-                                        <h5 style="font-size:30px;  color:#383737" class="mb-1" style="margin-bottom: 10px">Festival de la música peruana</h5>
-                                        <h5 style="font-size:15px;  color:#535252; margin-right: 20px;margin-top: 15px"    class="mb-1"><i class="fas fa-calendar"style="margin-right:10px"></i><h7 style="margin-right: 10px">10 de mayo del 2024</h7>  <i class="fas fa-clock" style="margin-right: 10px"></i>18:00-22:00</h5>
+                                        <h5 style="font-size:30px;  color:#383737" class="mb-1" style="margin-bottom: 10px"><%= evento.getNombreEvento() %></h5>
+                                        <h5 style="font-size:15px;  color:#535252; margin-right: 20px;margin-top: 15px"    class="mb-1"><i class="fas fa-calendar"style="margin-right:10px"></i><h7 style="margin-right: 10px"><%= evento.getFechaEventoStart()%></h7>  <i class="fas fa-clock" style="margin-right: 10px"></i><%= evento.getHoraEventoStart()%>-<%= evento.getHoraEventoEnd() %></h5>
 
 
                                     </div>

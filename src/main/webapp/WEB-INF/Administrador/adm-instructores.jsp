@@ -1,5 +1,6 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Profesor" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Objects" %><%--
 
   User: rlvs_
   Date: 4/06/2024
@@ -117,10 +118,13 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h3 class="m-4 fw-bold">Lista de Instructores</h3>
 
-                                <button type="button" class="btn btn-primary me-3 ">
-                                    <i class='bx bx-chalkboard me-2'></i>
-                                    <a href="<%=request.getContextPath()%>/ServletAdministrador?action=nuevoProfesor"><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Instructor</h2></a>
-                                </button>
+                                <form action="<%=request.getContextPath()%>/ServletAdministrador" method="get">
+                                    <input type="hidden" name="action" value="nuevoProfesor">
+                                    <button type="submit" class="btn btn-primary me-3 ">
+                                        <i class='bx bx-chalkboard me-2'></i>
+                                        <span><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Instructor</h2></span>
+                                    </button>
+                                </form>
                             </div>
                             <table id="table-instructores" class="datatables-basic table border-top">
                                 <thead>
@@ -136,9 +140,10 @@
                                 <%
                                     ArrayList<Profesor> listaProfesores = (ArrayList<Profesor>) request.getAttribute("listaProfesores");
                                 %>
-
                                 <tbody>
+
                                 <%for (Profesor profesor : listaProfesores) {%>
+                                <%if(Objects.equals(profesor.getIsEnable(), "1")){%>
                                 <tr>
                                     <td><%= profesor.getNombreProfesor() %> <%= profesor.getApellidoProfesor() %></td>
                                     <td><%= profesor.getTipoProfesor() %></td>
@@ -175,6 +180,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <% } %>
                                 <% } %>
                                 </tbody>
                             </table>

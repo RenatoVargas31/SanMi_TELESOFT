@@ -19,6 +19,7 @@ public class Incidencia {
     private int estado;
     private int criticidad;
     private int tipo;
+    private String victima;
 
     public int getCriticidad() {
         return criticidad;
@@ -35,6 +36,15 @@ public class Incidencia {
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
+
+    public String getVictima() {
+        return victima;
+    }
+
+    public void setVictima(String victima) {
+        this.victima = victima;
+    }
+
 
     public int getSerenazgoid() {
         return serenazgoid;
