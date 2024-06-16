@@ -631,10 +631,12 @@
                                         Los eventos más esperados en San Miguel
                                         <span class="text-primary fw-medium text-nowrap"> están en tus manos</span>.
                                     </h3>
-                                    <div class="d-flex align-items-center justify-content-between app-academy-md-80">
-                                        <input type="search" placeholder="Busca tu evento" class="form-control me-2" />
-                                        <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
-                                    </div>
+                                    <form method="post" action="<%=request.getContextPath()%>/ServletVecino?action=buscarEventos">
+                                        <div class="d-flex align-items-center justify-content-between app-academy-md-80">
+                                            <input type="search" placeholder="Busca tu evento" name="textoBuscar" id="floatingInput" class="form-control me-2" />
+                                            <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="app-academy-md-25 d-flex align-items-end justify-content-end">
                                     <img src="${pageContext.request.contextPath}/assets/img/illustrations/pencil-rocket.png" alt="pencil rocket" height="188" class="scaleX-n1-rtl" />
