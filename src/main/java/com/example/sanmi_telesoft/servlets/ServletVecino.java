@@ -4,7 +4,12 @@ import com.example.sanmi_telesoft.beans.Evento;
 import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
-
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.io.File;
+import java.io.InputStream;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -46,13 +51,17 @@ public class ServletVecino extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action") == null ? "listaEventos" : request.getParameter("action");
+        String action = request.getParameter("action");
+        if (action == null) {
+            doGet(request, response);
+            return;
+        }
         switch (action) {
+            case "reportarIncidencia":
+                reportarIncidencia(request, response);
+                break;
             case "buscarEventos":
                 manejarBuscarEventos(request, response);
-                break;
-            case "guardarIncidencia":
-                guardarIncidencia(request, response);
                 break;
             default:
                 doGet(request, response);
@@ -63,23 +72,34 @@ public class ServletVecino extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-reportarIncidencia.jsp");
         dispatcher.forward(request, response);
     }
-    private void guardarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nombreIncidencia = request.getParameter("fullname");
+        String telefono = request.getParameter("phone");
         String lugarExacto = request.getParameter("LugarExacto");
         String referencia = request.getParameter("Referencia");
-        String telefonoStr = request.getParameter("phone");
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-        int telefono = telefonoStr != null && !telefonoStr.isEmpty() ? Integer.parseInt(telefonoStr) : 0;
+        String afectado = request.getParameter("afectado");
+        Part fotoPart = request.getPart("foto");
 
         Incidencia incidencia = new Incidencia();
         incidencia.setNombreIncidencia(nombreIncidencia);
+        incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
         incidencia.setLugarIncidencia(lugarExacto);
         incidencia.setReferenciaIncidencia(referencia);
-        incidencia.setTelefono(telefono);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
+        incidencia.setTipo("mi_persona".equals(afectado) ? 1 : 2);
 
-        incidenciaDao.guardarIncidencia(incidencia);
+        if (fotoPart != null && fotoPart.getSize() > 0) {
+            String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
+            incidencia.setFotoIncidencia(fileName);
+            File uploads = new File("/path/to/uploads");
+            File file = new File(uploads, fileName);
+            try (InputStream input = fotoPart.getInputStream()) {
+                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
 
+        incidenciaDao.insertarIncidencia(incidencia);
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
     }
 

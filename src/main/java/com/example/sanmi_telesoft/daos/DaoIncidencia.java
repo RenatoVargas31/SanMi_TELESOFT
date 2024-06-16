@@ -46,22 +46,19 @@ public class DaoIncidencia extends BaseDao{
 
         return listaIncidencia;
     }
-    public void guardarIncidencia(Incidencia incidencia) {
-        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarIncidencia, referenciaIncidencia, telefono, requiereAmbulancia, fotoIncidencia, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = this.getConection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, incidencia.getNombreIncidencia());
-            stmt.setString(2, incidencia.getLugarIncidencia());
-            stmt.setString(3, incidencia.getReferenciaIncidencia());
-            stmt.setInt(4, incidencia.getTelefono());
-            stmt.setBoolean(5, incidencia.isRequiereAmbulancia());
-            stmt.setString(6, incidencia.getFotoIncidencia());
-            stmt.setInt(7, incidencia.getTipo());
-
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public void insertarIncidencia(Incidencia incidencia) {
+        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarIncidencia, referenciaIncidencia, fotoIncidencia, requiereAmbulancia, telefono, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, incidencia.getNombreIncidencia());
+            pstmt.setString(2, incidencia.getLugarIncidencia());
+            pstmt.setString(3, incidencia.getReferenciaIncidencia());
+            pstmt.setString(4, incidencia.getFotoIncidencia());
+            pstmt.setBoolean(5, incidencia.isRequiereAmbulancia());
+            pstmt.setInt(6, incidencia.getTelefono());
+            pstmt.setInt(7, incidencia.getTipo());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
