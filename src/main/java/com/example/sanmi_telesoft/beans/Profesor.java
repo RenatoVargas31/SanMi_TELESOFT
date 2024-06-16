@@ -8,6 +8,7 @@ public class Profesor {
     private String dniProfesor;
     private String tipoProfesor;
     private String cursoProfesor;
+    private String isEnable;
 
     public int getIdProfesores() {
         return idProfesores;
@@ -55,5 +56,13 @@ public class Profesor {
 
     public void setCursoProfesor(String cursoProfesor) {
         this.cursoProfesor = cursoProfesor;
+    }
+
+    public String getIsEnable() {
+        return isEnable;
+    }
+
+    public void setIsEnable(String isEnable) {
+        this.isEnable = isEnable;
     }
 }

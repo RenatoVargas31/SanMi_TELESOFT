@@ -106,7 +106,7 @@ public class DaoAdministrador {
                 profesor.setDniProfesor(rs.getString("dniProfesor"));
                 profesor.setTipoProfesor(rs.getString("tipoProfesor"));
                 profesor.setCursoProfesor(rs.getString("cursoProfesor"));
-
+                profesor.setIsEnable(rs.getString("isEnable"));
                 listaProfesores.add(profesor);
             }
 
@@ -163,7 +163,7 @@ public class DaoAdministrador {
         String username = "root";
         String password = "root";
 
-        String sql = "delete from profesores where idProfesores = ?";
+        String sql = "update profesores set isEnable='0' where idProfesores = ?";
 
         try(Connection connection = DriverManager.getConnection(url,username,password);
             PreparedStatement pstmt = connection.prepareStatement(sql)){
