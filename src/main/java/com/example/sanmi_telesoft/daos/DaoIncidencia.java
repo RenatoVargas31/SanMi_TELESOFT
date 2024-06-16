@@ -92,6 +92,45 @@ public class DaoIncidencia extends BaseDao{
         }
         return incidencias;
     }
+    public void actualizarIncidencia(Incidencia incidencia) {
+        String sql = "UPDATE incidencias SET lugarIncidencia = ?, referenciaIncidencia = ?, telefono = ?, requiereAmbulancia = ?, tipo = ?, fotoIncidencia = ? WHERE idIncidencias = ?";
+        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, incidencia.getLugarIncidencia());
+            pstmt.setString(2, incidencia.getReferenciaIncidencia());
+            pstmt.setInt(3, incidencia.getTelefono());
+            pstmt.setBoolean(4, incidencia.isRequiereAmbulancia());
+            pstmt.setString(6, incidencia.getFotoIncidencia());
+            pstmt.setInt(7, incidencia.getIdIncidencias());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Incidencia obtenerIncidencia(int idIncidencia) {
+        Incidencia incidencia = null;
+        String sql = "SELECT * FROM incidencias WHERE idIncidencias = ?";
+        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idIncidencia);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    incidencia = new Incidencia();
+                    incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
+                    incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
+                    incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
+                    incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
+                    incidencia.setFotoIncidencia(rs.getString("fotoIncidencia"));
+                    incidencia.setVictima(rs.getString("victimaIncidencia"));
+                    incidencia.setTelefono(rs.getInt("contactoIncidencia"));
+                    incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
+                    // Otros campos...
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return incidencia;
+    }
 
     public void eliminarIncidencia(int idIncidencia) {
         String sql = "DELETE FROM incidencias WHERE idIncidencias = ?";
