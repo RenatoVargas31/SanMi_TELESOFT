@@ -31,12 +31,27 @@ public class ServletCoordinadora extends HttpServlet {
                 request.setAttribute("activeMenu", "Ayuda");
                 request.getRequestDispatcher("WEB-INF/coordinadora/ayudaCoordinadora.jsp").forward(request, response);
                 break;
+            case "reportarIncidencias":
+                request.setAttribute("activeMenu", "Incidencias");
+                request.setAttribute("activeMenuSub", "Incidencias1");
+                request.getRequestDispatcher("WEB-INF/coordinadora/reportarIncidencias.jsp").forward(request, response);
+
             case "listarIncidencias":
                 DaoIncidencia daoIncidencia = new DaoIncidencia();
                 ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidencias();
                 request.setAttribute("listaIncidencias", listaIncidencias);
+                request.setAttribute("activeMenu", "Incidencias");
+                request.setAttribute("activeMenuSub", "Incidencias2");
                 request.getRequestDispatcher("WEB-INF/coordinadora/listaIncidenciasCoordinadora.jsp").forward(request, response);
                 break;
+
+            case "listarMisIncidencias":
+                request.setAttribute("activeMenu", "Incidencias");
+                request.setAttribute("activeMenuSub", "Incidencias3");
+
+                request.getRequestDispatcher("WEB-INF/coordinadora/misIncidencias.jsp").forward(request, response);
+                break;
+
 
             case "listarEventos":
                 ArrayList<Evento> listaEventos = daoCoordinadora.listaEventos();

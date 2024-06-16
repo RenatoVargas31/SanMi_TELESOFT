@@ -62,24 +62,24 @@
         <li class="menu-header small text-uppercase"><span class="menu-header-text" data-i18n="Incidencias">Incidencias</span>
         </li>
         <!-- Incidenciass -->
-        <li class="menu-item">
+        <li class="menu-item ${activeMenu == 'Incidencias' ? 'active open' : ''}">
             <a href="javascript:void(0);" target="_blank" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-bell"></i>
                 <div class="text-truncate" data-i18n="Incidencias">Incidencias</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="reportar-incidencias.html" class="menu-link">
+                <li class="menu-item ${activeMenuSub == 'Incidencias1' ? 'active' : ''}">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencias" class="menu-link">
                         <div class="text-truncate" data-i18n="Reportar incidencias">Reportar incidencias</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item ${activeMenuSub == 'Incidencias2' ? 'active' : ''}">
                     <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=listarIncidencias" class="menu-link">
                         <div class="text-truncate" data-i18n="Todas las incidencias">Todas las incidencias</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="mis-incidencias.html" class="menu-link">
+                <li class="menu-item ${activeMenuSub == 'Incidencias3' ? 'active' : ''}">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=listarMisIncidencias" class="menu-link">
                         <div class="text-truncate" data-i18n="Mis incidencias">Mis incidencias</div>
                     </a>
                 </li>
