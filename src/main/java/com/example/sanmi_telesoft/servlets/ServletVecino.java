@@ -179,7 +179,7 @@ public class ServletVecino extends HttpServlet {
         filtrado.add("Cultura");
         request.setAttribute("filtrado", filtrado);
 
-        List<Evento> listaEventos;
+        ArrayList<Evento> listaEventos;
         if ("Deporte".equals(tipo)) {
             listaEventos = eventoDao.listaEventosDeporte();
         } else if ("Cultura".equals(tipo)) {
@@ -235,10 +235,25 @@ public class ServletVecino extends HttpServlet {
     }
 
     private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String textSearch = request.getParameter("buscar");
-        List<Evento> lista = eventoDao.searchEventobyName(textSearch);
+        String textSearch = request.getParameter("textoBuscar");
+        ArrayList<String> filtrado = new ArrayList<>();
+        filtrado.add("Todo");
+        filtrado.add("Deporte");
+        filtrado.add("Cultura");
+        request.setAttribute("filtrado", filtrado);
+        String tipoFiltrado = request.getParameter("tipoFiltrado");
+        ArrayList<Evento> lista;
+
+        if ("Deporte".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
+        } else if ("Cultura".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
+        } else {
+            lista = eventoDao.searchEventobyName(textSearch);
+        }
+
         request.setAttribute("listarEventos", lista);
-        request.getRequestDispatcher("/WEB-INF/Vecino/listaEventos.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp").forward(request, response);
     }
 
     private void manejarIncidenciasGenerales(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
