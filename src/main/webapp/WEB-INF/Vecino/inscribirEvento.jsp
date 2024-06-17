@@ -660,37 +660,36 @@
                                 <div style="margin-top: 25px" class="card academy-content shadow-none border">
 
                                     <div class="card-body">
-                                        <h3 style="font-size: 30px;margin-bottom: 20px; font-weight:bold; color: #000000 " class="mb-2">Entradas</h3>
+                                        <h3 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
                                         <div class="accordion-item shadow-none border border-bottom-0 mb-0">
+                                            <!-- Aquí podrías agregar más contenido si es necesario -->
                                         </div>
-                                        <h3 style="font-size: 22px;margin-top: 15px;color:rgb(34, 33, 33);font-weight:500" class="mb-0 pt-1"> Cantidad:</h3>
-                                        <div class="form-check  form-check-inline mt-3">
-                                            <input name="default-radio-1" class="form-check-input" type="radio" value="1entrada" id="defaultRadio1" />
-                                            <label style="font-size: 18px;margin-top: -3px; margin-right:40px; margin-left: 10px " class="form-check-label" for="defaultRadio1">
+                                        <h3 style="font-size: 22px; margin-top: 15px; color: rgb(34, 33, 33); font-weight: 500;" class="mb-0 pt-1">Cantidad:</h3>
+                                        <div class="form-check form-check-inline mt-3">
+                                            <input name="entradas" class="form-check-input" type="radio" value="1" id="defaultRadio1" />
+                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="defaultRadio1">
                                                 1 entrada
                                             </label>
                                         </div>
-                                        <div class="form-check  form-check-inline mt-3">
-                                            <input name="default-radio-1" class="form-check-input" type="radio" value="2entrada" id="inlineRadio2" />
-                                            <label style="font-size: 18px;margin-top: -3px; margin-right:40px; margin-left: 10px" class="form-check-label" for="defaultRadio1">
+                                        <div class="form-check form-check-inline mt-3">
+                                            <input name="entradas" class="form-check-input" type="radio" value="2" id="inlineRadio2" />
+                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio2">
                                                 2 entradas
                                             </label>
                                         </div>
-                                        <div class="form-check  form-check-inline mt-3">
-                                            <input name="default-radio-1" class="form-check-input" type="radio" value="3entrada" id="inlineRadio3" />
-                                            <label  style="font-size: 18px;margin-top: -3px; margin-right:40px; margin-left: 10px" class="form-check-label" for="defaultRadio1">
+                                        <div class="form-check form-check-inline mt-3">
+                                            <input name="entradas" class="form-check-input" type="radio" value="3" id="inlineRadio3" />
+                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio3">
                                                 3 entradas
                                             </label>
                                         </div>
-
-
-                                        <div class="form-check  form-check-inline mt-3">
-                                            <input name="default-radio-1" class="form-check-input" type="radio" value="4entrada" id="defaultRadio4" />
-                                            <label style="font-size: 18px;margin-top: -3px; margin-left: 10px" class="form-check-label" for="defaultRadio1">
+                                        <div class="form-check form-check-inline mt-3">
+                                            <input name="entradas" class="form-check-input" type="radio" value="4" id="defaultRadio4" />
+                                            <label style="font-size: 18px; margin-top: -3px; margin-left: 10px;" class="form-check-label" for="defaultRadio4">
                                                 4 entradas
                                             </label>
-
                                         </div>
+                                    </div>
 
                                         <div class="mt-1">
                                             <!-- Button trigger modal -->

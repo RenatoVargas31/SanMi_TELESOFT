@@ -268,4 +268,16 @@ public class ServletVecino extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/error.jsp");
         view.forward(request, response);
     }
-}
+
+    private void actualizarEntradas (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int entradas = 0;
+        int id = Integer.parseInt(request.getParameter("id")) ;
+        String entradasParam = request.getParameter("entradas");
+        if (entradasParam != null) {
+            entradas = Integer.parseInt(entradasParam);
+        }
+                eventoDao.actualizarEntradas(id,entradas);
+
+    }
+
+    }

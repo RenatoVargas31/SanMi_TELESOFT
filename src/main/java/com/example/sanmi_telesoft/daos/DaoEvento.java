@@ -319,4 +319,32 @@ public class DaoEvento extends BaseDao {
         }
         return 0;
     }
-}
+
+    public void actualizarEntradas (int id, int inscritos){
+        Evento evento = searchEventobyId(id);
+        int vacantes = evento.getVacantesDisp();
+        if (vacantes > 0) {
+
+            int nuevasVacantes = vacantes - inscritos;
+
+            String sql = "UPDATE eventos SET vacantesDisp = ? WHERE idEventos = ?";
+
+            try (Connection connection = getConection();
+                 PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+                // Establecer los parámetros en la consulta preparada
+                stmt.setInt(1, nuevasVacantes);
+                stmt.setInt(2, id);
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                // Manejo de excepciones de SQL
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    }
+
+
