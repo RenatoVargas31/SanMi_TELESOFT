@@ -5,16 +5,15 @@ import com.example.sanmi_telesoft.beans.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DaoEvento extends BaseDao{
+public class DaoEvento extends BaseDao {
 
-    public ArrayList<Evento> listaEventos(){
+    public ArrayList<Evento> listaEventos() {
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        TipoEvento tipoEvento = new TipoEvento();
         String sql = "SELECT * FROM eventos e " +
-                "left join tipoevento t on e.TipoEvento_idTipoEvento=t.idTipoEvento " ;
-        try(Connection connection= this.getConection();
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
+                "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento";
+        try (Connection connection = this.getConection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Evento evento = new Evento();
@@ -25,6 +24,8 @@ public class DaoEvento extends BaseDao{
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
 
+                // Crear una nueva instancia de TipoEvento para cada Evento
+                TipoEvento tipoEvento = new TipoEvento();
                 tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                 tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                 evento.setTipoEvento(tipoEvento);
@@ -38,15 +39,16 @@ public class DaoEvento extends BaseDao{
         return listaEventos;
     }
 
-    public ArrayList<Evento> listaEventosCultura(){
+
+    public ArrayList<Evento> listaEventosCultura() {
         ArrayList<Evento> listaEventos = new ArrayList<>();
         TipoEvento tipoEvento = new TipoEvento();
         String sql = "SELECT e.*, t.nameTipo FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
                 "WHERE e.TipoEvento_idTipoEvento = 2";
-        try(Connection connection= this.getConection();
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
+        try (Connection connection = this.getConection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Evento evento = new Evento();
@@ -70,16 +72,16 @@ public class DaoEvento extends BaseDao{
         return listaEventos;
     }
 
-    public ArrayList<Evento> listaEventosDeporte(){
+    public ArrayList<Evento> listaEventosDeporte() {
         ArrayList<Evento> listaEventos = new ArrayList<>();
         TipoEvento tipoEvento = new TipoEvento();
         //0=Todo, 1=Deporte,2=Cultura
         String sql = "SELECT e.*, t.nameTipo FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
                 "WHERE e.TipoEvento_idTipoEvento = 1";
-        try(Connection connection= this.getConection();
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
+        try (Connection connection = this.getConection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Evento evento = new Evento();
@@ -104,8 +106,7 @@ public class DaoEvento extends BaseDao{
     }
 
 
-
-    public Evento searchEventobyId(int id){
+    public Evento searchEventobyId(int id) {
         Evento evento = new Evento();
         Profesor profesor = new Profesor();
         EstadoEvento estadoEvento = new EstadoEvento();
@@ -118,11 +119,11 @@ public class DaoEvento extends BaseDao{
                 "LEFT JOIN frecuenciaevento f ON e.FrecuenciaEvento_idFrecuenciaEvento = f.idFrecuenciaEvento " +
                 "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
                 "WHERE e.idEventos = ?";
-        try(Connection connection= this.getConection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)){
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
 
-            try(ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
 
                 while (rs.next()) {
 
@@ -170,7 +171,7 @@ public class DaoEvento extends BaseDao{
         return evento;
     }
 
-    public ArrayList<Evento> searchEventobyName(String busqueda){
+    public ArrayList<Evento> searchEventobyName(String busqueda) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
         Evento evento = new Evento();
         Profesor profesor = new Profesor();
@@ -180,16 +181,16 @@ public class DaoEvento extends BaseDao{
 
         String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN profesores p ON e.Profesores_idProfesores = p.idProfesores " +
-                "LEFT JOIN tipoevento t ON e.Tipoevento_idTipoEvento = t.idTipoEvento " +
+                "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
                 "LEFT JOIN frecuenciaevento f ON e.FrecuenciaEvento_idFrecuenciaEvento = f.idFrecuenciaEvento " +
                 "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
                 "WHERE nombreEvento like ? ";
-        try(Connection connection= this.getConection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)){
-            pstmt.setString(1, "%"+busqueda+"%");
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + busqueda + "%");
 
 
-            try(ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
 
                 while (rs.next()) {
 
@@ -305,5 +306,17 @@ public class DaoEvento extends BaseDao{
         return listaEventos;
     }
 
-
+    public int contarEventos() {
+        String sql = "SELECT COUNT(*) AS total FROM eventos WHERE EstadoEvento_idEstadoEvento = 1";
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }
