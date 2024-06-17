@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="listaMisIncidencias" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Incidencia>" scope="request"/>
 <!DOCTYPE html>
 <!-- =========================================================
 * Sneat - Bootstrap Dashboard PRO | v1.0.0
@@ -160,91 +163,83 @@
                             <table id="table-misincidencias" class="datatables-basic table border-top">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" class="form-check-input" id="select-all"></th>
                                     <th>Incidencia</th>
+                                    <th>Lugar</th>
                                     <th>Estado</th>
                                     <th>Prioridad</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
 
-                                <div class="modal fade" id="modalScrollable5" tabindex="-1" aria-hidden="true">
+                                <tbody>
+                                <%
+                                    int i = 1;
+                                    for (Incidencia incidencia : listaMisIncidencias) {
+                                        String modalId = "modalScrollable" + i;
+                                %>
+                                <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalScrollableTitle5">Detalles del Reporte.</h5>
+                                                <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <p>Estimado Serenazgo de la Zona,</p>
 
-                                                <p>Me dirijo a ustedes con gran urgencia para informar sobre un incendio que está ocurriendo en este momento en la Calle 1 de Villa del Mar. Soy Katiuska Quispe, una vecina preocupada por la seguridad de nuestra comunidad.</p>
+                                                <% if(incidencia.getDescripcionSolucion() == null) { %>
+                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente sobre <%=incidencia.getIdTipoIncidencia()%> que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
+                                                <% } else { %>
+                                                <p><%= incidencia.getDescripcionSolucion() %></p>
+                                                <% } %>
 
                                                 <p>Atentamente,</p>
-
-                                                <p>Katiuska Quispe. Vecina de la Calle 1 - Villa del Mar</p>
+                                                <p><%= incidencia.getNameUsuario() %></p>
 
                                                 <div class="card h-100">
-                                                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio2.jpg" alt="Card image cap" />
+                                                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio1.jpg" alt="Card image cap" />
                                                     <div class="card-body">
                                                         <h5 class="card-title">Foto del reporte</h5>
-                                                        <p class="card-text">Lugar: Calle 3- San Miguel.</p>
-                                                        <p class="card-text">Referencia: 2 cuadras de Modo.</p>
-
+                                                        <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
+                                                        <p class="card-text">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-
-
-
-                                <tbody>
                                 <tr>
-                                    <td><input type="checkbox" class="form-check-input"></td>
-                                    <td>Incendio en la calle 1</td>
-                                    <td><span class="badge bg-danger">Pendiente</span></td>
-                                    <td><span class="badge bg-danger">Alta</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalScrollable5"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                onclick="window.location.href='ActualizarIcidencia.html';"
-                                                data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();"
-                                                id="confirm-color"><i
-                                                class='bx bx-x'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" class="form-check-input"></td>
-                                    <td>Robo en la calle 2</td>
-                                    <td><span class="badge bg-success">Resuelto</span></td>
+                                    <td><%= incidencia.getNombreIncidencia() %></td>
+                                    <td><%= incidencia.getLugarIncidencia() %></td>
+                                    <% if(incidencia.getEstado() == 1) { %>
+                                    <td><span class="badge bg-danger">Nueva</span></td>
+                                    <% } else if(incidencia.getEstado() == 2) { %>
+                                    <td><span class="badge bg-warning">En proceso</span></td>
+                                    <% } else if(incidencia.getEstado() == 3) { %>
+                                    <td><span class="badge bg-success">Resuelta</span></td>
+                                    <% } %>
+                                    <% if(incidencia.getCriticidad() == 1) { %>
+                                    <td><span class="badge bg-primary">Baja</span></td>
+                                    <% } else if(incidencia.getCriticidad() == 2) { %>
                                     <td><span class="badge bg-warning">Media</span></td>
+                                    <% } else if(incidencia.getCriticidad() == 3) { %>
+                                    <td><span class="badge bg-danger">Alta</span></td>
+                                    <% } else { %>
+                                    <td><span class="badge bg-secondary">No asignado</span></td>
+                                    <% } %>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
+                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
                                                 class='bx bx-show'></i></button>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                 data-bs-toggle="modal"
-                                                onclick="window.location.href='vecino-ActualizarIcidencia.html';"
+                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarIncidencia';"
                                                 data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
                                         <button type="button"
@@ -254,52 +249,12 @@
                                                 class='bx bx-x'></i></button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><input type="checkbox" class="form-check-input"></td>
-                                    <td>Accidente en la calle 3</td>
-                                    <td><span class="badge bg-danger">Pendiente</span></td>
-                                    <td><span class="badge bg-danger">Alta</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                onclick="window.location.href='vecino-ActualizarIcidencia.html';"
-                                                data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-x' onclick="promptDeletion();"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" class="form-check-input"></td>
-                                    <td>Incendio en la calle 4</td>
-                                    <td><span class="badge bg-success">Resuelto</span></td>
-                                    <td><span class="badge bg-warning">Media</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                onclick="window.location.href='vecino-ActualizarIcidencia.html';"
-                                                data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();"
-                                                data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-x'></i></button>
-                                    </td>
-                                </tr>
+                                <%
+                                        i++;
+                                    }
+                                %>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
@@ -419,7 +374,7 @@
                                 document.write(new Date().getFullYear())
 
                             </script>
-                            , made with ❤️ by <a href="https://themeselection.com/" target="_blank"
+                            , made by <a href="https://themeselection.com/" target="_blank"
                                                  class="footer-link fw-medium">Telesoft</a>
                         </div>
 

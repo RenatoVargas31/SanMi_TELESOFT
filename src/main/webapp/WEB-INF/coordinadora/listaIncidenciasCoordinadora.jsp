@@ -194,7 +194,7 @@
                                     <% } else if(incidencia.getCriticidad() == 3) { %>
                                     <td><span class="badge bg-danger">Alta</span></td>
                                     <% } else { %>
-                                    <td><span class="badge bg-secondary">No revisado</span></td>
+                                    <td><span class="badge bg-secondary">No asignado</span></td>
                                     <% } %>
                                     <td><%= incidencia.getNameUsuario() %></td>
                                     <td>

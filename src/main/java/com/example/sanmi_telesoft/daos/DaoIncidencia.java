@@ -46,6 +46,45 @@ public class DaoIncidencia extends BaseDao{
 
         return listaIncidencia;
     }
+
+    public ArrayList<Incidencia> listarMisIncidencias(int idUsuario) {
+
+        ArrayList<Incidencia> listaMisIncidencias = new ArrayList<>();
+
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ?";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Incidencia incidencia = new Incidencia();
+                incidencia.setIdIncidencias(rs.getInt(1));
+                incidencia.setNombreIncidencia(rs.getString(2));
+                incidencia.setLugarIncidencia(rs.getString(3));
+                incidencia.setReferenciaIncidencia(rs.getString(4));
+                incidencia.setTelefono(rs.getInt(6));
+                incidencia.setRequiereAmbulancia(rs.getBoolean(7));
+                incidencia.setRequierePolicia(rs.getBoolean(8));
+                incidencia.setRequiereBombero(rs.getBoolean(9));
+                incidencia.setDescripcionSolucion(rs.getString(10));
+                incidencia.setSerenazgoid(rs.getInt(11));
+                incidencia.setAmbulalciaid(rs.getInt(12));
+                incidencia.setNameUsuario(rs.getString(17));
+                incidencia.setEstado(rs.getInt(14));
+                incidencia.setCriticidad(rs.getInt(15));
+                incidencia.setTipo(rs.getInt(16));
+
+                listaMisIncidencias.add(incidencia);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return listaMisIncidencias;
+    }
     public void insertarIncidencia(Incidencia incidencia) {
         String sql = "INSERT INTO incidencias (nombreIncidencia, lugarIncidencia, referenciaIncidencia, fotoIncidencia, requiereAmbulancia, telefono, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {

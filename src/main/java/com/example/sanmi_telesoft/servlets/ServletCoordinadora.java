@@ -46,10 +46,20 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
             case "listarMisIncidencias":
+                DaoIncidencia daoIncidencia1 = new DaoIncidencia();
+                ArrayList<Incidencia> listaMisIncidencias = daoIncidencia1.listarMisIncidencias(2);
+                request.setAttribute("listaMisIncidencias", listaMisIncidencias);
                 request.setAttribute("activeMenu", "Incidencias");
                 request.setAttribute("activeMenuSub", "Incidencias3");
 
                 request.getRequestDispatcher("WEB-INF/coordinadora/misIncidencias.jsp").forward(request, response);
+                break;
+
+            case "actualizarIncidencia":
+                request.setAttribute("activeMenu", "Incidencias");
+                request.setAttribute("activeMenuSub", "Incidencias3");
+
+                request.getRequestDispatcher("WEB-INF/coordinadora/actualizarIncidencia.jsp").forward(request, response);
                 break;
 
 
