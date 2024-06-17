@@ -1,15 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: CARLOS
-  Date: 15/06/2024
-  Time: 4:20
+  Date: 16/06/2024
+  Time: 16:18
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
 <%@ page import="java.util.ArrayList" %>
-<jsp:useBean id="listaIncidencias" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Incidencia>" scope="request"/>
-
+<jsp:useBean id="listaMisIncidencias" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Incidencia>" scope="request"/>
 <!DOCTYPE html>
 <!-- =========================================================
 * Sneat - Bootstrap Dashboard PRO | v1.0.0
@@ -25,7 +24,7 @@
 <!-- beautify ignore:start -->
 
 
-<html lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 
 
@@ -43,6 +42,24 @@
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
     <!-- Canonical SEO -->
     <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
+
+
+    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            '${pageContext.request.contextPath}/${pageContext.request.contextPath}/www.googletagmanager.com/gtm5445.html?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script>
+    <!-- End Google Tag Manager -->
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
 
@@ -71,6 +88,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
+
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+
+
     <!-- Row Group CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
     <!-- Form Validation -->
@@ -110,10 +133,14 @@
         <!-- / Menu -->
         <!-- Layout container -->
         <div class="layout-page">
+            <!-- Navbar -->
+
             <jsp:include page="navBar.jsp"/>
 
             <!-- / Navbar -->
 
+
+            <!-- Content wrapper -->
             <!-- Content wrapper -->
             <div class="content-wrapper">
 
@@ -124,22 +151,30 @@
                     <!-- DataTable with Buttons -->
                     <div class="card">
                         <div class="card-datatable table-responsive">
-                            <table id="table-incidenciasGenerales" class="datatables-basic table border-top">
-                                <h3 class="m-4 fw-bold">Incidencias Generales</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="m-4 fw-bold">Mis incidencias</h3>
+
+                                <button class="btn btn-secondary create-new btn-primary me-4" type="button"
+                                        onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencias';">
+                                    <i class='bx bx-bell-plus bx-tada'></i>
+                                    <span class="d-none d-sm-inline-block">Nueva Incidencia</span>
+                                </button>
+                            </div>
+                            <table id="table-misincidencias" class="datatables-basic table border-top">
                                 <thead>
                                 <tr>
                                     <th>Incidencia</th>
                                     <th>Lugar</th>
                                     <th>Estado</th>
                                     <th>Prioridad</th>
-                                    <th>Usuario</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
+
                                 <tbody>
                                 <%
                                     int i = 1;
-                                    for (Incidencia incidencia : listaIncidencias) {
+                                    for (Incidencia incidencia : listaMisIncidencias) {
                                         String modalId = "modalScrollable" + i;
                                 %>
                                 <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
@@ -196,21 +231,30 @@
                                     <% } else { %>
                                     <td><span class="badge bg-secondary">No asignado</span></td>
                                     <% } %>
-                                    <td><%= incidencia.getNameUsuario() %></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>">
-                                            <i class='bx bx-show'></i>
-                                        </button>
+                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
+                                                class='bx bx-show'></i></button>
+                                        <button type="button"
+                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarIncidencia';"
+                                                data-bs-target="#modal-editar-incidencia"><i
+                                                class='bx bx-edit'></i></button>
+                                        <button type="button"
+                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                                data-bs-toggle="modal" onclick="promptDeletion();"
+                                                data-bs-target="#modal-eliminar-incidencia"><i
+                                                class='bx bx-x'></i></button>
                                     </td>
                                 </tr>
                                 <%
                                         i++;
                                     }
                                 %>
-
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
@@ -290,9 +334,37 @@
                     <hr class="my-5">
 
                 </div>
-                <!-- / Content -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
+                <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
+
+                <!-- endbuild -->
+
+                <!-- Vendors JS -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+                <!-- Flat Picker -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+                <!-- Form Validation -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/popular.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+
+                <!-- Main JS -->
+                <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 
 
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
+
+                <!-- Page JS -->
+                <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
                 <!-- Footer -->
                 <footer class="content-footer footer bg-footer-theme">
                     <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
@@ -302,70 +374,70 @@
                                 document.write(new Date().getFullYear())
 
                             </script>
-                            , made with ❤️ by <a href="https://themeselection.com/" target="_blank"
+                            , made by <a href="https://themeselection.com/" target="_blank"
                                                  class="footer-link fw-medium">Telesoft</a>
                         </div>
 
                     </div>
                 </footer>
                 <!-- / Footer -->
-
-
-                <div class="content-backdrop fade"></div>
             </div>
-            <!-- Content wrapper -->
         </div>
-        <!-- / Layout page -->
     </div>
-
-
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
-
-
-    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-    <div class="drag-target"></div>
-
 </div>
-<!-- / Layout wrapper -->
-<!-- Core JS -->
-<!-- build:js assets/vendor/js/core.js -->
+<div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletionModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+                <div class="mb-3">
+                    <label for="deleteReason" class="form-label">Motivo de la eliminación:</label>
+                    <input type="text" class="form-control" id="deleteReason" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function closeModal() {
+        const modal = document.getElementById('deletionModal');
+        modal.style.display = 'none'; // Oculta el modal
+    }
 
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
-
-<!-- endbuild -->
-
-<!-- Vendors JS -->
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-<!-- Flat Picker -->
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-<!-- Form Validation -->
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/popular.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
-
-<!-- Main JS -->
-<script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+    function promptDeletion() {
+        var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
+        myModal.show(); // This is the correct way to show a mod
+    }
 
 
-<!-- Page JS -->
-<script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
+    function submitDeletion() {
+        const reason = document.getElementById('deleteReason').value;
+        if (reason === '') {
+            alert('Por favor, ingrese un motivo para la eliminación.');
+            return;
+        }
+
+        if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
+            console.log('Motivo:', reason); // Aquí deberías enviar el motivo a la base de datos
+            alert('La incidencia ha sido eliminada correctamente.');
+            closeModal();
+            // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
+        }
+    }
+
+</script>
+
 
 </body>
 
 
 <!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:09 GMT -->
 </html>
-
-<!-- beautify ignore:end -->
-
-
