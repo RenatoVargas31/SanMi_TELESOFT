@@ -636,8 +636,8 @@
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
                             <li><a href="<%=request.getContextPath()%>/ServletVecino">Todos los eventos</a></li>
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>"> <%= evento.getNombreEvento() %></a></li>
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribir&id=<%= evento.getIdEventos() %> " style="color:black">Entradas</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>"> <%= evento.getNombreEvento() %></a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %> " style="color:black">Entradas</a></li>
                         </ul>
                     </nav>
                     <div class="card g-3 mt-5" >

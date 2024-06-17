@@ -796,7 +796,7 @@
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
                             <li><a href="<%=request.getContextPath()%>/ServletVecino">Todos los eventos</a></li>
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=view&id=<%= evento.getIdEventos() %>" style="color:black"><%= evento.getNombreEvento() %></a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" style="color:black"><%= evento.getNombreEvento() %></a></li>
                         </ul>
                     </nav>
 

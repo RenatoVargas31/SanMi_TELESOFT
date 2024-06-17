@@ -636,6 +636,7 @@
                                             <input type="search" placeholder="Busca tu evento" name="textoBuscar" id="floatingInput" class="form-control me-2" />
                                             <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
                                         </div>
+                                        <input type="hidden" name="tipoFiltrado" id="hiddenTipoFiltrado">
                                     </form>
                                 </div>
                                 <div class="app-academy-md-25 d-flex align-items-end justify-content-end">
@@ -650,30 +651,25 @@
                                 <div class="card-title mb-0 me-1">
                                     <h5 class="mb-1" style="font-size: 30px;color:#000000; font-weight: bold">Todos los eventos</h5>
                                 </div>
-                                <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
-                                    <select id="tipoFiltrado" name ="tipoFiltrado" class="select2 form-select"  data-placeholder="Filtrar por:">
-
-                                            <% ArrayList<String> opciones = (ArrayList<String>) request.getAttribute("filtrado"); %>
-                                            <% for (String opcion : opciones) { %>
-                                            <option value="<%= opcion %>"><%= opcion %></option>
-                                            <% } %>
-
-
-
-
+                            <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
+                                <form id="filtroForm" method="post" action="<%=request.getContextPath()%>/ServletVecino">
+                                    <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
+                                        <%
+                                            ArrayList<String> opciones = (ArrayList<String>) request.getAttribute("filtrado");
+                                            String tipoFiltrado = (String) request.getAttribute("tipoFiltrado");
+                                            if (opciones != null) {
+                                                for (String opcion : opciones) {
+                                        %>
+                                        <option value="<%= opcion %>" <%= opcion.equals(tipoFiltrado) ? "selected" : "" %>><%= opcion %></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
                                     </select>
-                                    <!--
-                                            <label class="switch">
-                                              <input type="checkbox" class="switch-input">
-                                              <span class="switch-toggle-slider">
-                                                <span class="switch-on"></span>
-                                                <span class="switch-off"></span>
-                                              </span>
-                                              <span class="switch-label text-nowrap mb-0">Hide completed</span>
-                                            </label>
-                                    -->
-                                </div>
+                                </form>
                             </div>
+                            </div>
+
                             <div class="card-body">
                                 <% int i = 0; %>
 
@@ -691,12 +687,13 @@
                                             </div>
                                             <div class="card-body p-3 pt-2">
                                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                                    <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
-                                                    <span class="badge bg-label-warning">Cultura</span>
-                                                    <% } %>
                                                     <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
                                                     <span class="badge bg-label-hover-success">Deporte</span>
                                                     <% } %>
+                                                    <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                                    <span class="badge bg-label-warning">Cultura</span>
+                                                    <% } %>
+
                                                 </div>
                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5"><%= evento.getNombreEvento() %></a>
                                                 <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
@@ -761,6 +758,33 @@
                         <div class="mb-2 mb-md-0">
                             ©
                             <script>
+                                //Script para el filtro
+                                document.getElementById('tipoFiltrado').addEventListener('change', function() {
+                                    // Guardar el valor seleccionado en el localStorage
+                                    localStorage.setItem('selectedTipoFiltrado', this.value);
+                                    // Enviar el formulario de filtro cuando cambia la selección
+                                    document.getElementById('filtroForm').submit();
+                                });
+
+                                window.addEventListener('load', function() {
+                                    var tipoFiltradoSelect = document.getElementById('tipoFiltrado');
+                                    var selectedValue = localStorage.getItem('selectedTipoFiltrado');
+
+                                    // Si hay un valor seleccionado guardado, establecerlo en el select
+                                    if (selectedValue) {
+                                        tipoFiltradoSelect.value = selectedValue;
+                                    }
+
+                                    // Sincronizar el valor del select con el campo oculto del formulario de búsqueda
+                                    document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
+
+                                    // Guardar el valor seleccionado en el localStorage al cambiar la selección
+                                    tipoFiltradoSelect.addEventListener('change', function() {
+                                        localStorage.setItem('selectedTipoFiltrado', tipoFiltradoSelect.value);
+                                        document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
+                                    });
+                                });
+
                                 document.write(new Date().getFullYear())
 
                             </script>
