@@ -6,26 +6,16 @@ import com.example.sanmi_telesoft.beans.Serenazgo;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DaoAdministrador {
+public class DaoAdministrador extends BaseDao {
     //Método para buscar profesor por ID
     public Profesor buscarProfesorPorId(String id) {
 
         Profesor profesor = new Profesor();
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
-        String username = "root";
-        String password = "root";
-
         String sql = "select * from profesores where idProfesores = ?";
 
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = getConection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1,id);
@@ -50,19 +40,9 @@ public class DaoAdministrador {
     //Método para crear profesor (Create)
     public void crearProfesores(String nombreProfesor, String apellidoProfesor, String dniProfesor, String tipoProfesor, String cursoProfesor){
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
-        String username = "root";
-        String password = "root";
-
         String sql = "insert into profesores (nombreProfesor, apellidoProfesor, dniProfesor, tipoProfesor, cursoProfesor) values (?,?,?,?,?)";
 
-        try(Connection connection = DriverManager.getConnection(url,username,password);
+        try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 
             pstmt.setString(1,nombreProfesor);
@@ -80,20 +60,11 @@ public class DaoAdministrador {
     //Método para listar profesores (Read)
     public ArrayList<Profesor> listarProfesores(){
         ArrayList<Profesor> listaProfesores = new ArrayList<>();
-        //Conexión a la base de datos
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
-        String username = "root";
-        String password = "root";
 
         String sql = "select * from profesores";
 
         //Ejecución de la consulta
-        try (Connection conn = DriverManager.getConnection(url, username, password);
+        try (Connection conn = getConection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -120,21 +91,9 @@ public class DaoAdministrador {
     //Método para actualizar profesor (Update)
     public void actualizar(Profesor profesor){
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
-        String username = "root";
-        String password = "root";
-
         String sql = "update profesores set nombreProfesor=?, apellidoProfesor=?, dniProfesor=?, tipoProfesor = ?, cursoProfesor = ? where idProfesores = ?";
 
-
-
-        try(Connection connection = DriverManager.getConnection(url,username,password);
+        try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 
             pstmt.setString(1,profesor.getNombreProfesor());
@@ -153,19 +112,9 @@ public class DaoAdministrador {
     //Método para borrar profesor (Delete)
     public void borrarProfesores(String idprofesor) throws SQLException {
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        String url = "jdbc:mysql://localhost:3306/proyecto-iweb";
-        String username = "root";
-        String password = "root";
-
         String sql = "update profesores set isEnable='0' where idProfesores = ?";
 
-        try(Connection connection = DriverManager.getConnection(url,username,password);
+        try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 
             pstmt.setString(1,idprofesor);
