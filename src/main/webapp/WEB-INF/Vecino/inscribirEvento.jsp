@@ -688,7 +688,7 @@
                                             <label style="font-size: 18px; margin-top: -3px; margin-left: 10px;" class="form-check-label" for="defaultRadio4">
                                                 4 entradas
                                             </label>
-                                        </div>
+
                                     </div>
 
                                         <div class="mt-1">
@@ -722,7 +722,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+
 
 
 
@@ -743,7 +743,7 @@
                                                 <small class="text-muted">Administrador / Organizador</small>
                                             </div>
                                         </div>
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -752,9 +752,9 @@
                                     <div class="accordion-item shadow-none border border-bottom-0 active mb-0">
                                         <div class="accordion-header" id="headingOne">
                                             <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="#chapterOne" aria-expanded="true" aria-controls="chapterOne">
-              <span class="d-flex flex-column">
-                <span class="h5 mb-1">Eventos que te pueden interesar</span>
-              </span>
+                                              <span class="d-flex flex-column">
+                                                <span class="h5 mb-1">Eventos que te pueden interesar</span>
+                                                </span>
                                             </button>
                                         </div>
 
@@ -830,13 +830,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
 
-
-
             </div>
-            <!-- / Content -->
 
 
 
