@@ -155,7 +155,7 @@
                                 <h3 class="m-4 fw-bold">Mis incidencias</h3>
 
                                 <button class="btn btn-secondary create-new btn-primary me-4" type="button"
-                                        onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencias';">
+                                        onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarReportarIncidencias';">
                                     <i class='bx bx-bell-plus bx-tada'></i>
                                     <span class="d-none d-sm-inline-block">Nueva Incidencia</span>
                                 </button>
@@ -239,7 +239,7 @@
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                 data-bs-toggle="modal"
-                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarIncidencia';"
+                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarIncidencia';"
                                                 data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
                                         <button type="button"

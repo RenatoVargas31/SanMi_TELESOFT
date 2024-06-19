@@ -69,7 +69,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item ${activeMenuSub == 'Incidencias1' ? 'active' : ''}">
-                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencias" class="menu-link">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarReportarIncidencias" class="menu-link">
                         <div class="text-truncate" data-i18n="Reportar incidencias">Reportar incidencias</div>
                     </a>
                 </li>
