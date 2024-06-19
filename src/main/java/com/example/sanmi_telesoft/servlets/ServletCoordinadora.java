@@ -29,7 +29,7 @@ public class ServletCoordinadora extends HttpServlet {
         switch (action){
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
-                request.getRequestDispatcher("WEB-INF/Coordinadora/indexCoordinadora.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
                 break;
 
             case "mostrarAyuda":
@@ -39,7 +39,7 @@ public class ServletCoordinadora extends HttpServlet {
             case "mostrarReportarIncidencias":
                 request.setAttribute("activeMenu", "Incidencias");
                 request.setAttribute("activeMenuSub", "Incidencias1");
-                request.getRequestDispatcher("WEB-INF/Coordinadora/reportarIncidencias.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/coordinadora/reportarIncidencias.jsp").forward(request, response);
 
             case "listarIncidencias":
                 DaoIncidencia daoIncidencia = new DaoIncidencia();
@@ -61,10 +61,33 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
             case "mostrarActualizarIncidencia":
-                request.setAttribute("activeMenu", "Incidencias");
-                request.setAttribute("activeMenuSub", "Incidencias3");
+                if (request.getParameter("id") != null) {
+                    String id = request.getParameter("id");
+                    int incId = 0;
+                    try {
+                        incId = Integer.parseInt(id);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("EmployeeServlet");
 
-                request.getRequestDispatcher("WEB-INF/coordinadora/actualizarIncidencia.jsp").forward(request, response);
+                    }
+                    DaoIncidencia daoIncidencia3 = new DaoIncidencia();
+
+                    Incidencia i = daoIncidencia3.obtenerIncidencia(incId);
+
+                    if (i != null) {
+                        request.setAttribute("incidencia", i);
+                        request.setAttribute("activeMenu", "Incidencias");
+                        request.setAttribute("activeMenuSub", "Incidencias3");
+
+                        request.getRequestDispatcher("WEB-INF/coordinadora/actualizarIncidencia.jsp").forward(request, response);
+                    } else {
+                        response.sendRedirect("EmployeeServlet");
+                    }
+
+                } else {
+                    response.sendRedirect("EmployeeServlet");
+                }
+
                 break;
 
 
@@ -83,7 +106,6 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
                 
             case "borrarIncidencia":
-            case "borrar":
                 if (request.getParameter("id") != null) {
                     String incIdString = request.getParameter("id");
                     int incId = 0;
@@ -131,7 +153,7 @@ public class ServletCoordinadora extends HttpServlet {
                 incidencia.setLugarIncidencia(lugarExacto);
                 incidencia.setReferenciaIncidencia(referencia);
                 incidencia.setRequiereAmbulancia(requiereAmbulancia);
-                incidencia.setRequiereBombero(requiereAmbulancia);
+                incidencia.setRequiereBombero(requiereBombero);
                 incidencia.setRequierePolicia(requiereSerenazo);
 
 

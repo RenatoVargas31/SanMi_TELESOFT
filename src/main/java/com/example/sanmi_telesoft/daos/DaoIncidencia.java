@@ -160,10 +160,9 @@ public class DaoIncidencia extends BaseDao{
                     incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
                     incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
                     incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
-                    incidencia.setFotoIncidencia(rs.getString("fotoIncidencia"));
-                    incidencia.setVictima(rs.getString("victimaIncidencia"));
-                    incidencia.setTelefono(rs.getInt("contactoIncidencia"));
-                    incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
+                    incidencia.setTelefono(Integer.parseInt(rs.getString(6)));
+                    incidencia.setRequiereAmbulancia(rs.getInt(7) == 1);
+                    incidencia.setRequiereBombero(rs.getInt(9) == 1);
                     // Otros campos...
                 }
             }

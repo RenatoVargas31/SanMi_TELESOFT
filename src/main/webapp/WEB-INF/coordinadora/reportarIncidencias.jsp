@@ -94,8 +94,8 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label class="form-label" for="phone">Teléfono</label>
-                                                <input type="text" class="form-control form-control-sm" name="phone" id="phone"  placeholder="" />
+                                                <label class="form-label" for="phone">Telefono</label>
+                                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="" />
                                             </div>
 
                                             <div class="col-12">
@@ -110,11 +110,11 @@
 
                                             <div class="col-12">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" >
+                                                    <input class="form-check-input" type="checkbox" value="a" id="ambulancia" name="ambulancia" >
                                                     <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" value="" id="bomberos" name="bomberos" >
+                                                    <input class="form-check-input" type="checkbox" value="a" id="bomberos" name="bomberos" >
                                                     <label class="form-check-label" for="bomberos">Es necesario bomberos</label>
                                                 </div>
                                             </div>

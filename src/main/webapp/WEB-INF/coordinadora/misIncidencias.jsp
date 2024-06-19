@@ -211,7 +211,7 @@
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                 data-bs-toggle="modal"
-                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarIncidencia';"
+                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>';"
                                                 data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
                                             <% if(incidencia.getEstado() == 1) { %>
