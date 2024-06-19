@@ -1,17 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rlvs_
-  Date: 12/06/2024
-  Time: 11:43
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:08 GMT -->
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport"
@@ -19,13 +9,10 @@
 
     <title>Administrador: Registrar Instructor</title>
 
-
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
     <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
@@ -58,11 +45,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
-
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
-
 
     <!-- Row Group CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
@@ -71,44 +55,27 @@
 
     <!-- Page CSS -->
 
-
     <!-- Helpers -->
     <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <!-- Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <!-- Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
-
 </head>
 
 <body>
 
-
-<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
             style="display: none; visibility: hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
 
-<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
 
-
-        <!-- Menu -->
-
         <jsp:include page="sideBar.jsp"/>
-        <!-- / Menu -->
-        <!-- Layout container -->
         <div class="layout-page">
-            <!-- Navbar -->
-
             <jsp:include page="navBar.jsp"/>
-            <!-- / Navbar -->
-
-            <!-- Content wrapper -->
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div class="row justify-content-center">
@@ -125,11 +92,8 @@
                                                 <label class="form-label" for="fullname">Nombre</label>
                                                 <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nombre" />
                                             </div>
+
                                             <div class="col-md-6">
-                                                <label class="form-label" for="Referencia">Referencia</label>
-                                                <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." />
-                                            </div>
-                                            <div class="col-12">
                                                 <label class="form-label" for="phone">Teléfono</label>
                                                 <input type="text" class="form-control form-control-sm" name="phone" id="phone"  placeholder="" />
                                             </div>
@@ -140,23 +104,18 @@
                                             </div>
 
                                             <div class="col-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" checked="">
+                                                <label class="form-label" for="Referencia">Referencia</label>
+                                                <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." />
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" >
                                                     <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
                                                 </div>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="bomberos" name="bomberos" checked="">
-                                                    <label class="form-check-label" for="bomberos">Es necesario una ambulancia</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="serenazgos" name="serenazgos" checked="">
-                                                    <label class="form-check-label" for="serenazgos">Es necesario una ambulancia</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" value="" id="bomberos" name="bomberos" >
+                                                    <label class="form-check-label" for="bomberos">Es necesario bomberos</label>
                                                 </div>
                                             </div>
 
@@ -175,71 +134,60 @@
                                             </div>
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
-            <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
+                <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
 
-            <!-- endbuild -->
+                <!-- endbuild -->
 
-            <!-- Vendors JS -->
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
-            <!-- Flat Picker -->
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-            <!-- Form Validation -->
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/popular.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/auto-focus.js"></script>
+                <!-- Vendors JS -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/popular.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/auto-focus.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/ui-modals.js"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-            <!-- Main JS -->
-            <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-
-            <!-- Page JS -->
-            <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
-            <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
-
-            <!-- Modal Agregado -->
-            <script src="${pageContext.request.contextPath}/assets/js/ui-modals.js"></script>
-
-            <!-- SweetAlert2 -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-
-            <script>
-                document.getElementById('registerButton').addEventListener('click', function(event) {
-                    event.preventDefault(); // Evitar el envío del formulario
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Registro Exitoso',
-                        text: 'El personal de serenazgo ha sido registrado correctamente.',
-                        confirmButtonText: 'Aceptar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'adm-personalSerenazgoDeCampo.html';
-                        }
+                <script>
+                    document.getElementById('registerButton').addEventListener('click', function(event) {
+                        event.preventDefault(); // Evitar el envío del formulario
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registro Exitoso',
+                            text: 'El personal de serenazgo ha sido registrado correctamente.',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'adm-personalSerenazgoDeCampo.html';
+                            }
+                        });
                     });
-                });
 
-                document.getElementById('cancelButton').addEventListener('click', function() {
-                    window.location.href = 'adm-personalSerenazgoDeCampo.html';
-                });
-            </script>
+                    document.getElementById('cancelButton').addEventListener('click', function() {
+                        window.location.href = 'adm-personalSerenazgoDeCampo.html';
+                    });
+                </script>
+            </div>
         </div>
     </div>
 </div>
@@ -336,8 +284,6 @@
         myModal.show(); // This is the correct way to show a mod
     }
 
-
-
     function submitDeletion() {
         const reason = document.getElementById('deleteReason').value;
         if (reason === '') {
@@ -352,11 +298,7 @@
             // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
         }
     }
-
 </script>
 
 </body>
-
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:09 GMT -->
 </html>

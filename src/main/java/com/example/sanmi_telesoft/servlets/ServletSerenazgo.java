@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.beans.Incidencia;
 
 import com.example.sanmi_telesoft.daos.DaoCoordinadora;
+import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.daos.DaoSerenazgo;
 import com.example.sanmi_telesoft.daos.DaoVecino;
 
@@ -35,6 +36,9 @@ public class ServletSerenazgo extends HttpServlet {
                 break;
 
             case "mostrarReportesIncidencias":
+                DaoIncidencia daoIncidencia = new DaoIncidencia();
+                ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidencias();
+                request.setAttribute("listaIncidencias", listaIncidencias);
                 request.setAttribute("activeMenuToggle", "Incidencias");
                 request.setAttribute("activeMenu", "ReporteIncidencias");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasSerenazgo.jsp").forward(request, response);

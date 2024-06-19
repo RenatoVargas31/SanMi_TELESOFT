@@ -183,7 +183,7 @@
                                     <% if(incidencia.getEstado() == 1) { %>
                                     <td><span class="badge bg-danger">Nueva</span></td>
                                     <% } else if(incidencia.getEstado() == 2) { %>
-                                    <td><span class="badge bg-warning">En proceso</span></td>
+                                    <td><span class="badge bg-warning">Procesando</span></td>
                                     <% } else if(incidencia.getEstado() == 3) { %>
                                     <td><span class="badge bg-success">Resuelta</span></td>
                                     <% } %>
@@ -302,7 +302,7 @@
                                 document.write(new Date().getFullYear())
 
                             </script>
-                            , made with ❤️ by <a href="https://themeselection.com/" target="_blank"
+                            , made by <a href="https://themeselection.com/" target="_blank"
                                                  class="footer-link fw-medium">Telesoft</a>
                         </div>
 

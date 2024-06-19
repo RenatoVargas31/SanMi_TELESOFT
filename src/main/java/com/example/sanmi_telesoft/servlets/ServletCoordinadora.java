@@ -52,7 +52,7 @@ public class ServletCoordinadora extends HttpServlet {
 
             case "listarMisIncidencias":
                 DaoIncidencia daoIncidencia1 = new DaoIncidencia();
-                ArrayList<Incidencia> listaMisIncidencias = daoIncidencia1.listarMisIncidencias(3);
+                ArrayList<Incidencia> listaMisIncidencias = daoIncidencia1.listarMisIncidencias(1);
                 request.setAttribute("listaMisIncidencias", listaMisIncidencias);
                 request.setAttribute("activeMenu", "Incidencias");
                 request.setAttribute("activeMenuSub", "Incidencias3");
@@ -80,6 +80,24 @@ public class ServletCoordinadora extends HttpServlet {
                 }else {
                     request.getRequestDispatcher("indexCoordinadora.jsp").forward(request, response);
                 }
+                break;
+                
+            case "borrarIncidencia":
+            case "borrar":
+                if (request.getParameter("id") != null) {
+                    String incIdString = request.getParameter("id");
+                    int incId = 0;
+                    try {
+                        incId = Integer.parseInt(incIdString);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("EmployeeServlet");
+                    }
+                    DaoIncidencia daoIncidencia3 = new DaoIncidencia();
+                    daoIncidencia3.eliminarIncidencia(incId);
+
+                }
+
+                response.sendRedirect("ServletCoordinadora?action=listarMisIncidencias");
                 break;
         }
 
