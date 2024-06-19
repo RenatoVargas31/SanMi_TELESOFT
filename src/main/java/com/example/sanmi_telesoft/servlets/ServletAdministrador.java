@@ -1,6 +1,8 @@
 package com.example.sanmi_telesoft.servlets;
 
 import com.example.sanmi_telesoft.beans.Profesor;
+import com.example.sanmi_telesoft.beans.Serenazgo;
+import com.example.sanmi_telesoft.beans.TipoSereno;
 import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.daos.DaoAdministrador;
 import jakarta.servlet.*;
@@ -50,7 +52,29 @@ public class ServletAdministrador extends HttpServlet {
             case "mostrarDeCampo":
                 request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
                 request.setAttribute("activeMenu", "DeCampo");
+                ArrayList<Serenazgo> listaDeCampo = daoAdministrador.listarDeCampo();
+                ArrayList<TipoSereno> listaTipoSereno = daoAdministrador.listarTipoSereno();
+                request.setAttribute("listaDeCampo", listaDeCampo);
+                request.setAttribute("listaTipoSereno", listaTipoSereno);
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-SerenazgoDeCampo.jsp").forward(request, response);
+                break;
+            case "nuevoDeCampo":
+                request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
+                request.setAttribute("activeMenu", "DeCampo");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarDeCampo.jsp").forward(request, response);
+                break;
+            case "eliminarDeCampo":
+                String idDeleteDeCampo = request.getParameter("idDeCampo");
+                Serenazgo deCampoDelete = daoAdministrador.buscarDeCampoPorId(idDeleteDeCampo);
+                if(deCampoDelete != null){
+                    System.out.println("Log: deCampo encontrado");
+                    try {
+                        daoAdministrador.borrrDeCampo(idDeleteDeCampo);
+                    } catch (SQLException e) {
+                        System.out.println("Log: excepcion: " + e.getMessage());
+                    }
+                }
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDeCampo");
                 break;
             case "mostrarDispatcher":
                 request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
@@ -151,6 +175,18 @@ public class ServletAdministrador extends HttpServlet {
         DaoAdministrador daoAdministrador = new DaoAdministrador();
 
         switch (action){
+            case "crearDeCampo":
+                String nombreDeCampo = request.getParameter("nombreDeCampo");
+                String apellidoDeCampo = request.getParameter("apellidoDeCampo");
+                String dniDeCampo = request.getParameter("dniDeCampo");
+                String telefonoDeCampo = request.getParameter("telefonoDeCampo");
+                String tipoDeCampo = request.getParameter("tipoDeCampo");
+                String turnoDeCampo = request.getParameter("turnoDeCampo");
+                String direccionDeCampo = request.getParameter("direccionDeCampo");
+                TipoSereno tipoSereno = daoAdministrador.buscarTipoSerenazgoPorName(tipoDeCampo);
+                daoAdministrador.crearDeCampo(nombreDeCampo, apellidoDeCampo, dniDeCampo, turnoDeCampo, direccionDeCampo, telefonoDeCampo, tipoSereno.getIdTipoSereno());
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDeCampo");
+                break;
             case "crearDispatcher":
                 String nombreDispatcher = request.getParameter("nombreDispatcher");
                 String apellidodDispatcher = request.getParameter("apellidoDispatcher");

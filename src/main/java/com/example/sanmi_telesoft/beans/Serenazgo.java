@@ -8,7 +8,8 @@ public class Serenazgo {
     private String turnoSereno;
     private String direccionSereno;
     private String telefonoSereno;
-    private int idTipoSereno;
+    private String isEnable;
+    private TipoSereno tipoSereno;
 
     public int getIdSerenazgos() {
         return idSerenazgos;
@@ -66,11 +67,19 @@ public class Serenazgo {
         this.telefonoSereno = telefonoSereno;
     }
 
-    public int getIdTipoSereno() {
-        return idTipoSereno;
+    public String getIsEnable() {
+        return isEnable;
     }
 
-    public void setIdTipoSereno(int idTipoSereno) {
-        this.idTipoSereno = idTipoSereno;
+    public void setIsEnable(String isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public TipoSereno getTipoSereno() {
+        return tipoSereno;
+    }
+
+    public void setTipoSereno(TipoSereno tipoSereno) {
+        this.tipoSereno = tipoSereno;
     }
 }

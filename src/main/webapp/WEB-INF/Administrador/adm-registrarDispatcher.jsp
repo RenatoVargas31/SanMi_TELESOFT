@@ -253,68 +253,6 @@
         })
     });
 </script>
-<div class="modal fade" id="editarPersonal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="address-title fw-bold">Editar Personal</h3>
-                </div>
-                <form id="editarPersonalForm" class="row g-3" onsubmit="return false">
-
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressFirstName">Nombre</label>
-                        <input type="text" id="modalPersonalFirstName" name="modalAddressFirstName" class="form-control" value="Arturo" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddressLastName">Apellidos</label>
-                        <input type="text" id="modalPersonalLastName" name="modalAddressLastName" class="form-control" value="Martinez Lara" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalDNI">DNI</label>
-                        <input type="text" id="modalPersonalDNI" name="modalDNI" class="form-control" value="87422011" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTipo">Tipo</label>
-                        <select id="modalPersonalTipo" name="modalTipo" class="select2 form-select" data-allow-clear="true">
-                            <option value="Valor actual">-</option>
-                            <option value="Bicicleta">Bicicleta</option>
-                            <option value="A pie">A pie</option>
-                            <option value="Canino">Canino</option>
-                            <option value="Vehículo">Vehículo</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTelefono">Teléfono</label>
-                        <input type="text" id="modalPesonalTelefono" name="modalTelefono" class="form-control" value="992130132" />
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalTurno">Turno</label>
-                        <select id="modalPersonalTurno" name="modalTurno" class="select2 form-select" data-allow-clear="true">
-                            <option value="Valor actual">Nocturno</option>
-                            <option value="Diurno">Diurno</option>
-                            <option value="Nocturno">Nocturno</option>
-                        </select>
-                    </div>
-                    <div class="col-12 ">
-                        <label class="form-label" for="modalMail">Correo Electrónico</label>
-                        <input type="text" id="modalPersonalMail" name="modalMail" class="form-control" value="art.mart@gmail.com" />
-                    </div>
-                    <div class="col-12 ">
-                        <label class="form-label" for="modalDireccion">Dirección</label>
-                        <input type="text" id="modalPersonalDireccion" name="modalDireccion" class="form-control" value="Jr Las Magnolias 166" />
-                    </div>
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     $(function () {
         var e = $(".select2");

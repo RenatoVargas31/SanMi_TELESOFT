@@ -1,12 +1,152 @@
 package com.example.sanmi_telesoft.daos;
 
 import com.example.sanmi_telesoft.beans.Profesor;
+import com.example.sanmi_telesoft.beans.Serenazgo;
+import com.example.sanmi_telesoft.beans.TipoSereno;
 import com.example.sanmi_telesoft.beans.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DaoAdministrador extends BaseDao {
+    /////////SerenazgosDeCampo///////////
+    public Serenazgo buscarDeCampoPorId(String id){
+        Serenazgo deCampo = new Serenazgo();
+        TipoSereno tipoSereno = new TipoSereno();
+
+        String sql = "select * from serenazgos s join tiposereno t on s.TipoSereno_idTipoSereno = t.idTipoSereno where idSerenazgos = ?";
+
+        try(Connection conn = getConection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setString(1,id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()){
+                    deCampo.setIdSerenazgos(rs.getInt("idSerenazgos"));
+                    deCampo.setNombreSereno(rs.getString("nombreSereno"));
+                    deCampo.setApellidoSereno(rs.getString("apellidoSereno"));
+                    deCampo.setDniSereno(rs.getString("dniSereno"));
+                    deCampo.setTurnoSereno(rs.getString("turnoSereno"));
+                    deCampo.setDireccionSereno(rs.getString("direccionSereno"));
+                    deCampo.setTelefonoSereno(rs.getString("telefonoSereno"));
+                    deCampo.setIsEnable(rs.getString("isEnable"));
+                    tipoSereno.setNameTipo(rs.getString("nameTipo"));
+                    deCampo.setTipoSereno(tipoSereno);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return deCampo;
+    }
+    public TipoSereno buscarTipoSerenazgoPorName(String name){
+        TipoSereno tipoSereno = new TipoSereno();
+
+        String sql = "select * from tiposereno where nameTipo = ?";
+
+        try(Connection conn = getConection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setString(1,name);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()){
+                    tipoSereno.setIdTipoSereno(rs.getInt("idTipoSereno"));
+                    tipoSereno.setNameTipo(rs.getString("nameTipo"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return tipoSereno;
+    }
+    public void crearDeCampo(String nombreDeCampo, String apellidoDeCampo, String dniDeCampo, String turnoDeCampo, String direccionDeCampo, String telefonoDeCampo, int idTipoSereno){
+        String sql = "insert into serenazgos (nombreSereno, apellidoSereno, dniSereno, turnoSereno, direccionSereno, telefonoSereno, TipoSereno_idTipoSereno) values (?,?,?,?,?,?,?)";
+
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,nombreDeCampo);
+            pstmt.setString(2,apellidoDeCampo);
+            pstmt.setString(3,dniDeCampo);
+            pstmt.setString(4,turnoDeCampo);
+            pstmt.setString(5,direccionDeCampo);
+            pstmt.setString(6,telefonoDeCampo);
+            pstmt.setInt(7,idTipoSereno);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public ArrayList<Serenazgo> listarDeCampo(){
+        ArrayList<Serenazgo> listaDeCampo = new ArrayList<>();
+
+        String sql = "select * from serenazgos s join tiposereno t on s.TipoSereno_idTipoSereno = t.idTipoSereno";
+
+        try(Connection conn = getConection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()){
+                Serenazgo deCampo = new Serenazgo();
+                TipoSereno tipoSereno = new TipoSereno();
+
+                deCampo.setIdSerenazgos(rs.getInt("idSerenazgos"));
+                deCampo.setNombreSereno(rs.getString("nombreSereno"));
+                deCampo.setApellidoSereno(rs.getString("apellidoSereno"));
+                deCampo.setDniSereno(rs.getString("dniSereno"));
+                deCampo.setTurnoSereno(rs.getString("turnoSereno"));
+                deCampo.setDireccionSereno(rs.getString("direccionSereno"));
+                deCampo.setTelefonoSereno(rs.getString("telefonoSereno"));
+                deCampo.setIsEnable(rs.getString("isEnable"));
+                tipoSereno.setNameTipo(rs.getString("nameTipo"));
+                deCampo.setTipoSereno(tipoSereno);
+
+                listaDeCampo.add(deCampo);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaDeCampo;
+    }
+    public ArrayList<TipoSereno> listarTipoSereno(){
+        ArrayList<TipoSereno> listaTipoSereno = new ArrayList<>();
+
+        String sql = "select * from tiposereno";
+
+        try(Connection conn = getConection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()){
+                TipoSereno tipoSereno = new TipoSereno();
+                tipoSereno.setIdTipoSereno(rs.getInt("idTipoSereno"));
+                tipoSereno.setNameTipo(rs.getString("nameTipo"));
+                listaTipoSereno.add(tipoSereno);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaTipoSereno;
+    }
+    public void borrrDeCampo(String idDeCampo) throws SQLException {
+        String sql = "update serenazgos set isEnable='0' where idSerenazgos = ?";
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,idDeCampo);
+
+            pstmt.executeUpdate();
+
+        }
+    }
     ////////SerenazgosDispatcher////////
     public Usuario buscarDispatcherPorId(String id){
         Usuario dispatcher = new Usuario();
@@ -116,7 +256,6 @@ public class DaoAdministrador extends BaseDao {
         }
     }
     ////////Instructores////////
-    //Método para buscar profesor por ID
     public Profesor buscarProfesorPorId(String id) {
 
         Profesor profesor = new Profesor();
@@ -146,7 +285,6 @@ public class DaoAdministrador extends BaseDao {
 
         return profesor;
     }
-    //Método para crear profesor (Create)
     public void crearProfesores(String nombreProfesor, String apellidoProfesor, String dniProfesor, String tipoProfesor, String cursoProfesor){
 
         String sql = "insert into profesores (nombreProfesor, apellidoProfesor, dniProfesor, tipoProfesor, cursoProfesor) values (?,?,?,?,?)";
@@ -166,7 +304,6 @@ public class DaoAdministrador extends BaseDao {
             throw new RuntimeException(e);
         }
     }
-    //Método para listar profesores (Read)
     public ArrayList<Profesor> listarProfesores(){
         ArrayList<Profesor> listaProfesores = new ArrayList<>();
 
@@ -197,7 +334,6 @@ public class DaoAdministrador extends BaseDao {
 
         return listaProfesores;
     }
-    //Método para actualizarProfesor profesor (Update)
     public void actualizarProfesor(Profesor profesor){
 
         String sql = "update profesores set nombreProfesor=?, apellidoProfesor=?, dniProfesor=?, tipoProfesor = ?, cursoProfesor = ? where idProfesores = ?";
@@ -218,7 +354,6 @@ public class DaoAdministrador extends BaseDao {
             throw new RuntimeException(e);
         }
     }
-    //Método para borrar profesor (Delete)
     public void borrarProfesores(String idprofesor) throws SQLException {
 
         String sql = "update profesores set isEnable='0' where idProfesores = ?";

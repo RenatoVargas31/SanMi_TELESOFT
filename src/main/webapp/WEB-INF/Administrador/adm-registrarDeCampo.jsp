@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.example.sanmi_telesoft.beans.TipoSereno" %><%--
   Created by IntelliJ IDEA.
   User: rlvs_
   Date: 19/06/2024
@@ -6,11 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="dispatcher" type="com.example.sanmi_telesoft.beans.Usuario" scope="request" />
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
-      data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
-
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
+<jsp:useBean id="listaTipoSereno" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoSereno>" scope="request"/>
 
 <!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:08 GMT -->
 <head>
@@ -18,7 +16,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Administrador: Editar Dispatcher</title>
+    <title>Administrador: Registrar DeCampo</title>
 
 
     <meta name="description"
@@ -86,6 +84,13 @@
 <body>
 
 
+<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
@@ -108,44 +113,50 @@
                 <div class="modal-content p-3 p-md-5">
                     <div class="modal-body">
                         <div class="text-center mb-4">
-                            <h3 class="address-title fw-bold">Editar Dispatcher</h3>
+                            <h3 class="address-title fw-bold">Registrar Serenazgo</h3>
                         </div>
-                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=editarDispatcher">
+                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=crearDeCampo">
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="nombreDispatcher">Nombres</label>
-                                <input type="text" id="nombreDispatcher" name="nombreDispatcher" class="form-control" value="<%= dispatcher.getNombreUsuario() %>" />
+                                <label class="form-label" for="nombreDeCampo">Nombres</label>
+                                <input type="text" id="nombreDeCampo" name="nombreDeCampo" class="form-control" placeholder="Nombre" />
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="apellidoDispatcher">Apellidos</label>
-                                <input type="text" id="apellidoDispatcher" name="apellidoDispatcher" class="form-control" value="<%= dispatcher.getApellidoUsuario() %>" />
+                                <label class="form-label" for="apellidoDeCampo">Apellidos</label>
+                                <input type="text" id="apellidoDeCampo" name="apellidoDeCampo" class="form-control" placeholder="Apellido" />
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="dniDispatcher">DNI</label>
-                                <input type="text" id="dniDispatcher" name="dniDispatcher" class="form-control" value="<%= dispatcher.getDniUsuario() %>" />
+                                <label class="form-label" for="dniDeCampo">DNI</label>
+                                <input type="text" id="dniDeCampo" name="dniDeCampo" class="form-control" placeholder="DNI" />
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="telefonoDispatcher">Teléfono</label>
-                                <input type="text" id="telefonoDispatcher" name="telefonoDispatcher" class="form-control" value="<%=dispatcher.getTelefonoUsuario()%>" />
+                                <label class="form-label" for="telefonoDeCampo">Teléfono</label>
+                                <input type="text" id="telefonoDeCampo" name="telefonoDeCampo" class="form-control" placeholder="Teléfono" />
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="correoDispatcher">Correo Electrónico</label>
-                                <input type="text" id="correoDispatcher" name="correoDispatcher" class="form-control" value="<%= dispatcher.getCorreoUsuario() %>" />
+                                <label class="form-label" for="tipoDeCampo">Tipo</label>
+                                <select id="tipoDeCampo" name="tipoDeCampo" class="select2 form-select">
+                                    <option value="sinSeleccion">--Seleccione--</option>
+                                    <% for (TipoSereno tipoSereno : listaTipoSereno) {%>
+                                    <option value="<%=tipoSereno.getIdTipoSereno()%>>"><%=tipoSereno.getNameTipo()%>/option>
+                                    <%}%>
+                                </select>
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="nacimientoDispatcher">Fecha de nacimiento</label>
-                                <input type="text" id="nacimientoDispatcher" name="nacimientoDispatcher" class="form-control" value="<%= dispatcher.getNacimientoDate() %>" />
+                                <label class="form-label" for="turnoDeCampo">Turno</label>
+                                <select id="turnoDeCampo" name="turnoDeCampo" class="select2 form-select" >
+                                    <option value="sinSeleccion">--Seleccione--</option>
+                                    <option value="Diurno">Diurno</option>
+                                    <option value="Nocturno">Nocturno</option>
+                                </select>
                             </div>
                             <div class="col-12 ">
-                                <label class="form-label" for="direccionDispatcher">Dirección</label>
-                                <input type="text" id="direccionDispatcher" name="direccionDispatcher" class="form-control" value="<%= dispatcher.getDireccionUsuario() %>" />
-                            </div>
-                            <div>
-                                <input type="hidden" id="idDispatcher" name="idDispatcher" value="<%= dispatcher.getIdUsuarios() %>">
+                                <label class="form-label" for="direccionDeCampo">Dirección</label>
+                                <input type="text" id="direccionDeCampo" name="direccionDeCampo" class="form-control" placeholder="Dirección" />
                             </div>
 
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
-                                <a href="ServletAdministrador?action=mostrarDispatcher" class="btn btn-label-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
+                                <a href="ServletAdministrador?action=mostrarDeCampo" class="btn btn-label-secondary">Cancelar</a>
                             </div>
                         </form>
                     </div>
@@ -250,7 +261,6 @@
         })
     });
 </script>
-
 <script>
     $(function () {
         var e = $(".select2");
