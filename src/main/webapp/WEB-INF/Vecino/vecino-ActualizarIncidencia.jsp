@@ -79,9 +79,9 @@
 <script>
     // Verifica que todos los campos de texto estén llenos y que un archivo haya sido cargado
     function validateForm() {
-        let lugarExacto = document.getElementById('LugarExacto-actualizar').value.trim();
-        let referencia = document.getElementById('Referencia-actualizar').value.trim();
-        let fileInput = document.getElementById('inputGroupFile03-actualizar');
+        let lugarExacto = document.getElementById('LugarExacto-actualizarProfesor').value.trim();
+        let referencia = document.getElementById('Referencia-actualizarProfesor').value.trim();
+        let fileInput = document.getElementById('inputGroupFile03-actualizarProfesor');
 
         if (!lugarExacto || !referencia || fileInput.files.length === 0) {
             alert('Por favor, complete todos los campos obligatorios y suba una imagen.');
@@ -92,7 +92,7 @@
 
     function checkFieldsAndGoBack() {
         if (validateForm()) {
-            var confirmLeave = confirm('Todavía no ha actualizado su incidencia. ¿Desea regresar de todas formas o actualizar la incidencia ahora? OK para regresar, Cancelar para seguir escribiendo.');
+            var confirmLeave = confirm('Todavía no ha actualizado su incidencia. ¿Desea regresar de todas formas o actualizarProfesor la incidencia ahora? OK para regresar, Cancelar para seguir escribiendo.');
             if (confirmLeave) {
                 window.location.href = '${pageContext.request.contextPath}/ServletVecino?action=misIncidencias';
             }
@@ -104,7 +104,7 @@
         }
     }
 
-    document.getElementById('inputGroupFile03-actualizar').addEventListener('change', function(event) {
+    document.getElementById('inputGroupFile03-actualizarProfesor').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
 

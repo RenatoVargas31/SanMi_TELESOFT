@@ -14,12 +14,20 @@ public class Usuario {
     private String telefonoUsuario;
     private int idUrbanizacion;
     private String activationToken;
-    private boolean isActive;
-    private Date nacimientoDate;
+    private String isActive;
+    private String nacimientoDate;
     private int idTipoCoordinadora;
     private int idEstadoVecinoEvento;
     private boolean isBannedApp;
     private String motivoBannedApp;
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
 
     public int getIdUsuarios() {
         return idUsuarios;
@@ -109,19 +117,12 @@ public class Usuario {
         this.activationToken = activationToken;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public Date getNacimientoDate() {
+    public String getNacimientoDate() {
         return nacimientoDate;
     }
 
-    public void setNacimientoDate(Date nacimientoDate) {
+    public void setNacimientoDate(String nacimientoDate) {
         this.nacimientoDate = nacimientoDate;
     }
 

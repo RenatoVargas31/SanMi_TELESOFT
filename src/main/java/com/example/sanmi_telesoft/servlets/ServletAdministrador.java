@@ -1,14 +1,19 @@
 package com.example.sanmi_telesoft.servlets;
 
 import com.example.sanmi_telesoft.beans.Profesor;
+import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.daos.DaoAdministrador;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import com.example.sanmi_telesoft.util.PasswordUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet(name = "ServletAdministrador", value = "/ServletAdministrador")
 public class ServletAdministrador extends HttpServlet {
@@ -50,7 +55,39 @@ public class ServletAdministrador extends HttpServlet {
             case "mostrarDispatcher":
                 request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
                 request.setAttribute("activeMenu", "Dispatcher");
+                ArrayList<Usuario> listaDispatchers = daoAdministrador.listarDispatchers();
+                request.setAttribute("listaDispatchers", listaDispatchers);
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-SerenazgoDispatcher.jsp").forward(request, response);
+                break;
+            case "nuevoDispatcher":
+                request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
+                request.setAttribute("activeMenu", "Dispatcher");
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarDispatcher.jsp").forward(request, response);
+                break;
+            case "actualizarDispatcher":
+                request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
+                request.setAttribute("activeMenu", "Dispatcher");
+                Usuario dispatcher = daoAdministrador.buscarDispatcherPorId(request.getParameter("idDispatcher"));
+                if(dispatcher != null){
+                    request.setAttribute("dispatcher",dispatcher);
+                    request.getRequestDispatcher("WEB-INF/Administrador/adm-editarDispatcher.jsp").forward(request,response);
+                }else{
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDispatcher");
+                }
+                break;
+            case "eliminarDispatcher":
+                String idDeleteDispatcher = request.getParameter("idDispatcher");
+                Usuario dispatcherDelete = daoAdministrador.buscarDispatcherPorId(idDeleteDispatcher);
+
+                if(dispatcherDelete != null){
+                    System.out.println("Log: dispatcher encontrado");
+                    try {
+                        daoAdministrador.borrarDispatcher(idDeleteDispatcher);
+                    } catch (SQLException e) {
+                        System.out.println("Log: excepcion: " + e.getMessage());
+                    }
+                }
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDispatcher");
                 break;
             case "mostrarInstructores":
                 request.setAttribute("activeMenu", "Instructores");
@@ -85,12 +122,12 @@ public class ServletAdministrador extends HttpServlet {
 
                 break;
             case "eliminarProfesor":
-                String idDelete = request.getParameter("idProfesor");
-                Profesor profesorDelete = daoAdministrador.buscarProfesorPorId(idDelete);
+                String idDeleteProfesor = request.getParameter("idProfesor");
+                Profesor profesorDelete = daoAdministrador.buscarProfesorPorId(idDeleteProfesor);
 
                 if(profesorDelete != null){
                     try {
-                        daoAdministrador.borrarProfesores(idDelete);
+                        daoAdministrador.borrarProfesores(idDeleteProfesor);
                     } catch (SQLException e) {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
@@ -114,13 +151,57 @@ public class ServletAdministrador extends HttpServlet {
         DaoAdministrador daoAdministrador = new DaoAdministrador();
 
         switch (action){
+            case "crearDispatcher":
+                String nombreDispatcher = request.getParameter("nombreDispatcher");
+                String apellidodDispatcher = request.getParameter("apellidoDispatcher");
+                String dniDispatcher = request.getParameter("dniDispatcher");
+                String telefonoDispatcher = request.getParameter("telefonoDispatcher");
+                String correoDispatcher = request.getParameter("correoDispatcher");
+                String nacimientoDispatcher = request.getParameter("nacimientoDispatcher");
+                String direccionDispatcher = request.getParameter("direccionDispatcher");
+                String passwordDispatcher = PasswordUtil.generatePassword(45);
+
+                daoAdministrador.crearDispatcher(nombreDispatcher, apellidodDispatcher, dniDispatcher, telefonoDispatcher, correoDispatcher, nacimientoDispatcher, direccionDispatcher, passwordDispatcher);
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDispatcher");
+                break;
+            case "editarDispatcher":
+                String nombreDispatcherEdit = request.getParameter("nombreDispatcher");
+                String apellidodDispatcherEdit = request.getParameter("apellidoDispatcher");
+                String dniDispatcherEdit = request.getParameter("dniDispatcher");
+                String telefonoDispatcherEdit = request.getParameter("telefonoDispatcher");
+                String correoDispatcherEdit = request.getParameter("correoDispatcher");
+                String nacimientoDispatcherEdit = request.getParameter("nacimientoDispatcher");
+                String direccionDispatcherEdit = request.getParameter("direccionDispatcher");
+                String idDispatcherEdit = request.getParameter("idDispatcher");
+                boolean isAllValid2Dispatch = true;
+
+                if(dniDispatcherEdit.length() > 8){
+                    isAllValid2Dispatch = false;
+                }
+                if(isAllValid2Dispatch) {
+                    Usuario dispatcher = new Usuario();
+                    dispatcher.setNombreUsuario(nombreDispatcherEdit);
+                    dispatcher.setApellidoUsuario(apellidodDispatcherEdit);
+                    dispatcher.setDniUsuario(dniDispatcherEdit);
+                    dispatcher.setTelefonoUsuario(telefonoDispatcherEdit);
+                    dispatcher.setCorreoUsuario(correoDispatcherEdit);
+                    dispatcher.setNacimientoDate(nacimientoDispatcherEdit);
+                    dispatcher.setDireccionUsuario(direccionDispatcherEdit);
+                    dispatcher.setIdUsuarios(Integer.parseInt(idDispatcherEdit));
+
+                    daoAdministrador.actualizarDispatcher(dispatcher);
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDispatcher");
+                }else{
+                    request.setAttribute("dispatcher",daoAdministrador.buscarProfesorPorId(dniDispatcherEdit));
+                    request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request,response);
+                }
+                break;
             case "crearProfesor":
                 String tipoProfesor = request.getParameter("tipoProfesor");
                 String nombreProfesor = request.getParameter("nombreProfesor");
                 String apellidoProfesor = request.getParameter("apellidoProfesor");
                 String dniProfesor = request.getParameter("dniProfesor");
                 String cursoProfesor = request.getParameter("cursoProfesor");
-                System.out.println(tipoProfesor + nombreProfesor + apellidoProfesor + dniProfesor + cursoProfesor);
                 daoAdministrador.crearProfesores(nombreProfesor, apellidoProfesor, dniProfesor, tipoProfesor, cursoProfesor);
                 response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
                 break;
@@ -146,10 +227,10 @@ public class ServletAdministrador extends HttpServlet {
                     profesor.setCursoProfesor(cursoProfesorEdit);
                     profesor.setIdProfesores(Integer.parseInt(idProfesorEdit));
 
-                    daoAdministrador.actualizar(profesor);
+                    daoAdministrador.actualizarProfesor(profesor);
                     response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
                 }else{
-                        request.setAttribute("job",daoAdministrador.buscarProfesorPorId(dniProfesorEdit));
+                        request.setAttribute("profesor",daoAdministrador.buscarProfesorPorId(dniProfesorEdit));
                         request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request,response);
                     }
                 break;

@@ -677,11 +677,6 @@
 
                         </div>
                     </div>
-                    <!--/ DataTable with Buttons -->
-
-                    <hr class="my-5">
-
-
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>

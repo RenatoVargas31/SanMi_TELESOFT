@@ -3,6 +3,8 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-SerenazgoDispatcher.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-editarDispatcher.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-instructores.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-incidenciasGenerales.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/ayudaCoodinadora.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />

@@ -1,7 +1,7 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Profesor" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Objects" %><%--
-
+<%@ page import="java.util.Objects" %>
+<%--
   User: rlvs_
   Date: 4/06/2024
   Time: 19:32

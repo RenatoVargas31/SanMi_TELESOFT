@@ -29,7 +29,7 @@ public class ServletCoordinadora extends HttpServlet {
         switch (action){
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
-                request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/Coordinadora/indexCoordinadora.jsp").forward(request, response);
                 break;
 
             case "mostrarAyuda":
@@ -39,7 +39,7 @@ public class ServletCoordinadora extends HttpServlet {
             case "mostrarReportarIncidencias":
                 request.setAttribute("activeMenu", "Incidencias");
                 request.setAttribute("activeMenuSub", "Incidencias1");
-                request.getRequestDispatcher("WEB-INF/coordinadora/reportarIncidencias.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/Coordinadora/reportarIncidencias.jsp").forward(request, response);
 
             case "listarIncidencias":
                 DaoIncidencia daoIncidencia = new DaoIncidencia();

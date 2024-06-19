@@ -1,12 +1,121 @@
 package com.example.sanmi_telesoft.daos;
 
 import com.example.sanmi_telesoft.beans.Profesor;
-import com.example.sanmi_telesoft.beans.Serenazgo;
+import com.example.sanmi_telesoft.beans.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DaoAdministrador extends BaseDao {
+    ////////SerenazgosDispatcher////////
+    public Usuario buscarDispatcherPorId(String id){
+        Usuario dispatcher = new Usuario();
+
+        String sql = "select idUsuarios, nombreUsuario, apellidoUsuario, dniUsuario, telefonoUsuario, direccionUsuario, correoUsuario, nacimientoDate from usuarios where idUsuarios = ?";
+
+        try(Connection conn = getConection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setString(1,id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()){
+                    dispatcher.setIdUsuarios(rs.getInt(1));
+                    dispatcher.setNombreUsuario(rs.getString(2));
+                    dispatcher.setApellidoUsuario(rs.getString(3));
+                    dispatcher.setDniUsuario(rs.getString(4));
+                    dispatcher.setTelefonoUsuario(rs.getString(5));
+                    dispatcher.setDireccionUsuario(rs.getString(6));
+                    dispatcher.setCorreoUsuario(rs.getString(7));
+                    dispatcher.setNacimientoDate(rs.getString(8));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dispatcher;
+    };
+    public void crearDispatcher(String nombreDispatcher, String apellidodDispatcher, String dniDispatcher, String telefonoDispatcher, String correoDispatcher, String nacimientoDispatcher, String direccionDispatcher, String passwordDispatcher){
+        String sql = "insert into usuarios (nombreUsuario, apellidoUsuario, dniUsuario, telefonoUsuario, correoUsuario, nacimientoDate,direccionUsuario, passwordUsuario, Roles_idRoles) values (?,?,?,?,?,?,?,?,'2'); ";
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,nombreDispatcher);
+            pstmt.setString(2,apellidodDispatcher);
+            pstmt.setString(3,dniDispatcher);
+            pstmt.setString(4,telefonoDispatcher);
+            pstmt.setString(5,correoDispatcher);
+            pstmt.setString(6,nacimientoDispatcher);
+            pstmt.setString(7,direccionDispatcher);
+            pstmt.setString(8,passwordDispatcher);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public ArrayList<Usuario> listarDispatchers(){
+        ArrayList<Usuario> listaDispatchers = new ArrayList<>();
+
+        String sql = "select idUsuarios, nombreUsuario, apellidoUsuario, dniUsuario, telefonoUsuario, direccionUsuario, correoUsuario, is_active from usuarios where Roles_idRoles = '2'";
+
+        try(Connection conn = getConection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()){
+                Usuario dispatcher = new Usuario();
+                dispatcher.setIdUsuarios(rs.getInt(1));
+                dispatcher.setNombreUsuario(rs.getString(2));
+                dispatcher.setApellidoUsuario(rs.getString(3));
+                dispatcher.setDniUsuario(rs.getString(4));
+                dispatcher.setTelefonoUsuario(rs.getString(5));
+                dispatcher.setDireccionUsuario(rs.getString(6));
+                dispatcher.setCorreoUsuario(rs.getString(7));
+                dispatcher.setIsActive(rs.getString(8));
+                listaDispatchers.add(dispatcher);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listaDispatchers;
+    }
+    public void actualizarDispatcher(Usuario dispatcher){
+        String sql = "update usuarios set nombreUsuario=?, apellidoUsuario=?, dniUsuario=?, telefonoUsuario=?, direccionUsuario=?, correoUsuario=?, nacimientoDate=? where idUsuarios = ?";
+
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,dispatcher.getNombreUsuario());
+            pstmt.setString(2,dispatcher.getApellidoUsuario());
+            pstmt.setString(3,dispatcher.getDniUsuario());
+            pstmt.setString(4,dispatcher.getTelefonoUsuario());
+            pstmt.setString(5,dispatcher.getDireccionUsuario());
+            pstmt.setString(6,dispatcher.getCorreoUsuario());
+            pstmt.setString(7,dispatcher.getNacimientoDate());
+            pstmt.setInt(8,dispatcher.getIdUsuarios());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void borrarDispatcher(String idDispatcher) throws SQLException {
+
+        String sql = "update usuarios set is_active='0' where idUsuarios = ?";
+
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,idDispatcher);
+
+            pstmt.executeUpdate();
+
+        }
+    }
+    ////////Instructores////////
     //Método para buscar profesor por ID
     public Profesor buscarProfesorPorId(String id) {
 
@@ -88,8 +197,8 @@ public class DaoAdministrador extends BaseDao {
 
         return listaProfesores;
     }
-    //Método para actualizar profesor (Update)
-    public void actualizar(Profesor profesor){
+    //Método para actualizarProfesor profesor (Update)
+    public void actualizarProfesor(Profesor profesor){
 
         String sql = "update profesores set nombreProfesor=?, apellidoProfesor=?, dniProfesor=?, tipoProfesor = ?, cursoProfesor = ? where idProfesores = ?";
 

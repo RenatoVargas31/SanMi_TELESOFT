@@ -1,31 +1,34 @@
-<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Objects" %>
 <%--
   Created by IntelliJ IDEA.
   User: rlvs_
-  Date: 12/06/2024
-  Time: 15:02
+  Date: 19/06/2024
+  Time: 07:47
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="dispatcher" type="com.example.sanmi_telesoft.beans.Usuario" scope="request" />
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 
 
-
+<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:08 GMT -->
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Administrador: Dispatcher's</title>
+    <title>Administrador: Editar Dispatcher</title>
 
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
@@ -37,34 +40,35 @@
           rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/fonts/boxicons.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/fonts/fontawesome.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/fonts/flag-icons.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/boxicons.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/fontawesome.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/flag-icons.css"/>
 
     <!-- Core CSS -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/css/rtl/core.css" class="template-customizer-core-css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/css/rtl/theme-semi-dark.css"  class="template-customizer-theme-css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/demo.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/rtl/core.css" class="template-customizer-core-css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/rtl/theme-semi-dark.css"
+          class="template-customizer-theme-css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/demo.css"/>
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
 
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
 
 
     <!-- Row Group CSS -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
     <!-- Form Validation -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/form-validation.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/form-validation.css"/>
 
     <!-- Page CSS -->
 
@@ -82,13 +86,6 @@
 <body>
 
 
-<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
@@ -104,93 +101,56 @@
             <jsp:include page="navBar.jsp"/>
             <!-- / Navbar -->
 
-
             <!-- Content wrapper -->
-            <!-- Content wrapper -->
-            <div class="content-wrapper">
-
+            <div class="content-wrapper p-4">
                 <!-- Content -->
 
-                <div class="container-xxl flex-grow-1 container-p-y">
-
-                    <!-- DataTable with Buttons -->
-                    <div class="card">
-                        <div class="card-datatable table-responsive">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Lista de Serenazgos Dispatchers</h3>
-
-                                <form action="<%=request.getContextPath()%>/ServletAdministrador" method="get">
-                                    <input type="hidden" name="action" value="nuevoDispatcher">
-                                    <button type="submit" class="btn btn-primary me-3 ">
-                                        <i class='bx bx-laptop me-2'></i>
-                                        <span><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Dispatcher</h2></span>
-                                    </button>
-                                </form>
-                            </div>
-                            <table id="table-personalSerenazgoDispatcher" class="datatables-basic table border-top">
-                                <thead>
-                                <tr>
-                                    <th>Nombre Y apellido</th>
-                                    <th>DNI</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Teléfono</th>
-                                    <th>Cuenta</th>
-                                    <th>Acciones</th>
-                                </tr>
-                                </thead>
-                                <%
-                                    ArrayList<Usuario> listaDispatchers = (ArrayList<Usuario>) request.getAttribute("listaDispatchers");
-                                %>
-                                <tbody>
-
-                                <%for (Usuario dispatcher : listaDispatchers) {%>
-                                <tr>
-                                    <td><%= dispatcher.getNombreUsuario() %> <%= dispatcher.getApellidoUsuario() %></td>
-                                    <td><%= dispatcher.getDniUsuario() %></td>
-                                    <td><%= dispatcher.getCorreoUsuario() %></td>
-                                    <td><%= dispatcher.getTelefonoUsuario()%></td>
-                                    <td><%= dispatcher.getIsActive().equals("1") ? "Activada" : "No activada" %></td>
-                                    <td>
-                                        <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDispatcher&idDispatcher=<%= dispatcher.getIdUsuarios() %>">
-                                            <i class='bx bx-edit'></i>
-                                        </a>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm <%= dispatcher.getIsActive().equals("0") ? "disabled" : "" %>"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalToggle<%= dispatcher.getIdUsuarios() %>"><i
-                                                class='bx bx-trash'></i>
-                                        </button>
-
-
-                                        <div class="modal fade" id="modalToggle<%= dispatcher.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalToggleLabel">Eliminar de la Lista</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <b> ¿Está seguro de eliminar a este Dispatcher? </b>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a class="btn btn-primary"  href="<%=request.getContextPath()%>/ServletAdministrador?action=eliminarDispatcher&idDispatcher=<%= dispatcher.getIdUsuarios() %>">Si</a>
-                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <% } %>
-                                </tbody>
-                            </table>
-
+                <div class="modal-content p-3 p-md-5">
+                    <div class="modal-body">
+                        <div class="text-center mb-4">
+                            <h3 class="address-title fw-bold">Registrar Dispatcher</h3>
                         </div>
-                    </div> <!-- Modal to add new record -->
-                    <!--/ DataTable with Buttons -->
+                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=editarDispatcher">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="nombreDispatcher">Nombres</label>
+                                <input type="text" id="nombreDispatcher" name="nombreDispatcher" class="form-control" value="<%= dispatcher.getNombreUsuario() %>" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="apellidoDispatcher">Apellidos</label>
+                                <input type="text" id="apellidoDispatcher" name="apellidoDispatcher" class="form-control" value="<%= dispatcher.getApellidoUsuario() %>" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="dniDispatcher">DNI</label>
+                                <input type="text" id="dniDispatcher" name="dniDispatcher" class="form-control" value="<%= dispatcher.getDniUsuario() %>" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="telefonoDispatcher">Teléfono</label>
+                                <input type="text" id="telefonoDispatcher" name="telefonoDispatcher" class="form-control" value="<%=dispatcher.getTelefonoUsuario()%>" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="correoDispatcher">Correo Electrónico</label>
+                                <input type="text" id="correoDispatcher" name="correoDispatcher" class="form-control" value="<%= dispatcher.getCorreoUsuario() %>" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="nacimientoDispatcher">Fecha de nacimiento</label>
+                                <input type="text" id="nacimientoDispatcher" name="nacimientoDispatcher" class="form-control" value="<%= dispatcher.getNacimientoDate() %>" />
+                            </div>
+                            <div class="col-12 ">
+                                <label class="form-label" for="direccionDispatcher">Dirección</label>
+                                <input type="text" id="direccionDispatcher" name="direccionDispatcher" class="form-control" value="<%= dispatcher.getDireccionUsuario() %>" />
+                            </div>
+                            <div>
+                                <input type="hidden" id="idDispatcher" name="idDispatcher" value="<%= dispatcher.getIdUsuarios() %>">
+                            </div>
 
-
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
+                                <a href="ServletAdministrador?action=mostrarDispatcher" class="btn btn-label-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
                 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -210,28 +170,48 @@
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
                 <!-- Form Validation -->
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/popular.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/popular.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/auto-focus.js"></script>
 
                 <!-- Main JS -->
                 <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-
 
                 <!-- Page JS -->
                 <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
 
+                <!-- Modal Agregado -->
+                <script src="${pageContext.request.contextPath}/assets/js/ui-modals.js"></script>
+
+                <!-- SweetAlert2 -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+                <script>
+                    document.getElementById('registerButton').addEventListener('click', function(event) {
+                        event.preventDefault(); // Evitar el envío del formulario
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registro Exitoso',
+                            text: 'El personal de serenazgo ha sido registrado correctamente.',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'adm-personalSerenazgoDeCampo.html';
+                            }
+                        });
+                    });
+
+                    document.getElementById('cancelButton').addEventListener('click', function() {
+                        window.location.href = 'adm-personalSerenazgoDeCampo.html';
+                    });
+                </script>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
 
 <script>
     $(function () {
@@ -347,4 +327,6 @@
 
 </body>
 
+
+<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:09 GMT -->
 </html>
