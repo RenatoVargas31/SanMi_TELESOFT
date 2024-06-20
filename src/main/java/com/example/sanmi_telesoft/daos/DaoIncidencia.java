@@ -134,14 +134,17 @@ public class DaoIncidencia extends BaseDao{
         return incidencias;
     }
     public void actualizarIncidencia(Incidencia incidencia) {
-        String sql = "UPDATE incidencias SET lugarIncidencia = ?, referenciaIncidencia = ?, telefono = ?, requiereAmbulancia = ?, tipo = ?, fotoIncidencia = ? WHERE idIncidencias = ?";
+        String sql = "UPDATE incidencias SET nombreIncidencia = ? ,lugarExacto = ?, referenciaIncidencia = ?, contactoIncidencia = ?, requiereAmbulancia = ?, requiereBombero = ? WHERE idIncidencias = ?";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, incidencia.getLugarIncidencia());
-            pstmt.setString(2, incidencia.getReferenciaIncidencia());
-            pstmt.setInt(3, incidencia.getTelefono());
-            pstmt.setBoolean(4, incidencia.isRequiereAmbulancia());
-            pstmt.setString(6, incidencia.getFotoIncidencia());
+            pstmt.setString(1, incidencia.getNombreIncidencia());
+            pstmt.setString(2, incidencia.getLugarIncidencia());
+            pstmt.setString(3, incidencia.getReferenciaIncidencia());
+            pstmt.setInt(4, incidencia.getTelefono());
+            /*pstmt.setString(4, incidencia.getFotoIncidencia());*/
+            pstmt.setBoolean(5, incidencia.isRequiereAmbulancia());
+            pstmt.setBoolean(6, incidencia.isRequiereBombero());
             pstmt.setInt(7, incidencia.getIdIncidencias());
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
