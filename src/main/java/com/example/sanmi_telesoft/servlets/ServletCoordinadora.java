@@ -137,26 +137,25 @@ public class ServletCoordinadora extends HttpServlet {
 
         DaoIncidencia incidenciaDao = new DaoIncidencia();
 
+        String nombreIncidencia = request.getParameter("fullname");
+        String telefono = request.getParameter("phone");
+        String lugarExacto = request.getParameter("LugarExacto");
+        String referencia = request.getParameter("Referencia");
+        boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
+        boolean requiereBombero = request.getParameter("bomberos") != null;
+        boolean requiereSerenazo = request.getParameter("serenazgos") != null;
+
+        Incidencia incidencia = new Incidencia();
+        incidencia.setNombreIncidencia(nombreIncidencia);
+        incidencia.setTelefono(Integer.parseInt(telefono));
+        incidencia.setLugarIncidencia(lugarExacto);
+        incidencia.setReferenciaIncidencia(referencia);
+        incidencia.setRequiereAmbulancia(requiereAmbulancia);
+        incidencia.setRequiereBombero(requiereBombero);
+        incidencia.setRequierePolicia(requiereSerenazo);
+
         switch (action){
             case "reportarIncidencia":
-                String nombreIncidencia = request.getParameter("fullname");
-                String telefono = request.getParameter("phone");
-                String lugarExacto = request.getParameter("LugarExacto");
-                String referencia = request.getParameter("Referencia");
-                boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-                boolean requiereBombero = request.getParameter("bomberos") != null;
-                boolean requiereSerenazo = request.getParameter("serenazgos") != null;
-
-                Incidencia incidencia = new Incidencia();
-                incidencia.setNombreIncidencia(nombreIncidencia);
-                incidencia.setTelefono(Integer.parseInt(telefono));
-                incidencia.setLugarIncidencia(lugarExacto);
-                incidencia.setReferenciaIncidencia(referencia);
-                incidencia.setRequiereAmbulancia(requiereAmbulancia);
-                incidencia.setRequiereBombero(requiereBombero);
-                incidencia.setRequierePolicia(requiereSerenazo);
-
-
                 /*if (fotoPart != null && fotoPart.getSize() > 0) {
                     String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
                     incidencia.setFotoIncidencia(fileName);
@@ -166,11 +165,16 @@ public class ServletCoordinadora extends HttpServlet {
                         Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }*/
-
                 incidenciaDao.insertarIncidencia(incidencia);
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarIncidencias");
                 break;
-            case "yolo":
+            case "resetIncidencia":
+                incidencia.setIdIncidencias(Integer.parseInt(request.getParameter("incidencia_id"))); //no olvidar que para actualizar se debe enviar el ID
+
+                incidenciaDao.actualizarIncidencia(incidencia);
+
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
+
                 break;
         }
 
