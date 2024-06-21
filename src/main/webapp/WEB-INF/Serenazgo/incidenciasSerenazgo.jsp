@@ -256,14 +256,14 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres eliminar esta incidencia?</h5>
+                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres calificar como falsa esta incidencia?</h5>
             </div>
             <div class="modal-body">
                 <p>Esta acción no se puede deshacer.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="confirmDeletionBtn">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeletionBtn">Reportar</button>
             </div>
         </div>
     </div>

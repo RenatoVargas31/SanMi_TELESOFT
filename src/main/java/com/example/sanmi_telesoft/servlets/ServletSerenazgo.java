@@ -9,6 +9,7 @@ import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.daos.DaoSerenazgo;
 import com.example.sanmi_telesoft.daos.DaoVecino;
 
+import com.example.sanmi_telesoft.dto.IncidenciasFalsas;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -47,6 +48,9 @@ public class ServletSerenazgo extends HttpServlet {
             case "mostrarIncidenciasFalsas":
                 request.setAttribute("activeMenuToggle", "Incidencias");
                 request.setAttribute("activeMenu", "IncidenciasFalsas");
+                DaoIncidencia daoIncidenciaFalsas = new DaoIncidencia();
+                ArrayList<IncidenciasFalsas> listaIncidenciasFalsas = daoIncidenciaFalsas.listarIncidenciasFalsas();
+                request.setAttribute("Falsas", listaIncidenciasFalsas);
                 request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasFalsasSerenazgo.jsp").forward(request, response);
                 break;
 
