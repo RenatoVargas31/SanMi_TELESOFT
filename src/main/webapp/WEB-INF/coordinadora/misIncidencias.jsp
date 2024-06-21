@@ -108,11 +108,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h3 class="m-4 fw-bold">Mis incidencias</h3>
 
-                                <button class="btn btn-secondary create-new btn-primary me-4" type="button"
-                                        onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarReportarIncidencias';">
+                                <a class="btn btn-secondary create-new btn-primary me-4" type="button"
+                                        href="<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarReportarIncidencias">
                                     <i class='bx bx-bell-plus bx-tada'></i>
                                     <span class="d-none d-sm-inline-block">Nueva Incidencia</span>
-                                </button>
+                                </a>
                             </div>
                             <table id="table-misincidencias" class="datatables-basic table border-top">
                                 <thead>
@@ -133,7 +133,7 @@
                                         String modalId = "modalScrollable" + i;
                                         String modalId2 = "modalScrollable" + a;
                                 %>
-                                <div class="modal fade" id="<%= modalId2 %>" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deletMod" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -160,7 +160,7 @@
                                                 <p>Estimado Serenazgo de la Zona,</p>
 
                                                 <% if(incidencia.getDescripcionSolucion() == null) { %>
-                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente sobre <%=incidencia.getIdTipoIncidencia()%> que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
+                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente  que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
                                                 <% } else { %>
                                                 <p><%= incidencia.getDescripcionSolucion() %></p>
                                                 <% } %>
@@ -217,7 +217,7 @@
                                             <% if(incidencia.getEstado() == 1) { %>
                                                 <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion(<%= incidencia.getIdIncidencias() %>);" data-bs-target="#"><i
+                                                data-bs-toggle="modal" onclick="promptDeletion(<%=incidencia.getIdIncidencias()%>)" data-bs-target="#"><i
                                                 class='bx bx-x'></i></button>
                                             <% } %>
 

@@ -14,7 +14,7 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaIncidencia = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios;";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
 
         try (Connection conn = this.getConection();
              Statement stmt = conn.createStatement();
@@ -33,7 +33,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setDescripcionSolucion(rs.getString(10));
                 incidencia.setSerenazgoid(rs.getInt(11));
                 incidencia.setAmbulalciaid(rs.getInt(12));
-                incidencia.setNameUsuario(rs.getString(17));
+                incidencia.setNameUsuario(rs.getString(18));
                 incidencia.setEstado(rs.getInt(14));
                 incidencia.setCriticidad(rs.getInt(15));
                 incidencia.setTipo(rs.getInt(16));
@@ -51,7 +51,7 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaMisIncidencias = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ?";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ? AND enabled = 1";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -72,7 +72,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setDescripcionSolucion(rs.getString(10));
                 incidencia.setSerenazgoid(rs.getInt(11));
                 incidencia.setAmbulalciaid(rs.getInt(12));
-                incidencia.setNameUsuario(rs.getString(17));
+                incidencia.setNameUsuario(rs.getString(18 ));
                 incidencia.setEstado(rs.getInt(14));
                 incidencia.setCriticidad(rs.getInt(15));
                 incidencia.setTipo(rs.getInt(16));
@@ -178,11 +178,24 @@ public class DaoIncidencia extends BaseDao{
     public void eliminarIncidencia(int idIncidencia) {
         String sql = "DELETE FROM incidencias WHERE idIncidencias = ?";
 
-        try (Connection conn = getConection();
+        try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idIncidencia);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void falsearIncidencia(int idIncidencia){
+        String sql = "UPDATE incidencias SET enabled = 0 WHERE idIncidencias = ?";
+
+        try(Connection conn = this.getConection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idIncidencia);
+            stmt.executeUpdate();
+
+        } catch (SQLException e ){
             e.printStackTrace();
         }
     }

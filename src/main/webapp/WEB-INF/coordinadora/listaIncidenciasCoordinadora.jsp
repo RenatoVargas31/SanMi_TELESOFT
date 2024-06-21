@@ -86,6 +86,38 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
+    <style>
+        /* Personalización adicional del modal */
+        .modal-content {
+            border-radius: 15px;
+            padding: 20px;
+            background: linear-gradient(145deg, #f0f0f0, #cacaca);
+        }
+        .modal-header {
+            background-color: #1A4D8F;
+            color: white;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 15px 15px 0 0;
+        }
+        .modal-footer {
+            border-top: 1px solid #dee2e6;
+            border-radius: 0 0 15px 15px;
+        }
+        .modal-title {
+            color: white;
+        }
+        .modal-body {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .btn-close {
+            background-color: white;
+            border-radius: 50%;
+        }
+        .btn-secondary, .btn-danger {
+            margin: 0 10px;
+        }
+    </style>
 
 </head>
 
@@ -153,7 +185,7 @@
                                                 <p>Estimado Serenazgo de la Zona,</p>
 
                                                 <% if(incidencia.getDescripcionSolucion() == null) { %>
-                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente sobre <%=incidencia.getIdTipoIncidencia()%> que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
+                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
                                                 <% } else { %>
                                                 <p><%= incidencia.getDescripcionSolucion() %></p>
                                                 <% } %>

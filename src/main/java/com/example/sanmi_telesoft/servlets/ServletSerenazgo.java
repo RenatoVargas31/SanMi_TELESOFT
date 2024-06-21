@@ -49,6 +49,23 @@ public class ServletSerenazgo extends HttpServlet {
                 request.setAttribute("activeMenu", "IncidenciasFalsas");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasFalsasSerenazgo.jsp").forward(request, response);
                 break;
+
+            case "falsearIncidencia":
+                if (request.getParameter("id") != null) {
+                    String incIdString = request.getParameter("id");
+                    int incId = 0;
+                    try {
+                        incId = Integer.parseInt(incIdString);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("EmployeeServlet");
+                    }
+                    DaoIncidencia daoIncidencia4 = new DaoIncidencia();
+                    daoIncidencia4.falsearIncidencia(incId);
+
+                }
+
+                response.sendRedirect("ServletSerenazgo?action=mostrarReportesIncidencias");
+                break;
         }
 
 
