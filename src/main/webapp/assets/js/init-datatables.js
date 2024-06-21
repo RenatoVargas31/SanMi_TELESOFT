@@ -150,3 +150,18 @@ $('#table-instructores').DataTable({
         {orderable: false, targets: [0, -1]}
     ]
 });
+
+$('#table-vecinoEventos').DataTable({
+    responsive: true,
+    lengthChange: false,
+    pageLength: 7,
+    info: false,
+    paging: true,
+    language: {
+        url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
+    },
+    order: [[2, 'asc']],
+    columnDefs: [
+        {orderable: false, targets: [0, -1]}
+    ]
+});

@@ -23,21 +23,55 @@ public class ServletVecino extends HttpServlet {
     private DaoIncidencia incidenciaDao  = new DaoIncidencia();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action") == null ? "listaEventos" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         RequestDispatcher view;
         String id = "";
 
         switch (action) {
+
+            case "mostrarInicio":
+                request.setAttribute("activeMenu", "Inicio");
+                request.getRequestDispatcher("WEB-INF/Vecino/indexVecino.jsp").forward(request, response);
+                break;
+
+            case "mostrarAyuda":
+                request.setAttribute("activeMenu", "Ayuda");
+                request.getRequestDispatcher("WEB-INF/Vecino/ayudaVecino.jsp").forward(request, response);
+                break;
+            /*
+            case "mostrarListaEventos":
+                request.setAttribute("activeMenu", "CatalogoEventos");
+                request.setAttribute("activeMenuToggle", "Eventos");
+                request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp").forward(request, response);
+
+                break;
+            */
             case "listaEventos":
+                request.setAttribute("activeMenu", "CatalogoEventos");
+                request.setAttribute("activeMenuToggle", "Eventos");
                 manejarListaEventos(request, response);
                 break;
+
             case "viewEvento":
+                request.setAttribute("activeMenu", "CatalogoEventos");
+                request.setAttribute("activeMenuToggle", "Eventos");
                 manejarViewEvento(request, response);
                 break;
+
             case "inscribirEvento":
+                request.setAttribute("activeMenu", "CatalogoEventos");
+                request.setAttribute("activeMenuToggle", "Eventos");
                 manejarInscribirEvento(request, response);
                 break;
+
+            case "eventosInscritos":
+                request.setAttribute("activeMenu", "EventosInscritos");
+                request.setAttribute("activeMenuToggle", "Eventos");
+                request.getRequestDispatcher("WEB-INF/Vecino/eventosInscritos.jsp").forward(request, response);                break;
+
             case "incidenciasGenerales":
+                request.setAttribute("activeMenu", "IncidenciasGenerales");
+                request.setAttribute("activeMenuToggle", "Incidencias");
                 manejarIncidenciasGenerales(request, response);
                 break;
             case "misIncidencias":
@@ -52,6 +86,8 @@ public class ServletVecino extends HttpServlet {
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
+
+
         }
     }
 

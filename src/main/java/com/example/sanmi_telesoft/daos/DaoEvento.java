@@ -45,7 +45,7 @@ public class DaoEvento extends BaseDao {
         TipoEvento tipoEvento = new TipoEvento();
         String sql = "SELECT e.*, t.nameTipo FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "WHERE e.TipoEvento_idTipoEvento = 2";
+                "WHERE e.TipoEvento_idTipoEvento = 1";
         try (Connection connection = this.getConection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -75,10 +75,10 @@ public class DaoEvento extends BaseDao {
     public ArrayList<Evento> listaEventosDeporte() {
         ArrayList<Evento> listaEventos = new ArrayList<>();
         TipoEvento tipoEvento = new TipoEvento();
-        //0=Todo, 1=Deporte,2=Cultura
+        // 0=Todo, 1=Deporte,2=Cultura
         String sql = "SELECT e.*, t.nameTipo FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "WHERE e.TipoEvento_idTipoEvento = 1";
+                "WHERE e.TipoEvento_idTipoEvento = 2";
         try (Connection connection = this.getConection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
