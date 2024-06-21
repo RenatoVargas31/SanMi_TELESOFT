@@ -54,7 +54,11 @@
           <td><span class="badge <%= incidencia.getCriticidad() == 1 ? "bg-danger" : "bg-warning" %>"><%= incidencia.getCriticidad() == 1 ? "Alta" : "Media" %></span></td>
           <td><%= incidencia.getNameUsuario() %></td>
           <td>
-            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i class='bx bx-show'></i></button>
+            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                    data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"
+                    onclick="cargarDetallesIncidencia(<%= incidencia.getIdIncidencias() %>)">
+              <i class='bx bx-show'></i>
+            </button>
           </td>
         </tr>
         <%
@@ -69,8 +73,53 @@
   <hr class="my-5">
 </div>
 <!-- / Content -->
+<div class="modal fade" id="modal-ver-incidencia" tabindex="-1" aria-labelledby="modal-ver-incidencia-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-ver-incidencia-label">Detalles de la Incidencia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="detalle-nombreIncidencia"></p>
+        <p id="detalle-lugarIncidencia"></p>
+        <p id="detalle-referenciaIncidencia"></p>
+        <p id="detalle-contactoIncidencia"></p>
+        <p id="detalle-requiereAmbulancia"></p>
+        <p id="detalle-requierePolicia"></p>
+        <p id="detalle-requiereBombero"></p>
+        <p id="detalle-descripcionSolucion"></p>
+        <p id="detalle-nameUsuario"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/ Modal para ver detalles de la incidencia -->
+<hr class="my-5">
+</div></div>
 
 <jsp:include page="../Fragmentos/FragmentosVecino/strylesFragmentVecino.jsp"/>
+<script>
+  function cargarDetallesIncidencia(idIncidencia) {
+    fetch('<%= request.getContextPath() %>/ServletVecino?action=obtenerDetallesIncidencia&idIncidencia=' + idIncidencia)
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('detalle-nombreIncidencia').innerText = 'Nombre: ' + data.nombreIncidencia;
+              document.getElementById('detalle-lugarIncidencia').innerText = 'Lugar: ' + data.lugarExacto;
+              document.getElementById('detalle-referenciaIncidencia').innerText = 'Referencia: ' + data.referenciaIncidencia;
+              document.getElementById('detalle-contactoIncidencia').innerText = 'Contacto: ' + data.contactoIncidencia;
+              document.getElementById('detalle-requiereAmbulancia').innerText = 'Requiere Ambulancia: ' + (data.requiereAmbulancia ? 'Sí' : 'No');
+              document.getElementById('detalle-requierePolicia').innerText = 'Requiere Policía: ' + (data.requierePolicia ? 'Sí' : 'No');
+              document.getElementById('detalle-requiereBombero').innerText = 'Requiere Bombero: ' + (data.requiereBombero ? 'Sí' : 'No');
+              document.getElementById('detalle-descripcionSolucion').innerText = 'Descripción Solución: ' + data.descripcionSolucion;
+              document.getElementById('detalle-nameUsuario').innerText = 'Usuario: ' + data.nameUsuario;
+            })
+            .catch(error => console.error('Error:', error));
+  }
+</script>
 </body>
 </html>
 

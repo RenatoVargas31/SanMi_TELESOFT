@@ -16,15 +16,18 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaIncidencia = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
-
+       /* String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
+        */
+        String sql = "SELECT i.*, concat(u.nombreUsuario, ' ', u.apellidoUsuario) as name_completo " +
+                "FROM incidencias i " +
+                "JOIN usuarios u ON i.Usuarios_idUsuarios = u.idUsuarios";
         try (Connection conn = this.getConection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Incidencia incidencia = new Incidencia();
-                incidencia.setIdIncidencias(rs.getInt(1));
+                /*incidencia.setIdIncidencias(rs.getInt(1));
                 incidencia.setNombreIncidencia(rs.getString(2));
                 incidencia.setLugarIncidencia(rs.getString(3));
                 incidencia.setReferenciaIncidencia(rs.getString(4));
@@ -41,6 +44,28 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setTipo(rs.getInt(16));
 
                 listaIncidencia.add(incidencia);
+
+                 */
+                incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
+                incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
+                incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
+                incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
+                incidencia.setTelefono(rs.getInt("contactoIncidencia"));
+                incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
+                incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
+                incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
+                incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
+                incidencia.setSerenazgoid(rs.getInt("Serenazgos_idSerenazgos"));
+                incidencia.setAmbulalciaid(rs.getInt("personalAmbulancia_idpersonalAmbulancia"));
+                incidencia.setNameUsuario(rs.getString("name_completo"));
+                incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
+                incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
+                incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
+
+                listaIncidencia.add(incidencia);
+
+
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -156,7 +181,8 @@ public class DaoIncidencia extends BaseDao{
     public Incidencia obtenerIncidencia(int idIncidencia) {
         Incidencia incidencia = null;
         String sql = "SELECT * FROM incidencias WHERE idIncidencias = ?";
-        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = this.getConection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idIncidencia);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -165,10 +191,13 @@ public class DaoIncidencia extends BaseDao{
                     incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
                     incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
                     incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
-                    incidencia.setTelefono(Integer.parseInt(rs.getString(6)));
-                    incidencia.setRequiereAmbulancia(rs.getInt(7) == 1);
-                    incidencia.setRequiereBombero(rs.getInt(9) == 1);
-                    // Otros campos...
+                    incidencia.setTelefono(rs.getInt("contactoIncidencia"));
+                    incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
+                    incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
+                    incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
+                    incidencia.setDescripcionSolucion(rs.getString("descripcionSolucion"));
+                    incidencia.setNameUsuario(rs.getString("Usuarios_idUsuarios"));
+
                 }
             }
         } catch (SQLException e) {

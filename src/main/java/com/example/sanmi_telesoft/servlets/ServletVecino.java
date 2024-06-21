@@ -16,6 +16,8 @@ import jakarta.servlet.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 
 @WebServlet(name = "ServletVecino", value = "/ServletVecino")
 public class ServletVecino extends HttpServlet {
@@ -85,6 +87,9 @@ public class ServletVecino extends HttpServlet {
                 break;
             case "error":
                 manejarError(request, response, "Ha ocurrido un error ! :c");
+                break;
+            case "obtenerDetallesIncidencia":
+                obtenerDetallesIncidencia(request, response);
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -160,6 +165,32 @@ public class ServletVecino extends HttpServlet {
     private void mostrarFormularioReportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-reportarIncidencia.jsp");
         dispatcher.forward(request, response);
+    }
+    protected void obtenerDetallesIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idIncidencia = Integer.parseInt(request.getParameter("idIncidencia"));
+        Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+
+        // Configura la respuesta para JSON
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Convierte la incidencia a JSON
+        String json = "{";
+        json += "\"nombreIncidencia\": \"" + incidencia.getNombreIncidencia() + "\",";
+        json += "\"lugarExacto\": \"" + incidencia.getLugarIncidencia() + "\",";
+        json += "\"referenciaIncidencia\": \"" + incidencia.getReferenciaIncidencia() + "\",";
+        json += "\"contactoIncidencia\": \"" + incidencia.getTelefono() + "\",";
+        json += "\"requiereAmbulancia\": " + incidencia.isRequiereAmbulancia() + ",";
+        json += "\"requierePolicia\": " + incidencia.isRequierePolicia() + ",";
+        json += "\"requiereBombero\": " + incidencia.isRequiereBombero() + ",";
+        json += "\"descripcionSolucion\": \"" + incidencia.getDescripcionSolucion() + "\",";
+        json += "\"nameUsuario\": \"" + incidencia.getNameUsuario() + "\"";
+        json += "}";
+
+        // Escribe la respuesta
+        PrintWriter out = response.getWriter();
+        out.print(json);
+        out.flush();
     }
     private void eliminarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idIncidencia = Integer.parseInt(request.getParameter("id"));
