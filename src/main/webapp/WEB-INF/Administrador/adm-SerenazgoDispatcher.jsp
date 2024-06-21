@@ -154,14 +154,13 @@
                                         <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDispatcher&idDispatcher=<%= dispatcher.getIdUsuarios() %>">
                                             <i class='bx bx-edit'></i>
                                         </a>
+                                        <% if(dispatcher.getIsActive().equals("1") ) {%>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm <%= dispatcher.getIsActive().equals("0") ? "disabled" : "" %>"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalToggle<%= dispatcher.getIdUsuarios() %>"><i
                                                 class='bx bx-trash'></i>
                                         </button>
-
-
                                         <div class="modal fade" id="modalToggle<%= dispatcher.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -179,6 +178,17 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <%} else{%>
+                                        <button type="button"
+                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm disabled"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#"><i
+                                                class='bx bx-trash'></i>
+                                        </button>
+
+                                        <% } %>
+
                                     </td>
                                 </tr>
                                 <% } %>
