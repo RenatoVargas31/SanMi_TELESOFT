@@ -12,10 +12,7 @@ import com.example.sanmi_telesoft.util.PasswordUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 @WebServlet(name = "ServletAdministrador", value = "/ServletAdministrador")
 public class ServletAdministrador extends HttpServlet {

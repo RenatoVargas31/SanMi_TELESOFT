@@ -81,7 +81,7 @@
                     <h4 class="mb-2">Bienvenido a SanMI 👋</h4>
                     <p class="mb-4">Por favor, ingresa tus credenciales y disfruta de la experiencia.</p>
 
-                    <form id="formAuthentication" class="mb-3" action="#" method="GET">
+                    <form id="formAuthentication" class="mb-3" action="LoginServlet" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail o usuario</label>
                             <input type="text" class="form-control" id="email" name="email-username" placeholder="Ingrese su e-mail o usuario" autofocus>
@@ -107,7 +107,6 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <!-- /Ingresar lógica -->
                             <button class="btn btn-primary d-grid w-100" type="submit">Ingresar</button>
                         </div>
                     </form>

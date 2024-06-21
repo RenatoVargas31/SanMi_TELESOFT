@@ -1,7 +1,5 @@
 package com.example.sanmi_telesoft.beans;
 
-import java.util.Date;
-
 public class Usuario {
     private int idUsuarios;
     private int idRoles;
