@@ -5,7 +5,6 @@
   Time: 13:23
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!-- Stylesheets -->
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
