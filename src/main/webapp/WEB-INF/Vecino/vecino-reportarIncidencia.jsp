@@ -28,8 +28,8 @@
                         <form id="reportarIncidenciaForm" action="${pageContext.request.contextPath}/ServletVecino?action=reportarIncidencia" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label" for="fullname">Nombre de la incidencia</label>
-                                    <input type="text" id="fullname" name="fullname" class="form-control" placeholder="" required />
+                                    <label for="nombreIncidencia" class="form-label">Nombre de la Incidencia</label>
+                                    <input type="text" class="form-control" id="nombreIncidencia" name="nombreIncidencia" placeholder="Nombre de la Incidencia" required>
                                 </div>
 
                                 <div class="col-md-6">
@@ -48,23 +48,12 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="ambulancia" id="ambulancia">
-                                        <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia">
+                                        <label class="form-check-label" for="requiereAmbulancia">Es necesario una ambulancia</label>
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <label class="form-check-label">La incidencia afecta a:</label>
-                                    <div class="form-check form-check-inline">
-                                        <input name="afectado" class="form-check-input" type="radio" value="mi_persona" id="afectado-yo" checked />
-                                        <label class="form-check-label" for="afectado-yo">Mi persona</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input name="afectado" class="form-check-input" type="radio" value="otras_personas" id="afectado-otras" />
-                                        <label class="form-check-label" for="afectado-otras">Otras personas</label>
-                                    </div>
-                                </div>
 
                                 <div class="col-12">
                                     <div class="input-group">
@@ -94,12 +83,11 @@
 <script>
     // Verifica que todos los campos de texto estén llenos y que un archivo haya sido cargado
     function validateForm() {
-        let fullname = document.getElementById('fullname').value.trim();
+        let nombreIncidencia = document.getElementById('nombreIncidencia').value.trim();
         let lugarExacto = document.getElementById('LugarExacto').value.trim();
         let referencia = document.getElementById('Referencia').value.trim();
-        let fileInput = document.getElementById('inputGroupFile03');
 
-        if (!fullname || !lugarExacto || !referencia || fileInput.files.length === 0) {
+        if (!nombreIncidencia || !lugarExacto || !referencia) {
             alert('Por favor, complete todos los campos obligatorios y suba una imagen.');
             return false; // Previene el envío del formulario
         }
@@ -107,12 +95,11 @@
     }
 
     function areFieldsFilled() {
-        const fullname = document.getElementById('fullname').value.trim();
+        const nombreIncidencia = document.getElementById('nombreIncidencia').value.trim();
         const LugarExacto = document.getElementById('LugarExacto').value.trim();
         const referencia = document.getElementById('Referencia').value.trim();
-        const fileInput = document.getElementById('inputGroupFile03');
 
-        return fullname && LugarExacto && referencia && fileInput.files.length > 0;
+        return nombreIncidencia && LugarExacto && referencia > 0;
     }
 
     function checkFieldsAndGoBack() {

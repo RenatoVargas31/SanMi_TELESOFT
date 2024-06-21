@@ -83,6 +83,9 @@ public class ServletVecino extends HttpServlet {
             case "reportarIncidencia":
                 mostrarFormularioReportarIncidencia(request, response);
                 break;
+            case "error":
+                manejarError(request, response, "Ha ocurrido un error ! :c");
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -182,7 +185,6 @@ public class ServletVecino extends HttpServlet {
         String lugarExacto = request.getParameter("LugarExacto");
         String referencia = request.getParameter("Referencia");
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-        String afectado = request.getParameter("afectado");
         Part fotoPart = request.getPart("foto");
 
         Incidencia incidencia = new Incidencia();
@@ -191,7 +193,6 @@ public class ServletVecino extends HttpServlet {
         incidencia.setLugarIncidencia(lugarExacto);
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
-        incidencia.setTipo("mi_persona".equals(afectado) ? 1 : 2);
 
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
