@@ -31,7 +31,7 @@
              <ul class="menu-inner py-1">
                 <!-- Inicio -->
                  <li class="menu-item <%= "inicio".equals(currentPage) ? "active" : "" %>">
-                     <a href="${pageContext.request.contextPath}/vecino_index.html" class="menu-link">
+                     <a href="${pageContext.request.contextPath}/vecino_index.jsp" class="menu-link">
                          <i class="menu-icon tf-icons bx bx-home-alt"></i>
                          <div class="text-truncate" data-i18n="Inicio">Inicio</div>
                      </a>
@@ -46,12 +46,12 @@
                      </a>
                      <ul class="menu-sub">
                          <li class="menu-item <%= "catalogoEventos".equals(currentPage) ? "active" : "" %>">
-                             <a href="${pageContext.request.contextPath}/vecino-catalogoEventos.html" class="menu-link">
+                             <a href="${pageContext.request.contextPath}/vecino-catalogoEventos.jsp" class="menu-link">
                                  <div class="text-truncate" data-i18n="Catálogo de eventos">Catálogo de eventos</div>
                              </a>
                          </li>
                          <li class="menu-item <%= "eventosInscritos".equals(currentPage) ? "active" : "" %>">
-                             <a href="${pageContext.request.contextPath}/app-academy-course-details.html" class="menu-link">
+                             <a href="${pageContext.request.contextPath}/app-academy-course-details.jsp" class="menu-link">
                                  <div class="text-truncate" data-i18n="Eventos inscritos">Eventos inscritos</div>
                              </a>
                          </li>
@@ -67,12 +67,12 @@
                      </a>
                      <ul class="menu-sub">
                          <li class="menu-item <%= "reportarIncidencia".equals(currentPage) ? "active" : "" %>">
-                             <a href="${pageContext.request.contextPath}/vecino-reportarIncidencia.html" class="menu-link">
+                             <a href="${pageContext.request.contextPath}/vecino-reportarIncidencia.jsp" class="menu-link">
                                  <div class="text-truncate" data-i18n="Reportar incidencia">Reportar incidencia</div>
                              </a>
                          </li>
                          <li class="menu-item <%= "misIncidencias".equals(currentPage) ? "active" : "" %>">
-                             <a href="${pageContext.request.contextPath}/vecino-misIncidencias.html" class="menu-link">
+                             <a href="${pageContext.request.contextPath}/vecino-misIncidencias.jsp" class="menu-link">
                                  <div class="text-truncate" data-i18n="Mis incidencias">Mis incidencias</div>
                              </a>
                          </li>
@@ -88,7 +88,7 @@
                      <span class="menu-header-text" data-i18n="Ayuda">Ayuda</span>
                  </li>
                  <li class="menu-item <%= "ayuda".equals(currentPage) ? "active" : "" %>">
-                     <a href="${pageContext.request.contextPath}/vecino_ayuda.html" class="menu-link">
+                     <a href="${pageContext.request.contextPath}/vecino_ayuda.jsp" class="menu-link">
                          <i class="menu-icon tf-icons bx bx-help-circle"></i>
                          <div class="text-truncate" data-i18n="Ayuda">Ayuda</div>
                      </a>
