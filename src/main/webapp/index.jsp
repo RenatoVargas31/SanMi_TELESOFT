@@ -81,7 +81,7 @@
                     <h4 class="mb-2">Bienvenido a SanMI 👋</h4>
                     <p class="mb-4">Por favor, ingresa tus credenciales y disfruta de la experiencia.</p>
 
-                    <form id="formAuthentication" class="mb-3" action="LoginServlet" method="POST">
+                    <form id="formAuthentication" class="mb-3" action="ServletLoguin" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail o usuario</label>
                             <input type="text" class="form-control" id="email" name="email-username" placeholder="Ingrese su e-mail o usuario" autofocus>
@@ -97,6 +97,12 @@
                                 <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
+                            <div class="d-flex text-center">
+                                <% if (request.getParameter("error") != null) { %>
+                                <div class="text-danger mb-2">Error en usuario o contraseña</div>
+                                <% } %>
+                            </div>
+
                         </div>
                         <div class="mb-3">
                             <div class="form-check">

@@ -29,17 +29,18 @@ public class UsuarioDAO {
 
     public Usuario validarUsuario(String correoUsuario, String passwordUsuario) {
         Usuario usuario = null;
-        String sql = "SELECT * FROM usuarios WHERE correoUsuario = ? AND passwordUsuario = ?";
+        String sql = "SELECT * FROM usuarios WHERE correoUsuario = ? AND passwordUsuario = sha2(?,256) ";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, correoUsuario);
-            preparedStatement.setString(2, hashPassword(passwordUsuario));
+            /*preparedStatement.setString(2, hashPassword(passwordUsuario));*/
+            preparedStatement.setString(2, passwordUsuario);
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
                 usuario = new Usuario();
                 usuario.setIdUsuarios(rs.getInt("idUsuarios"));
-                usuario.setIdRoles(rs.getInt("idRoles"));
+                usuario.setIdRoles(rs.getInt("Roles_idRoles"));
                 usuario.setCorreoUsuario(rs.getString("correoUsuario"));
                 usuario.setPasswordUsuario(rs.getString("passwordUsuario"));
                 usuario.setNombreUsuario(rs.getString("nombreUsuario"));

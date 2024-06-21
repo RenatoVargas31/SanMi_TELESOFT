@@ -1,25 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rlvs_
-  Date: 12/06/2024
-  Time: 03:28
-  To change this template use File | Settings | File Templates.
---%>
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-     id="layout-navbar">
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<% String currentPage = request.getParameter("currentPage"); %>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" />
 
-    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
-        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-            <i class="bx bx-menu bx-sm"></i>
-        </a>
-    </div>
 
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="150px" height="70px"
-             viewBox="50 -15 100 100" preserveAspectRatio="xMidYMid meet">
-            <g transform="translate(0.000000,70.000000) scale(0.100000,-0.100000)" fill="#f50000"
-               stroke="none">
+        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="150px" height="70px" viewBox="50 -15 100 100" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,70.000000) scale(0.100000,-0.100000)" fill="#f50000" stroke="none">
                 <path d="M2460 681 c0 -42 -54 -202 -100 -297 -53 -110 -134 -225 -226 -322 -33 -34 -54 -62 -48 -62 23 0 44 12 44 25 0 8 9 17 20 20 11 3 20 12 20 18 1 17 48 49 61 41 7 -4 9 0 5 12 -4 13 6 36 28 66 26 38 35 45 46 35 10 -10 12 -8 7 10 -3 16 0 24 14 28 11 4 17 11 13 16 -3 5 -11 7 -17 3 -7 -3 -1 4 12 15 13 12 19 21 15 21 -5 0 -1 5 8 11 11 6 15 16 11 26 -5 12 -3 14 7 8 8 -5 11 -4 6 3 -3 6 0 16 7 24 8 7 12 19 9 26 -2 6 4 15 13 18 13 5 14 8 3 15 -9 6 -6 9 12 9 19 0 21 3 11 9 -11 7 -12 15 -3 38 6 15 14 43 17 61 6 27 11 32 36 32 18 0 28 -4 24 -10 -3 -5 -1 -10 4 -10 6 0 11 7 11 15 0 10 -10 15 -30 15 -33 0 -37 12 -21 68 8 25 7 32 -5 32 -8 0 -14 -8 -14 -19z"/>
                 <path d="M2568 693 c7 -3 16 -2 19 1 4 3 -2 6 -13 5 -11 0 -14 -3 -6 -6z"/>
                 <path d="M2815 691 c-2 -3 5 -17 16 -30 l19 -23 0 29 c0 20 -5 30 -15 30 -9 0 -18 -3 -20 -6z"/>
@@ -123,20 +113,20 @@
                 <path d="M2855 20 c3 -5 8 -10 11 -10 2 0 4 5 4 10 0 6 -5 10 -11 10 -5 0 -7 -4 -4 -10z"/>
                 <path d="M2900 20 c0 -5 5 -10 10 -10 6 0 10 5 10 10 0 6 -4 10 -10 10 -5 0 -10 -4 -10 -10z"/>
                 <path d="M2168 13 c6 -2 18 -2 25 0 6 3 1 5 -13 5 -14 0 -19 -2 -12 -5z"/>
-                 
             </g>
-             
         </svg>
     </div>
-
-
-    <!-- Search Small Screens -->
-    <div class="navbar-search-wrapper search-input-wrapper  d-none">
-        <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
-               aria-label="Search...">
-        <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+        </a>
     </div>
-
-
+    <div class="form-inline font-italic my-2 my-lg-0">
+        <% if (usuario.getIdUsuarios() == 0) { %>
+        <a class="nav-link" style="color: #007bff;" href="<%=request.getContextPath()%>/ServletLoguin">(Iniciar Sesión)</a>
+        <% } else { %>
+        Bienvenido <%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%>
+        (<a href="<%=request.getContextPath()%>/ServletLoguin?action=logout">Cerrar sesión</a>)
+        <%}%>
+    </div>
 </nav>
-
