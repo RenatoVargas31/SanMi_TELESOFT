@@ -15,9 +15,16 @@
 <body>
 <jsp:include page="../Fragmentos/FragmentosVecino/menuFragmentVecino.jsp"/>
 <jsp:include page="../Vecino/navBar.jsp"/>
-<div class="container">
-    <h1>Error: No Autenticado</h1>
-    <p>Debe iniciar sesión para acceder a esta página. Por favor <a href="${pageContext.request.contextPath}/ServletLoguin">inicie sesión</a>.</p>
+<div class="container-xxl flex-grow-1 container-p-y text-center">
+    <div class="card">
+        <div class="card-body">
+
+            <h1 class="display-4">Error: No Autenticado</h1>
+            <img src="https://as1.ftcdn.net/v2/jpg/05/55/89/72/1000_F_555897211_ktvt7N2TH42KQtafAXw7jcoJSH1SlqtG.jpg" alt="Error: No Autenticado" style="max-width: 20%; height: auto; margin-bottom: 20px;">
+            <p class="lead">Debe iniciar sesión para acceder a esta página. Por favor <a href="<%= request.getContextPath() %>/ServletLoguin">inicie sesión</a>.</p>
+            <a href="<%= request.getContextPath() %>/ServletLoguin" class="btn btn-primary">Iniciar Sesión</a>
+        </div>
+    </div>
 </div>
 <jsp:include page="../Fragmentos/FragmentosVecino/strylesFragmentVecino.jsp"/>
 </body>
