@@ -78,12 +78,12 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="vecino-reportarIncidencia.html" class="menu-link">
+                    <a href="ServletVecino?action=reportarIncidencia" class="menu-link">
                         <div class="text-truncate" data-i18n="Reportar incidencia">Reportar incidencia</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="vecino-misIncidencias.html" class="menu-link">
+                    <a href="ServletVecino?action=misIncidencias" class="menu-link">
                         <div class="text-truncate" data-i18n="Mis incidencias">Mis incidencias</div>
                     </a>
                 </li>
