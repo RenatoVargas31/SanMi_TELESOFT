@@ -14,7 +14,7 @@
                  alt="logo-sanmiguel">
             <span class="app-brand-text demo menu-text fw-bold ms-4">SanMI</span>
         </a>
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+        <a href="#" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
     </div>
@@ -49,7 +49,7 @@
         <!-- e-commerce-app menu end -->
         <!-- Academy menu start -->
         <li class="menu-item ${activeMenuToggle == 'Usuarios' ? 'active' : ''} ">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <a href="#" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bx-user'></i>
                 <div class="text-truncate" data-i18n="Usuarios">Usuarios</div>
             </a>
@@ -77,7 +77,7 @@
         </li>
 
         <li class="menu-item ${activeMenuToggle == 'PersonalSerenazgo' ? 'active' : ''} ">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <a href="#" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-shield"></i>
                 <div class="text-truncate" data-i18n="Serenazgos">Serenazgos</div>
             </a>
