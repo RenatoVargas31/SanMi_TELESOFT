@@ -1,6 +1,8 @@
 package com.example.sanmi_telesoft.daos;
 import com.example.sanmi_telesoft.beans.Incidencia;
+import com.example.sanmi_telesoft.dto.IncidenciasFalsas;
 
+import javax.print.attribute.ResolutionSyntax;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -198,6 +200,33 @@ public class DaoIncidencia extends BaseDao{
         } catch (SQLException e ){
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<IncidenciasFalsas> listarIncidenciasFalsas() {
+        ArrayList<IncidenciasFalsas> listaFalsas = new ArrayList<>();
+
+        String sql = "select  concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo, u.correoUsuario, u.is_bannedApp ,count(i.enabled) as count from incidencias i, usuarios u where i.enabled = 0 and i.Usuarios_idUsuarios = u.idUsuarios group by  Usuarios_idUsuarios";
+
+        try (Connection conn = this.getConection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                IncidenciasFalsas i = new IncidenciasFalsas();
+                i.setNombreCompleto(rs.getString("name_completo"));
+                i.setCorreo(rs.getString("correoUsuario"));
+                i.setCounter(rs.getInt("count"));
+                i.setEstadoUsuario(rs.getInt("is_bannedApp") == 1);
+
+                listaFalsas.add(i);
+
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return listaFalsas;
     }
 
 }

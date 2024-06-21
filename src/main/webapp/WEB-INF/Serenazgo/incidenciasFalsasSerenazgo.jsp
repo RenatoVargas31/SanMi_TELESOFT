@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.sanmi_telesoft.dto.IncidenciasFalsas" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="Falsas" type="java.util.ArrayList<com.example.sanmi_telesoft.dto.IncidenciasFalsas>" scope="request"/>
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
@@ -115,7 +118,7 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Incidencias Falsas</h3>
+                                <h3 class="m-4 fw-bold">Incidencias falsas</h3>
                             </div>
                             <table id="serenazgo-table-incidenciasfalsas" class="datatables-basic table border-top">
                                 <thead>
@@ -128,13 +131,20 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <%
+                                    for (IncidenciasFalsas incidencia : Falsas) {
+
+                                %>
                                 <tr>
-                                    <td>Roberto Tafur</td>
-                                    <td><span >Robert55@outlook.com</span></td>
+                                    <td><%=incidencia.getNombreCompleto()%></td>
+                                    <td><%=incidencia.getCorreo()%></td>
+                                    <td><%=incidencia.getCounter()%></td>
+
+                                    <% if(incidencia.isEstadoUsuario()) { %>
                                     <td><span class="badge bg-danger">Baneado</span></td>
-                                    <td>
-                                        5
-                                    </td>
+                                    <% } else { %>
+                                    <td><span class="badge bg-warning">Observado</span></td>
+                                    <% } %>
                                     <td>
 
                                         <button type="button"
@@ -144,148 +154,17 @@
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td>Jefferson Rodriguez</td>
-                                    <td><span >RodriguezBalbin@gmail.com</span></td>
-                                    <td><span class="badge bg-warning">Observado</span></td>
-                                    <td>
-                                        3
-                                    </td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-label-primary btn-sm btn-popup"
-                                        ><i class='bx bx-mail-send'></i>
-                                        </button>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Gilberto Yauri</td>
-                                    <td><span>Gilber23@gmail.com</span></td>
-                                    <td><span class="badge bg-danger">Baneado</span></td>
-                                    <td>
-                                        5
-                                    </td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-label-primary btn-sm btn-popup disabled"
-                                        ><i class='bx bx-mail-send'></i>
-                                        </button>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Romina Perez</td>
-                                    <td><span>Romina_cielo@hotmail.com</span></td>
-                                    <td><span class="badge bg-warning">Observado</span></td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>
+                                <% } %>
 
 
-                                        <button type="button"
-                                                class="btn btn-label-primary btn-sm btn-popup disabled"
-                                        ><i class='bx bx-mail-send'></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Marcos Alonso</td>
-                                    <td><span >MarcosAlonso@gmail.com</span></td>
-                                    <td><span class="badge bg-warning">Observado</span></td>
-                                    <td>
-                                        4
-                                    </td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-label-primary btn-sm btn-popup"
-                                        ><i class='bx bx-mail-send'></i>
-                                        </button>
-                                    </td>
-
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- Modal to add new record -->
-                    <div class="offcanvas offcanvas-end" id="add-new-record">
-                        <div class="offcanvas-header border-bottom">
-                            <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body flex-grow-1">
-                            <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicFullname">Full Name</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicFullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <input type="text" id="basicFullname" class="form-control dt-full-name"
-                                               name="basicFullname" placeholder="John Doe" aria-label="John Doe"
-                                               aria-describedby="basicFullname2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicPost">Post</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                                        <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                                               placeholder="Web Developer" aria-label="Web Developer"
-                                               aria-describedby="basicPost2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicEmail">Email</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                        <input type="text" id="basicEmail" name="basicEmail"
-                                               class="form-control dt-email" placeholder="john.doe@example.com"
-                                               aria-label="john.doe@example.com"/>
-                                    </div>
-                                    <div class="form-text">
-                                        You can use letters, numbers & periods
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicDate">Joining Date</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicDate2" class="input-group-text"><i
-                                                class='bx bx-calendar'></i></span>
-                                        <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                                               aria-describedby="basicDate2" placeholder="MM/DD/YYYY"
-                                               aria-label="MM/DD/YYYY"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicSalary">Salary</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicSalary2" class="input-group-text"><i
-                                                class='bx bx-dollar'></i></span>
-                                        <input type="number" id="basicSalary" name="basicSalary"
-                                               class="form-control dt-salary" placeholder="12000" aria-label="12000"
-                                               aria-describedby="basicSalary2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit
-                                    </button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
 
-                        </div>
-                    </div>
                     <!--/ DataTable with Buttons -->
 
-                    <hr class="my-5">
 
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
