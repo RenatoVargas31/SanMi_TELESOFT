@@ -1,7 +1,7 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Serenazgo" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Objects" %>
-<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="java.util.Random" %>
 <%--
   Created by IntelliJ IDEA.
   User: rlvs_
@@ -91,7 +91,7 @@
 <!-- End Google Tag Manager (noscript) -->
 
 <!-- Layout wrapper -->
-<div class="layout-wrapper layout-content-navbar  ">
+<div class="layout-wrapper layout-content-navbar ">
     <div class="layout-container">
 
 
@@ -136,22 +136,54 @@
                                     <th>Teléfono</th>
                                     <th>Tipo</th>
                                     <th>Turno</th>
+                                    <th>Domicilio</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <%
                                     ArrayList<Serenazgo> listaDeCampo = (ArrayList<Serenazgo>) request.getAttribute("listaDeCampo");
+
+                                    ArrayList<String> listaColors = new ArrayList<>();
+                                    listaColors.add("primary");
+                                    listaColors.add("secondary");
+                                    listaColors.add("success");
+                                    listaColors.add("danger");
+                                    listaColors.add("warning");
+                                    listaColors.add("info");
+                                    listaColors.add("dark");
+                                    listaColors.add("ligt");
+                                    listaColors.add("twitter");
+                                    listaColors.add("youtube");
+                                    listaColors.add("reddit");
+                                    listaColors.add("instagram");
+                                    listaColors.add("pinterest");
+                                    listaColors.add("facebook");
+                                    listaColors.add("slack");
+                                    listaColors.add("dribble");
+                                    listaColors.add("github");
+                                    listaColors.add("vimeo");
+                                    Random rand = new Random();
                                 %>
                                 <tbody>
 
                                 <%for (Serenazgo deCampo : listaDeCampo) {%>
                                 <%if(Objects.equals(deCampo.getIsEnable(), "1")){%>
                                 <tr>
-                                    <td><%= deCampo.getNombreSereno() %> <%= deCampo.getApellidoSereno() %></td>
+                                    <td><div class="d-flex align-items-center user-name">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-2">
+                                                <span class="avatar-initial rounded-circle bg-label-<%=listaColors.get(rand.nextInt(listaColors.size()))%>"><%=deCampo.getNombreSereno().charAt(0)%><%=deCampo.getApellidoSereno().charAt(0)%></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <span class="emp_name text-truncate"><%= deCampo.getNombreSereno() %> <%= deCampo.getApellidoSereno() %></span>
+                                        </div>
+                                    </div></td>
                                     <td><%= deCampo.getDniSereno() %></td>
                                     <td><%= deCampo.getTelefonoSereno() %></td>
                                     <td><%= deCampo.getTipoSereno().getNameTipo()%></td>
                                     <td><%= deCampo.getTurnoSereno()%></td>
+                                    <td><%= deCampo.getDireccionSereno()%></td>
                                     <td>
                                         <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDeCampo&idDeCampo=<%= deCampo.getIdSerenazgos() %>">
                                             <i class='bx bx-edit'></i>

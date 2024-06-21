@@ -53,14 +53,15 @@ public class ServletAdministrador extends HttpServlet {
                 request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
                 request.setAttribute("activeMenu", "DeCampo");
                 ArrayList<Serenazgo> listaDeCampo = daoAdministrador.listarDeCampo();
-                ArrayList<TipoSereno> listaTipoSereno = daoAdministrador.listarTipoSereno();
                 request.setAttribute("listaDeCampo", listaDeCampo);
-                request.setAttribute("listaTipoSereno", listaTipoSereno);
+
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-SerenazgoDeCampo.jsp").forward(request, response);
                 break;
             case "nuevoDeCampo":
                 request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
                 request.setAttribute("activeMenu", "DeCampo");
+                ArrayList<TipoSereno> listaTipoSereno = daoAdministrador.listarTipoSereno();
+                request.setAttribute("listaTipoSereno", listaTipoSereno);
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarDeCampo.jsp").forward(request, response);
                 break;
             case "eliminarDeCampo":
@@ -183,7 +184,9 @@ public class ServletAdministrador extends HttpServlet {
                 String tipoDeCampo = request.getParameter("tipoDeCampo");
                 String turnoDeCampo = request.getParameter("turnoDeCampo");
                 String direccionDeCampo = request.getParameter("direccionDeCampo");
-                TipoSereno tipoSereno = daoAdministrador.buscarTipoSerenazgoPorName(tipoDeCampo);
+                System.out.println("tipoCampo: "+ tipoDeCampo);
+                TipoSereno tipoSereno = daoAdministrador.buscarTipoSerenazgoPorId(tipoDeCampo);
+                System.out.println( "idTipoSereno: "+ tipoSereno.getIdTipoSereno());
                 daoAdministrador.crearDeCampo(nombreDeCampo, apellidoDeCampo, dniDeCampo, turnoDeCampo, direccionDeCampo, telefonoDeCampo, tipoSereno.getIdTipoSereno());
                     response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDeCampo");
                 break;

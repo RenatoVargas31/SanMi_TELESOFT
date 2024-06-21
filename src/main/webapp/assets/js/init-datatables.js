@@ -59,7 +59,7 @@ $(document).ready(function () {
     var table = $('#table-personalSerenazgoDeCampo').DataTable({
         responsive: true,
         lengthChange: false,
-        pageLength: 7,
+        pageLength: 6,
         info: false,
         paging: true,
         language: {
@@ -67,7 +67,7 @@ $(document).ready(function () {
         },
         order: [[2, 'asc']],
         columnDefs: [
-            {orderable: false, targets: [0, -1]}
+            {orderable: false, targets: [0, -1]},
         ]
     });
     $('.searchInTable').keyup(function() {
@@ -139,7 +139,7 @@ $('#table-usuariosBaneados').DataTable({
 $('#table-instructores').DataTable({
     responsive: true,
     lengthChange: false,
-    pageLength: 7,
+    pageLength: 6,
     info: false,
     paging: true,
     language: {

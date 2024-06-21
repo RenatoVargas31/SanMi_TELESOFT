@@ -41,15 +41,15 @@ public class DaoAdministrador extends BaseDao {
 
         return deCampo;
     }
-    public TipoSereno buscarTipoSerenazgoPorName(String name){
+    public TipoSereno buscarTipoSerenazgoPorId(String id){
         TipoSereno tipoSereno = new TipoSereno();
 
-        String sql = "select * from tiposereno where nameTipo = ?";
+        String sql = "select * from tiposereno where idTipoSereno = ?";
 
         try(Connection conn = getConection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
 
-            pstmt.setString(1,name);
+            pstmt.setString(1,id);
 
             try(ResultSet rs = pstmt.executeQuery()){
                 while (rs.next()){

@@ -137,7 +137,7 @@
                                 <select id="tipoDeCampo" name="tipoDeCampo" class="select2 form-select">
                                     <option value="sinSeleccion">--Seleccione--</option>
                                     <% for (TipoSereno tipoSereno : listaTipoSereno) {%>
-                                    <option value="<%=tipoSereno.getIdTipoSereno()%>>"><%=tipoSereno.getNameTipo()%>/option>
+                                    <option value="<%=tipoSereno.getIdTipoSereno()%>"><%=tipoSereno.getNameTipo()%></option>
                                     <%}%>
                                 </select>
                             </div>
@@ -145,8 +145,8 @@
                                 <label class="form-label" for="turnoDeCampo">Turno</label>
                                 <select id="turnoDeCampo" name="turnoDeCampo" class="select2 form-select" >
                                     <option value="sinSeleccion">--Seleccione--</option>
-                                    <option value="Diurno">Diurno</option>
-                                    <option value="Nocturno">Nocturno</option>
+                                    <option value="Mañana">Mañana</option>
+                                    <option value="Tarde">Tarde</option>
                                 </select>
                             </div>
                             <div class="col-12 ">

@@ -132,7 +132,6 @@
         scroll-behavior: smooth
     }
 }
-
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);
@@ -7209,7 +7208,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 
 .bg-label-warning {
     background-color: #fff2d6 !important;
-    color: #ffab00 !important
+    color: var(--bs-warning) !important
 }
 
 .border-label-warning {
@@ -7271,7 +7270,6 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .border-light-gray {
     border: 3px solid rgba(67, 89, 113, .08)
 }
-
 .bg-label-hover-secondary {
     background-color: #ebeef0 !important;
     color: #8592a3 !important
