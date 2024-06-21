@@ -1,10 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sergio
-  Date: 15/06/2024
-  Time: 01:48
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<% String currentPage = request.getParameter("currentPage"); %>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
+
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
      id="layout-navbar">
 
@@ -125,31 +124,29 @@
                 <path d="M2168 13 c6 -2 18 -2 25 0 6 3 1 5 -13 5 -14 0 -19 -2 -12 -5z"/>
             </g>
         </svg>
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
-            <!-- Quick links -->
-
-
-            <!-- Style Switcher -->
-
-            <!-- / Style Switcher-->
-
-
-            <!-- Notification -->
-            <!--/ Notification -->
-            <!-- User -->
-            <!--/ User -->
-
-
-        </ul>
     </div>
+    <ul class="navbar-nav flex-row align-items-center ms-auto">
+        <!-- User -->
 
-
-    <!-- Search Small Screens -->
-    <div class="navbar-search-wrapper search-input-wrapper  d-none">
-        <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
-               aria-label="Search...">
-        <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
-    </div>
-
-
+        <% if (usuario.getIdUsuarios() == 0) { %>
+        <a class="nav-link" style="color: #007bff;" href="<%=request.getContextPath()%>/ServletLoguin">(Iniciar Sesión)</a>
+        <% } else { %>
+        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletSerenazgo">
+            <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                    <div class="avatar avatar-online">
+                        <img src="<%=request.getContextPath()%>/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <span class="fw-medium d-block"><%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%></span>
+                    <small class="text-muted">Serenazgo</small>
+                </div>
+            </div>
+        </a>
+        <%}%>
+        <a class="dropdown-item" href="<%=request.getContextPath()%>/LogoutServlet">
+            <i class="bx bx-power-off m-2"></i>
+        </a>
+    </ul>
 </nav>

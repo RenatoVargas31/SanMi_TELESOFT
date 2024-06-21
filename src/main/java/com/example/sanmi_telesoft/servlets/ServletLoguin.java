@@ -26,27 +26,33 @@ public class ServletLoguin extends HttpServlet {
         String passwordUsuario = request.getParameter("password");
 
         Usuario usuario = usuarioDAO.validarUsuario(correoUsuario, passwordUsuario);
+        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 
         if (usuario != null) {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
-            // Redirigir según el rol del usuario
-            switch (usuario.getIdRoles()) {
-                case 1: // Rol de Administrador
-                    response.sendRedirect(request.getContextPath()+"/ServletAdministrador");
-                    break;
-                case 2: // Rol de Coordinadora
-                    response.sendRedirect(request.getContextPath()+"/ServletCoordinadora");
-                    break;
-                case 3: // Rol de Serenazgo
-                    response.sendRedirect(request.getContextPath()+"/ServletSerenazgo");
-                    break;
-                case 4: // Rol de Vecino
-                    response.sendRedirect(request.getContextPath()+"/ServletVecino");
-                    break;
-                default:
-                    response.sendRedirect("index.jsp?error");
-                    break;
+            session.setMaxInactiveInterval(10*60);
+            if (u != null && u.getIdUsuarios() != 0){
+                response.sendRedirect(request.getContextPath());
+            } else {
+                // Redirigir según el rol del usuario
+                switch (usuario.getIdRoles()) {
+                    case 1: // Rol de Administrador
+                        response.sendRedirect(request.getContextPath() + "/ServletAdministrador");
+                        break;
+                    case 3: // Rol de Coordinadora
+                        response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
+                        break;
+                    case 2: // Rol de Serenazgo
+                        response.sendRedirect(request.getContextPath() + "/ServletSerenazgo");
+                        break;
+                    case 4: // Rol de Vecino
+                        response.sendRedirect(request.getContextPath() + "/ServletVecino");
+                        break;
+                    default:
+                        response.sendRedirect("index.jsp?error");
+                        break;
+                }
             }
         } else {
             response.sendRedirect("index.jsp?error");
@@ -62,8 +68,19 @@ public class ServletLoguin extends HttpServlet {
 
         switch (action) {
             case "loginform":
-                view = request.getRequestDispatcher("login/loginForm.jsp");
-                view.forward(request, response);
+                Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+
+                if (u != null && u.getIdUsuarios() != 0){
+                    response.sendRedirect(request.getContextPath());
+                } else {
+                    view = request.getRequestDispatcher("/index.jsp");
+                    view.forward(request, response);
+                }
+                break;
+            case "logout":
+                HttpSession session = request.getSession();
+                session.invalidate();
+                response.sendRedirect(request.getContextPath());
                 break;
         }
         doPost(request, response);
