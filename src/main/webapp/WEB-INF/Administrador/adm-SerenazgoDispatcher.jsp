@@ -1,6 +1,7 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Random" %>
 <%--
   Created by IntelliJ IDEA.
   User: rlvs_
@@ -140,12 +141,42 @@
                                 </thead>
                                 <%
                                     ArrayList<Usuario> listaDispatchers = (ArrayList<Usuario>) request.getAttribute("listaDispatchers");
+                                    ArrayList<String> listaColors = new ArrayList<>();
+                                    listaColors.add("primary");
+                                    listaColors.add("secondary");
+                                    listaColors.add("success");
+                                    listaColors.add("danger");
+                                    listaColors.add("warning");
+                                    listaColors.add("info");
+                                    listaColors.add("dark");
+                                    listaColors.add("ligt");
+                                    listaColors.add("twitter");
+                                    listaColors.add("youtube");
+                                    listaColors.add("reddit");
+                                    listaColors.add("instagram");
+                                    listaColors.add("pinterest");
+                                    listaColors.add("facebook");
+                                    listaColors.add("slack");
+                                    listaColors.add("dribble");
+                                    listaColors.add("github");
+                                    listaColors.add("vimeo");
+
+                                    Random rand = new Random();
                                 %>
                                 <tbody>
 
                                 <%for (Usuario dispatcher : listaDispatchers) {%>
                                 <tr>
-                                    <td><%= dispatcher.getNombreUsuario() %> <%= dispatcher.getApellidoUsuario() %></td>
+                                    <td><div class="d-flex align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-2">
+                                                <span class="avatar-initial rounded-circle bg-label-<%=listaColors.get(rand.nextInt(listaColors.size()))%>"><%=dispatcher.getNombreUsuario().charAt(0)%><%=dispatcher.getApellidoUsuario().charAt(0)%></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <span class="emp_name text-truncate"><%= dispatcher.getNombreUsuario() %> <%= dispatcher.getApellidoUsuario() %></span>
+                                        </div>
+                                    </div></td>
                                     <td><%= dispatcher.getDniUsuario() %></td>
                                     <td><%= dispatcher.getCorreoUsuario() %></td>
                                     <td><%= dispatcher.getTelefonoUsuario()%></td>
@@ -154,14 +185,13 @@
                                         <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDispatcher&idDispatcher=<%= dispatcher.getIdUsuarios() %>">
                                             <i class='bx bx-edit'></i>
                                         </a>
+                                        <% if(dispatcher.getIsActive().equals("1") ) {%>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm <%= dispatcher.getIsActive().equals("0") ? "disabled" : "" %>"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalToggle<%= dispatcher.getIdUsuarios() %>"><i
                                                 class='bx bx-trash'></i>
                                         </button>
-
-
                                         <div class="modal fade" id="modalToggle<%= dispatcher.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -179,6 +209,17 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <%} else{%>
+                                        <button type="button"
+                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm disabled"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#"><i
+                                                class='bx bx-trash'></i>
+                                        </button>
+
+                                        <% } %>
+
                                     </td>
                                 </tr>
                                 <% } %>

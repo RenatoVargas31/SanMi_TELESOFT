@@ -9,6 +9,7 @@ public class Incidencia {
     private boolean requiereAmbulancia;
     private boolean requierePolicia;
     private boolean requiereBombero;
+    private boolean enable;
     private String descripcionSolucion;
     private String nameUsuario;
     private int idTipoIncidencia;
@@ -177,6 +178,14 @@ public class Incidencia {
 
     public void setNameUsuario(String nameUsuario) {
         this.nameUsuario = nameUsuario;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }
 

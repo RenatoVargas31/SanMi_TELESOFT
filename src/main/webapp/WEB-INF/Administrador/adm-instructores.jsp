@@ -1,6 +1,7 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Profesor" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Random" %>
 <%--
   User: rlvs_
   Date: 4/06/2024
@@ -129,7 +130,6 @@
                             <table id="table-instructores" class="datatables-basic table border-top">
                                 <thead>
                                 <tr>
-
                                     <th>Nombre Y apellido</th>
                                     <th>Tipo</th>
                                     <th>DNI</th>
@@ -139,13 +139,43 @@
                                 </thead>
                                 <%
                                     ArrayList<Profesor> listaProfesores = (ArrayList<Profesor>) request.getAttribute("listaProfesores");
+
+                                    ArrayList<String> listaColors = new ArrayList<>();
+                                    listaColors.add("primary");
+                                    listaColors.add("secondary");
+                                    listaColors.add("success");
+                                    listaColors.add("danger");
+                                    listaColors.add("warning");
+                                    listaColors.add("info");
+                                    listaColors.add("dark");
+                                    listaColors.add("ligt");
+                                    listaColors.add("twitter");
+                                    listaColors.add("youtube");
+                                    listaColors.add("reddit");
+                                    listaColors.add("instagram");
+                                    listaColors.add("pinterest");
+                                    listaColors.add("facebook");
+                                    listaColors.add("slack");
+                                    listaColors.add("dribble");
+                                    listaColors.add("github");
+                                    listaColors.add("vimeo");
+                                    Random rand = new Random();
                                 %>
                                 <tbody>
 
                                 <%for (Profesor profesor : listaProfesores) {%>
                                 <%if(Objects.equals(profesor.getIsEnable(), "1")){%>
                                 <tr>
-                                    <td><%= profesor.getNombreProfesor() %> <%= profesor.getApellidoProfesor() %></td>
+                                    <td><div class="d-flex align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-2">
+                                                <span class="avatar-initial rounded-circle bg-label-<%=listaColors.get(rand.nextInt(listaColors.size()))%>"><%=profesor.getNombreProfesor().charAt(0)%><%=profesor.getApellidoProfesor().charAt(0)%></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <span class="emp_name text-truncate"><%= profesor.getNombreProfesor() %> <%= profesor.getApellidoProfesor() %></span>
+                                        </div>
+                                    </div></td>
                                     <td><%= profesor.getTipoProfesor() %></td>
                                     <td><%= profesor.getDniProfesor() %></td>
                                     <td><%= profesor.getCursoProfesor()%></td>

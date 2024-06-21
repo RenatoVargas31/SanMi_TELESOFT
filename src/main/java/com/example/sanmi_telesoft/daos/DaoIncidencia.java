@@ -1,6 +1,8 @@
 package com.example.sanmi_telesoft.daos;
 import com.example.sanmi_telesoft.beans.Incidencia;
+import com.example.sanmi_telesoft.dto.IncidenciasFalsas;
 
+import javax.print.attribute.ResolutionSyntax;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaIncidencia = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios;";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
 
         try (Connection conn = this.getConection();
              Statement stmt = conn.createStatement();
@@ -33,7 +35,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setDescripcionSolucion(rs.getString(10));
                 incidencia.setSerenazgoid(rs.getInt(11));
                 incidencia.setAmbulalciaid(rs.getInt(12));
-                incidencia.setNameUsuario(rs.getString(17));
+                incidencia.setNameUsuario(rs.getString(18));
                 incidencia.setEstado(rs.getInt(14));
                 incidencia.setCriticidad(rs.getInt(15));
                 incidencia.setTipo(rs.getInt(16));
@@ -51,7 +53,7 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaMisIncidencias = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ?";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ? AND enabled = 1";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -72,7 +74,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setDescripcionSolucion(rs.getString(10));
                 incidencia.setSerenazgoid(rs.getInt(11));
                 incidencia.setAmbulalciaid(rs.getInt(12));
-                incidencia.setNameUsuario(rs.getString(17));
+                incidencia.setNameUsuario(rs.getString(18 ));
                 incidencia.setEstado(rs.getInt(14));
                 incidencia.setCriticidad(rs.getInt(15));
                 incidencia.setTipo(rs.getInt(16));
@@ -178,13 +180,53 @@ public class DaoIncidencia extends BaseDao{
     public void eliminarIncidencia(int idIncidencia) {
         String sql = "DELETE FROM incidencias WHERE idIncidencias = ?";
 
-        try (Connection conn = getConection();
+        try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idIncidencia);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void falsearIncidencia(int idIncidencia){
+        String sql = "UPDATE incidencias SET enabled = 0 WHERE idIncidencias = ?";
+
+        try(Connection conn = this.getConection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, idIncidencia);
+            stmt.executeUpdate();
+
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<IncidenciasFalsas> listarIncidenciasFalsas() {
+        ArrayList<IncidenciasFalsas> listaFalsas = new ArrayList<>();
+
+        String sql = "select  concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo, u.correoUsuario, u.is_bannedApp ,count(i.enabled) as count from incidencias i, usuarios u where i.enabled = 0 and i.Usuarios_idUsuarios = u.idUsuarios group by  Usuarios_idUsuarios";
+
+        try (Connection conn = this.getConection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                IncidenciasFalsas i = new IncidenciasFalsas();
+                i.setNombreCompleto(rs.getString("name_completo"));
+                i.setCorreo(rs.getString("correoUsuario"));
+                i.setCounter(rs.getInt("count"));
+                i.setEstadoUsuario(rs.getInt("is_bannedApp") == 1);
+
+                listaFalsas.add(i);
+
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return listaFalsas;
     }
 
 }
