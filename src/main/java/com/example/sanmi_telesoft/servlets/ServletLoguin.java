@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-
 @WebServlet("/ServletLoguin")
 public class ServletLoguin extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -19,7 +18,6 @@ public class ServletLoguin extends HttpServlet {
     public void init() {
         usuarioDAO = new UsuarioDAO();
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String correoUsuario = request.getParameter("email-username");
@@ -29,9 +27,9 @@ public class ServletLoguin extends HttpServlet {
         Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 
         if (usuario != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", usuario);
-            session.setMaxInactiveInterval(10*60);
+            HttpSession session1 = request.getSession();
+            session1.setAttribute("usuario", usuario);
+            session1.setMaxInactiveInterval(10*60);
             if (u != null && u.getIdUsuarios() != 0){
                 response.sendRedirect(request.getContextPath());
             } else {
@@ -58,7 +56,6 @@ public class ServletLoguin extends HttpServlet {
             response.sendRedirect("index.jsp?error");
         }
     }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

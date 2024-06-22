@@ -6,6 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<%
+    HttpSession session1 = request.getSession(false);
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
+%>
+
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
