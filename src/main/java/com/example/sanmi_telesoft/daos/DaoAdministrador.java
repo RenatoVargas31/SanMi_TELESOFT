@@ -31,6 +31,7 @@ public class DaoAdministrador extends BaseDao {
                     deCampo.setDireccionSereno(rs.getString("direccionSereno"));
                     deCampo.setTelefonoSereno(rs.getString("telefonoSereno"));
                     deCampo.setIsEnable(rs.getString("isEnable"));
+                    tipoSereno.setIdTipoSereno(rs.getInt("idTipoSereno"));
                     tipoSereno.setNameTipo(rs.getString("nameTipo"));
                     deCampo.setTipoSereno(tipoSereno);
                 }
@@ -136,7 +137,28 @@ public class DaoAdministrador extends BaseDao {
 
         return listaTipoSereno;
     }
-    public void borrrDeCampo(String idDeCampo) throws SQLException {
+    public void actualizarDeCampo(Serenazgo serenazgo){
+        String sql = "update serenazgos set nombreSereno=?, apellidoSereno=?, dniSereno=?, turnoSereno=?, direccionSereno=?, telefonoSereno=?, TipoSereno_idTipoSereno=? where idSerenazgos = ?";
+
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,serenazgo.getNombreSereno());
+            pstmt.setString(2,serenazgo.getApellidoSereno());
+            pstmt.setString(3,serenazgo.getDniSereno());
+            pstmt.setString(4,serenazgo.getTurnoSereno());
+            pstmt.setString(5,serenazgo.getDireccionSereno());
+            pstmt.setString(6,serenazgo.getTelefonoSereno());
+            pstmt.setInt(7,serenazgo.getTipoSereno().getIdTipoSereno());
+            pstmt.setInt(8,serenazgo.getIdSerenazgos());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void borrarDeCampo(String idDeCampo) throws SQLException {
         String sql = "update serenazgos set isEnable='0' where idSerenazgos = ?";
         try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){

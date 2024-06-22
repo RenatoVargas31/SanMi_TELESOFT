@@ -61,13 +61,29 @@ public class ServletAdministrador extends HttpServlet {
                 request.setAttribute("listaTipoSereno", listaTipoSereno);
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarDeCampo.jsp").forward(request, response);
                 break;
+            case "actualizarDeCampo":
+                request.setAttribute("activeMenuToggle", "PersonalSerenazgo");
+                request.setAttribute("activeMenu", "DeCampo");
+                //Para Combobox
+                ArrayList<TipoSereno> listaTipoSerenoE = daoAdministrador.listarTipoSereno();
+                request.setAttribute("listaTipoSereno", listaTipoSerenoE);
+                ///////////////
+                Serenazgo deCampo = daoAdministrador.buscarDeCampoPorId(request.getParameter("idDeCampo"));
+                if(deCampo != null){
+                    request.setAttribute("deCampo",deCampo);
+                    request.getRequestDispatcher("WEB-INF/Administrador/adm-editarDeCampo.jsp").forward(request,response);
+                }else{
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDeCampo");
+                }
+
+                break;
             case "eliminarDeCampo":
                 String idDeleteDeCampo = request.getParameter("idDeCampo");
                 Serenazgo deCampoDelete = daoAdministrador.buscarDeCampoPorId(idDeleteDeCampo);
                 if(deCampoDelete != null){
                     System.out.println("Log: deCampo encontrado");
                     try {
-                        daoAdministrador.borrrDeCampo(idDeleteDeCampo);
+                        daoAdministrador.borrarDeCampo(idDeleteDeCampo);
                     } catch (SQLException e) {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
@@ -186,6 +202,38 @@ public class ServletAdministrador extends HttpServlet {
                 System.out.println( "idTipoSereno: "+ tipoSereno.getIdTipoSereno());
                 daoAdministrador.crearDeCampo(nombreDeCampo, apellidoDeCampo, dniDeCampo, turnoDeCampo, direccionDeCampo, telefonoDeCampo, tipoSereno.getIdTipoSereno());
                     response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDeCampo");
+                break;
+            case "editarDeCampo":
+                String nombreDeCampoEdit = request.getParameter("nombreDeCampo");
+                String apellidoDeCampoEdit = request.getParameter("apellidoDeCampo");
+                String dniDeCampoEdit = request.getParameter("dniDeCampo");
+                String telefonoDeCampoEdit = request.getParameter("telefonoDeCampo");
+                String tipoDeCampoEdit = request.getParameter("tipoDeCampo");
+                String turnoDeCampoEdit = request.getParameter("turnoDeCampo");
+                String direccionDeCampoEdit = request.getParameter("direccionDeCampo");
+                String idDeCampoEdit = request.getParameter("idDeCampo");
+                boolean isAllValid = true;
+
+                if(dniDeCampoEdit.length() > 8){
+                    isAllValid = false;
+                }
+                if(isAllValid) {
+                    Serenazgo deCampo = new Serenazgo();
+                    deCampo.setNombreSereno(nombreDeCampoEdit);
+                    deCampo.setApellidoSereno(apellidoDeCampoEdit);
+                    deCampo.setDniSereno(dniDeCampoEdit);
+                    deCampo.setTelefonoSereno(telefonoDeCampoEdit);
+                    deCampo.setTipoSereno(daoAdministrador.buscarTipoSerenazgoPorId(tipoDeCampoEdit));
+                    deCampo.setTurnoSereno(turnoDeCampoEdit);
+                    deCampo.setDireccionSereno(direccionDeCampoEdit);
+                    deCampo.setIdSerenazgos(Integer.parseInt(idDeCampoEdit));
+
+                    daoAdministrador.actualizarDeCampo(deCampo);
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarDeCampo");
+                }else{
+                    request.setAttribute("deCampo",daoAdministrador.buscarDeCampoPorId(dniDeCampoEdit));
+                    request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request,response);
+                }
                 break;
             case "crearDispatcher":
                 String nombreDispatcher = request.getParameter("nombreDispatcher");

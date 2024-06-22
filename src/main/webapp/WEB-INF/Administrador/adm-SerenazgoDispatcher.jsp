@@ -149,7 +149,6 @@
                                     listaColors.add("warning");
                                     listaColors.add("info");
                                     listaColors.add("dark");
-                                    listaColors.add("ligt");
                                     listaColors.add("twitter");
                                     listaColors.add("youtube");
                                     listaColors.add("reddit");
@@ -157,7 +156,6 @@
                                     listaColors.add("pinterest");
                                     listaColors.add("facebook");
                                     listaColors.add("slack");
-                                    listaColors.add("dribble");
                                     listaColors.add("github");
                                     listaColors.add("vimeo");
 

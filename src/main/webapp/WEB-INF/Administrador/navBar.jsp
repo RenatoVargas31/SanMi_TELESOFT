@@ -120,13 +120,13 @@
             </g>
         </svg>
     </div>
-    <ul class="navbar-nav flex-row align-items-center ms-auto">
+    <div class="navbar-nav flex-row align-items-center ms-auto ">
         <!-- User -->
 
             <% if (usuario.getIdUsuarios() == 0) { %>
             <a class="nav-link" style="color: #007bff;" href="<%=request.getContextPath()%>/ServletLoguin">(Iniciar Sesión)</a>
             <% } else { %>
-            <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletAdministrador">
+            <span>
                 <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                         <div class="avatar avatar-online">
@@ -134,16 +134,15 @@
                         </div>
                     </div>
                     <div class="flex-grow-1">
-                        <span class="fw-medium d-block"><%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%></span>
-                        <small class="text-muted">Admin</small>
+                        <span class="text-truncate fw-medium d-block"><%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%></span>
+                        <small class="text-muted">Administrador</small>
                     </div>
                 </div>
-            </a>
+            </span>
             <%}%>
 
-            <a class="dropdown-item" href="<%=request.getContextPath()%>/LogoutServlet">
-                <i class="bx bx-power-off m-2"></i>
+            <a class="btn btn-primary rounded-pill btn-icon ms-4" href="<%=request.getContextPath()%>/LogoutServlet">
+                <i class="bx bx-power-off"></i>
             </a>
-
-    </ul>
+    </div>
 </nav>

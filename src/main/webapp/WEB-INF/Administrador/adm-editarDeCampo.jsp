@@ -8,8 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
+<jsp:useBean id="deCampo" type="com.example.sanmi_telesoft.beans.Serenazgo" scope="request" />
 <jsp:useBean id="listaTipoSereno" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoSereno>" scope="request"/>
-
 <!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:08 GMT -->
 <head>
     <meta charset="utf-8"/>
@@ -113,48 +113,65 @@
                 <div class="modal-content p-3 p-md-5">
                     <div class="modal-body">
                         <div class="text-center mb-4">
-                            <h3 class="address-title fw-bold">Registrar Serenazgo</h3>
+                            <h3 class="address-title fw-bold">Editar Serenazgo</h3>
                         </div>
-                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=crearDeCampo">
+                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=editarDeCampo">
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="nombreDeCampo">Nombres</label>
-                                <input type="text" id="nombreDeCampo" name="nombreDeCampo" class="form-control" placeholder="Nombre" />
+                                <input type="text" id="nombreDeCampo" name="nombreDeCampo" class="form-control" value="<%=deCampo.getNombreSereno()%>" />
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="apellidoDeCampo">Apellidos</label>
-                                <input type="text" id="apellidoDeCampo" name="apellidoDeCampo" class="form-control" placeholder="Apellido" />
+                                <input type="text" id="apellidoDeCampo" name="apellidoDeCampo" class="form-control" value="<%=deCampo.getApellidoSereno()%>" />
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="dniDeCampo">DNI</label>
-                                <input type="text" id="dniDeCampo" name="dniDeCampo" class="form-control" placeholder="DNI" />
+                                <input type="text" id="dniDeCampo" name="dniDeCampo" class="form-control" value="<%=deCampo.getDniSereno()%>" />
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="telefonoDeCampo">Teléfono</label>
-                                <input type="text" id="telefonoDeCampo" name="telefonoDeCampo" class="form-control" placeholder="Teléfono" />
+                                <input type="text" id="telefonoDeCampo" name="telefonoDeCampo" class="form-control" value="<%=deCampo.getTelefonoSereno()%>" />
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="tipoDeCampo">Tipo</label>
                                 <select id="tipoDeCampo" name="tipoDeCampo" class="select2 form-select">
-                                    <option value="sinSeleccion">--Seleccione--</option>
-                                    <% for (TipoSereno tipoSereno : listaTipoSereno) {%>
-                                    <option value="<%=tipoSereno.getIdTipoSereno()%>"><%=tipoSereno.getNameTipo()%></option>
+                                    <% for (TipoSereno tipoSereno : listaTipoSereno) {
+                                        String selected = "";
+                                        if (deCampo.getTipoSereno().getIdTipoSereno()==tipoSereno.getIdTipoSereno()) {
+                                            selected = "selected";
+                                        }
+                                    %>
+                                    <option value="<%=tipoSereno.getIdTipoSereno()%>" <%=selected%>><%=tipoSereno.getNameTipo()%></option>
                                     <%}%>
                                 </select>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="turnoDeCampo">Turno</label>
                                 <select id="turnoDeCampo" name="turnoDeCampo" class="select2 form-select" >
-                                    <option value="sinSeleccion">--Seleccione--</option>
-                                    <option value="Mañana">Mañana</option>
-                                    <option value="Tarde">Tarde</option>
-                                    <option value="Tarde">Noche</option>
+                                    <%
+                                        String selectedM = "";
+                                        String selectedT = "";
+                                        String selectedN = "";
+                                        if (deCampo.getTurnoSereno().equals("Mañana")) {
+                                            selectedM = "selected";
+                                        } else if (deCampo.getTurnoSereno().equals("Tarde")) {
+                                            selectedT = "selected";
+                                        } else if (deCampo.getTurnoSereno().equals("Noche")) {
+                                            selectedN = "selected";
+                                        }
+                                    %>
+                                    <option value="Mañana" <%=selectedM%>>Mañana</option>
+                                    <option value="Tarde" <%=selectedT%>>Tarde</option>
+                                    <option value="Noche" <%=selectedN%>>Noche</option>
                                 </select>
                             </div>
                             <div class="col-12 ">
                                 <label class="form-label" for="direccionDeCampo">Dirección</label>
-                                <input type="text" id="direccionDeCampo" name="direccionDeCampo" class="form-control" placeholder="Dirección" />
+                                <input type="text" id="direccionDeCampo" name="direccionDeCampo" class="form-control" value="<%=deCampo.getDireccionSereno()%>" />
                             </div>
-
+                            <div>
+                                <input type="hidden" id="idDeCampo" name="idDeCampo" value="<%= deCampo.getIdSerenazgos() %>">
+                            </div>
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
                                 <a href="ServletAdministrador?action=mostrarDeCampo" class="btn btn-label-secondary">Cancelar</a>

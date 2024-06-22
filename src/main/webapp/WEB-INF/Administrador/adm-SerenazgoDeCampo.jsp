@@ -118,13 +118,13 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Lista de Serenazgos Dispatchers</h3>
+                                <h3 class="m-4 fw-bold">Lista de Serenazgos de Campo</h3>
 
                                 <form action="<%=request.getContextPath()%>/ServletAdministrador" method="get">
                                     <input type="hidden" name="action" value="nuevoDeCampo">
                                     <button type="submit" class="btn btn-primary me-3 ">
-                                        <i class='bx bx-laptop me-2'></i>
-                                        <span><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Dispatcher</h2></span>
+                                        <i class='bx bx-shield me-2'></i>
+                                        <span><h2 style="color: white;font-size:15px; margin-bottom: 0px">Nuevo Serenazgo</h2></span>
                                     </button>
                                 </form>
                             </div>
@@ -151,7 +151,6 @@
                                     listaColors.add("warning");
                                     listaColors.add("info");
                                     listaColors.add("dark");
-                                    listaColors.add("ligt");
                                     listaColors.add("twitter");
                                     listaColors.add("youtube");
                                     listaColors.add("reddit");
@@ -159,7 +158,6 @@
                                     listaColors.add("pinterest");
                                     listaColors.add("facebook");
                                     listaColors.add("slack");
-                                    listaColors.add("dribble");
                                     listaColors.add("github");
                                     listaColors.add("vimeo");
                                     Random rand = new Random();
