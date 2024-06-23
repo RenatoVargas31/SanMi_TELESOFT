@@ -45,7 +45,7 @@
     </style>
 
 
-    <title>Entradas | <%= evento.getNombreEvento() %></title>
+    <title>SanMi | Entradas: <%= evento.getNombreEvento() %></title>
 
 
     <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />

@@ -17,7 +17,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Administrador: Solicitud de Registro</title>
+    <title>SanMi  |  Solicitud de Registro</title>
 
 
     <meta name="description"
