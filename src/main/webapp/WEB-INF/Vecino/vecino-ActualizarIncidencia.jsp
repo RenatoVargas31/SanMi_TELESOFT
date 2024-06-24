@@ -10,6 +10,11 @@
 <%
     String pageName = "actualizarIncidencia";
     request.setAttribute("pageName", pageName);
+    HttpSession currentSession = request.getSession(false);
+    if (currentSession == null || currentSession.getAttribute("usuario") == null) {
+        response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+        return;
+    }
 %>
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
 <body>
@@ -46,10 +51,6 @@
                                         <input class="form-check-input" type="checkbox" name="ambulancia" id="ambulancia-actualizar" ${incidencia.requiereAmbulancia ? 'checked' : ''}>
                                         <label class="form-check-label" for="ambulancia-actualizar">Es necesario una ambulancia</label>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-check-label" for="victima-actualizar">La incidencia afecta a:</label>
-                                    <input type="text" id="victima-actualizar" name="victima" class="form-control" placeholder="Nombre de la víctima" value="${incidencia.victima}" />
                                 </div>
                                 <div class="col-12">
                                     <div class="input-group">

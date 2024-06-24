@@ -27,6 +27,11 @@ public class ServletVecino extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         RequestDispatcher view;
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuario") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
         String id = "";
 
         switch (action) {
@@ -139,7 +144,6 @@ public class ServletVecino extends HttpServlet {
         String referencia = request.getParameter("Referencia");
         String telefono = request.getParameter("phone");
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-        String victima = request.getParameter("victima");
         Part fotoPart = request.getPart("foto");
 
         Incidencia incidencia = new Incidencia();
@@ -148,7 +152,6 @@ public class ServletVecino extends HttpServlet {
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
-        incidencia.setVictima(victima);
 
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
