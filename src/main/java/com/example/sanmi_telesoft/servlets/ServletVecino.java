@@ -4,6 +4,7 @@ import com.example.sanmi_telesoft.beans.Evento;
 import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
+import com.example.sanmi_telesoft.beans.Usuario;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
@@ -27,12 +28,18 @@ public class ServletVecino extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         RequestDispatcher view;
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuario") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
         String id = "";
 
         switch (action) {
 
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
+                request.setAttribute("listarEventos", eventoDao.listaEventos());
                 request.getRequestDispatcher("WEB-INF/Vecino/indexVecino.jsp").forward(request, response);
                 break;
 
@@ -119,6 +126,9 @@ public class ServletVecino extends HttpServlet {
             case "actualizarIncidencia":
                 actualizarIncidencia(request, response);
                 break;
+            case "guardarInscripcion":
+                actualizarEntradas(request, response);
+                break;
             default:
                 doGet(request, response);
                 break;
@@ -138,7 +148,6 @@ public class ServletVecino extends HttpServlet {
         String referencia = request.getParameter("Referencia");
         String telefono = request.getParameter("phone");
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-        String victima = request.getParameter("victima");
         Part fotoPart = request.getPart("foto");
 
         Incidencia incidencia = new Incidencia();
@@ -147,8 +156,7 @@ public class ServletVecino extends HttpServlet {
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
-        incidencia.setVictima(victima);
-/*
+
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
             incidencia.setFotoIncidencia(fileName);
@@ -157,7 +165,7 @@ public class ServletVecino extends HttpServlet {
             try (InputStream input = fotoPart.getInputStream()) {
                 Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-        }*/
+        }
 
         incidenciaDao.actualizarIncidencia(incidencia);
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
@@ -199,14 +207,13 @@ public class ServletVecino extends HttpServlet {
     }
     private void manejarMisIncidencias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Integer vecinoId = (Integer) session.getAttribute("usuarioId");
-        if (vecinoId != null) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null) {
+            int vecinoId = usuario.getIdUsuarios();
             List<Incidencia> misIncidencias = incidenciaDao.listarIncidenciasPorVecino(vecinoId);
             request.setAttribute("misIncidencias", misIncidencias);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-misIncidencias.jsp");
             dispatcher.forward(request, response);
-        } else {
-            manejarError(request, response, "Usuario no logueado");
         }
     }
 
@@ -225,7 +232,7 @@ public class ServletVecino extends HttpServlet {
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
 
-       /* if (fotoPart != null && fotoPart.getSize() > 0) {
+        if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
             incidencia.setFotoIncidencia(fileName);
             File uploads = new File("/path/to/uploads");
@@ -233,7 +240,7 @@ public class ServletVecino extends HttpServlet {
             try (InputStream input = fotoPart.getInputStream()) {
                 Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-        }*/
+        }
 
         incidenciaDao.insertarIncidencia(incidencia);
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
@@ -256,9 +263,11 @@ public class ServletVecino extends HttpServlet {
             listaEventos = eventoDao.listaEventos();
         }
         request.setAttribute("listarEventos", listaEventos);
+
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp");
         view.forward(request, response);
     }
+
 
     private void manejarViewEvento(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
@@ -289,6 +298,15 @@ public class ServletVecino extends HttpServlet {
                 Evento evento = eventoDao.searchEventobyId(eventId);
                 if (evento != null) {
                     request.setAttribute("evento", evento);
+
+                    // Obtener evento2 y evento3 asegurando que sean diferentes
+                    int idTipoEvento = evento.getTipoEvento().getIdTipoEvento();
+                    ArrayList<Evento> eventos = eventoDao.crearEventoAleatorio(idTipoEvento, eventId);
+                    Evento evento1 = eventos.get(0); // Obtener el primer evento
+                    Evento evento2 = eventos.get(1); // Obtener el segundo evento
+                    request.setAttribute("evento1", evento1);
+                    request.setAttribute("evento2", evento2);
+
                     RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/inscribirEvento.jsp");
                     view.forward(request, response);
                 } else {
@@ -302,20 +320,17 @@ public class ServletVecino extends HttpServlet {
         }
     }
 
+
     private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String textSearch = request.getParameter("textoBuscar");
-        ArrayList<String> filtrado = new ArrayList<>();
-        filtrado.add("Todo");
-        filtrado.add("Deporte");
-        filtrado.add("Cultura");
-        request.setAttribute("filtrado", filtrado);
+
         String tipoFiltrado = request.getParameter("tipoFiltrado");
         ArrayList<Evento> lista;
 
         if ("Deporte".equals(tipoFiltrado)) {
-            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
-        } else if ("Cultura".equals(tipoFiltrado)) {
             lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
+        } else if ("Cultura".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
         } else {
             lista = eventoDao.searchEventobyName(textSearch);
         }
@@ -337,15 +352,34 @@ public class ServletVecino extends HttpServlet {
         view.forward(request, response);
     }
 
-    private void actualizarEntradas (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void actualizarEntradas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Obtener los parámetros del formulario
+        int id = Integer.parseInt(request.getParameter("id"));
         int entradas = 0;
-        int id = Integer.parseInt(request.getParameter("id")) ;
         String entradasParam = request.getParameter("entradas");
-        if (entradasParam != null) {
-            entradas = Integer.parseInt(entradasParam);
+
+        // Validar y convertir la cantidad de entradas si está presente en el formulario
+        if (entradasParam != null && !entradasParam.isEmpty()) {
+            try {
+                entradas = Integer.parseInt(entradasParam);
+            } catch (NumberFormatException e) {
+                // Manejar la conversión fallida de la cantidad de entradas
+                e.printStackTrace(); // o manejar de otra manera, como mostrar un mensaje al usuario
+            }
         }
-                eventoDao.actualizarEntradas(id,entradas);
 
+        // Actualizar las entradas en la base de datos utilizando el DAO
+        try {
+            eventoDao.actualizarEntradas(id, entradas);
+            // Redireccionar a la lista de eventos después de actualizar las entradas
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=listaEventos");
+        } catch (Exception e) {
+            // Manejar cualquier excepción que pueda ocurrir durante la actualización de entradas
+            e.printStackTrace(); // o registra el error en los logs del servidor
+            // Puedes redirigir a una página de error si es necesario
+            // response.sendRedirect(request.getContextPath() + "/error.jsp");
+        }
     }
 
-    }
+
+}
