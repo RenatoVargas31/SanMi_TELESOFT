@@ -120,6 +120,9 @@ public class ServletVecino extends HttpServlet {
             case "actualizarIncidencia":
                 actualizarIncidencia(request, response);
                 break;
+            case "guardarInscripcion":
+                actualizarEntradas(request, response);
+                break;
             default:
                 doGet(request, response);
                 break;
@@ -346,15 +349,34 @@ public class ServletVecino extends HttpServlet {
         view.forward(request, response);
     }
 
-    private void actualizarEntradas (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void actualizarEntradas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Obtener los parámetros del formulario
+        int id = Integer.parseInt(request.getParameter("id"));
         int entradas = 0;
-        int id = Integer.parseInt(request.getParameter("id")) ;
         String entradasParam = request.getParameter("entradas");
-        if (entradasParam != null) {
-            entradas = Integer.parseInt(entradasParam);
+
+        // Validar y convertir la cantidad de entradas si está presente en el formulario
+        if (entradasParam != null && !entradasParam.isEmpty()) {
+            try {
+                entradas = Integer.parseInt(entradasParam);
+            } catch (NumberFormatException e) {
+                // Manejar la conversión fallida de la cantidad de entradas
+                e.printStackTrace(); // o manejar de otra manera, como mostrar un mensaje al usuario
+            }
         }
-                eventoDao.actualizarEntradas(id,entradas);
 
+        // Actualizar las entradas en la base de datos utilizando el DAO
+        try {
+            eventoDao.actualizarEntradas(id, entradas);
+            // Redireccionar a la lista de eventos después de actualizar las entradas
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=listaEventos");
+        } catch (Exception e) {
+            // Manejar cualquier excepción que pueda ocurrir durante la actualización de entradas
+            e.printStackTrace(); // o registra el error en los logs del servidor
+            // Puedes redirigir a una página de error si es necesario
+            // response.sendRedirect(request.getContextPath() + "/error.jsp");
+        }
     }
 
-    }
+
+}

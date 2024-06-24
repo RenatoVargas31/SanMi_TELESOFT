@@ -379,31 +379,6 @@ public class DaoEvento extends BaseDao {
         }
     }
 
-    private ArrayList<Integer> listarIdsvalidas() {
-        ArrayList<Integer> ids = new ArrayList<>();
-        String sql = "SELECT idEvento, fechaEventoStart, horaEventoStart FROM eventos"; // Asegúrate de que la tabla y las columnas sean correctas
-
-        try (Connection connection = this.getConection();
-             PreparedStatement pstmt = connection.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                int idEvento = rs.getInt("idEvento");
-                String fechaEvento = rs.getString("fechaEventoStart");
-                String horaEvento = rs.getString("horaEventoStart");
-
-                // Validar si la fecha y hora del evento son posteriores a la fecha y hora actuales
-                if (esFechaHoraValida(fechaEvento, horaEvento)) {
-                    ids.add(idEvento);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al listar IDs válidas de eventos con fecha y hora válidas", e);
-        }
-
-        return ids;
-    }
-
     private boolean esFechaHoraValida(String fechaEvento, String horaEvento) {
         // Convertir la fecha y hora actuales a objetos LocalDateTime
         LocalDateTime now = LocalDateTime.now();
