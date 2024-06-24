@@ -1,12 +1,13 @@
 package com.example.sanmi_telesoft.beans;
 
+import java.sql.Blob;
 import java.sql.Time;
 
 public class Evento {
     public Evento() {
         // Constructor sin argumentos
     }
-    private byte[] fotosStart;
+    private Blob fotosStart;
     private String descriptionEvento;
     private int vacantesDisp;
     private String lugarEvento;
@@ -16,7 +17,7 @@ public class Evento {
     private String horaEventoEnd;
     private String materialesEvento;
     private Profesor profesor;
-    private byte[] fotosEnd;
+    private Blob fotosEnd;
     private TipoEvento tipoEvento;
     private FrecuenciaEvento frecuenciaEvento;
     private EstadoEvento estadoEvento;
@@ -33,10 +34,6 @@ public class Evento {
 
     public void setNombreEvento(String nombreEvento) {
         this.nombreEvento = nombreEvento;
-    }
-
-    public void setFotosStart(byte[] fotosStart) {
-        this.fotosStart = fotosStart;
     }
 
     public void setDescriptionEvento(String descriptionEvento) {
@@ -69,10 +66,6 @@ public class Evento {
 
     public void setMaterialesEvento(String materialesEvento) {
         this.materialesEvento = materialesEvento;
-    }
-
-    public void setFotosEnd(byte[] fotosEnd) {
-        this.fotosEnd = fotosEnd;
     }
 
     public void setProfesor(Profesor profesor) {
@@ -109,10 +102,6 @@ public class Evento {
 
     public String getNombreEvento() {
         return nombreEvento;
-    }
-
-    public byte[] getFotosStart() {
-        return fotosStart;
     }
 
     public String getDescriptionEvento() {
@@ -163,10 +152,6 @@ public class Evento {
         return estadoEvento;
     }
 
-    public byte[] getFotosEnd() {
-        return fotosEnd;
-    }
-
     public boolean isAsistenciaCoordi() {
         return asistenciaCoordi;
     }
@@ -179,6 +164,19 @@ public class Evento {
         return asistenciaSalida;
     }
 
+    public Blob getFotosStart() {
+        return fotosStart;
+    }
 
+    public void setFotosStart(Blob fotosStart) {
+        this.fotosStart = fotosStart;
+    }
 
+    public Blob getFotosEnd() {
+        return fotosEnd;
+    }
+
+    public void setFotosEnd(Blob fotosEnd) {
+        this.fotosEnd = fotosEnd;
+    }
 }
