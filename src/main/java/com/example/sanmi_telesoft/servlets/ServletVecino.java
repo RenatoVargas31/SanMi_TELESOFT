@@ -255,11 +255,13 @@ public class ServletVecino extends HttpServlet {
             listaEventos = eventoDao.listaEventosCultura();
         } else {
             listaEventos = eventoDao.listaEventos();
-        }
+            }
         request.setAttribute("listarEventos", listaEventos);
+
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp");
         view.forward(request, response);
     }
+
 
     private void manejarViewEvento(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

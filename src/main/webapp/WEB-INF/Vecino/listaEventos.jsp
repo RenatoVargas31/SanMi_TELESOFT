@@ -88,11 +88,7 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
-    <script>
-        if (!localStorage.getItem('selectedTipoFiltrado')) {
-            localStorage.setItem('selectedTipoFiltrado', 'Todo');
-        }
-    </script>
+
 </head>
 
 <body>
@@ -151,9 +147,11 @@
                                         <div class="d-flex align-items-center justify-content-between app-academy-md-80">
                                             <input type="search" placeholder="Busca tu evento" name="textoBuscar" id="floatingInput" class="form-control me-2" />
                                             <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
+                                            <input type="hidden" name="tipoFiltrado" id="hiddenTipoFiltrado">
                                         </div>
 
                                     </form>
+
                                 </div>
                                 <div class="app-academy-md-25 d-flex align-items-end justify-content-end">
                                     <img src="${pageContext.request.contextPath}/assets/img/illustrations/pencil-rocket.png" alt="pencil rocket" height="188" class="scaleX-n1-rtl" />
@@ -170,11 +168,11 @@
                             <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
                                 <form id="filtroForm" method="post" action="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">
                                         <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
-                                            <option value="Todo" selected>Todo</option>
+                                            <option value="Todo" >Todo</option>
                                             <option value="Deporte">Deporte</option>
                                             <option value="Cultura">Cultura</option>
                                         </select>
-                                    <input type="hidden" name="tipoFiltrado" id="hiddenTipoFiltrado">
+
                                 </form>
                             </div>
                             </div>
@@ -271,32 +269,19 @@
                                     var tipoFiltradoSelect = document.getElementById('tipoFiltrado');
                                     var selectedValue = localStorage.getItem('selectedTipoFiltrado');
 
-                                    console.log('Loaded selected value from localStorage:', selectedValue);
-
-                                    // Asegúrate de que el valor guardado coincida con una opción disponible
-                                    if (Array.from(tipoFiltradoSelect.options).some(option => option.value === selectedValue)) {
+                                    // Si hay un valor seleccionado guardado, establecerlo en el select
+                                    if (selectedValue) {
                                         tipoFiltradoSelect.value = selectedValue;
-                                    } else {
-                                        tipoFiltradoSelect.value = "Todo"; // Reemplaza "Todo" con el valor por defecto si es necesario
                                     }
-
-                                    console.log('Set select value to:', tipoFiltradoSelect.value);
 
                                     // Sincronizar el valor del select con el campo oculto del formulario de búsqueda
                                     document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
 
                                     // Guardar el valor seleccionado en el localStorage al cambiar la selección
                                     tipoFiltradoSelect.addEventListener('change', function() {
-                                        console.log('Changed select value to:', tipoFiltradoSelect.value);
                                         localStorage.setItem('selectedTipoFiltrado', tipoFiltradoSelect.value);
                                         document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
                                     });
-                                });
-
-                                // Borrar el filtro del localStorage al salir de la página
-                                window.addEventListener('beforeunload', function() {
-                                    localStorage.removeItem('selectedTipoFiltrado');
-                                    console.log('Filtro eliminado de localStorage');
                                 });
 
 
