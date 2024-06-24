@@ -133,7 +133,7 @@
 
 
                     <div class="app-academy">
-                        <div class="card p-0 mb-4">
+                        <div class="card p-0 mb-4" id="event-content">
                             <div class="card-body d-flex flex-column flex-md-row justify-content-between p-0 pt-4">
                                 <div class="app-academy-md-25 card-body py-0">
                                     <img src="${pageContext.request.contextPath}/assets/img/illustrations/bulb-light.png" height="150" class="scaleX-n1-rtl" alt="Bulb in hand" data-app-light-img="illustrations/bulb-light.png" data-app-dark-img="illustrations/bulb-dark.png" />
@@ -165,18 +165,12 @@
                                 </div>
                             <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
                                 <form id="filtroForm" method="post" action="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">
-                                    <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
-                                        <%
-                                            ArrayList<String> opciones = (ArrayList<String>) request.getAttribute("filtrado");
-                                            String tipoFiltrado = (String) request.getAttribute("tipoFiltrado");
-                                            if (opciones != null) {
-                                                for (String opcion : opciones) {
-                                        %>
-                                        <option value="<%= opcion %>" <%= opcion.equals(tipoFiltrado) ? "selected" : "" %>><%= opcion %></option>
-                                        <%
-                                                }
-                                            }
-                                        %>
+                                        <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
+                                            <option value="Todo" selected>Todo</option>
+                                            <option value="Deporte">Deporte</option>
+                                            <option value="Cultura">Cultura</option>
+                                        </select>
+
                                     </select>
                                 </form>
                             </div>
@@ -200,11 +194,9 @@
                                             <div class="card-body p-3 pt-2">
                                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                                     <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
-                                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos"></a>
                                                     <span class="badge bg-label-hover-success">Deporte</span>
                                                     <% } %>
                                                     <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
-                                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos"></a>
                                                     <span class="badge bg-label-warning">Cultura</span>
                                                     <% } %>
 
@@ -235,31 +227,23 @@
                         </div>
 
 
-                        <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
-                            <ul class="pagination">
-                                <li class="page-item prev">
-                                    <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="javascript:void(0);">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">5</a>
-                                </li>
-                                <li class="page-item next">
-                                    <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
+                <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item prev disabled">
+                            <a class="page-link" href="javascript:void(0);" aria-label="Previous">
+                                <i class="tf-icon bx bx-chevron-left"></i>
+                            </a>
+                        </li>
+                        <!-- Los números de página se generarán dinámicamente con JavaScript -->
+                        <!-- Ejemplo de página activa: <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li> -->
+                        <!-- Puedes usar clases 'page-link' para manejar los eventos de clic en JavaScript -->
+                        <li class="page-item next">
+                            <a class="page-link" href="javascript:void(0);" aria-label="Next">
+                                <i class="tf-icon bx bx-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
                     </div>
                 </div>
     </div>
@@ -301,8 +285,11 @@
 
                                 document.write(new Date().getFullYear())
 
+
+
+
                             </script>
-                            <a>Telesoft</a>
+                            <a>© Telesoft</a>
                         </div>
 
                     </div>

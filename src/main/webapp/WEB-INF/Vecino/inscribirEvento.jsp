@@ -1,4 +1,6 @@
 <jsp:useBean id="evento" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
+<jsp:useBean id="evento1" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
+<jsp:useBean id="evento2" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -262,67 +264,73 @@
                                         <div class="accordion-header" id="headingOne">
                                             <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="#chapterOne" aria-expanded="true" aria-controls="chapterOne">
                                               <span class="d-flex flex-column">
-                                                <span class="h5 mb-1">Eventos que te pueden interesar</span>
+                                        <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                        <span class="h5 mb-1">Más eventos de cultura</span>
+                                        <% } %>
+                                        <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                        <span class="h5 mb-1">Más eventos de deporte</span>
+                                        <% } %>
                                                 </span>
                                             </button>
                                         </div>
 
-                                        <div style="cursor:default" id="chapterOne" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
-                                            <div  style="cursor:default" class="accordion-body py-3 border-top">
-                                                <div style="cursor:auto" class="form d-flex align-items-center mb-3">
+                                        <div style="cursor: default" id="chapterOne" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                <div class="form d-flex align-items-center mb-3">
                                                     <div class="card p-1 h-100 shadow-none border">
-
-                                                        <div class="rounded-2 text-center mb-3">
-                                                            <a href="app-academy-course-details2.html"><img style="height: 200px; width: fit-content; border-radius: 10px" class="img-fluid" src="../../assets/img/events/evento2.jpg" alt="tutor image 2" /></a>
-                                                        </div>
+                                                        <!-- Primer evento -->
                                                         <div class="card-body p-3 pt-2">
-                                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                <span class="badge bg-label-hover-success">Deporte</span>
-                                                                <!--
-                                                                <h6 class="d-flex align-items-center justify-content-center gap-1 mb-0">
-                                                                  4.4 <span class="text-warning"><i class="bx bxs-star me-1"></i></span><span class="text-muted">(1.23k)</span>
-                                                                </h6>
-                                                                -->
+                                                            <div class="rounded-2 text-center mb-3">
+                                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
+                                                                    <img style="height: 200px; width: fit-content; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento 1" />
+                                                                </a>
                                                             </div>
-                                                            <a href="app-academy-course-details2.html" class="h5">Olimpiadas escolares</a>
-                                                            <p class="mt-2">Las Olimpiadas Escolares son competiciones deportivas entre estudiantes que promueven el espíritu deportivo y el trabajo en equipo.</p>
-                                                            <!--<p class="d-flex align-items-center"><i class="bx bx-time-five me-2"></i>30 minutes</p>
-                                              -->
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <% if (evento1.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                                                <span class="badge bg-label-warning">Cultura</span>
+                                                                <% } %>
+                                                                <% if (evento1.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                                                <span class="badge bg-label-hover-success">Deporte</span>
+                                                                <% } %>
+                                                            </div>
+                                                            <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>" class="h5"><%= evento1.getNombreEvento() %></a>
+                                                            <p class="mt-2"><%= evento1.getDescriptionEvento() %></p>
                                                             <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
-
-                                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="app-academy-course-details2.html">
+                                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
                                                                     <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
                                                                 </a>
                                                             </div>
-
-
                                                         </div>
-                                                        <div class="card p-2 h-100 shadow-none border">
+
+                                                        <!-- Segundo evento -->
+                                                        <div class="card-body p-3 pt-2">
                                                             <div class="rounded-2 text-center mb-3">
-                                                                <a href="app-academy-course-details3.html"><img style="height: 200px; width: fit-content; border-radius: 10px" class="img-fluid" src="../../assets/img/events/evento3.jpg" alt="tutor image 3" /></a>
+                                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
+                                                                    <img style="height: 200px; width: fit-content; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento2.jpg" alt="Imagen del evento 2" />
+                                                                </a>
                                                             </div>
-                                                            <div class="card-body p-3 pt-2">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <span class="badge bg-label-hover-warning">Cultura</span>
-                                                                    <!--
-                                                                    <h6 class="d-flex align-items-center justify-content-center gap-1 mb-0">
-                                                                      4.4 <span class="text-warning"><i class="bx bxs-star me-1"></i></span><span class="text-muted">(1.23k)</span>
-                                                                    </h6>
-                                                                    -->
-                                                                </div>
-                                                                <a href="app-academy-course-details3.html" class="h5">Teatro en San Miguel</a>
-                                                                <p class="mt-2">El teatro es una forma de arte en la que los actores interpretan personajes y representan historias en vivo ante una audiencia.  <!--<p class="d-flex align-items-center"><i class="bx bx-time-five me-2"></i>30 minutes</p>
--->
-                                                                <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
-
-                                                                    <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="app-academy-course-details3.html">
-                                                                        <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
-                                                                    </a>
-                                                                </div>
-
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <% if (evento2.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                                                <span class="badge bg-label-warning">Cultura</span>
+                                                                <% } %>
+                                                                <% if (evento2.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                                                <span class="badge bg-label-hover-success">Deporte</span>
+                                                                <% } %>
+                                                            </div>
+                                                            <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>" class="h5"><%= evento2.getNombreEvento() %></a>
+                                                            <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
+                                                            <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
+                                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
+                                                                    <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                                 </div>
 

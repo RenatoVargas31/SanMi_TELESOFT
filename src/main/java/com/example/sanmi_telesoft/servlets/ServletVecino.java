@@ -33,6 +33,7 @@ public class ServletVecino extends HttpServlet {
 
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
+                request.setAttribute("listarEventos", eventoDao.listaEventos());
                 request.getRequestDispatcher("WEB-INF/Vecino/indexVecino.jsp").forward(request, response);
                 break;
 
@@ -289,6 +290,15 @@ public class ServletVecino extends HttpServlet {
                 Evento evento = eventoDao.searchEventobyId(eventId);
                 if (evento != null) {
                     request.setAttribute("evento", evento);
+
+                    // Obtener evento2 y evento3 asegurando que sean diferentes
+                    int idTipoEvento = evento.getTipoEvento().getIdTipoEvento();
+                    ArrayList<Evento> eventos = eventoDao.crearEventoAleatorio(idTipoEvento, eventId);
+                    Evento evento1 = eventos.get(0); // Obtener el primer evento
+                    Evento evento2 = eventos.get(1); // Obtener el segundo evento
+                    request.setAttribute("evento1", evento1);
+                    request.setAttribute("evento2", evento2);
+
                     RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/inscribirEvento.jsp");
                     view.forward(request, response);
                 } else {
@@ -302,20 +312,17 @@ public class ServletVecino extends HttpServlet {
         }
     }
 
+
     private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String textSearch = request.getParameter("textoBuscar");
-        ArrayList<String> filtrado = new ArrayList<>();
-        filtrado.add("Todo");
-        filtrado.add("Deporte");
-        filtrado.add("Cultura");
-        request.setAttribute("filtrado", filtrado);
+
         String tipoFiltrado = request.getParameter("tipoFiltrado");
         ArrayList<Evento> lista;
 
         if ("Deporte".equals(tipoFiltrado)) {
-            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
-        } else if ("Cultura".equals(tipoFiltrado)) {
             lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
+        } else if ("Cultura".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
         } else {
             lista = eventoDao.searchEventobyName(textSearch);
         }
