@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3">
-                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=resetIncidencia">
+                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=resetIncidencia" enctype="multipart/form-data">
                                             <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="fullname">Nombre</label>
@@ -123,7 +123,7 @@
 
                                             <div class="col-12">
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                                    <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
                                                 </div>
                                             </div>
 

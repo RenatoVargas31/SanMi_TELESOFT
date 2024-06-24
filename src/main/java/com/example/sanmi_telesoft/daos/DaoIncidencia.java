@@ -3,6 +3,7 @@ import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.dto.IncidenciasFalsas;
 
 import javax.print.attribute.ResolutionSyntax;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,6 +63,10 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
                 incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
 
+                byte[] fotote = rs.getBytes("foto");
+                incidencia.setFotoIncidencia(fotote);
+
+
                 listaIncidencia.add(incidencia);
 
 
@@ -114,7 +119,7 @@ public class DaoIncidencia extends BaseDao{
     }
     public void insertarIncidencia(Incidencia incidencia) {
         /*String sql = "INSERT INTO incidencias (nombreIncidencia, lugarIncidencia, referenciaIncidencia, fotoIncidencia, requiereAmbulancia, telefono, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";*/
-        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fotoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, incidencia.getNombreIncidencia());
             pstmt.setString(2, incidencia.getLugarIncidencia());
@@ -124,6 +129,7 @@ public class DaoIncidencia extends BaseDao{
             pstmt.setBoolean(5, incidencia.isRequierePolicia());
             pstmt.setBoolean(6, incidencia.isRequiereBombero());
             pstmt.setInt(7, incidencia.getTelefono());
+            pstmt.setBytes(8, incidencia.getFotoIncidencia());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,12 +144,12 @@ public class DaoIncidencia extends BaseDao{
             stmt.setInt(1, vecinoId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+
                     Incidencia incidencia = new Incidencia();
                     incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
                     incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
                     incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
                     incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
-                    incidencia.setFotoIncidencia(rs.getString("fotoIncidencia"));
                     incidencia.setTelefono(rs.getInt("contactoIncidencia"));
                     incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
                     incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));

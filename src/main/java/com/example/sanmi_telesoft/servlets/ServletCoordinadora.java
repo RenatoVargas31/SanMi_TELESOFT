@@ -13,12 +13,14 @@ import jakarta.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 @WebServlet(name = "ServletCoordinadora", value = "/ServletCoordinadora")
+@MultipartConfig
 public class ServletCoordinadora extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,6 +52,19 @@ public class ServletCoordinadora extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/coordinadora/listaIncidenciasCoordinadora.jsp").forward(request, response);
                 break;
 
+            case "mostrarImagen":
+                int id = Integer.parseInt(request.getParameter("id"));
+                DaoIncidencia dao = new DaoIncidencia();
+                Incidencia im = dao.obtenerIncidencia(id);
+
+                if (im != null) {
+                    response.setContentType("image/jpeg");
+                    response.setContentLength(im.getFotoIncidencia().length);
+                    OutputStream os = response.getOutputStream();
+                    os.write(im.getFotoIncidencia());
+                    os.flush();
+                }
+
             case "listarMisIncidencias":
                 DaoIncidencia daoIncidencia1 = new DaoIncidencia();
                 ArrayList<Incidencia> listaMisIncidencias = daoIncidencia1.listarMisIncidencias(1);
@@ -62,10 +77,10 @@ public class ServletCoordinadora extends HttpServlet {
 
             case "mostrarActualizarIncidencia":
                 if (request.getParameter("id") != null) {
-                    String id = request.getParameter("id");
+                    String id4 = request.getParameter("id");
                     int incId = 0;
                     try {
-                        incId = Integer.parseInt(id);
+                        incId = Integer.parseInt(id4);
                     } catch (NumberFormatException ex) {
                         response.sendRedirect("EmployeeServlet");
 
@@ -97,8 +112,8 @@ public class ServletCoordinadora extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
                 break;
             case "detalleEvento":
-                String id = request.getParameter("id");
-                if (id.isEmpty() || !daoCoordinadora.validarIdEvento(id)) {
+                String id2 = request.getParameter("id");
+                if (id2.isEmpty() || !daoCoordinadora.validarIdEvento(id2)) {
                     response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarEventos");
                 }else {
                     request.getRequestDispatcher("indexCoordinadora.jsp").forward(request, response);
@@ -144,6 +159,8 @@ public class ServletCoordinadora extends HttpServlet {
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
         boolean requiereBombero = request.getParameter("bomberos") != null;
         boolean requiereSerenazo = request.getParameter("serenazgos") != null;
+        InputStream fotito = request.getPart("file").getInputStream();
+        byte[] foto = fotito.readAllBytes();
 
         Incidencia incidencia = new Incidencia();
         incidencia.setNombreIncidencia(nombreIncidencia);
@@ -153,6 +170,7 @@ public class ServletCoordinadora extends HttpServlet {
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
         incidencia.setRequiereBombero(requiereBombero);
         incidencia.setRequierePolicia(requiereSerenazo);
+        incidencia.setFotoIncidencia(foto);
 
         switch (action){
             case "reportarIncidencia":

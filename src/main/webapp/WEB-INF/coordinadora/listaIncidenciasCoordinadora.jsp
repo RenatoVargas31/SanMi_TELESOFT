@@ -194,7 +194,7 @@
                                                 <p><%= incidencia.getNameUsuario() %></p>
 
                                                 <div class="card h-100">
-                                                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio1.jpg" alt="Card image cap" />
+                                                    <img class="card-img-top" src="ServletCoordinadora?action=mostrarIncidencia&id=<%= incidencia.getIdIncidencias() %>" alt="<%= incidencia.getNombreIncidencia() %>" alt="Card image cap" />
                                                     <div class="card-body">
                                                         <h5 class="card-title">Foto del reporte</h5>
                                                         <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
