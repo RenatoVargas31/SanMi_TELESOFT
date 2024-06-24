@@ -146,7 +146,7 @@
 
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino">Todos los eventos</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">Todos los eventos</a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>"> <%= evento.getNombreEvento() %></a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %> " style="color:black">Entradas</a></li>
                         </ul>
@@ -169,76 +169,56 @@
 
                                 </div>
                                 <div style="margin-top: 25px" class="card academy-content shadow-none border">
-
                                     <div class="card-body">
-                                        <h3 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
-                                        <div class="accordion-item shadow-none border border-bottom-0 mb-0">
-                                            <!-- Aquí podrías agregar más contenido si es necesario -->
-                                        </div>
-                                        <h3 style="font-size: 22px; margin-top: 15px; color: rgb(34, 33, 33); font-weight: 500;" class="mb-0 pt-1">Cantidad:</h3>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="1" id="defaultRadio1" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="defaultRadio1">
-                                                1 entrada
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="2" id="inlineRadio2" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio2">
-                                                2 entradas
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="3" id="inlineRadio3" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio3">
-                                                3 entradas
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="4" id="defaultRadio4" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-left: 10px;" class="form-check-label" for="defaultRadio4">
-                                                4 entradas
-                                            </label>
+                                    <form method="post" action="<%= request.getContextPath() %>/ServletVecino?action=guardarInscripcion&id=<%= evento.getIdEventos() %> ">
 
-                                    </div>
+                                            <h3 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
 
-                                        <div class="mt-1">
-                                            <!-- Button trigger modal -->
-                                            <div class="form d-flex align-content-center mb-1" style="width: inherit   ">
-                                                <button type="button" style="flex: auto; margin-top: 10px" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modalCenter">
+                                            <!-- Contenido de la tarjeta u otras secciones -->
+
+                                            <h3 style="font-size: 22px; margin-top: 15px; color: rgb(34, 33, 33); font-weight: 500;" class="mb-0 pt-1">Cantidad:</h3>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="1" id="defaultRadio1" checked/>
+                                                <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="defaultRadio1">
+                                                    1 entrada
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="2" id="inlineRadio2" />
+                                                <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio2">
+                                                    2 entradas
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="3" id="inlineRadio3" />
+                                                <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio3">
+                                                    3 entradas
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="4" id="defaultRadio4" />
+                                                <label style="font-size: 18px; margin-top: -3px; margin-left: 10px;" class="form-check-label" for="defaultRadio4">
+                                                    4 entradas
+                                                </label>
+                                            </div>
+
+                                            <!-- Botón para enviar el formulario -->
+                                            <div class="form d-flex align-content-center mb-1" style="width: inherit;">
+                                                <button type="submit" style="flex: auto; margin-top: 10px;" class="btn btn-primary">
                                                     Confirmar inscripción
                                                 </button>
                                             </div>
 
+                                    </form>
+
+
                                             <!-- Modal -->
-                                            <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col mb-3">
-
-                                                                    <div style="text-align: center; ">
-                                                                        <i class="fas fa-check" style="font-size: 50px; color: #1e3b8e;"></i>
-                                                                    </div>
-                                                                    <h5 style="text-align: center; margin-top: 20px;margin-bottom: -10px; color: black">Gracias por inscribirse. En breve enviaremos las entradas a la bandeja de su correo.</h5>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a href="${pageContext.request.contextPath}/ServletVecino" class="btn btn-primary" style="flex: auto;">Descubrir más eventos</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
 
 
 
                                         <h4 style="margin-top: 20px; color:rgb(34, 33, 33)"> Recuerda que:</h4>
-                                        <h6 style="margin-top: 15px;margin-left: 15px" > El uso de entradas están bajo responabilidad del usuario actual</h6>
+                                        <h6 style="margin-top: 15px;margin-left: 15px" > El uso de entradas están bajo responsabilidad del usuario actual</h6>
                                         <h6 style="margin-top: 15px;margin-left: 15px">El máximo de entradas es 4, con el fin de mantener el orden</h6>
                                         <h6 style="margin-top: 15px;margin-left: 15px">El uso indebido de las entradas puede terminar en la suspensón de tu cuenta </h6>
 
@@ -255,9 +235,12 @@
                                             </div>
                                         </div>
                                         </div>
-                                    </div>
                                 </div>
                             </div>
+
+
+
+
                             <div class="col-lg-4">
                                 <div class="accordion stick-top accordion-bordered" id="courseContent">
                                     <div class="accordion-item shadow-none border border-bottom-0 active mb-0">

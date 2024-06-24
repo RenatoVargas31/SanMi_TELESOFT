@@ -147,9 +147,11 @@
                                         <div class="d-flex align-items-center justify-content-between app-academy-md-80">
                                             <input type="search" placeholder="Busca tu evento" name="textoBuscar" id="floatingInput" class="form-control me-2" />
                                             <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
+                                            <input type="hidden" name="tipoFiltrado" id="hiddenTipoFiltrado">
                                         </div>
-                                        <input type="hidden" name="tipoFiltrado" id="hiddenTipoFiltrado">
+
                                     </form>
+
                                 </div>
                                 <div class="app-academy-md-25 d-flex align-items-end justify-content-end">
                                     <img src="${pageContext.request.contextPath}/assets/img/illustrations/pencil-rocket.png" alt="pencil rocket" height="188" class="scaleX-n1-rtl" />
@@ -166,12 +168,11 @@
                             <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
                                 <form id="filtroForm" method="post" action="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">
                                         <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
-                                            <option value="Todo" selected>Todo</option>
+                                            <option value="Todo" >Todo</option>
                                             <option value="Deporte">Deporte</option>
                                             <option value="Cultura">Cultura</option>
                                         </select>
 
-                                    </select>
                                 </form>
                             </div>
                             </div>
@@ -282,6 +283,9 @@
                                         document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
                                     });
                                 });
+
+
+
 
                                 document.write(new Date().getFullYear())
 
