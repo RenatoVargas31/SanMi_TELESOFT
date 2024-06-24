@@ -26,17 +26,24 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         String loginURI = req.getContextPath() + "/ServletLoguin";
+        String sistemaURI = req.getContextPath() + "/ServletSistema";
 
         boolean loggedIn = session != null && session.getAttribute("usuario") != null;
         boolean loginRequest = req.getRequestURI().equals(loginURI);
+        boolean sistemaRequest = req.getRequestURI().startsWith(sistemaURI);
         boolean staticResource = req.getRequestURI().startsWith(req.getContextPath() + "/assets");
 
-        if (loggedIn || loginRequest || staticResource) {
+        if (loggedIn || loginRequest || sistemaRequest || staticResource) {
+            res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            res.setHeader("Pragma", "no-cache");
+            res.setDateHeader("Expires", 0);
+
             chain.doFilter(request, response);
         } else {
             res.sendRedirect(loginURI);
         }
     }
+
     public void destroy() {
     }
 }

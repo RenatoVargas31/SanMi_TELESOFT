@@ -139,7 +139,7 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino">Todos los eventos</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">Todos los eventos</a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" style="color:black"><%= evento.getNombreEvento() %></a></li>
                         </ul>
                     </nav>
@@ -177,18 +177,21 @@
                                         <p class="mb-0 pt-1"><%= evento.getDescriptionEvento() %></p>
 
                                         <hr class="my-4">
-                                        <h5>Organizado por: </h5>
+
+                                        <% if (evento.getProfesor() != null) { %>
+                                        <h5>Profesor:</h5>
                                         <div class="d-flex justify-content-start align-items-center user-name">
                                             <div class="avatar-wrapper">
-                                                <div class="avatar avatar-sm me-2"><img
-                                                        src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar"
-                                                        class="rounded-circle"></div>
+                                                <div class="avatar avatar-sm me-2">
+                                                    <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle">
+                                                </div>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <span class="fw-medium"><%= evento.getProfesor().getNombreProfesor()%></span>
-                                                <small class="text-muted">Profesor</small>
+                                                <span class="fw-medium"><%= evento.getProfesor().getNombreProfesor() %></span>
+                                                <small class="text-muted">Profesor de <%= evento.getTipoEvento().getNameTipo() %></small>
                                             </div>
                                         </div>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div>
@@ -217,16 +220,22 @@
 
                                                 <div class="form d-flex align-items-center mb-3">
                                                     <label class="form-check-label ms-3" style="cursor:auto">
-                                                        <a class="h5">Hora: </a>
+                                                        <a class="h5">Hora de inicio: </a>
                                                         <p class="mt-2"><%= evento.getHoraEventoStart() %></p>
                                                     </label>
                                                 </div>
                                                 <div class="form d-flex align-items-center mb-3">
                                                     <label class="form-check-label ms-3" style="cursor:auto">
+                                                        <a class="h5">Hora de fin: </a>
+                                                        <p class="mt-2"><%= evento.getHoraEventoEnd() %></p>
+                                                    </label>
+                                                </div>
+                                                <!--<div class="form d-flex align-items-center mb-3">
+                                                    <label class="form-check-label ms-3" style="cursor:auto">
                                                         <a class="h5">Evento Repetitivo: </a>
                                                         <p class="mt-2"><%= evento.getFrecuenciaEvento().getFrecuenciaTipo()%></p>
                                                     </label>
-                                                </div>
+                                                </div>-->
                                                 <div class="form d-flex align-items-center mb-3">
                                                     <label class="form-check-label ms-3" style="cursor:auto">
                                                         <a class="h5">Vacantes disponibles: </a>

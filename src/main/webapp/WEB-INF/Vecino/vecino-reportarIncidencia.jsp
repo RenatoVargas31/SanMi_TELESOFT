@@ -9,6 +9,11 @@
 <%
     String pageName = "reportarIncidencia";
     request.setAttribute("pageName", pageName);
+    HttpSession currentSession = request.getSession(false);
+    if (currentSession == null || currentSession.getAttribute("usuario") == null) {
+        response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+        return;
+    }
 %>
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
 <body>

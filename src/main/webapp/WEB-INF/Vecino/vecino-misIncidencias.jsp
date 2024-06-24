@@ -6,10 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="misIncidencias" type="java.util.List" class="com.example.sanmi_telesoft.beans.Incidencia" scope="request" />
-<%
-    String pageName = "misIncidencias";
+<%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
+<%@ page import="java.util.List" %>
+
+<%String pageName = "misIncidencias";
     request.setAttribute("pageName", pageName);
+
 %>
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
 <body>
@@ -22,7 +24,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="fw-bold">Mis incidencias</h3>
-            <button class="btn btn-secondary create-new btn-primary" type="button" onclick="window.location.href='vecino-reportarIncidencia.jsp';">
+            <button class="btn btn-secondary create-new btn-primary" type="button" onclick="window.location.href='/ServletVecino?action=reportarIncidencia">
                 <i class='bx bx-bell-plus bx-tada'></i>
                 <span class="d-none d-sm-inline-block">Nueva Incidencia</span>
             </button>
@@ -40,24 +42,30 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="incidencia" items="${misIncidencias}">
-                        <tr>
-                            <td>${incidencia.nombreIncidencia}</td>
-                            <td><span class="badge ${incidencia.estado == 1 ? 'bg-danger' : 'bg-success'}">${incidencia.estado == 1 ? 'Pendiente' : 'Resuelto'}</span></td>
-                            <td><span class="badge ${incidencia.criticidad == 1 ? 'bg-danger' : 'bg-warning'}">${incidencia.criticidad == 1 ? 'Alta' : 'Media'}</span></td>
-                            <td>
-                                <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm">
-                                    <i class='bx bx-show'></i>
-                                </button>
-                                <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" onclick="window.location.href='vecino-ActualizarIncidencia.jsp?id=${incidencia.idIncidencias}';">
-                                    <i class='bx bx-edit'></i>
-                                </button>
-                                <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" onclick="promptDeletion(${incidencia.idIncidencias});">
-                                    <i class='bx bx-x'></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <%
+                        List<Incidencia> incidencias = (List<Incidencia>) request.getAttribute("misIncidencias");
+                        for (int i = 0; i < incidencias.size(); i++) {
+                            Incidencia incidencia = incidencias.get(i);
+                    %>
+                    <tr>
+                        <td><%= incidencia.getNombreIncidencia() %></td>
+                        <td><span class="badge <%= incidencia.getEstado() == 1 ? "bg-danger" : "bg-success" %>"><%= incidencia.getEstado() == 1 ? "Pendiente" : "Resuelto" %></span></td>
+                        <td><span class="badge <%= incidencia.getCriticidad() == 1 ? "bg-danger" : "bg-warning" %>"><%= incidencia.getCriticidad() == 1 ? "Alta" : "Media" %></span></td>
+                        <td>
+                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm">
+                                <i class='bx bx-show'></i>
+                            </button>
+                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" onclick="window.location.href='vecino-ActualizarIncidencia.jsp?id=<%= incidencia.getIdIncidencias() %>';">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" onclick="promptDeletion(<%= incidencia.getIdIncidencias() %>);">
+                                <i class='bx bx-x'></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
                     </tbody>
                 </table>
             </div>
@@ -83,7 +91,6 @@
 
     </div>
 </div>
-
 <jsp:include page="../Fragmentos/FragmentosVecino/strylesFragmentVecino.jsp"/>
 
 <script>

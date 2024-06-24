@@ -1,4 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.HashMap" %>
+<%
+    // Recuperar las cookies si existen
+    HashMap<String, String> cookiesMap = new HashMap<>();
+    if (request.getCookies() != null) {
+        for (jakarta.servlet.http.Cookie cookie : request.getCookies()) {
+            cookiesMap.put(cookie.getName(), cookie.getValue());
+        }
+    }
+%>
 
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
@@ -7,7 +17,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-    <title>Inicio de sesión | SanMI</title>
+    <title>SanMI : Inicio de sesión</title>
 
     <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
@@ -85,7 +95,8 @@
                     <form id="formAuthentication" class="mb-3" action="ServletLoguin" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail o usuario</label>
-                            <input type="text" class="form-control" id="email" name="email-username" placeholder="Ingrese su e-mail o usuario" autofocus>
+                            <input type="text" class="form-control" id="email" name="email-username" placeholder="Ingrese su e-mail o usuario" autofocus
+                                   value="<%= cookiesMap.getOrDefault("email-username", "") %>">
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
@@ -95,7 +106,8 @@
                                 </a>
                             </div>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password"
+                                       value="<%= cookiesMap.getOrDefault("password", "") %>"/>
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                             <div class="d-flex text-center">
@@ -103,11 +115,13 @@
                                 <div class="text-danger mb-2">Error en usuario o contraseña</div>
                                 <% } %>
                             </div>
-
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember-me">
+                                <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me"
+                                    <% if (cookiesMap.containsKey("email-username") && cookiesMap.containsKey("password")) { %>
+                                       checked
+                                    <% } %>>
                                 <label class="form-check-label" for="remember-me">
                                     Recuérdame
                                 </label>

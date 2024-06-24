@@ -5,11 +5,13 @@ import com.example.sanmi_telesoft.daos.UsuarioDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+
 @WebServlet("/ServletLoguin")
 public class ServletLoguin extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -18,44 +20,58 @@ public class ServletLoguin extends HttpServlet {
     public void init() {
         usuarioDAO = new UsuarioDAO();
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String correoUsuario = request.getParameter("email-username");
         String passwordUsuario = request.getParameter("password");
+        String rememberMe = request.getParameter("remember-me");
 
         Usuario usuario = usuarioDAO.validarUsuario(correoUsuario, passwordUsuario);
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 
         if (usuario != null) {
-            HttpSession session1 = request.getSession();
-            session1.setAttribute("usuario", usuario);
-            session1.setMaxInactiveInterval(10*60);
-            if (u != null && u.getIdUsuarios() != 0){
-                response.sendRedirect(request.getContextPath());
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuario);
+            session.setMaxInactiveInterval(10*60);
+
+            if ("true".equals(rememberMe)) {
+                Cookie userCookie = new Cookie("email-username", correoUsuario);
+                Cookie passwordCookie = new Cookie("password", passwordUsuario);
+                userCookie.setMaxAge(60 * 60 * 24 * 30); // 30 días
+                passwordCookie.setMaxAge(60 * 60 * 24 * 30); // 30 días
+                response.addCookie(userCookie);
+                response.addCookie(passwordCookie);
             } else {
-                // Redirigir según el rol del usuario
-                switch (usuario.getIdRoles()) {
-                    case 1: // Rol de Administrador
-                        response.sendRedirect(request.getContextPath() + "/ServletAdministrador");
-                        break;
-                    case 3: // Rol de Coordinadora
-                        response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
-                        break;
-                    case 2: // Rol de Serenazgo
-                        response.sendRedirect(request.getContextPath() + "/ServletSerenazgo");
-                        break;
-                    case 4: // Rol de Vecino
-                        response.sendRedirect(request.getContextPath() + "/ServletVecino");
-                        break;
-                    default:
-                        response.sendRedirect("index.jsp?error");
-                        break;
-                }
+                Cookie userCookie = new Cookie("email-username", null);
+                Cookie passwordCookie = new Cookie("password", null);
+                userCookie.setMaxAge(0);
+                passwordCookie.setMaxAge(0);
+                response.addCookie(userCookie);
+                response.addCookie(passwordCookie);
+            }
+
+            switch (usuario.getIdRoles()) {
+                case 1:
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador");
+                    break;
+                case 3:
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
+                    break;
+                case 2:
+                    response.sendRedirect(request.getContextPath() + "/ServletSerenazgo");
+                    break;
+                case 4:
+                    response.sendRedirect(request.getContextPath() + "/ServletVecino");
+                    break;
+                default:
+                    response.sendRedirect("index.jsp?error");
+                    break;
             }
         } else {
             response.sendRedirect("index.jsp?error");
         }
     }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -65,21 +81,35 @@ public class ServletLoguin extends HttpServlet {
 
         switch (action) {
             case "loginform":
-                Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+                HttpSession session = request.getSession();
+                Usuario u = (Usuario) session.getAttribute("usuario");
 
                 if (u != null && u.getIdUsuarios() != 0){
                     response.sendRedirect(request.getContextPath());
                 } else {
+                    Cookie[] cookies = request.getCookies();
+                    if (cookies != null) {
+                        for (Cookie cookie : cookies) {
+                            if ("email-username".equals(cookie.getName())) {
+                                request.setAttribute("email", cookie.getValue());
+                            }
+                            if ("password".equals(cookie.getName())) {
+                                request.setAttribute("password", cookie.getValue());
+                            }
+                        }
+                    }
                     view = request.getRequestDispatcher("/index.jsp");
                     view.forward(request, response);
                 }
                 break;
             case "logout":
-                HttpSession session = request.getSession();
-                session.invalidate();
-                response.sendRedirect(request.getContextPath());
+                HttpSession sessionToInvalidate = request.getSession();
+                sessionToInvalidate.invalidate();
+                response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+                break;
+            default:
+                doPost(request, response);
                 break;
         }
-        doPost(request, response);
     }
 }

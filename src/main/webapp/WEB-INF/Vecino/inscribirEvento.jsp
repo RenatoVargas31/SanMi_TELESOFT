@@ -1,4 +1,6 @@
 <jsp:useBean id="evento" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
+<jsp:useBean id="evento1" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
+<jsp:useBean id="evento2" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -45,7 +47,7 @@
     </style>
 
 
-    <title>Entradas | <%= evento.getNombreEvento() %></title>
+    <title>SanMi | Entradas: <%= evento.getNombreEvento() %></title>
 
 
     <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
@@ -144,7 +146,7 @@
 
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino">Todos los eventos</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">Todos los eventos</a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>"> <%= evento.getNombreEvento() %></a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %> " style="color:black">Entradas</a></li>
                         </ul>
@@ -167,76 +169,56 @@
 
                                 </div>
                                 <div style="margin-top: 25px" class="card academy-content shadow-none border">
-
                                     <div class="card-body">
-                                        <h3 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
-                                        <div class="accordion-item shadow-none border border-bottom-0 mb-0">
-                                            <!-- Aquí podrías agregar más contenido si es necesario -->
-                                        </div>
-                                        <h3 style="font-size: 22px; margin-top: 15px; color: rgb(34, 33, 33); font-weight: 500;" class="mb-0 pt-1">Cantidad:</h3>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="1" id="defaultRadio1" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="defaultRadio1">
-                                                1 entrada
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="2" id="inlineRadio2" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio2">
-                                                2 entradas
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="3" id="inlineRadio3" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio3">
-                                                3 entradas
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline mt-3">
-                                            <input name="entradas" class="form-check-input" type="radio" value="4" id="defaultRadio4" />
-                                            <label style="font-size: 18px; margin-top: -3px; margin-left: 10px;" class="form-check-label" for="defaultRadio4">
-                                                4 entradas
-                                            </label>
+                                    <form method="post" action="<%= request.getContextPath() %>/ServletVecino?action=guardarInscripcion&id=<%= evento.getIdEventos() %> ">
 
-                                    </div>
+                                            <h3 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
 
-                                        <div class="mt-1">
-                                            <!-- Button trigger modal -->
-                                            <div class="form d-flex align-content-center mb-1" style="width: inherit   ">
-                                                <button type="button" style="flex: auto; margin-top: 10px" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modalCenter">
+                                            <!-- Contenido de la tarjeta u otras secciones -->
+
+                                            <h3 style="font-size: 22px; margin-top: 15px; color: rgb(34, 33, 33); font-weight: 500;" class="mb-0 pt-1">Cantidad:</h3>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="1" id="defaultRadio1" checked/>
+                                                <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="defaultRadio1">
+                                                    1 entrada
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="2" id="inlineRadio2" />
+                                                <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio2">
+                                                    2 entradas
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="3" id="inlineRadio3" />
+                                                <label style="font-size: 18px; margin-top: -3px; margin-right: 40px; margin-left: 10px;" class="form-check-label" for="inlineRadio3">
+                                                    3 entradas
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline mt-3">
+                                                <input name="entradas" class="form-check-input" type="radio" value="4" id="defaultRadio4" />
+                                                <label style="font-size: 18px; margin-top: -3px; margin-left: 10px;" class="form-check-label" for="defaultRadio4">
+                                                    4 entradas
+                                                </label>
+                                            </div>
+
+                                            <!-- Botón para enviar el formulario -->
+                                            <div class="form d-flex align-content-center mb-1" style="width: inherit;">
+                                                <button type="submit" style="flex: auto; margin-top: 10px;" class="btn btn-primary">
                                                     Confirmar inscripción
                                                 </button>
                                             </div>
 
+                                    </form>
+
+
                                             <!-- Modal -->
-                                            <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col mb-3">
-
-                                                                    <div style="text-align: center; ">
-                                                                        <i class="fas fa-check" style="font-size: 50px; color: #1e3b8e;"></i>
-                                                                    </div>
-                                                                    <h5 style="text-align: center; margin-top: 20px;margin-bottom: -10px; color: black">Gracias por inscribirse. En breve enviaremos las entradas a la bandeja de su correo.</h5>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a href="${pageContext.request.contextPath}/ServletVecino" class="btn btn-primary" style="flex: auto;">Descubrir más eventos</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
 
 
 
                                         <h4 style="margin-top: 20px; color:rgb(34, 33, 33)"> Recuerda que:</h4>
-                                        <h6 style="margin-top: 15px;margin-left: 15px" > El uso de entradas están bajo responabilidad del usuario actual</h6>
+                                        <h6 style="margin-top: 15px;margin-left: 15px" > El uso de entradas están bajo responsabilidad del usuario actual</h6>
                                         <h6 style="margin-top: 15px;margin-left: 15px">El máximo de entradas es 4, con el fin de mantener el orden</h6>
                                         <h6 style="margin-top: 15px;margin-left: 15px">El uso indebido de las entradas puede terminar en la suspensón de tu cuenta </h6>
 
@@ -253,76 +235,85 @@
                                             </div>
                                         </div>
                                         </div>
-                                    </div>
                                 </div>
                             </div>
+
+
+
+
                             <div class="col-lg-4">
                                 <div class="accordion stick-top accordion-bordered" id="courseContent">
                                     <div class="accordion-item shadow-none border border-bottom-0 active mb-0">
                                         <div class="accordion-header" id="headingOne">
                                             <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="#chapterOne" aria-expanded="true" aria-controls="chapterOne">
                                               <span class="d-flex flex-column">
-                                                <span class="h5 mb-1">Eventos que te pueden interesar</span>
+                                        <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                        <span class="h5 mb-1">Más eventos de cultura</span>
+                                        <% } %>
+                                        <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                        <span class="h5 mb-1">Más eventos de deporte</span>
+                                        <% } %>
                                                 </span>
                                             </button>
                                         </div>
 
-                                        <div style="cursor:default" id="chapterOne" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
-                                            <div  style="cursor:default" class="accordion-body py-3 border-top">
-                                                <div style="cursor:auto" class="form d-flex align-items-center mb-3">
+                                        <div style="cursor: default" id="chapterOne" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                <div class="form d-flex align-items-center mb-3">
                                                     <div class="card p-1 h-100 shadow-none border">
-
-                                                        <div class="rounded-2 text-center mb-3">
-                                                            <a href="app-academy-course-details2.html"><img style="height: 200px; width: fit-content; border-radius: 10px" class="img-fluid" src="../../assets/img/events/evento2.jpg" alt="tutor image 2" /></a>
-                                                        </div>
+                                                        <!-- Primer evento -->
                                                         <div class="card-body p-3 pt-2">
-                                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                <span class="badge bg-label-hover-success">Deporte</span>
-                                                                <!--
-                                                                <h6 class="d-flex align-items-center justify-content-center gap-1 mb-0">
-                                                                  4.4 <span class="text-warning"><i class="bx bxs-star me-1"></i></span><span class="text-muted">(1.23k)</span>
-                                                                </h6>
-                                                                -->
+                                                            <div class="rounded-2 text-center mb-3">
+                                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
+                                                                    <img style="height: 200px; width: fit-content; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento 1" />
+                                                                </a>
                                                             </div>
-                                                            <a href="app-academy-course-details2.html" class="h5">Olimpiadas escolares</a>
-                                                            <p class="mt-2">Las Olimpiadas Escolares son competiciones deportivas entre estudiantes que promueven el espíritu deportivo y el trabajo en equipo.</p>
-                                                            <!--<p class="d-flex align-items-center"><i class="bx bx-time-five me-2"></i>30 minutes</p>
-                                              -->
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <% if (evento1.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                                                <span class="badge bg-label-warning">Cultura</span>
+                                                                <% } %>
+                                                                <% if (evento1.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                                                <span class="badge bg-label-hover-success">Deporte</span>
+                                                                <% } %>
+                                                            </div>
+                                                            <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>" class="h5"><%= evento1.getNombreEvento() %></a>
+                                                            <p class="mt-2"><%= evento1.getDescriptionEvento() %></p>
                                                             <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
-
-                                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="app-academy-course-details2.html">
+                                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
                                                                     <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
                                                                 </a>
                                                             </div>
-
-
                                                         </div>
-                                                        <div class="card p-2 h-100 shadow-none border">
+
+                                                        <!-- Segundo evento -->
+                                                        <div class="card-body p-3 pt-2">
                                                             <div class="rounded-2 text-center mb-3">
-                                                                <a href="app-academy-course-details3.html"><img style="height: 200px; width: fit-content; border-radius: 10px" class="img-fluid" src="../../assets/img/events/evento3.jpg" alt="tutor image 3" /></a>
+                                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
+                                                                    <img style="height: 200px; width: fit-content; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento2.jpg" alt="Imagen del evento 2" />
+                                                                </a>
                                                             </div>
-                                                            <div class="card-body p-3 pt-2">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <span class="badge bg-label-hover-warning">Cultura</span>
-                                                                    <!--
-                                                                    <h6 class="d-flex align-items-center justify-content-center gap-1 mb-0">
-                                                                      4.4 <span class="text-warning"><i class="bx bxs-star me-1"></i></span><span class="text-muted">(1.23k)</span>
-                                                                    </h6>
-                                                                    -->
-                                                                </div>
-                                                                <a href="app-academy-course-details3.html" class="h5">Teatro en San Miguel</a>
-                                                                <p class="mt-2">El teatro es una forma de arte en la que los actores interpretan personajes y representan historias en vivo ante una audiencia.  <!--<p class="d-flex align-items-center"><i class="bx bx-time-five me-2"></i>30 minutes</p>
--->
-                                                                <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
-
-                                                                    <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="app-academy-course-details3.html">
-                                                                        <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
-                                                                    </a>
-                                                                </div>
-
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <% if (evento2.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                                                <span class="badge bg-label-warning">Cultura</span>
+                                                                <% } %>
+                                                                <% if (evento2.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                                                <span class="badge bg-label-hover-success">Deporte</span>
+                                                                <% } %>
+                                                            </div>
+                                                            <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>" class="h5"><%= evento2.getNombreEvento() %></a>
+                                                            <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
+                                                            <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
+                                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
+                                                                    <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                                 </div>
 

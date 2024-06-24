@@ -261,7 +261,7 @@ public class ServletVecino extends HttpServlet {
             listaEventos = eventoDao.listaEventosCultura();
         } else {
             listaEventos = eventoDao.listaEventos();
-        }
+            }
         request.setAttribute("listarEventos", listaEventos);
 
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp");
