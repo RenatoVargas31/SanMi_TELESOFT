@@ -74,7 +74,7 @@ public class DaoIncidencia extends BaseDao{
         return listaIncidencia;
     }
 
-    public ArrayList<Incidencia> listarMisIncidencias(int idUsuario) {
+        public ArrayList<Incidencia> listarMisIncidencias(int idUsuario) {
 
         ArrayList<Incidencia> listaMisIncidencias = new ArrayList<>();
 

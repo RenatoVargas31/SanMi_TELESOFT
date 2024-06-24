@@ -4,6 +4,7 @@ import com.example.sanmi_telesoft.beans.Evento;
 import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
+import com.example.sanmi_telesoft.beans.Usuario;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
@@ -206,14 +207,13 @@ public class ServletVecino extends HttpServlet {
     }
     private void manejarMisIncidencias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Integer vecinoId = (Integer) session.getAttribute("usuarioId");
-        if (vecinoId != null) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null) {
+            int vecinoId = usuario.getIdUsuarios();
             List<Incidencia> misIncidencias = incidenciaDao.listarIncidenciasPorVecino(vecinoId);
             request.setAttribute("misIncidencias", misIncidencias);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-misIncidencias.jsp");
             dispatcher.forward(request, response);
-        } else {
-            manejarError(request, response, "Usuario no logueado");
         }
     }
 

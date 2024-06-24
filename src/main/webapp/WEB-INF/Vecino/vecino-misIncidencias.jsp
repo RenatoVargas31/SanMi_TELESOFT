@@ -6,31 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %><%
-<%@ page import="java.util.List"
-%>
+<%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
+<%@ page import="java.util.List" %>
 
 <%String pageName = "misIncidencias";
     request.setAttribute("pageName", pageName);
+
 %>
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
 <body>
 <jsp:include page="../Fragmentos/FragmentosVecino/menuFragmentVecino.jsp"/>
 <jsp:include page="../Vecino/navBar.jsp"/>
-<%
-    HttpSession currentSession = request.getSession(false);
-    if (currentSession == null || currentSession.getAttribute("usuario") == null) {
-        response.sendRedirect(request.getContextPath() + "/ServletLoguin");
-        return;
-    }
-%>
+
 <!-- Content wrapper -->
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="fw-bold">Mis incidencias</h3>
-            <button class="btn btn-secondary create-new btn-primary" type="button" onclick="window.location.href='vecino-reportarIncidencia.jsp';">
+            <button class="btn btn-secondary create-new btn-primary" type="button" onclick="window.location.href='/ServletVecino?action=reportarIncidencia">
                 <i class='bx bx-bell-plus bx-tada'></i>
                 <span class="d-none d-sm-inline-block">Nueva Incidencia</span>
             </button>
