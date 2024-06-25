@@ -157,6 +157,7 @@ public class ServletVecino extends HttpServlet {
         incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
 
+        /*
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
             incidencia.setFotoIncidencia(fileName);
@@ -165,8 +166,8 @@ public class ServletVecino extends HttpServlet {
             try (InputStream input = fotoPart.getInputStream()) {
                 Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-        }
-
+        }*/
+        
         incidenciaDao.actualizarIncidencia(incidencia);
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
     }
@@ -232,6 +233,7 @@ public class ServletVecino extends HttpServlet {
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
 
+        /*
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
             incidencia.setFotoIncidencia(fileName);
@@ -240,7 +242,7 @@ public class ServletVecino extends HttpServlet {
             try (InputStream input = fotoPart.getInputStream()) {
                 Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-        }
+        }*/
 
         incidenciaDao.insertarIncidencia(incidencia);
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");

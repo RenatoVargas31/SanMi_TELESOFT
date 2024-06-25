@@ -86,26 +86,26 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3">
-                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencia">
+                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencia" enctype="multipart/form-data">
 
                                             <div class="col-md-6">
                                                 <label class="form-label" for="fullname">Nombre</label>
-                                                <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nombre" />
+                                                <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nombre" required/>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label class="form-label" for="phone">Telefono</label>
-                                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="" />
+                                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="" required/>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label" for="LugarExacto">Lugar Exacto</label>
-                                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" placeholder="Av, jr, calle."/>
+                                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" placeholder="Av, jr, calle." required/>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label" for="Referencia">Referencia</label>
-                                                <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." />
+                                                <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required/>
                                             </div>
 
                                             <div class="col-12">
@@ -121,7 +121,7 @@
 
                                             <div class="col-12">
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                                    <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
                                                 </div>
                                             </div>
 

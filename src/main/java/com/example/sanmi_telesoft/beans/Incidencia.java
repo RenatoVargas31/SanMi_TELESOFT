@@ -1,11 +1,13 @@
 package com.example.sanmi_telesoft.beans;
 
+import java.io.InputStream;
+
 public class Incidencia {
     private int idIncidencias;
     private String nombreIncidencia;
     private String lugarIncidencia;
     private String referenciaIncidencia;
-    private String fotoIncidencia;
+    private byte[] fotoIncidencia;
     private boolean requiereAmbulancia;
     private boolean requierePolicia;
     private boolean requiereBombero;
@@ -124,11 +126,11 @@ public class Incidencia {
         this.referenciaIncidencia = referenciaIncidencia;
     }
 
-    public String getFotoIncidencia() {
+    public byte[] getFotoIncidencia() {
         return fotoIncidencia;
     }
 
-    public void setFotoIncidencia(String fotoIncidencia) {
+    public void setFotoIncidencia(byte[] fotoIncidencia) {
         this.fotoIncidencia = fotoIncidencia;
     }
 
