@@ -160,7 +160,8 @@ public class DaoIncidencia extends BaseDao{
             pstmt.setBytes(7, incidencia.getFotoIncidencia());
             pstmt.setInt(8, incidencia.getIdIncidencias());
 
-            pstmt.executeUpdate();
+            int rowsUpdated = pstmt.executeUpdate();
+            System.out.println("Rows updated: " + rowsUpdated);
         } catch (SQLException e) {
             e.printStackTrace();
         }

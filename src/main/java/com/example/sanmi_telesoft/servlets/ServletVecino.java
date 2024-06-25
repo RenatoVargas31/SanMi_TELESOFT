@@ -114,6 +114,7 @@ public class ServletVecino extends HttpServlet {
     }
 
     @Override
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
@@ -150,32 +151,65 @@ public class ServletVecino extends HttpServlet {
     }
 
     private void actualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idIncidencia = Integer.parseInt(request.getParameter("id"));
+        String nombreIncidencia = request.getParameter("fullname");
+        String telefono = request.getParameter("phone");
+        int id = Integer.parseInt(request.getParameter("incidencia_id"));
         String lugarExacto = request.getParameter("LugarExacto");
         String referencia = request.getParameter("Referencia");
-        String telefono = request.getParameter("phone");
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-        Part fotoPart = request.getPart("foto");
+        Part fotoPart = request.getPart("file");
+
+
+        System.out.println("Parametros recibidos:");
+        System.out.println("nombreIncidencia: " + nombreIncidencia);
+        System.out.println("telefono: " + telefono);
+        System.out.println("lugarExacto: " + lugarExacto);
+        System.out.println("referencia: " + referencia);
+        System.out.println("requiereAmbulancia: " + requiereAmbulancia);
+        System.out.println("fotoincidencia: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
+
+
+
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+        System.out.println("Usuario ID: " + usuario.getIdUsuarios());
+
+
 
         Incidencia incidencia = new Incidencia();
-        incidencia.setIdIncidencias(idIncidencia);
+        incidencia.setIdIncidencias(id);
+        incidencia.setNombreIncidencia(nombreIncidencia);
+        incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
         incidencia.setLugarIncidencia(lugarExacto);
         incidencia.setReferenciaIncidencia(referencia);
-        incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
-
-        /*
+        incidencia.setUsuarioId(usuario.getIdUsuarios());
         if (fotoPart != null && fotoPart.getSize() > 0) {
-            String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
-            incidencia.setFotoIncidencia(fileName);
-            File uploads = new File("/path/to/uploads");
-            File file = new File(uploads, fileName);
-            try (InputStream input = fotoPart.getInputStream()) {
-                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            try (InputStream inputStream = fotoPart.getInputStream()) {
+                byte[] fotoBytes = inputStream.readAllBytes();
+                incidencia.setFotoIncidencia(fotoBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }*/
-        
+        } else {
+            // Obtener la foto existente si no se ha subido una nueva
+            try {
+                byte[] fotoExistente = incidenciaDao.obtenerFotoIncidencia(id);
+                incidencia.setFotoIncidencia(fotoExistente);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new ServletException("Error al obtener la foto existente", e);
+            }
+        }
+
+
         incidenciaDao.actualizarIncidencia(incidencia);
+        System.out.println("Incidencia actualizada correctamente.");
+
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
     }
     private void mostrarFormularioReportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

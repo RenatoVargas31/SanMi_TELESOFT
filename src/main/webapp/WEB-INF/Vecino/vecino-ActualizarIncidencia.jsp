@@ -31,38 +31,45 @@
                         <h5 class="card-title text-white mb-0">Actualizar Incidencia</h5>
                     </div>
                     <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/ServletVecino?action=actualizarIncidencia" method="post" enctype="multipart/form-data">
-                            <div class="row g-3">
-                                <input type="hidden" name="id" value="${incidencia.idIncidencias}" />
-                                <div class="col-12">
-                                    <label class="form-label" for="LugarExacto-actualizar">Lugar Exacto</label>
-                                    <textarea name="LugarExacto" class="form-control" id="LugarExacto-actualizar" rows="2" placeholder="Av, jr, calle." required>${incidencia.lugarIncidencia}</textarea>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label" for="Referencia-actualizar">Referencia</label>
-                                    <input type="text" id="Referencia-actualizar" name="Referencia" class="form-control" placeholder="Cerca a . . ." value="${incidencia.referenciaIncidencia}" required />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="phone-actualizar">Teléfono</label>
-                                    <input type="text" id="phone-actualizar" name="phone" class="form-control phone-mask" placeholder="Opcional" value="${incidencia.telefono}" />
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="ambulancia" id="ambulancia-actualizar" ${incidencia.requiereAmbulancia ? 'checked' : ''}>
-                                        <label class="form-check-label" for="ambulancia-actualizar">Es necesario una ambulancia</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="input-group">
-                                        <button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon03-actualizar">Subir foto</button>
-                                        <input type="file" class="form-control" id="inputGroupFile03-actualizar" name="foto" aria-describedby="inputGroupFileAddon03-actualizar" aria-label="Upload" accept="image/jpeg, image/png">
-                                    </div>
+                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletVecino?action=actualizarIncidencia" enctype="multipart/form-data">
+                            <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
+                            <div class="col-md-6">
+                                <label class="form-label" for="fullname">Nombre</label>
+                                <input type="text" id="fullname" name="fullname" class="form-control" value="<%= incidencia.getNombreIncidencia() == null ? "" : incidencia.getNombreIncidencia()%>" placeholder="Nombre" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label" for="phone">Telefono</label>
+                                <input type="text" class="form-control" name="phone" id="phone" value="<%= incidencia.getTelefono()%>"  placeholder="" />
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label" for="LugarExacto">Lugar Exacto</label>
+                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" value="<%= incidencia.getLugarIncidencia() == null ? "" : incidencia.getLugarIncidencia()%>" placeholder="Av, jr, calle."/>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label" for="Referencia">Referencia</label>
+                                <input type="text" id="Referencia" name="Referencia" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." />
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" <% if(incidencia.isRequiereAmbulancia()) { %> checked="" <%}%> >
+                                    <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
                                 </div>
                             </div>
+
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                </div>
+                            </div>
+
                             <div class="d-flex justify-content-between align-items-center mt-4">
-                                <button class="btn btn-label-primary" type="button" onclick="checkFieldsAndGoBack();">Atrás</button>
+                                <button class="btn btn-label-primary" onclick="checkFieldsAndGoBack();">Atrás</button>
                                 <div class="flex-grow-1 d-flex justify-content-center">
-                                    <button class="btn btn-primary" type="submit" style="background-color: #33CCFF; color: white; text-align: center;">Actualizar</button>
+                                    <input type="submit" value="Guardar" class="btn btn-primary"/>
                                 </div>
                                 <div style="width: 86px;"></div>
                             </div>

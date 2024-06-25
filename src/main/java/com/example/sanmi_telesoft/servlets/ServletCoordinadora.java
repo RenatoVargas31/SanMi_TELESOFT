@@ -65,6 +65,7 @@ public class ServletCoordinadora extends HttpServlet {
                     os.write(im.getFotoIncidencia());
                     os.flush();
                 }
+                break;
 
             case "listarMisIncidencias":
                 DaoIncidencia daoIncidencia1 = new DaoIncidencia();
