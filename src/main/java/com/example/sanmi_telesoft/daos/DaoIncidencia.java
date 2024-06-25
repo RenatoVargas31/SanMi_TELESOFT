@@ -99,13 +99,11 @@ public class DaoIncidencia extends BaseDao{
         return listaMisIncidencias;
     }
     public void insertarIncidencia(Incidencia incidencia) {
-        /*String sql = "INSERT INTO incidencias (nombreIncidencia, lugarIncidencia, referenciaIncidencia, fotoIncidencia, requiereAmbulancia, telefono, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";*/
         String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fotoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, incidencia.getNombreIncidencia());
             pstmt.setString(2, incidencia.getLugarIncidencia());
             pstmt.setString(3, incidencia.getReferenciaIncidencia());
-            /*pstmt.setString(4, incidencia.getFotoIncidencia());*/
             pstmt.setBoolean(4, incidencia.isRequiereAmbulancia());
             pstmt.setBoolean(5, incidencia.isRequierePolicia());
             pstmt.setBoolean(6, incidencia.isRequiereBombero());
@@ -135,16 +133,16 @@ public class DaoIncidencia extends BaseDao{
     }
 
     public void actualizarIncidencia(Incidencia incidencia) {
-        String sql = "UPDATE incidencias SET nombreIncidencia = ? ,lugarExacto = ?, referenciaIncidencia = ?, contactoIncidencia = ?, requiereAmbulancia = ?, requiereBombero = ? WHERE idIncidencias = ?";
+        String sql = "UPDATE incidencias SET nombreIncidencia = ? ,lugarExacto = ?, referenciaIncidencia = ?, contactoIncidencia = ?, requiereAmbulancia = ?, requiereBombero = ?, fotoIncidencia = ? WHERE idIncidencias = ?";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, incidencia.getNombreIncidencia());
             pstmt.setString(2, incidencia.getLugarIncidencia());
             pstmt.setString(3, incidencia.getReferenciaIncidencia());
             pstmt.setInt(4, incidencia.getTelefono());
-            /*pstmt.setString(4, incidencia.getFotoIncidencia());*/
             pstmt.setBoolean(5, incidencia.isRequiereAmbulancia());
             pstmt.setBoolean(6, incidencia.isRequiereBombero());
-            pstmt.setInt(7, incidencia.getIdIncidencias());
+            pstmt.setBytes(7, incidencia.getFotoIncidencia());
+            pstmt.setInt(8, incidencia.getIdIncidencias());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -153,14 +151,13 @@ public class DaoIncidencia extends BaseDao{
     }
 
     public Incidencia obtenerIncidencia(int idIncidencia) {
-        Incidencia incidencia = null;
+        Incidencia incidencia = new Incidencia();
         String sql = "SELECT * FROM incidencias WHERE idIncidencias = ?";
         try (Connection conn = this.getConection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idIncidencia);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    incidencia = new Incidencia();
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
                     incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
                     incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
                     incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
@@ -169,11 +166,14 @@ public class DaoIncidencia extends BaseDao{
                     incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
                     incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
                     incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
-                    incidencia.setDescripcionSolucion(rs.getString("descripcionSolucion"));
+                    incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
                     incidencia.setNameUsuario(rs.getString("Usuarios_idUsuarios"));
 
-                }
+                    byte[] fotote = rs.getBytes("fotoIncidencia");
+                    incidencia.setFotoIncidencia(fotote);
+
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

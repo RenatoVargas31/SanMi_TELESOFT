@@ -194,9 +194,14 @@
                                                 <p><%= incidencia.getNameUsuario() %></p>
 
                                                 <div class="card h-100">
-                                                    <img class="card-img-top" src="ServletCoordinadora?action=mostrarIncidencia&id=<%= incidencia.getIdIncidencias() %>" alt="<%= incidencia.getNombreIncidencia() %>" alt="Card image cap" />
+                                                    <% if(incidencia.getFotoIncidencia() != null) { %>
+                                                    <img class="card-img-top" src="ServletCoordinadora?action=mostrarImagen&id=<%= incidencia.getIdIncidencias() %>" alt="Card image cap" />
                                                     <div class="card-body">
                                                         <h5 class="card-title">Foto del reporte</h5>
+                                                    <% } else {%>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">No hay foto del reporte</h5>
+                                                    <% } %>
                                                         <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
                                                         <p class="card-text">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
                                                     </div>
