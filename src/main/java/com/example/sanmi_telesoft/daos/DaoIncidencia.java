@@ -114,6 +114,22 @@ public class DaoIncidencia extends BaseDao{
             e.printStackTrace();
         }
     }
+    public byte[] obtenerFotoIncidencia(int idIncidencia) throws SQLException {
+        byte[] foto = null;
+        String sql = "SELECT fotoIncidencia FROM incidencias WHERE idIncidencias = ?";
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idIncidencia);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    foto = rs.getBytes("fotoIncidencia");
+                }
+            }
+        }
+        return foto;
+    }
+
+
     public void insertarIncidencia_vecino(Incidencia incidencia) {
         String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, contactoIncidencia, Usuarios_idUsuarios, fotoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -123,9 +139,9 @@ public class DaoIncidencia extends BaseDao{
             pstmt.setBoolean(4, incidencia.isRequiereAmbulancia());
             pstmt.setInt(5, incidencia.getTelefono());
             pstmt.setInt(6, incidencia.getUsuarioId());
-            /* pstmt.setString(7, incidencia.getFotoIncidencia());
+            pstmt.setBytes(7, incidencia.getFotoIncidencia());
 
-             */
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

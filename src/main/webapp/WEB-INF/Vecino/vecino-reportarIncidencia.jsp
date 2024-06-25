@@ -57,7 +57,7 @@
                                 <div class="col-12">
                                     <div class="input-group">
                                         <button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon03">Subir foto</button>
-                                        <input type="file" class="form-control" id="inputGroupFile03" name="foto" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                        <input type="file" class="form-control" id="inputGroupFile03" name="fotoincidencia" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
                                     </div>
                                 </div>
                             </div>

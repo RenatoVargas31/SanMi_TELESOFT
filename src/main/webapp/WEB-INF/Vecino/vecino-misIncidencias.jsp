@@ -87,7 +87,7 @@
                                     <p>Estimado Serenazgo de la Zona,</p>
 
                                     <% if(incidencia.getDescripcionSolucion() == null) { %>
-                                    <p>Me dirijo a ustedes con preocupación para informar sobre un incidente  que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
+                                    <p>Me dirijo a ustedes con preocupación para informar sobre un incidente que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
                                     <% } else { %>
                                     <p><%= incidencia.getDescripcionSolucion() %></p>
                                     <% } %>
@@ -96,7 +96,14 @@
                                     <p><%= incidencia.getNameUsuario() %></p>
 
                                     <div class="card h-100">
-                                        <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio1.jpg" alt="Card image cap" />
+                                        <%
+                                            if (incidencia.getFotoIncidencia() != null) { %>
+                                        <img class="card-img-top" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= incidencia.getIdIncidencias() %>" alt="Foto del reporte" />
+                                        <% } else { %>
+                                        <div class="alert alert-warning text-center" role="alert" style="font-size: 1.2em; font-weight: bold; color: blue;">
+                                            No hay foto adjunta para este reporte.
+                                        </div>
+                                        <% } %>
                                         <div class="card-body">
                                             <h5 class="card-title">Foto del reporte</h5>
                                             <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>

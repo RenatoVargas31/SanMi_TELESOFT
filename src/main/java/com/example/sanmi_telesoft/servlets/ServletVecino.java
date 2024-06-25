@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.OutputStream;
+import java.sql.SQLException;
+
 
 
 @WebServlet(name = "ServletVecino", value = "/ServletVecino")
@@ -98,6 +101,9 @@ public class ServletVecino extends HttpServlet {
                 break;
             case "obtenerDetallesIncidencia":
                 obtenerDetallesIncidencia(request, response);
+                break;
+            case "servirImagenIncidencia":
+                servirImagenIncidencia(request, response);
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -220,12 +226,13 @@ public class ServletVecino extends HttpServlet {
     }
 
     private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String nombreIncidencia = request.getParameter("nombreIncidencia");
         String telefono = request.getParameter("phone");
         String lugarExacto = request.getParameter("LugarExacto");
         String referencia = request.getParameter("Referencia");
         boolean requiereAmbulancia = request.getParameter("requiereAmbulancia") != null;
-        Part fotoPart = request.getPart("foto");
+        Part fotoPart = request.getPart("fotoincidencia");
 
 
         System.out.println("Parametros recibidos:");
@@ -234,7 +241,7 @@ public class ServletVecino extends HttpServlet {
         System.out.println("lugarExacto: " + lugarExacto);
         System.out.println("referencia: " + referencia);
         System.out.println("requiereAmbulancia: " + requiereAmbulancia);
-        System.out.println("fotoPart: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
+        System.out.println("fotoincidencia: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
 
         HttpSession session = request.getSession(false);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -254,21 +261,19 @@ public class ServletVecino extends HttpServlet {
         incidencia.setUsuarioId(usuario.getIdUsuarios());
 
 
-        /*if (fotoPart != null && fotoPart.getSize() > 0) {
-            String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
-            incidencia.setFotoIncidencia(fileName);
-            File uploads = new File("/path/to/uploads");
-            File file = new File(uploads, fileName);
-            try (InputStream input = fotoPart.getInputStream()) {
-                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+
+
+        if (fotoPart != null) {
+            try (InputStream inputStream = fotoPart.getInputStream()) {
+                byte[] fotoBytes = inputStream.readAllBytes();
+                incidencia.setFotoIncidencia(fotoBytes);
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServletException("Error al subir el archivo", e);
             }
-
+        } else {
+            incidencia.setFotoIncidencia(null);
         }
-
-         */
 
         try {
             incidenciaDao.insertarIncidencia_vecino(incidencia);
@@ -279,6 +284,28 @@ public class ServletVecino extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
     }
+    private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        if (id == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta el parámetro id");
+            return;
+        }
+
+        try {
+            byte[] imgData = incidenciaDao.obtenerFotoIncidencia(Integer.parseInt(id));
+            if (imgData != null) {
+                response.setContentType("image/jpeg");
+                try (OutputStream os = response.getOutputStream()) {
+                    os.write(imgData);
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagen no encontrada para id: " + id);
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Error al acceder a la base de datos", e);
+        }
+    }
+
 
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tipo = request.getParameter("tipoFiltrado");
