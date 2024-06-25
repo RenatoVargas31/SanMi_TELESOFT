@@ -135,37 +135,24 @@ public class DaoIncidencia extends BaseDao{
             e.printStackTrace();
         }
     }
-    public List<Incidencia> listarIncidenciasPorVecino(int vecinoId) {
-        List<Incidencia> incidencias = new ArrayList<>();
-        String sql = "SELECT * FROM incidencias WHERE Usuarios_idUsuarios = ?";
+    public void insertarIncidencia_vecino(Incidencia incidencia) {
+        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, contactoIncidencia, Usuarios_idUsuarios, fotoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, incidencia.getNombreIncidencia());
+            pstmt.setString(2, incidencia.getLugarIncidencia());
+            pstmt.setString(3, incidencia.getReferenciaIncidencia());
+            pstmt.setBoolean(4, incidencia.isRequiereAmbulancia());
+            pstmt.setInt(5, incidencia.getTelefono());
+            pstmt.setInt(6, incidencia.getUsuarioId());
+            /* pstmt.setString(7, incidencia.getFotoIncidencia());
 
-        try (Connection conn = getConection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, vecinoId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-
-                    Incidencia incidencia = new Incidencia();
-                    incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
-                    incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
-                    incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
-                    incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
-                    incidencia.setTelefono(rs.getInt("contactoIncidencia"));
-                    incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
-                    incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
-                    incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
-                    incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
-                    incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
-                    incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
-                    incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
-                    incidencias.add(incidencia);
-                }
-            }
+             */
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return incidencias;
     }
+
     public void actualizarIncidencia(Incidencia incidencia) {
         String sql = "UPDATE incidencias SET nombreIncidencia = ? ,lugarExacto = ?, referenciaIncidencia = ?, contactoIncidencia = ?, requiereAmbulancia = ?, requiereBombero = ? WHERE idIncidencias = ?";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {

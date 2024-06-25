@@ -64,8 +64,7 @@
                                 <div class="flex-grow-1 d-flex justify-content-center">
                                     <button class="btn btn-primary" type="submit" style="background-color: #33CCFF; color: white; text-align: center;">Actualizar</button>
                                 </div>
-                                <div style="width: 86px;"> <!-- This empty div serves as a spacer to maintain balance -->
-                                </div>
+                                <div style="width: 86px;"></div>
                             </div>
                         </form>
                     </div>

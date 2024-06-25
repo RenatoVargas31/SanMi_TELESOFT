@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 
 
 @WebServlet(name = "ServletVecino", value = "/ServletVecino")
+@MultipartConfig
 public class ServletVecino extends HttpServlet {
     private DaoEvento eventoDao  = new DaoEvento();
     private DaoIncidencia incidenciaDao  = new DaoIncidencia();
@@ -138,7 +139,7 @@ public class ServletVecino extends HttpServlet {
         int idIncidencia = Integer.parseInt(request.getParameter("id"));
         Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
         request.setAttribute("incidencia", incidencia);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-actualizarIncidencia.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-ActualizarIncidencia.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -211,7 +212,7 @@ public class ServletVecino extends HttpServlet {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario != null) {
             int vecinoId = usuario.getIdUsuarios();
-            List<Incidencia> misIncidencias = incidenciaDao.listarIncidenciasPorVecino(vecinoId);
+            List<Incidencia> misIncidencias = incidenciaDao.listarMisIncidencias(vecinoId);
             request.setAttribute("misIncidencias", misIncidencias);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-misIncidencias.jsp");
             dispatcher.forward(request, response);
@@ -219,12 +220,30 @@ public class ServletVecino extends HttpServlet {
     }
 
     private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nombreIncidencia = request.getParameter("fullname");
+        String nombreIncidencia = request.getParameter("nombreIncidencia");
         String telefono = request.getParameter("phone");
         String lugarExacto = request.getParameter("LugarExacto");
         String referencia = request.getParameter("Referencia");
-        boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
+        boolean requiereAmbulancia = request.getParameter("requiereAmbulancia") != null;
         Part fotoPart = request.getPart("foto");
+
+
+        System.out.println("Parametros recibidos:");
+        System.out.println("nombreIncidencia: " + nombreIncidencia);
+        System.out.println("telefono: " + telefono);
+        System.out.println("lugarExacto: " + lugarExacto);
+        System.out.println("referencia: " + referencia);
+        System.out.println("requiereAmbulancia: " + requiereAmbulancia);
+        System.out.println("fotoPart: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
+
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+        System.out.println("Usuario ID: " + usuario.getIdUsuarios());
+
 
         Incidencia incidencia = new Incidencia();
         incidencia.setNombreIncidencia(nombreIncidencia);
@@ -232,19 +251,32 @@ public class ServletVecino extends HttpServlet {
         incidencia.setLugarIncidencia(lugarExacto);
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
+        incidencia.setUsuarioId(usuario.getIdUsuarios());
 
-        /*
-        if (fotoPart != null && fotoPart.getSize() > 0) {
+
+        /*if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
             incidencia.setFotoIncidencia(fileName);
             File uploads = new File("/path/to/uploads");
             File file = new File(uploads, fileName);
             try (InputStream input = fotoPart.getInputStream()) {
                 Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ServletException("Error al subir el archivo", e);
             }
-        }*/
 
-        incidenciaDao.insertarIncidencia(incidencia);
+        }
+
+         */
+
+        try {
+            incidenciaDao.insertarIncidencia_vecino(incidencia);
+            System.out.println("Incidencia insertada correctamente.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Error al insertar la incidencia", e);
+        }
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
     }
 

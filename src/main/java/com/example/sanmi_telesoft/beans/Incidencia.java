@@ -23,6 +23,15 @@ public class Incidencia {
     private int criticidad;
     private int tipo;
     private String victima;
+    private int usuarioId;
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 
     public int getCriticidad() {
         return criticidad;

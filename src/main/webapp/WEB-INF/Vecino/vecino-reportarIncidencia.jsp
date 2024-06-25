@@ -36,30 +36,24 @@
                                     <label for="nombreIncidencia" class="form-label">Nombre de la Incidencia</label>
                                     <input type="text" class="form-control" id="nombreIncidencia" name="nombreIncidencia" placeholder="Nombre de la Incidencia" required>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label class="form-label" for="phone">Teléfono</label>
                                     <input type="text" id="phone" name="phone" class="form-control phone-mask" placeholder="Opcional" />
                                 </div>
-
                                 <div class="col-12">
                                     <label class="form-label" for="LugarExacto">Lugar Exacto</label>
                                     <textarea name="LugarExacto" class="form-control" id="LugarExacto" rows="2" placeholder="Av, jr, calle." required></textarea>
                                 </div>
-
                                 <div class="col-12">
                                     <label class="form-label" for="Referencia">Referencia</label>
                                     <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required />
                                 </div>
-
                                 <div class="col-12">
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia">
                                         <label class="form-check-label" for="requiereAmbulancia">Es necesario una ambulancia</label>
                                     </div>
                                 </div>
-
-
                                 <div class="col-12">
                                     <div class="input-group">
                                         <button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon03">Subir foto</button>
@@ -72,8 +66,7 @@
                                 <div class="flex-grow-1 d-flex justify-content-center">
                                     <button class="btn btn-primary" type="button" onclick="if (validateForm()) { document.getElementById('reportarIncidenciaForm').submit(); }" style="background-color: #33CCFF; color: white; text-align: center;">Reportar</button>
                                 </div>
-                                <div style="width: 86px;"> <!-- This empty div serves as a spacer to maintain balance -->
-                                </div>
+                                <div style="width: 86px;"></div> <!-- This empty div serves as a spacer to maintain balance -->
                             </div>
                         </form>
                     </div>
@@ -93,7 +86,7 @@
         let referencia = document.getElementById('Referencia').value.trim();
 
         if (!nombreIncidencia || !lugarExacto || !referencia) {
-            alert('Por favor, complete todos los campos obligatorios y suba una imagen.');
+            alert('Por favor, complete todos los campos obligatorios .');
             return false; // Previene el envío del formulario
         }
         return true; // Permite el envío del formulario
