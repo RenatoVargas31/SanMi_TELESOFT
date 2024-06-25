@@ -162,7 +162,7 @@ public class DaoEvento extends BaseDao {
 
                     evento.setIdEventos(rs.getInt("idEventos"));
                     evento.setNombreEvento(rs.getString("nombreEvento"));
-                    evento.setFotosStart(rs.getBytes("fotosStart"));
+                    /*evento.setFotosStart(rs.getBytes("fotosStart"));*/
                     evento.setDescriptionEvento(rs.getString("descriptionEvento"));
                     evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                     evento.setLugarEvento(rs.getString("lugarEvento"));
@@ -177,7 +177,7 @@ public class DaoEvento extends BaseDao {
                     profesor.setApellidoProfesor(rs.getString("p.apellidoProfesor"));
                     evento.setProfesor(profesor);
 
-                    evento.setFotosEnd(rs.getBytes("fotosEnd"));
+                    /*evento.setFotosEnd(rs.getBytes("fotosEnd"));*/
 
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
@@ -229,7 +229,7 @@ public class DaoEvento extends BaseDao {
 
                     evento.setIdEventos(rs.getInt("idEventos"));
                     evento.setNombreEvento(rs.getString("nombreEvento"));
-                    evento.setFotosStart(rs.getBytes("fotosStart"));
+                    /*evento.setFotosStart(rs.getBytes("fotosStart"));*/
                     evento.setDescriptionEvento(rs.getString("descriptionEvento"));
                     evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                     evento.setLugarEvento(rs.getString("lugarEvento"));
@@ -244,7 +244,7 @@ public class DaoEvento extends BaseDao {
                     profesor.setApellidoProfesor(rs.getString("p.apellidoProfesor"));
                     evento.setProfesor(profesor);
 
-                    evento.setFotosEnd(rs.getBytes("fotosEnd"));
+                    /*evento.setFotosEnd(rs.getBytes("fotosEnd"));*/
 
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
@@ -298,7 +298,7 @@ public class DaoEvento extends BaseDao {
 
                     evento.setIdEventos(rs.getInt("idEventos"));
                     evento.setNombreEvento(rs.getString("nombreEvento"));
-                    evento.setFotosStart(rs.getBytes("fotosStart"));
+                    /*evento.setFotosStart(rs.getBytes("fotosStart"));*/
                     evento.setDescriptionEvento(rs.getString("descriptionEvento"));
                     evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                     evento.setLugarEvento(rs.getString("lugarEvento"));
@@ -313,7 +313,7 @@ public class DaoEvento extends BaseDao {
                     profesor.setApellidoProfesor(rs.getString("p.apellidoProfesor"));
                     evento.setProfesor(profesor);
 
-                    evento.setFotosEnd(rs.getBytes("fotosEnd"));
+                    /*evento.setFotosEnd(rs.getBytes("fotosEnd"));*/
 
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
@@ -413,7 +413,7 @@ public class DaoEvento extends BaseDao {
                     Evento evento = new Evento();
                     evento.setIdEventos(rs.getInt("idEventos"));
                     evento.setNombreEvento(rs.getString("nombreEvento"));
-                    evento.setFotosStart(rs.getBytes("fotosStart"));
+                    /*evento.setFotosStart(rs.getBytes("fotosStart"));*/
                     evento.setDescriptionEvento(rs.getString("descriptionEvento"));
 
                     TipoEvento tipoEvento = new TipoEvento();

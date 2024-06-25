@@ -17,36 +17,15 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaIncidencia = new ArrayList<>();
 
-       /* String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
-        */
-        String sql = "SELECT i.*, concat(u.nombreUsuario, ' ', u.apellidoUsuario) as name_completo " +
-                "FROM incidencias i " +
-                "JOIN usuarios u ON i.Usuarios_idUsuarios = u.idUsuarios";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
+
+
         try (Connection conn = this.getConection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Incidencia incidencia = new Incidencia();
-                /*incidencia.setIdIncidencias(rs.getInt(1));
-                incidencia.setNombreIncidencia(rs.getString(2));
-                incidencia.setLugarIncidencia(rs.getString(3));
-                incidencia.setReferenciaIncidencia(rs.getString(4));
-                incidencia.setTelefono(rs.getInt(6));
-                incidencia.setRequiereAmbulancia(rs.getBoolean(7));
-                incidencia.setRequierePolicia(rs.getBoolean(8));
-                incidencia.setRequiereBombero(rs.getBoolean(9));
-                incidencia.setDescripcionSolucion(rs.getString(10));
-                incidencia.setSerenazgoid(rs.getInt(11));
-                incidencia.setAmbulalciaid(rs.getInt(12));
-                incidencia.setNameUsuario(rs.getString(18));
-                incidencia.setEstado(rs.getInt(14));
-                incidencia.setCriticidad(rs.getInt(15));
-                incidencia.setTipo(rs.getInt(16));
-
-                listaIncidencia.add(incidencia);
-
-                 */
                 incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
                 incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
                 incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
@@ -63,9 +42,8 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
                 incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
 
-                byte[] fotote = rs.getBytes("foto");
+                byte[] fotote = rs.getBytes("fotoIncidencia");
                 incidencia.setFotoIncidencia(fotote);
-
 
                 listaIncidencia.add(incidencia);
 
@@ -108,6 +86,9 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setEstado(rs.getInt(14));
                 incidencia.setCriticidad(rs.getInt(15));
                 incidencia.setTipo(rs.getInt(16));
+
+                byte[] fotote = rs.getBytes("fotoIncidencia");
+                incidencia.setFotoIncidencia(fotote);
 
                 listaMisIncidencias.add(incidencia);
             }
