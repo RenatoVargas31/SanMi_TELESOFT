@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-    <title>SanMI : Inicio de sesión</title>
+    <title>SanMi : Inicio de sesión</title>
 
     <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
@@ -94,8 +94,8 @@
 
                     <form id="formAuthentication" class="mb-3" action="ServletLoguin" method="POST">
                         <div class="mb-3">
-                            <label for="email" class="form-label">E-mail o usuario</label>
-                            <input type="text" class="form-control" id="email" name="email-username" placeholder="Ingrese su e-mail o usuario" autofocus
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="text" class="form-control" id="email" name="email-username" placeholder="Ingrese su e-mail" autofocus
                                    value="<%= cookiesMap.getOrDefault("email-username", "") %>">
                         </div>
                         <div class="mb-3 form-password-toggle">
@@ -114,17 +114,6 @@
                                 <% if (request.getParameter("error") != null) { %>
                                 <div class="text-danger mb-2">Error en usuario o contraseña</div>
                                 <% } %>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me"
-                                    <% if (cookiesMap.containsKey("email-username") && cookiesMap.containsKey("password")) { %>
-                                       checked
-                                    <% } %>>
-                                <label class="form-check-label" for="remember-me">
-                                    Recuérdame
-                                </label>
                             </div>
                         </div>
                         <div class="mb-3">
