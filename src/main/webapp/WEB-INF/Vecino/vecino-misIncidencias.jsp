@@ -142,12 +142,14 @@
                                     data-bs-toggle="modal" data-bs-target="#<%= modalId %>">
                                 <i class='bx bx-show'></i>
                             </button>
+                            <% if (incidencia.getEstado() == 1) { %>
                             <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=actualizarIncidencia&id=<%= incidencia.getIdIncidencias() %>';">
                                 <i class='bx bx-edit'></i>
                             </button>
                             <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" onclick="promptDeletion(<%= incidencia.getIdIncidencias() %>);">
                                 <i class='bx bx-x'></i>
                             </button>
+                            <% } %>
                         </td>
                     </tr>
                     <% } %>

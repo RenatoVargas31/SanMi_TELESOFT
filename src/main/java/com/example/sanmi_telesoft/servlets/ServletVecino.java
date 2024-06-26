@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.beans.Usuario;
+import com.example.sanmi_telesoft.filters.Sanitizer;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
@@ -20,6 +21,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import org.apache.commons.lang3.StringEscapeUtils;
+
+
 
 
 
@@ -151,11 +155,11 @@ public class ServletVecino extends HttpServlet {
     }
 
     private void actualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nombreIncidencia = request.getParameter("fullname");
-        String telefono = request.getParameter("phone");
+        String nombreIncidencia = Sanitizer.sanitize(request.getParameter("fullname"));
+        String telefono = Sanitizer.sanitize(request.getParameter("phone"));
         int id = Integer.parseInt(request.getParameter("incidencia_id"));
-        String lugarExacto = request.getParameter("LugarExacto");
-        String referencia = request.getParameter("Referencia");
+        String lugarExacto = Sanitizer.sanitize(request.getParameter("LugarExacto"));
+        String referencia = Sanitizer.sanitize(request.getParameter("Referencia"));
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
         Part fotoPart = request.getPart("file");
 
@@ -168,6 +172,36 @@ public class ServletVecino extends HttpServlet {
         System.out.println("requiereAmbulancia: " + requiereAmbulancia);
         System.out.println("fotoincidencia: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
 
+        // Validaciones
+        if (nombreIncidencia == null || nombreIncidencia.isEmpty() || nombreIncidencia.length() > 100) {
+            request.setAttribute("errorMessage", "Nombre de la incidencia no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        if (telefono != null && !telefono.isEmpty() && !telefono.matches("\\d{9}")) {
+            request.setAttribute("errorMessage", "Número de teléfono no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        if (lugarExacto == null || lugarExacto.isEmpty() || lugarExacto.length() > 100) {
+            request.setAttribute("errorMessage", "Lugar exacto no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        if (referencia == null || referencia.isEmpty() || referencia.length() > 255) {
+            request.setAttribute("errorMessage", "Referencia no válida.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+        if (fotoPart != null && fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
+            request.setAttribute("errorMessage", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
 
 
         HttpSession session = request.getSession(false);
@@ -177,6 +211,12 @@ public class ServletVecino extends HttpServlet {
             return;
         }
         System.out.println("Usuario ID: " + usuario.getIdUsuarios());
+        Incidencia incidenciaExistente = incidenciaDao.obtenerIncidencia(id);
+        if (incidenciaExistente.getEstado() != 1) {
+            request.setAttribute("errorMessage", "No se puede actualizar una incidencia que no esté en estado 'nueva'.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
 
 
 
@@ -205,6 +245,7 @@ public class ServletVecino extends HttpServlet {
                 throw new ServletException("Error al obtener la foto existente", e);
             }
         }
+
 
 
         incidenciaDao.actualizarIncidencia(incidencia);
@@ -243,8 +284,26 @@ public class ServletVecino extends HttpServlet {
         out.flush();
     }
     private void eliminarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idIncidencia = Integer.parseInt(request.getParameter("id"));
-        incidenciaDao.eliminarIncidencia(idIncidencia);
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+        System.out.println("Usuario ID: " + usuario.getIdUsuarios());
+
+        Incidencia incidenciaExistente = incidenciaDao.obtenerIncidencia(id);
+        if (incidenciaExistente.getEstado() != 1) {
+            request.setAttribute("errorMessage", "No se puede eliminar una incidencia que no esté en estado 'nueva'.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        incidenciaDao.eliminarIncidencia(id);
+        System.out.println("Incidencia eliminada correctamente.");
+
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
     }
     private void manejarMisIncidencias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -261,12 +320,42 @@ public class ServletVecino extends HttpServlet {
 
     private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String nombreIncidencia = request.getParameter("nombreIncidencia");
-        String telefono = request.getParameter("phone");
-        String lugarExacto = request.getParameter("LugarExacto");
-        String referencia = request.getParameter("Referencia");
+        String nombreIncidencia = Sanitizer.sanitize(request.getParameter("nombreIncidencia"));
+        String telefono = Sanitizer.sanitize(request.getParameter("phone"));
+        String lugarExacto = Sanitizer.sanitize(request.getParameter("LugarExacto"));
+        String referencia = Sanitizer.sanitize(request.getParameter("Referencia"));
         boolean requiereAmbulancia = request.getParameter("requiereAmbulancia") != null;
         Part fotoPart = request.getPart("fotoincidencia");
+
+        // Validaciones
+        if (nombreIncidencia == null || nombreIncidencia.isEmpty() || nombreIncidencia.length() > 100) {
+            request.setAttribute("errorMessage", "Nombre de la incidencia no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        if (telefono != null && !telefono.isEmpty() && !telefono.matches("\\d{9}")) {
+            request.setAttribute("errorMessage", "Número de teléfono no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        if (lugarExacto == null || lugarExacto.isEmpty() || lugarExacto.length() > 100) {
+            request.setAttribute("errorMessage", "Lugar exacto no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        if (referencia == null || referencia.isEmpty() || referencia.length() > 255) {
+            request.setAttribute("errorMessage", "Referencia no válida.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+        if (fotoPart != null && fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
+            request.setAttribute("errorMessage", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
 
 
         System.out.println("Parametros recibidos:");

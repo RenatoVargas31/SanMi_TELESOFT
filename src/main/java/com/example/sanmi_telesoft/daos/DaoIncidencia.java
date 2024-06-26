@@ -185,6 +185,8 @@ public class DaoIncidencia extends BaseDao{
                     incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
                     incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
                     incidencia.setNameUsuario(rs.getString("Usuarios_idUsuarios"));
+                    incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
+
 
                     byte[] fotote = rs.getBytes("fotoIncidencia");
                     incidencia.setFotoIncidencia(fotote);
