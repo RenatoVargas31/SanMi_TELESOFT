@@ -18,6 +18,7 @@ public class Usuario {
     private int idEstadoVecinoEvento;
     private boolean isBannedApp;
     private String motivoBannedApp;
+    private String passwordTemporal;
 
     public String getRol() {
         switch (idRoles) {
@@ -133,5 +134,13 @@ public class Usuario {
     }
     public void setMotivoBannedApp(String motivoBannedApp) {
         this.motivoBannedApp = motivoBannedApp;
+    }
+
+    public String getPasswordTemporal() {
+        return passwordTemporal;
+    }
+
+    public void setPasswordTemporal(String passwordTemporal) {
+        this.passwordTemporal = passwordTemporal;
     }
 }

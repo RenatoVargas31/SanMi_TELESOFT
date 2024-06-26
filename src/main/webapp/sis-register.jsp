@@ -70,14 +70,14 @@
                     <!-- /Logo -->
                     <h4 class="mb-2">Registro de Usuario 📝</h4>
                     <p class="mb-4">Por favor, ingresa la información necesaria para el registro de usuario</p>
-                    <form id="formAuthentication" class="mb-3" action="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/index.html" method="GET">
+                    <form id="formAuthentication" class="mb-3" action="${pageContext.request.contextPath}/ServletSistema?action=insertarUsuario" method="POST">
                         <div class="content-header mb-3">
                             <h5 class="mb-1">Información de Ingreso</h5>
                             <span>Ingresa tus credenciales de ingreso</span>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo (Gmail)</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Ingresa tu correo">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo" required>
                         </div>
                         <div class="content-header mb-3">
                             <h5 class="mb-1">Información personal</h5>
@@ -85,59 +85,53 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="form-label" for="multiStepsFirstName">Nombres</label>
-                                <input type="text" id="multiStepsFirstName" name="multiStepsFirstName" class="form-control" placeholder="Ingrese sus nombres" />
+                                <label class="form-label" for="Nombre">Nombres</label>
+                                <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Ingrese sus nombres" required />
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="multiStepsLastName">Apellidos</label>
-                                <input type="text" id="multiStepsLastName" name="multiStepsLastName" class="form-control" placeholder="Ingrese sus apellidos" />
+                                <label class="form-label" for="Apellido">Apellidos</label>
+                                <input type="text" id="Apellido" name="Apellido" class="form-control" placeholder="Ingrese sus apellidos" required />
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="multiStepsMobile">N° de celular</label>
+                                <label class="form-label" for="Telefono">N° de celular</label>
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text">PE (+51)</span>
-                                    <input type="text" id="multiStepsMobile" name="multiStepsMobile" class="form-control multi-steps-mobile" placeholder="999 999 999" maxlength="11"/>
+                                    <input type="text" id="Telefono" name="Telefono" class="form-control multi-steps-mobile" placeholder="999 999 999" maxlength="11" required />
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="multiStepsPincode">DNI</label>
-                                <input type="text" id="multiStepsPincode" name="multiStepsPincode" class="form-control multi-steps-pincode" placeholder="Ingrese su número de DNI" maxlength="8" />
+                                <label class="form-label" for="DNI">DNI</label>
+                                <input type="text" id="DNI" name="DNI" class="form-control multi-steps-pincode" placeholder="Ingrese su número de DNI" maxlength="8" required />
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="multiStepsAddress">Dirección</label>
-                                <input type="text" id="multiStepsAddress" name="multiStepsAddress" class="form-control" placeholder="Ingrese su domicilio" />
+                                <label class="form-label" for="Direccion">Dirección</label>
+                                <input type="text" id="Direccion" name="Direccion" class="form-control" placeholder="Ingrese su domicilio" required />
                             </div>
                             <div class="col-sm-12">
-                                <label class="form-label" for="multiStepsState">Urbanización</label>
-                                <select id="multiStepsState" class="select2 form-select" data-allow-clear="true">
+                                <label class="form-label" for="IDUrbanizacion">Urbanización</label>
+                                <select id="IDUrbanizacion" name="IDUrbanizacion" class="select2 form-select" data-allow-clear="true" required>
                                     <option value="">Select</option>
-                                    <option value="AU">Aurora</option>
-                                    <option value="BV">Bellavista</option>
-                                    <option value="CA">Camacho</option>
-                                    <option value="CO">Corpac</option>
-                                    <option value="IN">Ingeniería</option>
-                                    <option value="JP">Javier Prado</option>
-                                    <option value="LM">La Marina</option>
-                                    <option value="LE">Lescano</option>
-                                    <option value="MA">Maranga</option>
-                                    <option value="MO">Monterrico</option>
-                                    <option value="OR">Orbea</option>
-                                    <option value="RM">Roma</option>
-                                    <option value="SA">San Antonio</option>
-                                    <option value="SB">San Borja</option>
-                                    <option value="SE">San Eduardo</option>
-                                    <option value="SG">San Gabriel</option>
-                                    <option value="SM">San Miguel</option>
-                                    <option value="SI">Santa Isabel</option>
-                                    <option value="SMG">Santa Margarita</option>
-                                    <option value="SM">San Martín</option>
-                                    <option value="MD">Venecia</option>
-                                    <option value="MA">Villa del mar</option>
+                                    <option value="1">Maranga</option>
+                                    <option value="2">Pando</option>
+                                    <option value="3">Miramar</option>
+                                    <option value="4">San Miguelito</option>
+                                    <option value="5">Elio</option>
+                                    <option value="6">Bertolotto</option>
+                                    <option value="7">La Perla</option>
+                                    <option value="8">San Antonio</option>
+                                    <option value="9">Santa Patricia</option>
+                                    <option value="10">Residencial San Felipe</option>
+                                    <option value="11">Cueva</option>
+                                    <option value="12">Las Brisas</option>
+                                    <option value="13">Las Leyendas</option>
+                                    <option value="14">Parque de las Leyendas</option>
+                                    <option value="15">San José</option>
+                                    <option value="16">Los Cipreses</option>
                                 </select>
                             </div>
                         </div>
                         <br>
-                        <button class="btn btn-primary d-grid w-100">
+                        <button type="submit" class="btn btn-primary d-grid w-100">
                             Registrar
                         </button>
                     </form>
