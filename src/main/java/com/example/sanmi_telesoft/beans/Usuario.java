@@ -18,6 +18,20 @@ public class Usuario {
     private int idEstadoVecinoEvento;
     private boolean isBannedApp;
     private String motivoBannedApp;
+
+    public String getRol() {
+        switch (idRoles) {
+            case 1:
+                return "Administrador";
+            case 2:
+                return "Coordinadora";
+            case 3:
+                return "Vecino";
+            default:
+                return "Desconocido";
+        }
+    }
+
     public String getIsActive() {
         return isActive;
     }
