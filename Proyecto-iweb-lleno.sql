@@ -134,36 +134,56 @@ CREATE TABLE `eventos` (
 
 LOCK TABLES `eventos` WRITE;
 /*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES (
-  1, 'Festival de la Música Peruana', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
-  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
-  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00'
-), (
-  2, 'Deporte', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
-  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
-  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 2, 1, 1, true, '08:00:00', '10:00:00'
-),(
-  3, 'Festival de la Música Peruana', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
-  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
-  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00'
-),(
-  4, 'Deporte 2', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
-  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
-  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 2, 1, 1, true, '08:00:00', '10:00:00'
-),(
-  5, 'Festival de la Música Peruana', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
-  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
-  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00'
+INSERT INTO `eventos` VALUES (1, 'Festival de la Música Peruana', 0x0101, 
+ 'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
+ 100, 'San Miguel, Av. La Marina 1234, Lima, Perú', '2024-08-25', 
+ '2024-08-26', '08:00:00', '10:00:00', 'No hay', 2, 
+ null, 1, 1, 1, true, '08:00:00', '10:00:00'),
+(2, 'Olimpiadas Escolares', 0x0101, 
+ 'Las Olimpiadas Escolares son competencias deportivas y culturales que reúnen a estudiantes para fomentar el talento en diversas disciplinas.', 
+ 100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-31', 
+ '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+ null, 2, 1, 1, true, '08:00:00', '10:00:00'),
+(3, 'Teatro en San Miguel', 0x0101, 
+ 'Disfruta de una noche única de teatro en San Miguel, donde la magia del escenario se combina con la energía vibrante de esta emblemática zona de Lima.', 
+ 100, 'San Miguel, Av. Venezuela 567, Lima, Perú', '2024-10-25', 
+ '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+ null, 1, 1, 1, true, '08:00:00', '10:00:00'),
+(5, 'Evento Deportivo en San Miguel', 0x0101, 
+ 'Evento deportivo en San Miguel para disfrutar de actividades físicas y competencias emocionantes.', 
+ 150, 'San Miguel, Av. La Marina 567, Lima, Perú', '2024-07-15', 
+ '2024-07-16', '09:00:00', '12:00:00', 'No se requieren materiales especiales', 2, 
+ null, 2, 1, 1, true, '09:00:00', '12:00:00'),
+(6, 'Feria Artesanal San Miguel', 0x0101, 
+ 'Feria artesanal en San Miguel con exhibición y venta de artesanías locales.', 
+ 80, 'San Miguel, Av. Universitaria 1500, Lima, Perú', '2024-08-10', 
+ '2024-08-12', '10:00:00', '18:00:00', 'No se requieren materiales especiales', 1, 
+ null, 1, 1, 1, true, '10:00:00', '18:00:00'),
+(7, 'Cine al aire libre', 0x0101, 
+ 'Disfruta de una noche de cine bajo las estrellas en San Miguel.', 
+ 150, 'San Miguel, Av. La Marina 2000, Lima, Perú', '2024-09-15', 
+ '2024-09-15', '19:00:00', '22:00:00', 'Trae tu manta y palomitas', 1, 
+ null, 1, 1, 1, true, '19:00:00', '22:00:00'),
+(8, 'Feria de Artesanía Local', 0x0101, 
+ 'Descubre y compra artesanías locales en esta colorida feria.', 
+ 80, 'San Miguel, Av. La Paz 150, Lima, Perú', '2024-07-20', 
+ '2024-07-22', '10:00:00', '18:00:00', 'Variedad de productos artesanales', 1, 
+ null, 1, 1, 1, true, '10:00:00', '18:00:00'),
+(9, 'Feria Gastronómica San Miguel', 0x0101, 
+ 'Ven y disfruta de lo mejor de la gastronomía peruana en San Miguel.', 
+ 150, 'San Miguel, Plaza San Miguel, Lima, Perú', '2024-09-15', 
+ '2024-09-17', '12:00:00', '21:00:00', 'Variedad de platos típicos y bebidas refrescantes', 1, 
+ null, 1, 1, 1, true, '12:00:00', '21:00:00'),
+(10, 'Expo Arte San Miguel', 0x0101, 
+ 'Descubre las obras más destacadas de artistas locales en una exposición única.', 
+ 80, 'San Miguel, Centro Cultural, Lima, Perú', '2024-11-10', 
+ '2024-11-12', '10:00:00', '18:00:00', 'Obras de arte contemporáneo y clásico', 1, 
+ null, 1, 1, 1, true, '10:00:00', '18:00:00'), (
+  11, 'Torneo de Fútbol San Miguel', 0x0101, 
+  '¡Participa en el emocionante Torneo de Fútbol en San Miguel y demuestra tu habilidad en la cancha!', 
+  150, 'San Miguel, Estadio Municipal, Lima, Perú', '2024-09-20', 
+  '2024-09-22', '15:00:00', '19:00:00', 'Equipos deben llevar uniforme completo', 2, 
+  null, 2, 1, 1, true, '15:00:00', '19:00:00'
 );
 
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
