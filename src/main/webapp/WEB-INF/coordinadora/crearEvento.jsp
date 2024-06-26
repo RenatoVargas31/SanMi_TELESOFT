@@ -1,7 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 <!DOCTYPE html>
-
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 
@@ -10,31 +9,18 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi : Crear Evento</title>
+    <title>SanMI  | Reportar Incidencia</title>
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
     <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
-
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script>
-    <!-- End Google Tag Manager -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -55,270 +41,297 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/bs-stepper/bs-stepper.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/form-validation.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+
+    <!-- Row Group CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
+    <!-- Form Validation -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/form-validation.css"/>
+
+    <!-- Page CSS -->
 
     <!-- Helpers -->
     <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
+    <!-- Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
+    <!-- Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
-
 </head>
 
 <body>
 
-<!-- Google Tag Manager (noscript) -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
             style="display: none; visibility: hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
 
-<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
 
-        <!-- Menu -->
         <jsp:include page="sideBar.jsp"/>
-        <!-- / Menu -->
-
-        <!-- Layout container -->
         <div class="layout-page">
-
-            <!-- Navbar -->
             <jsp:include page="navBar.jsp"/>
-            <!-- / Navbar -->
-
-            <!-- Content wrapper -->
             <div class="content-wrapper">
-
-                <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
-
-                    <h4 class="py-3 mb-4">
-                        <span class="text-muted fw-light">Crear Eventos: Ingresar Datos </span>
-                    </h4>
-
-                    <!-- Create Deal Wizard -->
-                    <div id="wizard-create-deal" class="bs-stepper vertical mt-2">
-                        <div class="bs-stepper-header">
-                            <div class="step" data-target="#deal-type">
-                                <button type="button" class="step-trigger">
-                                    <span class="bs-stepper-circle">
-                                        <i class='bx bx-purchase-tag'></i>
-                                    </span>
-                                    <span class="bs-stepper-label">
-                                        <span class="bs-stepper-title">Datos Generales</span>
-                                        <span class="bs-stepper-subtitle">Subir imagen</span>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-target="#deal-details">
-                                <button type="button" class="step-trigger">
-                                    <span class="bs-stepper-circle">
-                                        <i class='bx bx-detail'></i>
-                                    </span>
-                                    <span class="bs-stepper-label">
-                                        <span class="bs-stepper-title">Detalles del evento</span>
-                                        <span class="bs-stepper-subtitle"> Información del evento </span>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-target="#deal-usage">
-                                <button type="button" class="step-trigger">
-                                    <span class="bs-stepper-circle">
-                                        <i class='bx bx-credit-card'></i>
-                                    </span>
-                                    <span class="bs-stepper-label">
-                                        <span class="bs-stepper-title">Inscripciones</span>
-                                        <span class="bs-stepper-subtitle">Vacantes disponibles</span>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="line"></div>
-                            <div class="step" data-target="#review-complete">
-                                <button type="button" class="step-trigger">
-                                    <span class="bs-stepper-circle">
-                                        <i class='bx bx-rocket'></i>
-                                    </span>
-                                    <span class="bs-stepper-label">
-                                        <span class="bs-stepper-title">Resumen</span>
-                                        <span class="bs-stepper-subtitle">Revisar datos y finalizar</span>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="bs-stepper-content">
-                            <form id="wizard-create-deal-form" onSubmit="return false">
-                                <!-- Deal Type -->
-                                <div id="deal-type" class="content">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-8">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #33CCFF; color: white; text-align: center;">
+                                    <h5 class="card-title text-white mb-0">Crear evento</h5>
+                                </div>
+                                <div class="card-body">
                                     <div class="row g-3">
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-md mb-md-0 mb-2 columna">
-                                                    <div class="form-check custom-option custom-option-icon">
-                                                        <input class="form-check-input" type="radio" name="customRadio" id="customRadioPercentage" hidden>
-                                                        <label class="form-check-label custom-option-content" for="customRadioPercentage">
-                                                            <span class="custom-option-body">
-                                                                <img src="" alt="Custom Icon" id="custom-icon" class="custom-icon">
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <button class="btn btn-primary" id="upload-button">Subir imagen</button>
-                                                    <input class="form-control" type="file" id="file-input" accept="image/*" style="display: none;">
-                                                </div>
+                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=guardarEventos" enctype="multipart/form-data">
 
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="nombre">Nombre del evento</label>
+                                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required/>
                                             </div>
-                                        </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="vacantes">Vacantes</label>
+                                                <input type="text" id="vacantes" name="vacantes" class="form-control" placeholder="Número de vacantes" required pattern="[0-9]+"/>
+                                            </div>
 
-                                        <div class="col-12 d-flex justify-content-between">
-                                            <button class="btn btn-label-secondary btn-prev" disabled>
-                                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-next">
-                                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
-                                                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                                            </button>
-                                        </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="descripcion">Descripción</label>
+                                                <input type="text" class="form-control" name="descripcion" id="descripcion"  placeholder="Máximo 255 caracteres." required/>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label" for="LugarExacto">Ubicación del Evento</label>
+                                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" placeholder="Distrito, Av. o Calle " required/>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="FechaInicio">Fecha de inicio</label>
+                                                <input type="date" id="FechaInicio" name="FechaInicio" class="form-control" placeholder="" required/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="FechaFin">Fecha de fin</label>
+                                                <input type="date" id="FechaFin" name="FechaFin" class="form-control" placeholder="" required/>
+                                            </div>
+                                            <div class="col-md-6" hidden>
+                                                <label class="form-label" for="tipoEvento">Tipo de Evento</label>
+                                                <%
+                                                    // Suponiendo que user es un objeto que tiene el método getTipoCoordinadora()
+                                                    int tipoCoordinadora = usuario.getIdTipoCoordinadora();
+                                                    int tipoEventoValue = 0;
+                                                    if (tipoCoordinadora == 1) {
+                                                        tipoEventoValue = 1;
+                                                    }
+                                                    if (tipoCoordinadora == 2) {
+                                                        tipoEventoValue = 2;
+                                                    }
+                                                %>
+                                                <input type="text" id="tipoEvento" name="tipoEvento" class="form-control" placeholder="Tipo de Evento" value="<%= tipoEventoValue %>" />
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="horaInicio">Fecha de inicio</label>
+                                                <input type="time" id="horaInicio" name="horaInicio" class="form-control" placeholder="" required/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="horaFin">Fecha de fin</label>
+                                                <input type="time" id="horaFin" name="horaFin" class="form-control" placeholder="" required/>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="input-group">
+                                                    <label class="form-label">Foto del evento</label>
+                                                    <div class="col-12">
+                                                        <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                                <a href="${pageContext.request.contextPath}/ServletCoordinadora" class="btn btn-label-primary">Volver al inicio</a>
+                                                <div class="flex-grow-1 d-flex justify-content-center">
+                                                    <input type="submit" value="Guardar" class="btn btn-primary"/>
+                                                </div>
+                                                <div style="width: 86px;"></div>
+                                            </div>
+
+                                        </form>
                                     </div>
                                 </div>
-                                <!-- Deal Details -->
-                                <div id="deal-details" class="content">
-                                    <div class="row g-3">
-                                        <div class="col-12 col-lg-6">
-                                            <label class="form-label" for="deal-title">Título del evento</label>
-                                            <input type="text" id="deal-title" name="deal-title" class="form-control"
-                                                   placeholder="Ingresar título del evento"/>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <label class="form-label" for="deal-category">Categoría</label>
-                                            <input type="text" id="deal-category" name="deal-category"
-                                                   class="form-control" placeholder="Ingresar categoría"/>
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label" for="deal-description">Descripción</label>
-                                            <textarea id="deal-description" name="deal-description" class="form-control"
-                                                      placeholder="Ingresar descripción"></textarea>
-                                        </div>
-
-                                        <div class="col-12 d-flex justify-content-between">
-                                            <button class="btn btn-label-secondary btn-prev">
-                                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-next">
-                                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
-                                                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Deal Usage -->
-                                <div id="deal-usage" class="content">
-                                    <div class="row g-3">
-                                        <div class="col-12 col-lg-6">
-                                            <label class="form-label" for="deal-discount">Inscripciones Disponibles</label>
-                                            <input type="number" id="deal-discount" name="deal-discount" class="form-control"
-                                                   placeholder="Ingresar cantidad de inscripciones"/>
-                                        </div>
-
-                                        <div class="col-12 d-flex justify-content-between">
-                                            <button class="btn btn-label-secondary btn-prev">
-                                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-next">
-                                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
-                                                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Review Complete -->
-                                <div id="review-complete" class="content">
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <h6>Resumen</h6>
-                                            <p>Revisar los datos ingresados y finalizar el registro del evento.</p>
-                                        </div>
-
-                                        <div class="col-12 d-flex justify-content-between">
-                                            <button class="btn btn-label-secondary btn-prev">
-                                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-success">
-                                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Finalizar</span>
-                                                <i class="bx bx-check-circle bx-sm me-sm-n2"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                    <!-- / Create Deal Wizard -->
-
                 </div>
-                <!-- / Content -->
 
-                <div class="content-backdrop fade"></div>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
+                <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
+
+                <!-- endbuild -->
+
+                <!-- Vendors JS -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/popular.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/auto-focus.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/ui-modals.js"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+                <script>
+
+
+
+
+
+                    document.getElementById('registerButton').addEventListener('click', function(event) {
+                        event.preventDefault(); // Evitar el envío del formulario
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registro Exitoso',
+                            text: 'El personal de serenazgo ha sido registrado correctamente.',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'adm-personalSerenazgoDeCampo.html';
+                            }
+                        });
+                    });
+
+                    document.getElementById('cancelButton').addEventListener('click', function() {
+                        window.location.href = 'adm-personalSerenazgoDeCampo.html';
+                    });
+                </script>
             </div>
-            <!-- / Content wrapper -->
         </div>
-        <!-- / Layout page -->
     </div>
 </div>
-<!-- / Layout wrapper -->
-
-<!-- Core JS -->
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
-
-<!-- Vendors JS -->
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/form-validation/dist/umd/FormValidation.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/form-validation/dist/umd/plugins/Bootstrap5.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/form-validation/dist/umd/plugins/AutoFocus.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/cleavejs/cleave.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/cleavejs/cleave-phone.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-
-<!-- Main JS -->
-<script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-
-<!-- Page JS -->
-<script src="${pageContext.request.contextPath}/assets/js/form-wizard-create-deal.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#upload-button').on('click', function (e) {
-            e.preventDefault();
-            $('#file-input').click();
-        });
-
-        $('#file-input').on('change', function () {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#custom-icon').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(this.files[0]);
-        });
+    $(function () {
+        var e = $(".select2");
+        e.length && e.each(function () {
+            var e = $(this);
+            e.wrap('<div class="position-relative"></div>').select2({
+                placeholder: "Seleccione",
+                dropdownParent: e.parent()
+            })
+        })
+    }), document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("addNewAddress").addEventListener("show.bs.modal", function (e) {
+            window.Helpers.initCustomOptionCheck()
+        }), FormValidation.formValidation(document.getElementById("addNewAddressForm"), {
+            fields: {
+                modalAddressFirstName: {
+                    validators: {
+                        notEmpty: {message: "Please enter your first name"},
+                        regexp: {regexp: /^[a-zA-Zs]+$/, message: "The first name can only consist of alphabetical"}
+                    }
+                },
+                modalAddressLastName: {
+                    validators: {
+                        notEmpty: {message: "Please enter your last name"},
+                        regexp: {regexp: /^[a-zA-Zs]+$/, message: "The last name can only consist of alphabetical"}
+                    }
+                }
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger,
+                bootstrap5: new FormValidation.plugins.Bootstrap5({eleValidClass: "", rowSelector: ".col-12"}),
+                submitButton: new FormValidation.plugins.SubmitButton,
+                autoFocus: new FormValidation.plugins.AutoFocus
+            }
+        })
     });
+</script>
+<script>
+    $(function () {
+        var e = $(".select2");
+        e.length && e.each(function () {
+            var e = $(this);
+            e.wrap('<div class="position-relative"></div>').select2({
+                placeholder: "Seleccione",
+                dropdownParent: e.parent()
+            })
+        })
+    }), document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("editarPersonal").addEventListener("show.bs.modal", function (e) {
+            window.Helpers.initCustomOptionCheck()
+        }), FormValidation.formValidation(document.getElementById("editarPersonalForm"), {
+
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger,
+                bootstrap5: new FormValidation.plugins.Bootstrap5({eleValidClass: "", rowSelector: ".col-12"}),
+                submitButton: new FormValidation.plugins.SubmitButton,
+                autoFocus: new FormValidation.plugins.AutoFocus
+            }
+        })
+    });
+</script>
+<div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletionModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+                <div class="mb-3">
+                    <label for="deleteReason" class="form-label">Motivo de la eliminación:</label>
+                    <input type="text" class="form-control" id="deleteReason" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function closeModal() {
+        const modal = document.getElementById('deletionModal');
+        modal.style.display = 'none'; // Oculta el modal
+    }
+    function promptDeletion() {
+        var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
+        myModal.show(); // This is the correct way to show a mod
+    }
+
+    function submitDeletion() {
+        const reason = document.getElementById('deleteReason').value;
+        if (reason === '') {
+            alert('Por favor, ingrese un motivo para la eliminación.');
+            return;
+        }
+
+        if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
+            console.log('Motivo:', reason); // Aquí deberías enviar el motivo a la base de datos
+            alert('La incidencia ha sido eliminada correctamente.');
+            closeModal();
+            // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
+        }
+    }
 </script>
 
 </body>
-
 </html>

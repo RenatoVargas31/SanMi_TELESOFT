@@ -1,22 +1,16 @@
 package com.example.sanmi_telesoft.servlets;
 
-import com.example.sanmi_telesoft.beans.Evento;
-import com.example.sanmi_telesoft.beans.Incidencia;
-import com.example.sanmi_telesoft.beans.Profesor;
-import com.example.sanmi_telesoft.daos.DaoAdministrador;
+import com.example.sanmi_telesoft.beans.*;
 import com.example.sanmi_telesoft.daos.DaoCoordinadora;
+import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 @WebServlet(name = "ServletCoordinadora", value = "/ServletCoordinadora")
@@ -113,6 +107,7 @@ public class ServletCoordinadora extends HttpServlet {
                 request.setAttribute("listaEventos", listaEventos);
                 request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
                 break;
+
             case "detalleEvento":
                 String id2 = request.getParameter("id");
                 if (id2.isEmpty() || !daoCoordinadora.validarIdEvento(id2)) {
@@ -138,6 +133,12 @@ public class ServletCoordinadora extends HttpServlet {
 
                 response.sendRedirect("ServletCoordinadora?action=listarMisIncidencias");
                 break;
+            case "crearEventos":
+                request.setAttribute("activeMenu", "Eventos");
+                request.setAttribute("activeMenuSub", "Eventos2");
+                request.getRequestDispatcher("WEB-INF/coordinadora/crearEvento.jsp").forward(request, response);
+                break;
+
         }
 
 
@@ -153,6 +154,7 @@ public class ServletCoordinadora extends HttpServlet {
         }
 
         DaoIncidencia incidenciaDao = new DaoIncidencia();
+        DaoEvento eventoDao = new DaoEvento();
 
         String nombreIncidencia = request.getParameter("fullname");
         String telefono = request.getParameter("phone");
@@ -166,7 +168,7 @@ public class ServletCoordinadora extends HttpServlet {
 
         Incidencia incidencia = new Incidencia();
         incidencia.setNombreIncidencia(nombreIncidencia);
-        incidencia.setTelefono(Integer.parseInt(telefono));
+        //incidencia.setTelefono(Integer.parseInt(telefono));
         incidencia.setLugarIncidencia(lugarExacto);
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
@@ -196,6 +198,51 @@ public class ServletCoordinadora extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
 
                 break;
+
+            case "guardarEventos":
+                String nombreEvento = request.getParameter("nombre");
+                String vacantes = request.getParameter("vacantes");
+                String descripcion = request.getParameter("descripcion");
+                String ubicacion = request.getParameter("LugarExacto");
+                String FechaInicio = request.getParameter("FechaInicio");
+                String FechaFin = request.getParameter("FechaFin");
+                String tipoEvento = (((request.getParameter("tipoEvento"))));
+                String horaInicio = request.getParameter("horaInicio");
+                String horaFin = request.getParameter("horaFin");
+
+                InputStream fotoEvento = request.getPart("file").getInputStream();
+                byte[] fotoEvento2 = fotito.readAllBytes();
+
+                Evento evento = new Evento();
+                evento.setNombreEvento(nombreEvento);
+                evento.setVacantesDisp(Integer.parseInt(vacantes));
+                evento.setDescriptionEvento(descripcion);
+                evento.setLugarEvento(ubicacion);
+                evento.setFechaEventoStart(FechaInicio);
+                evento.setFechaEventoEnd(FechaFin);
+                evento.setHoraEventoStart(horaInicio);
+                evento.setHoraEventoEnd(horaFin);
+                evento.setFotosStart(fotoEvento2);
+                //lineas asquerosas
+                Profesor profesor = new Profesor();
+                profesor.setIdProfesores(1);
+                evento.setProfesor(profesor);
+                TipoEvento tipoEvento1 = new TipoEvento();
+                tipoEvento1.setNameTipo(tipoEvento);
+                FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
+                frecuenciaEvento.setIdFrecuenciaEvento(1);
+                evento.setFrecuenciaEvento(frecuenciaEvento);
+                EstadoEvento estadoEvento = new EstadoEvento();
+                estadoEvento.setIdEstadoEvento(1);
+
+                evento.setEstadoEvento(estadoEvento);
+                //no estoy orgulloso de esto
+                evento.setTipoEvento(tipoEvento1);
+                eventoDao.crearEvento(evento);
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
+                break;
+
+
         }
 
     }

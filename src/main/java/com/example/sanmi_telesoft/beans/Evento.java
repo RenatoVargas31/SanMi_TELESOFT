@@ -7,7 +7,7 @@ public class Evento {
     public Evento() {
         // Constructor sin argumentos
     }
-    private Blob fotosStart;
+    private byte[] fotosStart;
     private String descriptionEvento;
     private int vacantesDisp;
     private String lugarEvento;
@@ -17,7 +17,7 @@ public class Evento {
     private String horaEventoEnd;
     private String materialesEvento;
     private Profesor profesor;
-    private Blob fotosEnd;
+    private byte[] fotosEnd;
     private TipoEvento tipoEvento;
     private FrecuenciaEvento frecuenciaEvento;
     private EstadoEvento estadoEvento;
@@ -164,19 +164,19 @@ public class Evento {
         return asistenciaSalida;
     }
 
-    public Blob getFotosStart() {
+    public byte[] getFotosStart() {
         return fotosStart;
     }
 
-    public void setFotosStart(Blob fotosStart) {
+    public void setFotosStart(byte[] fotosStart) {
         this.fotosStart = fotosStart;
     }
 
-    public Blob getFotosEnd() {
+    public byte[] getFotosEnd() {
         return fotosEnd;
     }
 
-    public void setFotosEnd(Blob fotosEnd) {
+    public void setFotosEnd(byte[] fotosEnd) {
         this.fotosEnd = fotosEnd;
     }
 }

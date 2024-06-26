@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import org.apache.commons.lang3.StringEscapeUtils;
+//import org.apache.commons.lang3.StringEscapeUtils;
 
 
 
@@ -47,7 +47,7 @@ public class ServletVecino extends HttpServlet {
 
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
-                request.setAttribute("listarEventos", eventoDao.listaEventos());
+                request.setAttribute("listarEventos", eventoDao.listaEventos(0,3));
                 request.getRequestDispatcher("WEB-INF/Vecino/indexVecino.jsp").forward(request, response);
                 break;
 
@@ -433,6 +433,10 @@ public class ServletVecino extends HttpServlet {
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tipo = request.getParameter("tipoFiltrado");
         ArrayList<String> filtrado = new ArrayList<>();
+        int paginaActual = 1; // Página inicial
+        int eventosPorPagina = 9; // Número de eventos por página
+        int offset = (paginaActual - 1) * eventosPorPagina;
+
         filtrado.add("Todo");
         filtrado.add("Deporte");
         filtrado.add("Cultura");
@@ -444,7 +448,7 @@ public class ServletVecino extends HttpServlet {
         } else if ("Cultura".equals(tipo)) {
             listaEventos = eventoDao.listaEventosCultura();
         } else {
-            listaEventos = eventoDao.listaEventos();
+            listaEventos = eventoDao.listaEventos(offset, eventosPorPagina);
             }
         request.setAttribute("listarEventos", listaEventos);
 

@@ -35,24 +35,24 @@
                                                            data-i18n="Eventos">Eventos</span></li>
 
         <!-- Eventos -->
-        <li class="menu-item">
+        <li class="menu-item ${activeMenu == 'Eventos' ? 'active open' : ''}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bx-calendar-event'></i>
                 <div class="text-truncate" data-i18n="Eventos">Eventos</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item ${activeMenuSub == 'Eventos1' ? 'active' : ''}">
                     <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=listarEventos" class="menu-link">
                         <div class="text-truncate" data-i18n="Todos los eventos">Todos los eventos</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="crear-eventos.html" class="menu-link">
+                <li class="menu-item ${activeMenuSub == 'Eventos2' ? 'active' : ''}">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=crearEventos" class="menu-link">
                         <div class="text-truncate" data-i18n="Crear eventos">Crear eventos</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="mis-eventos.html" class="menu-link">
+                <li class="menu-item ${activeMenuSub == 'Eventos3' ? 'active' : ''}">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=verEventos" class="menu-link">
                         <div class="text-truncate" data-i18n="Mis eventos">Mis eventos</div>
                     </a>
                 </li>
