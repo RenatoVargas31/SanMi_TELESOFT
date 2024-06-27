@@ -228,21 +228,46 @@
                         </div>
 
 
+                <%
+                    int pag = (int) request.getAttribute("currentPage");
+                    int sizeArray = (int) request.getAttribute("total");
+                    //Elementos por página.
+                    int maxPag = ((sizeArray) / 9) + 1;
+                    //Aquí hago una operación para obtener el número de registro del que inicia.
+                    int regMin = (pag - 1) * 9;
+                    //Aquí hago una operación para obtener el número de registros máximos para mostrar en esa página.
+                    //Esto con el fin, de recorrer el arreglo desde el registro mínimo hasta el registro máximo.
+                    int regMax = pag * 9;
+                %>
+
+
                 <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
                     <ul class="pagination">
-                        <li class="page-item prev disabled">
-                            <a class="page-link" href="javascript:void(0);" aria-label="Previous">
-                                <i class="tf-icon bx bx-chevron-left"></i>
-                            </a>
+                        <% if(maxPag >= 1){
+                            if(pag != 1) {%>
+                        <li class="page-item prev">
+                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= pag - 1 %>"><i
+                                    class="tf-icon bx bx-chevron-left"></i></a>
                         </li>
-                        <!-- Los números de página se generarán dinámicamente con JavaScript -->
-                        <!-- Ejemplo de página activa: <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li> -->
-                        <!-- Puedes usar clases 'page-link' para manejar los eventos de clic en JavaScript -->
+                        <% } %>
+                        <% for (int j= 1; j <= maxPag; j++){ %>
+                        <li class="page-item <% if (j == pag) {%> active <% } %>">
+                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= j %>"><%= j %> </a>
+                        </li>
+                        <% } %>
+
+                        <% if(pag != maxPag) {%>
                         <li class="page-item next">
-                            <a class="page-link" href="javascript:void(0);" aria-label="Next">
-                                <i class="tf-icon bx bx-chevron-right"></i>
-                            </a>
+                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= pag + 1 %>"><i
+                                    class="tf-icon bx bx-chevron-right"></i></a>
                         </li>
+                        <% }
+                        } else {%>
+                        <li class="page-item active ">
+                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= pag %>"> 1 </a>
+                        </li>
+                        <% } %>
+
                     </ul>
                 </nav>
                     </div>
