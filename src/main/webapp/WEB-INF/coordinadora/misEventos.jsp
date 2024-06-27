@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
 <%@ page import="java.util.ArrayList" %>
-<jsp:useBean id="listaMisIncidencias" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Incidencia>" scope="request"/>
+<jsp:useBean id="listaMisEventos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Evento>" scope="request"/>
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
@@ -111,7 +111,7 @@
                                 <a class="btn btn-secondary create-new btn-primary me-4" type="button"
                                    href="<%= request.getContextPath()%>/ServletCoordinadora?action=crearEventos">
                                     <i class='bx bx-bell-plus bx-tada'></i>
-                                    <span class="d-none d-sm-inline-block">Nueva Evento</span>
+                                    <span class="d-none d-sm-inline-block">Nuevo Evento</span>
                                 </a>
                             </div>
                             <table id="table-misincidencias" class="datatables-basic table border-top">
@@ -129,7 +129,7 @@
                                 <%
                                     int i = 1;
                                     int a = 15000;
-                                    for (Incidencia incidencia : listaMisIncidencias) {
+                                    for (Evento evento : listaMisEventos) {
                                         String modalId = "modalScrollable" + i;
                                         String modalId2 = "modalScrollable" + a;
                                 %>
@@ -144,7 +144,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="button" class="btn btn-danger" onclick="submitDeletion(<%= incidencia.getIdIncidencias() %>)">Eliminar</button>
+                                                <button type="button" class="btn btn-danger" onclick="submitDeletion(<%= evento.getIdEventos() %>)">Eliminar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -159,21 +159,21 @@
                                             <div class="modal-body">
                                                 <p>Estimado Serenazgo de la Zona,</p>
 
-                                                <% if(incidencia.getDescripcionSolucion() == null) { %>
-                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente  que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
+                                                <% if(evento.getNombreEvento() == null) { %>
+                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente  que está ocurriendo en este momento en de San Miguel.</p>
                                                 <% } else { %>
-                                                <p><%= incidencia.getDescripcionSolucion() %></p>
+                                                <p><%= evento.getNombreEvento() %></p>
                                                 <% } %>
 
                                                 <p>Atentamente,</p>
-                                                <p><%= incidencia.getNameUsuario() %></p>
+                                                <p><%= evento.getNombreEvento() %></p>
 
                                                 <div class="card h-100">
-                                                    <img class="card-img-top" src="ServletCoordinadora?action=mostrarImagen&id=<%= incidencia.getIdIncidencias() %>" alt="Card image cap" />
+                                                    <img class="card-img-top" src="ServletCoordinadora?action=mostrarImagen&id=<%=evento.getNombreEvento() %>" alt="Card image cap" />
                                                     <div class="card-body">
                                                         <h5 class="card-title">Foto del reporte</h5>
-                                                        <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
-                                                        <p class="card-text">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
+                                                        <p class="card-text">Lugar: <%= evento.getNombreEvento() %></p>
+                                                        <p class="card-text">Referencia: <%=evento.getNombreEvento() %></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,24 +185,10 @@
                                 </div>
 
                                 <tr>
-                                    <td><%= incidencia.getNombreIncidencia() %></td>
-                                    <td><%= incidencia.getLugarIncidencia() %></td>
-                                    <% if(incidencia.getEstado() == 1) { %>
-                                    <td><span class="badge bg-danger">Nueva</span></td>
-                                    <% } else if(incidencia.getEstado() == 2) { %>
-                                    <td><span class="badge bg-warning">Procesando</span></td>
-                                    <% } else if(incidencia.getEstado() == 3) { %>
-                                    <td><span class="badge bg-success">Resuelta</span></td>
-                                    <% } %>
-                                    <% if(incidencia.getCriticidad() == 1) { %>
-                                    <td><span class="badge bg-primary">Baja</span></td>
-                                    <% } else if(incidencia.getCriticidad() == 2) { %>
-                                    <td><span class="badge bg-warning">Media</span></td>
-                                    <% } else if(incidencia.getCriticidad() == 3) { %>
-                                    <td><span class="badge bg-danger">Alta</span></td>
-                                    <% } else { %>
-                                    <td><span class="badge bg-secondary">No asignado</span></td>
-                                    <% } %>
+                                    <td><%=evento.getNombreEvento() %></td>
+                                    <td><%=evento.getLugarEvento()%></td>
+                                    <td><%=evento.getVacantesDisp()%></td>
+                                    <td><%=evento.getFechaEventoStart()%></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
@@ -211,15 +197,13 @@
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                 data-bs-toggle="modal"
-                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>';"
+                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarEvento&id=<%=evento.getIdEventos()%>';"
                                                 data-bs-target="#modal-editar-incidencia"><i
                                                 class='bx bx-edit'></i></button>
-                                        <% if(incidencia.getEstado() == 1) { %>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion(<%=incidencia.getIdIncidencias()%>)" data-bs-target="#"><i
+                                                data-bs-toggle="modal" onclick="promptDeletion(<%=evento.getIdEventos()%>)" data-bs-target="#"><i
                                                 class='bx bx-x'></i></button>
-                                        <% } %>
 
                                     </td>
                                 </tr>

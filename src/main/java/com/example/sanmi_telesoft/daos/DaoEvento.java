@@ -85,11 +85,11 @@ public class DaoEvento extends BaseDao {
 
     public ArrayList<Evento> listaEventosUser(int userId) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        String sql = "SELECT e.*, t.nameTipo " +
-                "FROM eventos e " +
-                "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "INNER JOIN usuario_has_eventos uhe ON e.idEvento = uhe.Eventos_id " +
-                "WHERE uhe.Usuarios_id = ?";
+        String sql = "SELECT e.*, t.nameTipo \n" +
+                "                FROM eventos e \n" +
+                "                LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento \n" +
+                "                INNER JOIN usuarios_has_eventos uhe ON e.idEventos = uhe.Eventos_idEventos \n" +
+                "                WHERE uhe.Usuarios_idUsuarios = ?;";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -107,6 +107,7 @@ public class DaoEvento extends BaseDao {
                 evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setLugarEvento(rs.getString("lugarEvento"));
 
                 // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
                 LocalDateTime fechaHoraEvento = LocalDateTime.of(

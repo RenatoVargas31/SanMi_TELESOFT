@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="menu-item ${activeMenuSub == 'Eventos3' ? 'active' : ''}">
-                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=verEventos" class="menu-link">
+                    <a href="<%= request.getContextPath()%>/ServletCoordinadora?action=verMisEventos" class="menu-link">
                         <div class="text-truncate" data-i18n="Mis eventos">Mis eventos</div>
                     </a>
                 </li>

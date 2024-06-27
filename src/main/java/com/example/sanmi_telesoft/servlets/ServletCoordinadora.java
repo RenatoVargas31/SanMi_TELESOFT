@@ -140,12 +140,12 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
 
-            case "verEventos":
-                DaoIncidencia daoIncidencia2 = new DaoIncidencia();
-                ArrayList<Incidencia> listaMisIncidencias2 = daoIncidencia2.listarMisIncidencias(1);
-                request.setAttribute("listaMisIncidencias", listaMisIncidencias2);
-                request.setAttribute("activeMenu", "Incidencias");
-                request.setAttribute("activeMenuSub", "Incidencias3");
+            case "verMisEventos":
+                DaoEvento daoEvento = new DaoEvento();
+                ArrayList<Evento> listaMisEventos = daoEvento.listaEventosUser(6);
+                request.setAttribute("listaMisEventos", listaMisEventos);
+                request.setAttribute("activeMenu", "Eventos");
+                request.setAttribute("activeMenuSub", "Eventos3");
 
                 request.getRequestDispatcher("WEB-INF/coordinadora/misEventos.jsp").forward(request, response);
                 break;
@@ -317,6 +317,8 @@ public class ServletCoordinadora extends HttpServlet {
 
         String tipoFiltrado = request.getParameter("tipoFiltrado");
         ArrayList<Evento> lista;
+        int pg = 1;
+        request.setAttribute("currentPage", pg);
 
         if ("Deporte".equals(tipoFiltrado)) {
             lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
@@ -325,6 +327,8 @@ public class ServletCoordinadora extends HttpServlet {
         } else {
             lista = eventoDao.searchEventobyName(textSearch);
         }
+        int total = lista.size();
+        request.setAttribute("total", total);
 
         request.setAttribute("listarEventos", lista);
         request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
