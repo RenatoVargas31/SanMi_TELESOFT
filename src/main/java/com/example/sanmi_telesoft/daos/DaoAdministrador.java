@@ -9,6 +9,67 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DaoAdministrador extends BaseDao {
+    //////////Usuatios//////////
+    public Usuario buscarUsuarioPorId(String id){
+            Usuario usuario = new Usuario();
+
+            String sql = "select * from usuarios where idUsuarios = ?";
+
+            try(Connection conn = getConection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+                pstmt.setString(1,id);
+
+                try(ResultSet rs = pstmt.executeQuery()){
+                    while (rs.next()){
+                        usuario.setIdUsuarios(rs.getInt("idUsuarios"));
+                        usuario.setIdRoles(rs.getInt("Roles_idRoles"));
+                        usuario.setCorreoUsuario(rs.getString("correoUsuario"));
+                        usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                        usuario.setApellidoUsuario(rs.getString("apellidoUsuario"));
+                        usuario.setTelefonoUsuario(rs.getString("telefonoUsuario"));
+                        usuario.setDniUsuario(rs.getString("dniUsuario"));
+                        usuario.setDireccionUsuario(rs.getString("direccionUsuario"));
+                        usuario.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion"));
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            return usuario;
+    }
+    public ArrayList<Usuario> listarUsuarios(){
+        ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+
+        String sql = "select * from usuarios";
+
+        try(Connection conn = getConection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()){
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuarios(rs.getInt("idUsuarios"));
+                usuario.setIdRoles(rs.getInt("Roles_idRoles"));
+                usuario.setCorreoUsuario(rs.getString("correoUsuario"));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                usuario.setApellidoUsuario(rs.getString("apellidoUsuario"));
+                usuario.setTelefonoUsuario(rs.getString("telefonoUsuario"));
+                usuario.setDniUsuario(rs.getString("dniUsuario"));
+                usuario.setDireccionUsuario(rs.getString("direccionUsuario"));
+                usuario.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion"));
+                usuario.setIsActive(rs.getString("is_active"));
+                usuario.setIsBannedApp(rs.getString("is_bannedApp"));
+                usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
+                listaUsuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaUsuarios;
+    }
     /////////SerenazgosDeCampo///////////
     public Serenazgo buscarDeCampoPorId(String id){
         Serenazgo deCampo = new Serenazgo();

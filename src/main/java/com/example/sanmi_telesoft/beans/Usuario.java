@@ -16,7 +16,7 @@ public class Usuario {
     private String nacimientoDate;
     private int idTipoCoordinadora;
     private int idEstadoVecinoEvento;
-    private boolean isBannedApp;
+    private String isBannedApp;
     private String motivoBannedApp;
     private String passwordTemporal;
 
@@ -25,8 +25,10 @@ public class Usuario {
             case 1:
                 return "Administrador";
             case 2:
-                return "Coordinadora";
+                return "Serenazgo Dispatcher";
             case 3:
+                return "Coordinadora";
+            case 4:
                 return "Vecino";
             default:
                 return "Desconocido";
@@ -123,12 +125,15 @@ public class Usuario {
     public void setIdEstadoVecinoEvento(int idEstadoVecinoEvento) {
         this.idEstadoVecinoEvento = idEstadoVecinoEvento;
     }
-    public boolean isBannedApp() {
+
+    public String getIsBannedApp() {
         return isBannedApp;
     }
-    public void setBannedApp(boolean bannedApp) {
-        isBannedApp = bannedApp;
+
+    public void setIsBannedApp(String isBannedApp) {
+        this.isBannedApp = isBannedApp;
     }
+
     public String getMotivoBannedApp() {
         return motivoBannedApp;
     }

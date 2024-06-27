@@ -1,3 +1,7 @@
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Random" %>
 <%--
   Created by IntelliJ IDEA.
   User: rlvs_
@@ -25,23 +29,6 @@
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
     <!-- Canonical SEO -->
     <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
-
-
-    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <script>(function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            '${pageContext.request.contextPath}/${pageContext.request.contextPath}/www.googletagmanager.com/gtm5445.html?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script>
-    <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
@@ -97,14 +84,6 @@
 
 <body>
 
-
-<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
@@ -144,7 +123,7 @@
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
-                                <!-- Modal -->
+                                <!-- Modal - Detalles de USUARIO -->
                                 <div class="modal fade" id="modalVerUsuario" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
@@ -177,22 +156,63 @@
                                     </div>
                                 </div>
                                 <!-- /Modal -->
+                                <%
+                                    ArrayList<Usuario> listaUsuarios = (ArrayList<Usuario>) request.getAttribute("listaUsuarios");
+                                    ArrayList<String> listaColors = new ArrayList<>();
+                                    listaColors.add("primary");
+                                    listaColors.add("secondary");
+                                    listaColors.add("success");
+                                    listaColors.add("danger");
+                                    listaColors.add("warning");
+                                    listaColors.add("info");
+                                    listaColors.add("dark");
+                                    listaColors.add("twitter");
+                                    listaColors.add("youtube");
+                                    listaColors.add("reddit");
+                                    listaColors.add("instagram");
+                                    listaColors.add("pinterest");
+                                    listaColors.add("facebook");
+                                    listaColors.add("slack");
+                                    listaColors.add("github");
+                                    listaColors.add("vimeo");
 
-
+                                    Random rand = new Random();
+                                %>
 
                                 <tbody>
-                                <tr>
+                                <%for (Usuario usuario : listaUsuarios) {%>
+                                <%if (usuario.getRol().equals("Vecino") || usuario.getRol().equals("Coordinadora")){%>
 
-                                    <td>Arturo Martinez Lara</td>
+                                <tr>
+                                    <%-- Falta terminar el formulario --%>
+                                    <form action="<%=request.getContextPath()%>/ServletAdministrador" method="post">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar me-2">
+                                                    <span class="avatar-initial rounded-circle bg-label-<%=listaColors.get(rand.nextInt(listaColors.size()))%>"><%=usuario.getNombreUsuario().charAt(0)%><%=usuario.getApellidoUsuario().charAt(0)%></span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <span class="emp_name text-truncate"><%= usuario.getNombreUsuario() %> <%= usuario.getApellidoUsuario() %></span>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>
                                         <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
+                                            <select class="select2 form-select form-select select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
                                                 <option value="Ve" data-select2-id="2">Vecino</option>
                                                 <option value="Co">Coordinador</option>
                                             </select>
                                         </div>
                                     </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
+                                    <td>
+                                        <%if(usuario.getIsActive().equals("0")){%>
+                                        <span class="badge bg-warning">Pendiente</span>
+                                        <%}else{%>
+                                        <span class="badge bg-success">Aceptado</span>
+                                        <%}%>
+                                    </td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
@@ -207,457 +227,17 @@
                                                 onclick="promptDeletion();" id="confirm-color"><i
                                                 class='bx bx-trash'></i></button>
                                     </td>
+                                    </form>
                                 </tr>
-                                <tr>
 
-                                    <td>José García López</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                id="confirm-text1"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Sofía Martínez Valdez</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Alejandro García Sánchez</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Valentina Rodríguez Reyes</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Juan López Ramírez</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                id=""><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Isabella Pérez Gómez</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                id=" "><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Diego Hernández Flores</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                id="  "><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Camila Díaz Mendoza</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Lucas González Cruz</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Emma Vázquez Morales</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Mateo Torres Ortiz</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Victoria Ruiz Vega</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Nicolás Castro Jiménez</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Olivia Herrera Silva</td>
-                                    <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select-lg select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-warning">Pendiente</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
+                                <% } %>
+                                <% } %>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- Modal to add new record -->
-                    <div class="offcanvas offcanvas-end" id="add-new-record">
-                        <div class="offcanvas-header border-bottom">
-                            <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body flex-grow-1">
-                            <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicFullname">Full Name</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicFullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <input type="text" id="basicFullname" class="form-control dt-full-name"
-                                               name="basicFullname" placeholder="John Doe" aria-label="John Doe"
-                                               aria-describedby="basicFullname2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicPost">Post</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                                        <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                                               placeholder="Web Developer" aria-label="Web Developer"
-                                               aria-describedby="basicPost2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicEmail">Email</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                        <input type="text" id="basicEmail" name="basicEmail"
-                                               class="form-control dt-email" placeholder="john.doe@example.com"
-                                               aria-label="john.doe@example.com"/>
-                                    </div>
-                                    <div class="form-text">
-                                        You can use letters, numbers & periods
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicDate">Joining Date</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicDate2" class="input-group-text"><i
-                                                class='bx bx-calendar'></i></span>
-                                        <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                                               aria-describedby="basicDate2" placeholder="MM/DD/YYYY"
-                                               aria-label="MM/DD/YYYY"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicSalary">Salary</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicSalary2" class="input-group-text"><i
-                                                class='bx bx-dollar'></i></span>
-                                        <input type="number" id="basicSalary" name="basicSalary"
-                                               class="form-control dt-salary" placeholder="12000" aria-label="12000"
-                                               aria-describedby="basicSalary2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit
-                                    </button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
 
-                        </div>
-                    </div>
                     <!--/ DataTable with Buttons -->
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>

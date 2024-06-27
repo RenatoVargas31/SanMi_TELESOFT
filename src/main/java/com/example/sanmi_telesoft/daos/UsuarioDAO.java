@@ -54,7 +54,7 @@ public class UsuarioDAO {
                 usuario.setNacimientoDate(rs.getString("nacimientoDate"));
                 usuario.setIdTipoCoordinadora(rs.getInt("idTipoCoordinadora"));
                 usuario.setIdEstadoVecinoEvento(rs.getInt("idEstadoVecinoEvento"));
-                usuario.setBannedApp(rs.getBoolean("isBannedApp"));
+                usuario.setIsBannedApp(rs.getString("isBannedApp"));
                 usuario.setMotivoBannedApp(rs.getString("motivoBannedApp"));
             }
         } catch (Exception e) {

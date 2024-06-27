@@ -22,9 +22,8 @@ public class ServletAdministrador extends HttpServlet {
         response.setContentType("text/html");
 
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
-
-        //Instancia de la clase DaoAdministrador (métodos)
         DaoAdministrador daoAdministrador = new DaoAdministrador();
+        //Instancia de la clase DaoAdministrador (métodos)
 
         switch (action){
             case "mostrarInicio":
@@ -34,16 +33,29 @@ public class ServletAdministrador extends HttpServlet {
             case "mostrarSolicitudesRegistro":
                 request.setAttribute("activeMenuToggle", "Usuarios");
                 request.setAttribute("activeMenu", "SolicitudesRegistro");
+
+                ArrayList<Usuario> listaUsuariosSolicitudes = daoAdministrador.listarUsuarios();
+                request.setAttribute("listaUsuarios", listaUsuariosSolicitudes);
+
+                System.out.println("Log: " + listaUsuariosSolicitudes.size());
+
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-solicitudesRegistro.jsp").forward(request, response);
+                System.out.println("Log: mostrarSolicitudesRegistro");
                 break;
             case "mostrarUsuariosHabilitados":
                 request.setAttribute("activeMenuToggle", "Usuarios");
                 request.setAttribute("activeMenu", "UsuariosHabilitados");
+                ArrayList<Usuario> listaUsuariosHabilitados = daoAdministrador.listarUsuarios();
+                request.setAttribute("listaUsuarios", listaUsuariosHabilitados);
+
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-usuariosHabilitados.jsp").forward(request, response);
                 break;
             case "mostrarUsuariosBaneados":
                 request.setAttribute("activeMenuToggle", "Usuarios");
                 request.setAttribute("activeMenu", "UsuariosBaneados");
+                ArrayList<Usuario> listaUsuariosBaneados = daoAdministrador.listarUsuarios();
+                request.setAttribute("listaUsuarios", listaUsuariosBaneados);
+
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-usuariosBaneados.jsp").forward(request, response);
                 break;
             case "mostrarDeCampo":
