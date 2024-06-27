@@ -103,9 +103,9 @@ public class ServletCoordinadora extends HttpServlet {
 
 
             case "listarEventos":
-                ArrayList<Evento> listaEventos = daoCoordinadora.listaEventos();
-                request.setAttribute("listaEventos", listaEventos);
-                request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
+                request.setAttribute("activeMenu", "Eventos");
+                request.setAttribute("activeMenuToggle", "Eventos1");
+                manejarListaEventos(request, response);
                 break;
 
             case "detalleEvento":
@@ -139,6 +139,18 @@ public class ServletCoordinadora extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/coordinadora/crearEvento.jsp").forward(request, response);
                 break;
 
+
+            case "verEventos":
+                DaoIncidencia daoIncidencia2 = new DaoIncidencia();
+                ArrayList<Incidencia> listaMisIncidencias2 = daoIncidencia2.listarMisIncidencias(1);
+                request.setAttribute("listaMisIncidencias", listaMisIncidencias2);
+                request.setAttribute("activeMenu", "Incidencias");
+                request.setAttribute("activeMenuSub", "Incidencias3");
+
+                request.getRequestDispatcher("WEB-INF/coordinadora/misEventos.jsp").forward(request, response);
+                break;
+
+
         }
 
 
@@ -152,48 +164,62 @@ public class ServletCoordinadora extends HttpServlet {
             doGet(request, response);
             return;
         }
-
-        DaoIncidencia incidenciaDao = new DaoIncidencia();
         DaoEvento eventoDao = new DaoEvento();
 
-        String nombreIncidencia = request.getParameter("fullname");
-        String telefono = request.getParameter("phone");
-        String lugarExacto = request.getParameter("LugarExacto");
-        String referencia = request.getParameter("Referencia");
-        boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-        boolean requiereBombero = request.getParameter("bomberos") != null;
-        boolean requiereSerenazo = request.getParameter("serenazgos") != null;
-        InputStream fotito = request.getPart("file").getInputStream();
-        byte[] foto = fotito.readAllBytes();
-
-        Incidencia incidencia = new Incidencia();
-        incidencia.setNombreIncidencia(nombreIncidencia);
-        //incidencia.setTelefono(Integer.parseInt(telefono));
-        incidencia.setLugarIncidencia(lugarExacto);
-        incidencia.setReferenciaIncidencia(referencia);
-        incidencia.setRequiereAmbulancia(requiereAmbulancia);
-        incidencia.setRequiereBombero(requiereBombero);
-        incidencia.setRequierePolicia(requiereSerenazo);
-        incidencia.setFotoIncidencia(foto);
-
         switch (action){
+            case "buscarEventos":
+                manejarBuscarEventos(request, response);
+                break;
             case "reportarIncidencia":
-                /*if (fotoPart != null && fotoPart.getSize() > 0) {
-                    String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
-                    incidencia.setFotoIncidencia(fileName);
-                    File uploads = new File("/path/to/uploads");
-                    File file = new File(uploads, fileName);
-                    try (InputStream input = fotoPart.getInputStream()) {
-                        Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    }
-                }*/
+                DaoIncidencia incidenciaDao = new DaoIncidencia();
+
+                String nombreIncidencia = request.getParameter("fullname");
+                String telefono = request.getParameter("phone");
+                String lugarExacto = request.getParameter("LugarExacto");
+                String referencia = request.getParameter("Referencia");
+                boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
+                boolean requiereBombero = request.getParameter("bomberos") != null;
+                boolean requiereSerenazo = request.getParameter("serenazgos") != null;
+                InputStream fotito = request.getPart("file").getInputStream();
+                byte[] foto = fotito.readAllBytes();
+
+                Incidencia incidencia = new Incidencia();
+                incidencia.setNombreIncidencia(nombreIncidencia);
+                //incidencia.setTelefono(Integer.parseInt(telefono));
+                incidencia.setLugarIncidencia(lugarExacto);
+                incidencia.setReferenciaIncidencia(referencia);
+                incidencia.setRequiereAmbulancia(requiereAmbulancia);
+                incidencia.setRequiereBombero(requiereBombero);
+                incidencia.setRequierePolicia(requiereSerenazo);
+                incidencia.setFotoIncidencia(foto);
                 incidenciaDao.insertarIncidencia(incidencia);
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarIncidencias");
                 break;
             case "resetIncidencia":
-                incidencia.setIdIncidencias(Integer.parseInt(request.getParameter("incidencia_id"))); //no olvidar que para actualizar se debe enviar el ID
+                DaoIncidencia incidenciaDao2 = new DaoIncidencia();
 
-                incidenciaDao.actualizarIncidencia(incidencia);
+                String nombreIncidencia2 = request.getParameter("fullname");
+                String telefono2 = request.getParameter("phone");
+                String lugarExacto2 = request.getParameter("LugarExacto");
+                String referencia2 = request.getParameter("Referencia");
+                boolean requiereAmbulancia2 = request.getParameter("ambulancia") != null;
+                boolean requiereBombero2 = request.getParameter("bomberos") != null;
+                boolean requiereSerenazo2 = request.getParameter("serenazgos") != null;
+                InputStream fotito2 = request.getPart("file").getInputStream();
+                byte[] foto2 = fotito2.readAllBytes();
+
+                Incidencia incidencia2 = new Incidencia();
+                incidencia2.setNombreIncidencia(nombreIncidencia2);
+                incidencia2.setTelefono(Integer.parseInt(telefono2));
+                incidencia2.setLugarIncidencia(lugarExacto2);
+                incidencia2.setReferenciaIncidencia(referencia2);
+                incidencia2.setRequiereAmbulancia(requiereAmbulancia2);
+                incidencia2.setRequiereBombero(requiereBombero2);
+                incidencia2.setRequierePolicia(requiereSerenazo2);
+                incidencia2.setFotoIncidencia(foto2);
+                incidencia2.setIdIncidencias(Integer.parseInt(request.getParameter("incidencia_id"))); //no olvidar que para actualizar se debe enviar el ID
+
+                incidenciaDao2.actualizarIncidencia(incidencia2);
 
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
 
@@ -211,7 +237,7 @@ public class ServletCoordinadora extends HttpServlet {
                 String horaFin = request.getParameter("horaFin");
 
                 InputStream fotoEvento = request.getPart("file").getInputStream();
-                byte[] fotoEvento2 = fotito.readAllBytes();
+                byte[] fotoEvento2 = fotoEvento.readAllBytes();
 
                 Evento evento = new Evento();
                 evento.setNombreEvento(nombreEvento);
@@ -242,8 +268,68 @@ public class ServletCoordinadora extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
                 break;
 
+            default:
+                doGet(request, response);
+                break;
+
 
         }
 
     }
+
+    private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String tipo = request.getParameter("tipoFiltrado");
+
+        int pg = 1; // Página inicial
+        if(request.getParameter("pg") != null){
+            pg = Integer.parseInt(request.getParameter("pg"));
+        }
+        ArrayList<String> filtrado = new ArrayList<>();
+        DaoEvento eventoDao = new DaoEvento();
+        int eventosPorPagina = 9; // Número de eventos por página
+        int offset = (pg - 1) * eventosPorPagina;
+
+        filtrado.add("Todo");
+        filtrado.add("Deporte");
+        filtrado.add("Cultura");
+        request.setAttribute("filtrado", filtrado);
+        request.setAttribute("currentPage", pg);
+
+        ArrayList<Evento> listaEventos;
+        int total ;
+        total = eventoDao.listaEventos(0, 1000000).size();
+        if ("Deporte".equals(tipo)) {
+            listaEventos = eventoDao.listaEventosDeporte();
+        } else if ("Cultura".equals(tipo)) {
+            listaEventos = eventoDao.listaEventosCultura();
+        } else {
+            listaEventos = eventoDao.listaEventos(offset, eventosPorPagina);
+        }
+        request.setAttribute("listarEventos", listaEventos);
+        request.setAttribute("total", total);
+
+        RequestDispatcher view = request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp");
+        view.forward(request, response);
+    }
+    private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String textSearch = request.getParameter("textoBuscar");
+        DaoEvento eventoDao = new DaoEvento();
+
+        String tipoFiltrado = request.getParameter("tipoFiltrado");
+        ArrayList<Evento> lista;
+
+        if ("Deporte".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
+        } else if ("Cultura".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
+        } else {
+            lista = eventoDao.searchEventobyName(textSearch);
+        }
+
+        request.setAttribute("listarEventos", lista);
+        request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
+    }
+
+
+
 }
