@@ -10,6 +10,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-incidenciasGenerales.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-reportarIncidencia.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/ayudaCoodinadora.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/listaEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/sis- register-multisteps.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/sis-verificarEmailPassOlvidada.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>

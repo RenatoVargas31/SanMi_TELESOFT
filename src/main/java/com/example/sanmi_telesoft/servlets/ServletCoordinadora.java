@@ -279,18 +279,25 @@ public class ServletCoordinadora extends HttpServlet {
 
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tipo = request.getParameter("tipoFiltrado");
+
+        int pg = 1; // Página inicial
+        if(request.getParameter("pg") != null){
+            pg = Integer.parseInt(request.getParameter("pg"));
+        }
         ArrayList<String> filtrado = new ArrayList<>();
         DaoEvento eventoDao = new DaoEvento();
-        int paginaActual = 1; // Página inicial
         int eventosPorPagina = 9; // Número de eventos por página
-        int offset = (paginaActual - 1) * eventosPorPagina;
+        int offset = (pg - 1) * eventosPorPagina;
 
         filtrado.add("Todo");
         filtrado.add("Deporte");
         filtrado.add("Cultura");
         request.setAttribute("filtrado", filtrado);
+        request.setAttribute("currentPage", pg);
 
         ArrayList<Evento> listaEventos;
+        int total ;
+        total = eventoDao.listaEventos(0, 1000000).size();
         if ("Deporte".equals(tipo)) {
             listaEventos = eventoDao.listaEventosDeporte();
         } else if ("Cultura".equals(tipo)) {
@@ -299,6 +306,7 @@ public class ServletCoordinadora extends HttpServlet {
             listaEventos = eventoDao.listaEventos(offset, eventosPorPagina);
         }
         request.setAttribute("listarEventos", listaEventos);
+        request.setAttribute("total", total);
 
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp");
         view.forward(request, response);
