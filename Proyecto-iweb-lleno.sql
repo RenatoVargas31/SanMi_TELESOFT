@@ -590,7 +590,7 @@ DROP TABLE IF EXISTS `usuarios_has_eventos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios_has_eventos` (
-  `usuarioEventoInscrito` int NOT NULL,
+  `usuarioEventoInscrito` int NOT NULL auto_increment,
   `Usuarios_idUsuarios` int DEFAULT NULL,
   `Eventos_idEventos` int DEFAULT NULL,
   `is_bannedEvento` tinyint DEFAULT '0',
@@ -600,7 +600,7 @@ CREATE TABLE `usuarios_has_eventos` (
   KEY `fk_Usuarios_has_Eventos_Usuarios1_idx` (`Usuarios_idUsuarios`),
   CONSTRAINT `fk_Usuarios_has_Eventos_Eventos1` FOREIGN KEY (`Eventos_idEventos`) REFERENCES `eventos` (`idEventos`),
   CONSTRAINT `fk_Usuarios_has_Eventos_Usuarios1` FOREIGN KEY (`Usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB auto_increment = 1 CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -609,6 +609,7 @@ CREATE TABLE `usuarios_has_eventos` (
 
 LOCK TABLES `usuarios_has_eventos` WRITE;
 /*!40000 ALTER TABLE `usuarios_has_eventos` DISABLE KEYS */;
+insert into usuarios_has_eventos (Usuarios_idUsuarios, Eventos_idEventos) values (2, 1), (2, 2), (2, 3),(3, 4), (3, 5), (3, 6),(6, 7), (6, 8), (6, 9),(7, 10), (7, 11), (7, 12);
 /*!40000 ALTER TABLE `usuarios_has_eventos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
