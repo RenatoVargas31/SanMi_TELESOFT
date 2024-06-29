@@ -174,8 +174,8 @@ public class ServletVecino extends HttpServlet {
 
         // Validaciones
         if (nombreIncidencia == null || nombreIncidencia.isEmpty() || nombreIncidencia.length() > 100) {
-            request.setAttribute("errorMessage", "Nombre de la incidencia no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            request.setAttribute("msg1", "Nombre de la incidencia no válido.");
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-reportarIncidencia.jsp").forward(request, response);
             return;
         }
 
@@ -327,35 +327,34 @@ public class ServletVecino extends HttpServlet {
         boolean requiereAmbulancia = request.getParameter("requiereAmbulancia") != null;
         Part fotoPart = request.getPart("fotoincidencia");
 
+        int error = 0;
+
         // Validaciones
-        if (nombreIncidencia == null || nombreIncidencia.isEmpty() || nombreIncidencia.length() > 100) {
-            request.setAttribute("errorMessage", "Nombre de la incidencia no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+        if (nombreIncidencia == null || nombreIncidencia.isBlank() || nombreIncidencia.length() > 100) {
+            request.setAttribute("msg1", "Nombre de la incidencia no válido.");
+            error++;
         }
 
-        if (telefono != null && !telefono.isEmpty() && !telefono.matches("\\d{9}")) {
-            request.setAttribute("errorMessage", "Número de teléfono no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+        if (telefono == null || telefono.isBlank() || !telefono.matches("\\d{9}")) {
+            request.setAttribute("msg2", "Número de teléfono no válido.");
+            error++;
         }
 
-        if (lugarExacto == null || lugarExacto.isEmpty() || lugarExacto.length() > 100) {
-            request.setAttribute("errorMessage", "Lugar exacto no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+        if (lugarExacto == null || lugarExacto.isBlank() || lugarExacto.length() > 100) {
+            request.setAttribute("msg3", "Lugar exacto no válido.");
+            error++;
         }
 
-        if (referencia == null || referencia.isEmpty() || referencia.length() > 255) {
-            request.setAttribute("errorMessage", "Referencia no válida.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+        if (referencia == null || referencia.isBlank() || referencia.length() > 255) {
+            request.setAttribute("msg4", "Referencia no válida.");
+            error++;
         }
-        if (fotoPart != null && fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
-            request.setAttribute("errorMessage", "El archivo es demasiado grande. Máximo permitido es 5MB.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+        if (fotoPart == null || (fotoPart.getSize() > 5 * 1024 * 1024)) { // 5 MB máximo
+            request.setAttribute("msg5", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+            error++;
         }
+
+        if(error > 0) {request.getRequestDispatcher("WEB-INF/Vecino/vecino-reportarIncidencia.jsp").forward(request, response); return;}
 
 
         System.out.println("Parametros recibidos:");
@@ -387,7 +386,7 @@ public class ServletVecino extends HttpServlet {
 
 
 
-        if (fotoPart != null) {
+        if (fotoPart.getInputStream() != null) {
             try (InputStream inputStream = fotoPart.getInputStream()) {
                 byte[] fotoBytes = inputStream.readAllBytes();
                 incidencia.setFotoIncidencia(fotoBytes);

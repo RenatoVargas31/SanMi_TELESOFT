@@ -34,19 +34,31 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="nombreIncidencia" class="form-label">Nombre de la Incidencia</label>
-                                    <input type="text" class="form-control" id="nombreIncidencia" name="nombreIncidencia" placeholder="Nombre de la Incidencia" required>
+                                    <input type="text" class="form-control <%= request.getAttribute("msg1") != null ? "is-invalid" : "" %>" id="nombreIncidencia" name="nombreIncidencia" placeholder="Nombre de la Incidencia" required>
+                                    <% if(request.getAttribute("msg1") != null){%>
+                                    <div id="mensajeError" style="color: red; display: block;"><%=request.getAttribute("msg1")%></div>
+                                    <%}%>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="phone">Teléfono</label>
-                                    <input type="text" id="phone" name="phone" class="form-control phone-mask" placeholder="Opcional" />
+                                    <input type="text" id="phone" name="phone" class="form-control <%= request.getAttribute("msg2") != null ? "is-invalid" : "" %>" placeholder="Opcional" />
+                                    <% if(request.getAttribute("msg2") != null){%>
+                                    <div id="mensajeError2" style="color: red; display: block;"><%=request.getAttribute("msg2")%></div>
+                                    <%}%>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label" for="LugarExacto">Lugar Exacto</label>
-                                    <textarea name="LugarExacto" class="form-control" id="LugarExacto" rows="2" placeholder="Av, jr, calle." required></textarea>
+                                    <textarea name="LugarExacto" class="form-control <%= request.getAttribute("msg3") != null ? "is-invalid" : "" %>" id="LugarExacto" rows="2" placeholder="Av, jr, calle." required></textarea>
+                                    <% if(request.getAttribute("msg3") != null){%>
+                                    <div id="mensajeError2" style="color: red; display: block;"><%=request.getAttribute("msg3")%></div>
+                                    <%}%>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label" for="Referencia">Referencia</label>
-                                    <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required />
+                                    <input type="text" id="Referencia" name="Referencia" class="form-control <%= request.getAttribute("msg4") != null ? "is-invalid" : "" %>" placeholder="Cerca a . . ." required />
+                                    <% if(request.getAttribute("msg4") != null){%>
+                                    <div id="mensajeError2" style="color: red; display: block;"><%=request.getAttribute("msg4")%></div>
+                                    <%}%>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3 form-check">
@@ -56,15 +68,17 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="input-group">
-                                        <button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon03">Subir foto</button>
-                                        <input type="file" class="form-control" id="inputGroupFile03" name="fotoincidencia" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                        <input type="file" class="form-control <%= request.getAttribute("msg5") != null ? "is-invalid" : "" %>" id="inputGroupFile03" name="fotoincidencia" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                        <% if(request.getAttribute("msg5") != null){%>
+                                        <div id="mensajeError2" style="color: red; display: block;"><%=request.getAttribute("msg5")%></div>
+                                        <%}%>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-4">
                                 <button class="btn btn-label-primary" type="button" onclick="checkFieldsAndGoBack();">Atrás</button>
                                 <div class="flex-grow-1 d-flex justify-content-center">
-                                    <button class="btn btn-primary" type="button" onclick="if (validateForm()) { document.getElementById('reportarIncidenciaForm').submit(); }" style="background-color: #33CCFF; color: white; text-align: center;">Reportar</button>
+                                    <button class="btn btn-primary" type="button" onclick="document.getElementById('reportarIncidenciaForm').submit();" style="background-color: #33CCFF; color: white; text-align: center;">Reportar</button>
                                 </div>
                                 <div style="width: 86px;"></div> <!-- This empty div serves as a spacer to maintain balance -->
                             </div>
