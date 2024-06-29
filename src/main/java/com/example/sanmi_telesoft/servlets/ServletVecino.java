@@ -431,26 +431,43 @@ public class ServletVecino extends HttpServlet {
 
 
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ArrayList<Evento> listaEventos;
+        int total ;
         String tipo = request.getParameter("tipoFiltrado");
-        int pg = 1; // Página inicial
-        if(request.getParameter("pg") != null){
-            pg = Integer.parseInt(request.getParameter("pg"));
-        }
 
-
+        //Se envia el tipo de filtrado para el combobox;
         ArrayList<String> filtrado = new ArrayList<>();
-        int eventosPorPagina = 9; // Número de eventos por página
-        int offset = (pg - 1) * eventosPorPagina;
-
         filtrado.add("Todo");
         filtrado.add("Deporte");
         filtrado.add("Cultura");
         request.setAttribute("filtrado", filtrado);
-        request.setAttribute("currentPage", pg);
 
-        ArrayList<Evento> listaEventos;
-        int total;
-        total = eventoDao.listaEventos(0, 1000000).size();
+        //Jala el total de eventos por filtro
+        if ("Deporte".equals(tipo)) {
+            total = eventoDao.listaEventosDeporte().size();
+        } else if ("Cultura".equals(tipo)) {
+            total = eventoDao.listaEventosCultura().size();
+        } else {
+            total = eventoDao.listaEventos(0, 1000000).size();
+        }
+
+        // Página inicial
+        int pg = 1;
+        //Ahora se valida el id
+        if(request.getParameter("pg") != null){
+            try{
+                pg = Integer.parseInt(request.getParameter("pg"));
+                if(pg < 1) pg = 100000;
+            } catch (NumberFormatException e) {
+                pg = 100000;
+            }
+
+        }
+
+        int eventosPorPagina = 9; // Número de eventos por página
+        int offset = (pg - 1) * eventosPorPagina;
+
+        //Se jala la lista de eventos por filtro
         if ("Deporte".equals(tipo)) {
             listaEventos = eventoDao.listaEventosDeporte();
         } else if ("Cultura".equals(tipo)) {
@@ -459,9 +476,10 @@ public class ServletVecino extends HttpServlet {
             listaEventos = eventoDao.listaEventos(offset, eventosPorPagina);
         }
 
+        //Se envía lo atributos y nos redirige a la vista
+        request.setAttribute("currentPage", pg);
         request.setAttribute("listarEventos", listaEventos);
         request.setAttribute("total", total);
-
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp");
         view.forward(request, response);
     }
