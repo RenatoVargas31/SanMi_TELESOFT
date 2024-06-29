@@ -522,6 +522,8 @@ public class ServletVecino extends HttpServlet {
     private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String textSearch = request.getParameter("textoBuscar");
 
+        int pg = 1;
+        request.setAttribute("currentPage", pg);
         String tipoFiltrado = request.getParameter("tipoFiltrado");
         ArrayList<Evento> lista;
 
@@ -532,6 +534,8 @@ public class ServletVecino extends HttpServlet {
         } else {
             lista = eventoDao.searchEventobyName(textSearch);
         }
+        int total = lista.size();
+        request.setAttribute("total", total);
 
         request.setAttribute("listarEventos", lista);
         request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp").forward(request, response);
