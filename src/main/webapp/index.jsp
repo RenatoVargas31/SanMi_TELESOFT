@@ -111,7 +111,7 @@
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                             <div class="d-flex text-center">
-                                <% if (request.getParameter("error") != null) { %>
+                                <% if (request.getAttribute("error") != null) { %>
                                 <div class="text-danger mb-2">Error en usuario o contraseña</div>
                                 <% } %>
                             </div>

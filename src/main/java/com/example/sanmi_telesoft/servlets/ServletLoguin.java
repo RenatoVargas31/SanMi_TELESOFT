@@ -64,11 +64,13 @@ public class ServletLoguin extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/ServletVecino");
                     break;
                 default:
-                    response.sendRedirect("index.jsp?error");
+                    request.setAttribute("error", "ga");
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
                     break;
             }
         } else {
-            response.sendRedirect("index.jsp?error");
+            request.setAttribute("error", "ga");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
 
