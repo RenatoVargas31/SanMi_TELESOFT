@@ -9,6 +9,8 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
 <%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="listaMisEventos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Evento>" scope="request"/>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
+
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
@@ -114,110 +116,92 @@
                                     <span class="d-none d-sm-inline-block">Nuevo Evento</span>
                                 </a>
                             </div>
-                            <table id="table-misincidencias" class="datatables-basic table border-top">
-                                <thead>
-                                <tr>
-                                    <th>Evento</th>
-                                    <th>Lugar</th>
-                                    <th>Vacantes</th>
-                                    <th>Fecha del Evento</th>
-                                    <th>Acciones</th>
-                                </tr>
-                                </thead>
+                            <div class="table-responsive">
+                                <table id="table-misincidencias" class="datatables-basic table border-top">
+                                    <thead>
+                                    <tr>
+                                        <th>Evento</th>
+                                        <th>Lugar</th>
+                                        <th>Vacantes</th>
+                                        <th>Fecha del Evento</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
 
-                                <tbody>
-                                <%
-                                    int i = 1;
-                                    int a = 15000;
-                                    for (Evento evento : listaMisEventos) {
-                                        String modalId = "modalScrollable" + i;
-                                        String modalId2 = "modalScrollable" + a;
-                                %>
-                                <div class="modal fade" id="deletMod" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres eliminar esta incidencia?</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Esta acción no se puede deshacer.</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="button" class="btn btn-danger" onclick="submitDeletion(<%= evento.getIdEventos() %>)">Eliminar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Estimado Serenazgo de la Zona,</p>
+                                    <tbody>
+                                    <%
+                                        int i = 1;
+                                        int a = 15000;
+                                        for (Evento evento : listaMisEventos) {
+                                            String modalId = "modalScrollable" + i;
+                                    %>
+                                    <tr>
+                                        <td><%=evento.getNombreEvento() %></td>
+                                        <td><%=evento.getLugarEvento()%></td>
+                                        <td><%=evento.getVacantesDisp()%></td>
+                                        <td><%=evento.getFechaEventoStart()%></td>
+                                        <td>
+                                            <button type="button"
+                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                                    data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
+                                                    class='bx bx-show'></i></button>
+                                            <button type="button"
+                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarEvento&id=<%=evento.getIdEventos()%>';"
+                                                    data-bs-target="#modal-editar-incidencia"><i
+                                                    class='bx bx-edit'></i></button>
+                                            <button type="button"
+                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=evento.getIdEventos()%>)" data-bs-target="#"><i
+                                                    class='bx bx-x'></i></button>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Estimado Serenazgo de la Zona,</p>
 
-                                                <% if(evento.getNombreEvento() == null) { %>
-                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente  que está ocurriendo en este momento en de San Miguel.</p>
-                                                <% } else { %>
-                                                <p><%= evento.getNombreEvento() %></p>
-                                                <% } %>
+                                                    <% if(evento.getNombreEvento() == null) { %>
+                                                    <p>Me dirijo a ustedes con preocupación para informar sobre un incidente que está ocurriendo en este momento en de San Miguel.</p>
+                                                    <% } else { %>
+                                                    <p><%= evento.getNombreEvento() %></p>
+                                                    <% } %>
 
-                                                <p>Atentamente,</p>
-                                                <p><%= evento.getNombreEvento() %></p>
+                                                    <p>Atentamente,</p>
+                                                    <p><%= evento.getNombreEvento() %></p>
 
-                                                <div class="card h-100">
-                                                    <img class="card-img-top" src="ServletCoordinadora?action=mostrarImagen&id=<%=evento.getNombreEvento() %>" alt="Card image cap" />
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Foto del reporte</h5>
-                                                        <p class="card-text">Lugar: <%= evento.getNombreEvento() %></p>
-                                                        <p class="card-text">Referencia: <%=evento.getNombreEvento() %></p>
+                                                    <div class="card h-100">
+                                                        <img class="card-img-top" src="ServletCoordinadora?action=mostrarImagen&id=<%=evento.getNombreEvento() %>" alt="Card image cap" />
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">Foto del reporte</h5>
+                                                            <p class="card-text">Lugar: <%= evento.getNombreEvento() %></p>
+                                                            <p class="card-text">Referencia: <%=evento.getNombreEvento() %></p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <%
+                                            i++;
+                                            a++;
+                                        } %>
+                                    </tbody>
+                                </table>
 
-                                <tr>
-                                    <td><%=evento.getNombreEvento() %></td>
-                                    <td><%=evento.getLugarEvento()%></td>
-                                    <td><%=evento.getVacantesDisp()%></td>
-                                    <td><%=evento.getFechaEventoStart()%></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarEvento&id=<%=evento.getIdEventos()%>';"
-                                                data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion(<%=evento.getIdEventos()%>)" data-bs-target="#"><i
-                                                class='bx bx-x'></i></button>
 
-                                    </td>
-                                </tr>
-                                <%
-                                        i++;
-                                        a++;
-                                    }
-                                %>
-                                </tbody>
-
-                            </table>
                         </div>
                     </div>
-
+                    </div>
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
@@ -274,24 +258,26 @@
     </div>
 </div>
 
+
+
 <script>
-    function promptDeletion(incidenciaId) {
+    function promptDeletion(eventoId) {
         const confirmDeletionBtn = document.getElementById('confirmDeletionBtn');
         confirmDeletionBtn.onclick = function() {
-            submitDeletion(incidenciaId);
+            submitDeletion(eventoId);
         };
         var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
         myModal.show(); // This is the correct way to show a modal
     }
 
-    function submitDeletion(incidenciaId) {
+    function submitDeletion(eventoId) {
         alert('La incidencia ha sido eliminada correctamente.');
         // Hide the modal first
         const modal = bootstrap.Modal.getInstance(document.getElementById('deletionModal'));
         modal.hide();
 
         // Redirect to the servlet with the id of the incidencia
-        window.location.href = '<%= request.getContextPath() %>/ServletCoordinadora?action=borrarIncidencia&id=' + incidenciaId;
+        window.location.href = '<%= request.getContextPath() %>/ServletCoordinadora?action=borrarEvento&id=' + eventoId;
     }
 </script>
 

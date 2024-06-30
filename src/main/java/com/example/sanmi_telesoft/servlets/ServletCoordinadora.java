@@ -4,6 +4,7 @@ import com.example.sanmi_telesoft.beans.*;
 import com.example.sanmi_telesoft.daos.DaoCoordinadora;
 import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
+import com.example.sanmi_telesoft.daos.DaoProfesor;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -11,7 +12,6 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "ServletCoordinadora", value = "/ServletCoordinadora")
@@ -20,8 +20,10 @@ public class ServletCoordinadora extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
-
+        DaoProfesor daoProfesor = new DaoProfesor();
+        DaoEvento daoEvento = new DaoEvento();
         DaoCoordinadora daoCoordinadora = new DaoCoordinadora();
+
 
         switch (action){
             case "mostrarInicio":
@@ -134,22 +136,63 @@ public class ServletCoordinadora extends HttpServlet {
 
                 response.sendRedirect("ServletCoordinadora?action=listarMisIncidencias");
                 break;
+
+            case "borrarEvento":
+                if (request.getParameter("id") != null) {
+                    String incIdString = request.getParameter("id");
+                    int eventoId = 0;
+                    try {
+                        eventoId = Integer.parseInt(incIdString);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("/error.jsp");
+                    }
+                    daoEvento.borrarEvento(eventoId);
+
+                }
+
+                response.sendRedirect("ServletCoordinadora?action=verMisEventos");
+                break;
             case "crearEventos":
                 request.setAttribute("activeMenu", "Eventos");
                 request.setAttribute("activeMenuSub", "Eventos2");
+                request.setAttribute("listaProfesores",daoProfesor.listarProfesores());
                 request.getRequestDispatcher("WEB-INF/coordinadora/crearEvento.jsp").forward(request, response);
                 break;
 
 
             case "verMisEventos":
-                DaoEvento daoEvento = new DaoEvento();
-                ArrayList<Evento> listaMisEventos = daoEvento.listaEventosUser(6);
-                request.setAttribute("listaMisEventos", listaMisEventos);
-                request.setAttribute("activeMenu", "Eventos");
-                request.setAttribute("activeMenuSub", "Eventos3");
+                // Obtener el usuario de la sesión
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-                request.getRequestDispatcher("WEB-INF/coordinadora/misEventos.jsp").forward(request, response);
+                if (usuario != null) {
+                    // Obtener el id del usuario como String
+                    String idUsuario = String.valueOf(usuario.getIdUsuarios());
+
+                    // Obtener el idUsuario de los parámetros de la solicitud (si se pasa como parámetro en el GET)
+                    String idUsuarioParametro = request.getParameter("idUsuario");
+
+                    // Verificar y asegurar que el idUsuario sea correcto y no nulo
+                    if (idUsuarioParametro != null && !idUsuarioParametro.isEmpty()) {
+                        idUsuario = idUsuarioParametro;
+                    }
+
+                    // Llamar al método listaEventosCoordinadora con el id del usuario
+                    ArrayList<Evento> listaMisEventos = daoEvento.listaEventosCoordinadora(Integer.parseInt(idUsuario));
+
+                    // Establecer atributos en el request
+                    request.setAttribute("listaMisEventos", listaMisEventos);
+                    request.setAttribute("activeMenu", "Eventos");
+                    request.setAttribute("activeMenuSub", "Eventos3");
+
+                    // Redirigir a la página JSP correspondiente
+                    request.getRequestDispatcher("WEB-INF/coordinadora/misEventos.jsp").forward(request, response);
+                } else {
+                    // Manejar el caso donde el usuario no está en sesión
+                    // Por ejemplo, redirigir a una página de error o hacer alguna otra acción
+                    response.sendRedirect("error.jsp");
+                }
                 break;
+
 
 
         }
@@ -233,9 +276,11 @@ public class ServletCoordinadora extends HttpServlet {
                 String ubicacion = request.getParameter("LugarExacto");
                 String FechaInicio = request.getParameter("FechaInicio");
                 String FechaFin = request.getParameter("FechaFin");
-                String tipoEvento = (((request.getParameter("tipoEvento"))));
+                int idEvento = Integer.parseInt((((request.getParameter("tipoEvento")))));
                 String horaInicio = request.getParameter("horaInicio");
+                int idProfesor = Integer.parseInt((((request.getParameter("profesorId")))));
                 String horaFin = request.getParameter("horaFin");
+                int idCoordinadora= Integer.parseInt((((request.getParameter("idCoordinadora")))));
 
                 InputStream fotoEvento = request.getPart("file").getInputStream();
                 byte[] fotoEvento2 = fotoEvento.readAllBytes();
@@ -250,20 +295,19 @@ public class ServletCoordinadora extends HttpServlet {
                 evento.setHoraEventoStart(horaInicio);
                 evento.setHoraEventoEnd(horaFin);
                 evento.setFotosStart(fotoEvento2);
-                //lineas asquerosas
                 Profesor profesor = new Profesor();
-                profesor.setIdProfesores(1);
+                profesor.setIdProfesores(idProfesor);
                 evento.setProfesor(profesor);
                 TipoEvento tipoEvento1 = new TipoEvento();
-                tipoEvento1.setNameTipo(tipoEvento);
+                tipoEvento1.setIdTipoEvento(idEvento);
                 FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
                 frecuenciaEvento.setIdFrecuenciaEvento(1);
                 evento.setFrecuenciaEvento(frecuenciaEvento);
                 EstadoEvento estadoEvento = new EstadoEvento();
+                //Todos se inicializan con el estado NoIniciado
                 estadoEvento.setIdEstadoEvento(1);
-
+                evento.setIdCoordinadora(idCoordinadora);
                 evento.setEstadoEvento(estadoEvento);
-                //no estoy orgulloso de esto
                 evento.setTipoEvento(tipoEvento1);
                 eventoDao.crearEvento(evento);
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");

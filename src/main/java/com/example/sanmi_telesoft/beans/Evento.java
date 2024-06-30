@@ -24,6 +24,7 @@ public class Evento {
     private boolean asistenciaCoordi;
     private String asistenciaLlegada;
     private String asistenciaSalida;
+    private int idCoordinadora;
 
     private int idEventos;
     private String nombreEvento;
@@ -179,4 +180,8 @@ public class Evento {
     public void setFotosEnd(byte[] fotosEnd) {
         this.fotosEnd = fotosEnd;
     }
+
+    public int getIdCoordinadora() {return idCoordinadora;}
+
+    public void setIdCoordinadora(int idCoordinadora) {this.idCoordinadora = idCoordinadora;}
 }

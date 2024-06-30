@@ -406,7 +406,7 @@ public class DaoAdministrador extends BaseDao {
                 profesor.setDniProfesor(rs.getString("dniProfesor"));
                 profesor.setTipoProfesor(rs.getString("tipoProfesor"));
                 profesor.setCursoProfesor(rs.getString("cursoProfesor"));
-                profesor.setIsEnable(rs.getString("isEnable"));
+                profesor.setIsEnable(rs.getBoolean("isEnable"));
                 listaProfesores.add(profesor);
             }
 

@@ -8,7 +8,7 @@ public class Profesor {
     private String dniProfesor;
     private String tipoProfesor;
     private String cursoProfesor;
-    private String isEnable;
+    private boolean isEnable;
 
     public int getIdProfesores() {
         return idProfesores;
@@ -58,11 +58,11 @@ public class Profesor {
         this.cursoProfesor = cursoProfesor;
     }
 
-    public String getIsEnable() {
+    public boolean getIsEnable() {
         return isEnable;
     }
 
-    public void setIsEnable(String isEnable) {
+    public void setIsEnable(boolean isEnable) {
         this.isEnable = isEnable;
     }
 }

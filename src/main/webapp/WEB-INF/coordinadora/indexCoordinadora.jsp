@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Profesor" %><%--
   Created by IntelliJ IDEA.
   User: CARLOS
   Date: 11/06/2024
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 
 <!DOCTYPE html>
 
@@ -19,7 +21,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi | Bienvenida Coordinadora</title>
+    <title>SanMi | Bienvenida Coordinadora </title>
 
 
     <meta name="description"
@@ -146,10 +148,19 @@
                     </div>
                 </div>
 
-                <h1 class="text-center ¡Bienvenido, coordinador de deportes! "> ¡Bienvenido, cordinador de
-                    deportes! </h3>
+                <h1 class="text-center ¡Bienvenido, coordinador de deportes! "> ¡Bienvenido,<%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>!</h1>
+                <%  // Etiqueta de script JSP para inserción de código Java
+                    if (usuario.getIdTipoCoordinadora() == 1) {  // Verifica si el tipo de coordinadora es 1
+                %>
+                <h3 class="text-center">Coordinadora de Cultura</h3>
+                <%  } else if (usuario.getIdTipoCoordinadora() == 2) {  // Verifica si el tipo de coordinadora es 2
+                %>
+                <h3 class="text-center"> Coordinadora de Deporte</h3>
 
-                    <div class="row mt-4">
+                <%  }  // Fin del bloque de código Java dentro de la etiqueta de script JSP
+                %>
+
+                <div class="row mt-4">
                         <!-- Navigation -->
                         <div class="col-lg-4 col-md-4 col-12 mb-md-0 mb-3">
                             <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">

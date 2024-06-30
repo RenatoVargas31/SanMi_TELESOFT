@@ -12,7 +12,7 @@ import java.util.Random;
 public class DaoEvento extends BaseDao {
 
     public void crearEvento(Evento evento) {
-        String sql = "INSERT INTO eventos (idEventos, nombreEvento, fotosStart, descriptionEvento, vacantesDisp, lugarEvento, fechaEventoStart, fechaEventoEnd, horaEventoStart,horaEventoEnd, materialesEvento,Profesores_idProfesores, fotosEnd, TipoEvento_idtipoEvento,FrecuenciaEvento_idFrecuenciaEvento,EstadoEvento_idEstadoEvento,asistenciaCoordi,asistenciaLlegada,asistenciaSalida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?)";
+        String sql = "INSERT INTO eventos (idEventos, nombreEvento, fotosStart, descriptionEvento, vacantesDisp, lugarEvento, fechaEventoStart, fechaEventoEnd, horaEventoStart,horaEventoEnd, materialesEvento,Profesores_idProfesores, fotosEnd, TipoEvento_idtipoEvento,FrecuenciaEvento_idFrecuenciaEvento,EstadoEvento_idEstadoEvento,asistenciaCoordi,asistenciaLlegada,asistenciaSalida, idCoordinadora) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, evento.getIdEventos());
             pstmt.setString(2, evento.getNombreEvento());
@@ -35,12 +35,15 @@ public class DaoEvento extends BaseDao {
             pstmt.setBoolean(17, evento.isAsistenciaCoordi());
             pstmt.setString(18, evento.getAsistenciaLlegada());
             pstmt.setString(19, evento.getAsistenciaSalida());
-
+            pstmt.setInt(20, evento.getIdCoordinadora());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
+
 
     public ArrayList<Evento> listaEventos(int offset, int limit) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
@@ -131,6 +134,79 @@ public class DaoEvento extends BaseDao {
 
         return listaEventos;
     }
+
+    public ArrayList<Evento> listaEventosCoordinadora(int userId) {
+        ArrayList<Evento> listaEventos = new ArrayList<>();
+        String sql = "SELECT e.*, t.nameTipo \n" +
+                "                FROM eventos e \n" +
+                "                LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento \n" +
+                "                INNER JOIN usuarios_has_eventos uhe ON e.idEventos = uhe.Eventos_idEventos \n" +
+                "                WHERE e.idCoordinadora = ?;";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            LocalDateTime now = LocalDateTime.now(); // Obtener la fecha y hora actuales
+
+            while (rs.next()) {
+                Evento evento = new Evento();
+                evento.setIdEventos(rs.getInt("idEventos"));
+                evento.setNombreEvento(rs.getString("nombreEvento"));
+                evento.setDescriptionEvento(rs.getString("descriptionEvento"));
+                evento.setVacantesDisp(rs.getInt("vacantesDisp"));
+                evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
+                evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setLugarEvento(rs.getString("lugarEvento"));
+
+                // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
+                LocalDateTime fechaHoraEvento = LocalDateTime.of(
+                        LocalDate.parse(evento.getFechaEventoStart()),
+                        LocalTime.parse(evento.getHoraEventoStart())
+                );
+                TipoEvento tipoEvento = new TipoEvento();
+                // Comparar la fecha y hora del evento con la fecha y hora actuales
+                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
+                    tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
+                    tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
+                    evento.setTipoEvento(tipoEvento);
+
+                    listaEventos.add(evento);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al listar eventos de tipo Cultura con fecha y hora válidas", e);
+        }
+
+        return listaEventos;
+    }
+    public void borrarEvento(int idEvento) {
+        borrarenHasEvento(idEvento);
+        String sql = "DELETE FROM eventos WHERE idEventos = ?";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idEvento);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void borrarenHasEvento(int idEvento) {
+        String sql = "DELETE FROM usuarios_has_eventos WHERE Eventos_idEventos = ?";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idEvento);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public ArrayList<Evento> listaEventosCultura() {
         ArrayList<Evento> listaEventos = new ArrayList<>();
@@ -279,7 +355,7 @@ public class DaoEvento extends BaseDao {
                     evento.setAsistenciaCoordi(rs.getBoolean("asistenciaCoordi"));
                     evento.setAsistenciaLlegada(rs.getString("asistenciaLlegada"));
                     evento.setAsistenciaSalida(rs.getString("asistenciaSalida"));
-
+                    evento.setIdCoordinadora(rs.getInt("idCoordinadora"));
 
                 }
             }
@@ -346,7 +422,7 @@ public class DaoEvento extends BaseDao {
                     evento.setAsistenciaCoordi(rs.getBoolean("asistenciaCoordi"));
                     evento.setAsistenciaLlegada(rs.getString("asistenciaLlegada"));
                     evento.setAsistenciaSalida(rs.getString("asistenciaSalida"));
-
+                    evento.setIdCoordinadora(rs.getInt("idCoordinadora"));
                     listaEventos.add(evento);
                 }
             }
@@ -414,7 +490,7 @@ public class DaoEvento extends BaseDao {
                     evento.setAsistenciaCoordi(rs.getBoolean("asistenciaCoordi"));
                     evento.setAsistenciaLlegada(rs.getString("asistenciaLlegada"));
                     evento.setAsistenciaSalida(rs.getString("asistenciaSalida"));
-
+                    evento.setIdCoordinadora(rs.getInt("idCoordinadora"));
                     listaEventos.add(evento);
                 }
             }

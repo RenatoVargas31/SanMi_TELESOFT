@@ -1,5 +1,8 @@
+<%@ page import="com.example.sanmi_telesoft.beans.Profesor" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
+<% ArrayList<Profesor> profesores = (ArrayList<Profesor>) request.getAttribute("listaProfesores"); %>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
@@ -133,15 +136,34 @@
                                                 <input type="text" id="tipoEvento" name="tipoEvento" class="form-control" placeholder="Tipo de Evento" value="<%= tipoEventoValue %>" />
                                             </div>
 
+                                            <div class="col-md-6" hidden>
+                                                <label class="form-label" for="idCoordinadora"></label>
+                                                <input type="text" id="idCoordinadora" name="idCoordinadora" class="form-control" placeholder="Tipo de Evento" value="<%= usuario.getIdUsuarios() %>" />
+                                            </div>
+
 
                                             <div class="col-md-6">
-                                                <label class="form-label" for="horaInicio">Fecha de inicio</label>
+                                                <label class="form-label" for="horaInicio">Hora de inicio</label>
                                                 <input type="time" id="horaInicio" name="horaInicio" class="form-control" placeholder="" required/>
                                             </div>
+
                                             <div class="col-md-6">
-                                                <label class="form-label" for="horaFin">Fecha de fin</label>
+                                                <label class="form-label" for="horaFin">Hora de fin</label>
                                                 <input type="time" id="horaFin" name="horaFin" class="form-control" placeholder="" required/>
                                             </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">Profesor encargado</label>
+                                                <select name="profesorId" class="form-control" required>
+                                                    <% for (Profesor profesor : profesores) { %>
+                                                    <option value="<%= profesor.getIdProfesores() %>">
+                                                        <%= profesor.getNombreProfesor() + " " + profesor.getApellidoProfesor() %>
+                                                    </option>
+                                                    <% } %>
+                                                </select>
+                                            </div>
+
+
                                             <div class="col-12">
                                                 <div class="input-group">
                                                     <label class="form-label">Foto del evento</label>
