@@ -6,6 +6,8 @@ import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.filters.Sanitizer;
+
+import java.net.URLEncoder;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
@@ -590,8 +592,13 @@ public class ServletVecino extends HttpServlet {
         // Actualizar las entradas en la base de datos utilizando el DAO
         try {
             eventoDao.actualizarEntradas(id, entradas);
-            // Redireccionar a la lista de eventos después de actualizar las entradas
+            // Guardar el mensaje en un atributo de sesión para mostrarlo una vez
+            String mensaje = "Se ha inscrito satisfactoriamente. En breve, las entradas llegarán a su correo";
+            request.getSession().setAttribute("info", mensaje);
+
+            // Redirigir al usuario a una URL sin parámetros de consulta
             response.sendRedirect(request.getContextPath() + "/ServletVecino?action=listaEventos");
+
         } catch (Exception e) {
             // Manejar cualquier excepción que pueda ocurrir durante la actualización de entradas
             e.printStackTrace(); // o registra el error en los logs del servidor

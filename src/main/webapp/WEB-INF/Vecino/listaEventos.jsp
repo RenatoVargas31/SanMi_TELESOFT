@@ -158,8 +158,20 @@
                                 </div>
                             </div>
                         </div>
+                        <%
+                            // Obtener el mensaje de la sesión y eliminarlo después de mostrarlo
+                            String mensaje = (String) request.getSession().getAttribute("info");
+                            if (mensaje != null && !mensaje.isEmpty()) {
+                        %>
 
-
+                    <div class="alert alert-success" style="background-color: rgba(183,255,184,0.78);color: #000000; font-weight: bold" role ="alert">
+                            <%= mensaje %>
+                        </div>
+                        <%
+                            // Eliminar el mensaje de la sesión después de mostrarlo
+                            request.getSession().removeAttribute("info");
+                        %>
+                        <% } %>
                         <div class="card mb-4">
                             <div class="card-header d-flex flex-wrap justify-content-between gap-3">
                                 <div class="card-title mb-0 me-1">
