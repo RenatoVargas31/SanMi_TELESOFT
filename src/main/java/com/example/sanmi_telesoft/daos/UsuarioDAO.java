@@ -48,14 +48,14 @@ public class UsuarioDAO {
                 usuario.setDniUsuario(rs.getString("dniUsuario"));
                 usuario.setDireccionUsuario(rs.getString("direccionUsuario"));
                 usuario.setTelefonoUsuario(rs.getString("telefonoUsuario"));
-                usuario.setIdUrbanizacion(rs.getInt("idUrbanizacion"));
-                usuario.setActivationToken(rs.getString("activationToken"));
-                usuario.setIsActive(rs.getString("isActive"));
+                usuario.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion"));
+                usuario.setActivationToken(rs.getString("activation_token"));
+                usuario.setIsActive(rs.getString("is_active"));
                 usuario.setNacimientoDate(rs.getString("nacimientoDate"));
-                usuario.setIdTipoCoordinadora(rs.getInt("idTipoCoordinadora"));
-                usuario.setIdEstadoVecinoEvento(rs.getInt("idEstadoVecinoEvento"));
-                usuario.setIsBannedApp(rs.getString("isBannedApp"));
-                usuario.setMotivoBannedApp(rs.getString("motivoBannedApp"));
+                usuario.setIdTipoCoordinadora(rs.getInt("TipoCoordinadora_idTipoCoordinadora"));
+                //usuario.setIdEstadoVecinoEvento(rs.getInt("idEstadoVecinoEvento"));
+                usuario.setIsBannedApp(rs.getString("is_bannedApp"));
+                usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
             }
         } catch (Exception e) {
             e.printStackTrace();
