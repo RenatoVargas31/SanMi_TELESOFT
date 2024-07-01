@@ -104,4 +104,31 @@ public class UsuarioDAO {
 
         return usuario;
     }
+    public Usuario obtenerDatosporDni(String dni) {
+        Usuario usuario = null;
+        String sql = "SELECT nombreUsuario, apellidoUsuario, correoUsuario FROM usuarios WHERE dniUsuario = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, dni);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String nombre = resultSet.getString("nombreUsuario");
+                String apellido = resultSet.getString("apellidoUsuario");
+                String correo = resultSet.getString("correoUsuario");
+                // Crear un objeto Usuario con los datos recuperados
+                usuario = new Usuario();
+                usuario.setNombreUsuario(nombre);
+                usuario.setApellidoUsuario(apellido);
+                usuario.setCorreoUsuario(correo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuario;
+    }
+
 }
