@@ -3,10 +3,7 @@ package com.example.sanmi_telesoft.daos;
 import com.example.sanmi_telesoft.beans.Usuario;
 
 import java.security.MessageDigest;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class UsuarioDAO {
     private String jdbcURL = "jdbc:mysql://127.0.0.1:3306/proyecto-iweb";
@@ -79,5 +76,32 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
         return hashedPassword;
+    }
+
+    public Usuario obtenerDatosporId(int usuarioId) {
+        Usuario usuario = null;
+        String sql = "SELECT nombreUsuario, apellidoUsuario, correoUsuario FROM usuarios WHERE idUsuarios = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, usuarioId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String nombre = resultSet.getString("nombreUsuario");
+                String apellido = resultSet.getString("apellidoUsuario");
+                String correo = resultSet.getString("correoUsuario");
+                // Crear un objeto Usuario con los datos recuperados
+                usuario = new Usuario();
+                usuario.setNombreUsuario(nombre);
+                usuario.setApellidoUsuario(apellido);
+                usuario.setCorreoUsuario(correo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuario;
     }
 }
