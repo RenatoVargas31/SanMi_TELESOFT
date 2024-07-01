@@ -227,8 +227,13 @@ DROP TABLE IF EXISTS `frecuenciaevento`;
 CREATE TABLE `frecuenciaevento` (
   `idFrecuenciaEvento` int NOT NULL AUTO_INCREMENT,
   `frecuenciaTipo` varchar(100) NOT NULL,
-  `day1` date NOT NULL,
-  `day2` date DEFAULT NULL,
+  `lunesActive` tinyint DEFAULT NULL,
+  `martesActive` tinyint DEFAULT NULL,
+  `miercolesActive` tinyint DEFAULT NULL,
+  `juevesActive` tinyint DEFAULT NULL,
+  `viernesActive` tinyint DEFAULT NULL,
+  `sabadoActive` tinyint DEFAULT NULL,
+  `domingoActive` tinyint DEFAULT NULL,
   PRIMARY KEY (`idFrecuenciaEvento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -239,6 +244,7 @@ CREATE TABLE `frecuenciaevento` (
 
 LOCK TABLES `frecuenciaevento` WRITE;
 /*!40000 ALTER TABLE `frecuenciaevento` DISABLE KEYS */;
+INSERT INTO `frecuenciaevento` (idFrecuenciaEvento, frecuenciaTipo) VALUES (1, 'Personalizado'), (2, 'Diario');
 /*!40000 ALTER TABLE `frecuenciaevento` ENABLE KEYS */;
 UNLOCK TABLES;
 
