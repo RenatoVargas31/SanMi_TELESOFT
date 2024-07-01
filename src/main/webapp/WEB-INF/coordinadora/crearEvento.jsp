@@ -12,7 +12,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMI  | Reportar Incidencia</title>
+    <title>SanMI  | Crear evento </title>
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
@@ -52,7 +52,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
-
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css" />
     <!-- Row Group CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
     <!-- Form Validation -->
@@ -68,6 +74,11 @@
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
 </head>
 
+<style>
+    .bootstrap-select .dropdown-menu {
+        transform: translateY(0) !important;
+    }
+</style>
 <body>
 
 <noscript>
@@ -151,15 +162,32 @@
                                                 <label class="form-label" for="horaFin">Hora de fin</label>
                                                 <input type="time" id="horaFin" name="horaFin" class="form-control" placeholder="" required/>
                                             </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="materiales">Materiales(opcional)</label>
+                                                <input type="text" class="form-control" name="materiales" id="materiales"  placeholder="Máximo 255 caracteres." required/>
+                                            </div>
 
-                                            <div class="col-md-6">
-                                                <label class="form-label">Profesor encargado</label>
-                                                <select name="profesorId" class="form-control" required>
+                                            <div class="col-md-6 mb-4">
+                                                <label for="selectpickerLiveSearch" class="form-label">Profesores</label>
+                                                <select id="selectpickerLiveSearch" name="profesorId" class="selectpicker w-100" data-style="btn-default" data-live-search="true" data-dropup-auto="false" data-none-results-text="Ningun resultado para '{0}'">
                                                     <% for (Profesor profesor : profesores) { %>
                                                     <option value="<%= profesor.getIdProfesores() %>">
                                                         <%= profesor.getNombreProfesor() + " " + profesor.getApellidoProfesor() %>
                                                     </option>
                                                     <% } %>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6 mb-4">
+                                                <label for="selectpickerMultiple" class="form-label">Frecuencia del Evento</label>
+                                                <select id="selectpickerMultiple" name="diasSemana" class="selectpicker w-100" data-style="btn-default" multiple data-icon-base="bx" data-dropup-auto="false" data-none-selected-text="Sin frecuencia" data-tick-icon="bx-check text-primary">
+                                                    <option value="lunesActive">Todos los lunes</option>
+                                                    <option value="martesActive">Todos los martes</option>
+                                                    <option value="miercolesActive">Todos los miércoles</option>
+                                                    <option value="juevesActive">Todos los jueves</option>
+                                                    <option value="viernesActive">Todos los viernes</option>
+                                                    <option value="sabadoActive">Todos los sábados</option>
+                                                    <option value="domingoActive">Todos los domingos</option>
                                                 </select>
                                             </div>
 
@@ -175,7 +203,7 @@
 
 
                                             <div class="d-flex justify-content-between align-items-center mt-4">
-                                                <a href="${pageContext.request.contextPath}/ServletCoordinadora" class="btn btn-label-primary">Volver al inicio</a>
+                                                <a href="${pageContext.request.contextPath}/ServletCoordinadora?action=verMisEventos" class="btn btn-label-primary">Regresar a la lista de eventos</a>
                                                 <div class="flex-grow-1 d-flex justify-content-center">
                                                     <input type="submit" value="Guardar" class="btn btn-primary"/>
                                                 </div>
@@ -189,6 +217,7 @@
                         </div>
                     </div>
                 </div>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
 
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
@@ -219,6 +248,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
                 <script>
+
 
 
 
@@ -354,6 +384,50 @@
         }
     }
 </script>
+
+<!-- jQuery -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Perfect Scrollbar -->
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<!-- Hammer.js -->
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
+
+<!-- i18n -->
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
+
+<!-- Typeahead.js and Bloodhound -->
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+<!-- Menu -->
+<script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
+
+<!-- Select2 -->
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
+
+<!-- Tagify -->
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/tagify/tagify.js"></script>
+
+<!-- Bootstrap Select -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+
+<!-- Main JS -->
+<script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="${pageContext.request.contextPath}/assets/js/forms-selects.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/forms-tagify.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/forms-typeahead.js"></script>
+
+
+
+
 
 </body>
 </html>

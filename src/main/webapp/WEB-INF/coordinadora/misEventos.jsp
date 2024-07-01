@@ -21,7 +21,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi | Mis Incidencias</title>
+    <title>SanMi | Mis Eventos</title>
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
@@ -148,7 +148,7 @@
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                     data-bs-toggle="modal"
-                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=mostrarActualizarEvento&id=<%=evento.getIdEventos()%>';"
+                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento&id=<%=evento.getIdEventos()%>';"
                                                     data-bs-target="#modal-editar-incidencia"><i
                                                     class='bx bx-edit'></i></button>
                                             <button type="button"
@@ -245,7 +245,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres eliminar esta incidencia?</h5>
+                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres eliminar este evento?</h5>
             </div>
             <div class="modal-body">
                 <p>Esta acción no se puede deshacer.</p>

@@ -3,8 +3,13 @@ package com.example.sanmi_telesoft.beans;
 public class FrecuenciaEvento {
     private int idFrecuenciaEvento;
     private String frecuenciaTipo;
-    private String day1;
-    private String day2;
+    private boolean lunesActive;
+    private boolean martesActive;
+    private boolean miercolesActive;
+    private boolean juevesActive;
+    private boolean viernesActive;
+    private boolean sabadoActive;
+    private boolean domingoActive;
 
     public int getIdFrecuenciaEvento() {
         return idFrecuenciaEvento;
@@ -22,19 +27,59 @@ public class FrecuenciaEvento {
         this.frecuenciaTipo = frecuenciaTipo;
     }
 
-    public String getDay1() {
-        return day1;
+    public boolean isLunesActive() {
+        return lunesActive;
     }
 
-    public void setDay1(String day1) {
-        this.day1 = day1;
+    public void setLunesActive(boolean lunesActive) {
+        this.lunesActive = lunesActive;
     }
 
-    public String getDay2() {
-        return day2;
+    public boolean isMartesActive() {
+        return martesActive;
     }
 
-    public void setDay2(String day2) {
-        this.day2 = day2;
+    public void setMartesActive(boolean martesActive) {
+        this.martesActive = martesActive;
+    }
+
+    public boolean isMiercolesActive() {
+        return miercolesActive;
+    }
+
+    public void setMiercolesActive(boolean miercolesActive) {
+        this.miercolesActive = miercolesActive;
+    }
+
+    public boolean isJuevesActive() {
+        return juevesActive;
+    }
+
+    public void setJuevesActive(boolean juevesActive) {
+        this.juevesActive = juevesActive;
+    }
+
+    public boolean isViernesActive() {
+        return viernesActive;
+    }
+
+    public void setViernesActive(boolean viernesActive) {
+        this.viernesActive = viernesActive;
+    }
+
+    public boolean isSabadoActive() {
+        return sabadoActive;
+    }
+
+    public void setSabadoActive(boolean sabadoActive) {
+        this.sabadoActive = sabadoActive;
+    }
+
+    public boolean isDomingoActive() {
+        return domingoActive;
+    }
+
+    public void setDomingoActive(boolean domingoActive) {
+        this.domingoActive = domingoActive;
     }
 }

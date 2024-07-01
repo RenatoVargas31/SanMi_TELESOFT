@@ -1,7 +1,11 @@
 <jsp:useBean id="evento" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 <jsp:useBean id="evento1" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 <jsp:useBean id="evento2" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
-
+<%@ page import="com.example.sanmi_telesoft.daos.UsuarioDAO" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
+<%
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <!-- =========================================================
@@ -174,6 +178,7 @@
 
                                             <h3 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
 
+                                        <hr class="my-4">
                                             <!-- Contenido de la tarjeta u otras secciones -->
 
                                             <h3 style="font-size: 22px; margin-top: 15px; color: rgb(34, 33, 33); font-weight: 500;" class="mb-0 pt-1">Cantidad:</h3>
@@ -220,26 +225,56 @@
                                         <h4 style="margin-top: 20px; color:rgb(34, 33, 33)"> Recuerda que:</h4>
                                         <h6 style="margin-top: 15px;margin-left: 15px" > El uso de entradas están bajo responsabilidad del usuario actual</h6>
                                         <h6 style="margin-top: 15px;margin-left: 15px">El máximo de entradas es 4, con el fin de mantener el orden</h6>
-                                        <h6 style="margin-top: 15px;margin-left: 15px">El uso indebido de las entradas puede terminar en la suspensón de tu cuenta </h6>
+                                        <h6 style="margin-top: 15px;margin-left: 15px">El uso indebido de las entradas puede terminar en la suspensión de tu cuenta </h6>
 
 
                                         <hr class="my-4">
-                                        <h5>Organizado por: </h5>
-                                        <div class="d-flex justify-content-start align-items-center user-name">
-                                            <div class="avatar-wrapper">
-                                                <div class="avatar avatar-sm me-2"><img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle"></div>
+                                        <div class="row">
+                                            <% if (evento.getProfesor() != null) { %>
+                                            <div class="col-md-5">
+                                                <h5>Organizado por:</h5>
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-2">
+                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle">
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <% int idCoordi = evento.getIdCoordinadora(); %>
+                                                        <span class="fw-medium">
+                    <%= usuarioDAO.obtenerDatosporId(idCoordi).getNombreUsuario() + " " + usuarioDAO.obtenerDatosporId(idCoordi).getApellidoUsuario() %>
+                </span>
+                                                        <small class="text-muted">Coordinador de eventos</small>
+                                                        <small class="text-muted">Contacto: <%= usuarioDAO.obtenerDatosporId(idCoordi).getCorreoUsuario() %></small>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="fw-medium">Alejandro Hancco</span>
-                                                <small class="text-muted">Administrador / Organizador</small>
+                                            <% } %>
+                                            <div class="col-md-1 d-flex justify-content-center align-items-center">
+                                                <div style="border-left: 1px solid rgba(83,82,82,0.6); height: 100%;"></div>
                                             </div>
-                                        </div>
+                                            <div class="col-md-6">
+                                                <h5>Profesor:</h5>
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-2">
+                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle">
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <span class="fw-medium">
+                                                            <%= evento.getProfesor().getNombreProfesor() + " " + evento.getProfesor().getApellidoProfesor() %>
+                                                        </span>
+                                                        <small class="text-muted">Profesor de <%= evento.getTipoEvento().getNameTipo() %></small>
+                                                        <small class="text-muted">Especialista en <%= evento.getProfesor().getCursoProfesor() %></small>
+                                                        <!--<small class="text-muted">Contacto: <%= evento.getProfesor().getDniProfesor() %></small>  Aquí puedes añadir más detalles si es necesario -->
+                                                    </div>
+                                                </div>
                                         </div>
                                 </div>
                             </div>
-
-
-
+                                </div>
+                            </div>
 
                             <div class="col-lg-4">
                                 <div class="accordion stick-top accordion-bordered" id="courseContent">
@@ -301,7 +336,7 @@
                                                                 <% } %>
                                                             </div>
                                                             <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>" class="h5"><%= evento2.getNombreEvento() %></a>
-                                                            <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
+                                                            <p class="mt-2"><%= evento2.getDescriptionEvento() %></p>
                                                             <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
                                                                 <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
                                                                     <span class="me-2">Ver descripción</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>

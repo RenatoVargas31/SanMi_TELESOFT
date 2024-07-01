@@ -41,8 +41,38 @@ public class DaoEvento extends BaseDao {
             e.printStackTrace();
         }
     }
+    public void actualizarEvento(Evento evento) {
+        String sql = "UPDATE eventos SET nombreEvento = ?, fotosStart = ?, descriptionEvento = ?, vacantesDisp = ?, lugarEvento = ?, fechaEventoStart = ?, fechaEventoEnd = ?, horaEventoStart = ?, horaEventoEnd = ?, materialesEvento = ?, Profesores_idProfesores = ?, fotosEnd = ?, TipoEvento_idtipoEvento = ?, FrecuenciaEvento_idFrecuenciaEvento = ?, EstadoEvento_idEstadoEvento = ?, asistenciaCoordi = ?, asistenciaLlegada = ?, asistenciaSalida = ? WHERE idEventos = ?"; // Assuming 'id' is the primary key
 
+        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.setString(1, evento.getNombreEvento());
+            pstmt.setBytes(2, evento.getFotosStart());
+            pstmt.setString(3, evento.getDescriptionEvento());
+            pstmt.setInt(4, evento.getVacantesDisp());
+            pstmt.setString(5, evento.getLugarEvento());
+            pstmt.setString(6, evento.getFechaEventoStart());
+            pstmt.setString(7, evento.getFechaEventoEnd());
+
+            pstmt.setString(8, evento.getHoraEventoStart());
+            pstmt.setString(9, evento.getHoraEventoEnd());
+            pstmt.setString(10, evento.getMaterialesEvento());
+
+            pstmt.setInt(11, evento.getProfesor().getIdProfesores());
+            pstmt.setBytes(12, evento.getFotosEnd());
+            pstmt.setInt(13, evento.getTipoEvento().getIdTipoEvento());
+            pstmt.setInt(14, evento.getFrecuenciaEvento().getIdFrecuenciaEvento());
+            pstmt.setInt(15, evento.getEstadoEvento().getIdEstadoEvento());
+            pstmt.setBoolean(16, evento.isAsistenciaCoordi());
+            pstmt.setString(17, evento.getAsistenciaLlegada());
+            pstmt.setString(18, evento.getAsistenciaSalida());
+            pstmt.setInt(19, evento.getIdEventos()); // Set the primary key value for the WHERE clause
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public ArrayList<Evento> listaEventos(int offset, int limit) {
@@ -140,7 +170,6 @@ public class DaoEvento extends BaseDao {
         String sql = "SELECT e.*, t.nameTipo \n" +
                 "                FROM eventos e \n" +
                 "                LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento \n" +
-                "                INNER JOIN usuarios_has_eventos uhe ON e.idEventos = uhe.Eventos_idEventos \n" +
                 "                WHERE e.idCoordinadora = ?;";
 
         try (Connection conn = this.getConection();
@@ -336,6 +365,8 @@ public class DaoEvento extends BaseDao {
                     profesor.setIdProfesores(rs.getInt("Profesores_idProfesores"));
                     profesor.setNombreProfesor(rs.getString("p.nombreProfesor"));
                     profesor.setApellidoProfesor(rs.getString("p.apellidoProfesor"));
+                        profesor.setDniProfesor(rs.getString("p.dniProfesor"));
+                    profesor.setCursoProfesor(rs.getString("p.cursoProfesor"));
                     evento.setProfesor(profesor);
 
                     evento.setFotosEnd(rs.getBytes("fotosEnd"));

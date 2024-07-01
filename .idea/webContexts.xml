@@ -7,11 +7,18 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-editarDeCampo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-editarDispatcher.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-instructores.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/indexVecino.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/inscribirEvento.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/listaEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-incidenciasGenerales.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-reportarIncidencia.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/viewEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/actualizarEvento.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/ayudaCoodinadora.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/listaEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/misEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/crearEvento.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/indexCoordinadora.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/misIncidencias.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora/sideBar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/coordinadora" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/sis- register-multisteps.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/sis-verificarEmailPassOlvidada.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>

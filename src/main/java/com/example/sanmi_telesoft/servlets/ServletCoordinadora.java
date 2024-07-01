@@ -23,7 +23,7 @@ public class ServletCoordinadora extends HttpServlet {
         DaoProfesor daoProfesor = new DaoProfesor();
         DaoEvento daoEvento = new DaoEvento();
         DaoCoordinadora daoCoordinadora = new DaoCoordinadora();
-
+        request.setAttribute("listaProfesores",daoProfesor.listarProfesores());
 
         switch (action){
             case "mostrarInicio":
@@ -155,9 +155,35 @@ public class ServletCoordinadora extends HttpServlet {
             case "crearEventos":
                 request.setAttribute("activeMenu", "Eventos");
                 request.setAttribute("activeMenuSub", "Eventos2");
-                request.setAttribute("listaProfesores",daoProfesor.listarProfesores());
+
                 request.getRequestDispatcher("WEB-INF/coordinadora/crearEvento.jsp").forward(request, response);
                 break;
+            case "actualizarEvento":
+                if (request.getParameter("id") != null) {
+                    String idEvento = request.getParameter("id");
+                    int eventoId = 0;
+                    try {
+                        eventoId = Integer.parseInt(idEvento);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("ServletCoordinadora");
+
+                    }
+
+                    Evento evento = daoEvento.searchEventobyId(eventoId);
+
+                    if (evento != null) {
+                        request.setAttribute("evento", evento);
+                        request.setAttribute("activeMenu", "Incidencias");
+                        request.setAttribute("activeMenuSub", "Incidencias3");
+
+                        request.getRequestDispatcher("WEB-INF/coordinadora/actualizarEvento.jsp").forward(request, response);
+                    } else {
+                        response.sendRedirect("ServletCoordinadora");
+                    }
+
+                } else {
+                    response.sendRedirect("ServletCoordinadora");
+                }
 
 
             case "verMisEventos":
@@ -209,6 +235,15 @@ public class ServletCoordinadora extends HttpServlet {
             return;
         }
         DaoEvento eventoDao = new DaoEvento();
+
+        boolean lunesActive = false;
+        boolean martesActive = false;
+        boolean miercolesActive = false;
+        boolean juevesActive = false;
+        boolean viernesActive = false;
+        boolean sabadoActive = false;
+        boolean domingoActive = false;
+
 
         switch (action){
             case "buscarEventos":
@@ -276,6 +311,7 @@ public class ServletCoordinadora extends HttpServlet {
                 String ubicacion = request.getParameter("LugarExacto");
                 String FechaInicio = request.getParameter("FechaInicio");
                 String FechaFin = request.getParameter("FechaFin");
+                String Materiales = request.getParameter("materiales");
                 int idEvento = Integer.parseInt((((request.getParameter("tipoEvento")))));
                 String horaInicio = request.getParameter("horaInicio");
                 int idProfesor = Integer.parseInt((((request.getParameter("profesorId")))));
@@ -292,6 +328,7 @@ public class ServletCoordinadora extends HttpServlet {
                 evento.setLugarEvento(ubicacion);
                 evento.setFechaEventoStart(FechaInicio);
                 evento.setFechaEventoEnd(FechaFin);
+                evento.setMaterialesEvento(Materiales);
                 evento.setHoraEventoStart(horaInicio);
                 evento.setHoraEventoEnd(horaFin);
                 evento.setFotosStart(fotoEvento2);
@@ -300,8 +337,49 @@ public class ServletCoordinadora extends HttpServlet {
                 evento.setProfesor(profesor);
                 TipoEvento tipoEvento1 = new TipoEvento();
                 tipoEvento1.setIdTipoEvento(idEvento);
+
+                //Validacion de la frecuencia
+
+                String[] diasSeleccionados = request.getParameterValues("diasSemana");
+
+                if (diasSeleccionados != null) {
+                    for (String dia : diasSeleccionados) {
+                        switch (dia) {
+                            case "lunesActive":
+                                lunesActive = true;
+                                break;
+                            case "martesActive":
+                                martesActive = true;
+                                break;
+                            case "miercolesActive":
+                                miercolesActive = true;
+                                break;
+                            case "juevesActive":
+                                juevesActive = true;
+                                break;
+                            case "viernesActive":
+                                viernesActive = true;
+                                break;
+                            case "sabadoActive":
+                                sabadoActive = true;
+                                break;
+                            case "domingoActive":
+                                domingoActive = true;
+                                break;
+                        }
+                    }
+                }
+
                 FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
                 frecuenciaEvento.setIdFrecuenciaEvento(1);
+                frecuenciaEvento.setLunesActive(lunesActive);
+                frecuenciaEvento.setMartesActive(martesActive);
+                frecuenciaEvento.setMiercolesActive(miercolesActive);
+                frecuenciaEvento.setJuevesActive(juevesActive);
+                frecuenciaEvento.setViernesActive(viernesActive);
+                frecuenciaEvento.setSabadoActive(sabadoActive);
+                frecuenciaEvento.setDomingoActive(domingoActive);
+
                 evento.setFrecuenciaEvento(frecuenciaEvento);
                 EstadoEvento estadoEvento = new EstadoEvento();
                 //Todos se inicializan con el estado NoIniciado
@@ -312,6 +390,104 @@ public class ServletCoordinadora extends HttpServlet {
                 eventoDao.crearEvento(evento);
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
                 break;
+
+
+            case "actualizarEvento":
+                try {
+                    String nombreEvento1 = request.getParameter("nombre");
+                    String vacantes1 = request.getParameter("vacantes");
+                    String descripcion1 = request.getParameter("descripcion");
+                    String ubicacion1 = request.getParameter("LugarExacto");
+                    String FechaInicio1 = request.getParameter("FechaInicio");
+                    String FechaFin1 = request.getParameter("FechaFin");
+                    int idEvento1 = Integer.parseInt(request.getParameter("tipoEvento"));
+                    String horaInicio1 = request.getParameter("horaInicio");
+                    int idProfesor1 = Integer.parseInt(request.getParameter("profesorId"));
+                    String horaFin1 = request.getParameter("horaFin");
+                    int idCoordinadora1 = Integer.parseInt(request.getParameter("idCoordinadora"));
+
+                    InputStream fotoEvento1 = request.getPart("file").getInputStream();
+                    byte[] fotoEvento3 = fotoEvento1.readAllBytes();
+
+                    Evento evento1 = new Evento();
+                    evento1.setNombreEvento(nombreEvento1);
+                    evento1.setVacantesDisp(Integer.parseInt(vacantes1));
+                    evento1.setDescriptionEvento(descripcion1);
+                    evento1.setLugarEvento(ubicacion1);
+                    evento1.setFechaEventoStart(FechaInicio1);
+                    evento1.setFechaEventoEnd(FechaFin1);
+                    evento1.setHoraEventoStart(horaInicio1);
+                    evento1.setHoraEventoEnd(horaFin1);
+                    evento1.setFotosStart(fotoEvento3);
+
+                    Profesor profesor1 = new Profesor();
+                    profesor1.setIdProfesores(idProfesor1);
+                    evento1.setProfesor(profesor1);
+
+                    TipoEvento tipoEvento2 = new TipoEvento();
+                    tipoEvento2.setIdTipoEvento(idEvento1);
+                    evento1.setTipoEvento(tipoEvento2);
+
+
+                    //Validacion de la frecuencia
+
+                    String[] diasSeleccionados2 = request.getParameterValues("diasSemana");
+
+                    if (diasSeleccionados2 != null) {
+                        for (String dia : diasSeleccionados2) {
+                            switch (dia) {
+                                case "lunesActive":
+                                    lunesActive = true;
+                                    break;
+                                case "martesActive":
+                                    martesActive = true;
+                                    break;
+                                case "miercolesActive":
+                                    miercolesActive = true;
+                                    break;
+                                case "juevesActive":
+                                    juevesActive = true;
+                                    break;
+                                case "viernesActive":
+                                    viernesActive = true;
+                                    break;
+                                case "sabadoActive":
+                                    sabadoActive = true;
+                                    break;
+                                case "domingoActive":
+                                    domingoActive = true;
+                                    break;
+                            }
+                        }
+                    }
+
+
+
+                    FrecuenciaEvento frecuenciaEvento2 = new FrecuenciaEvento();
+                    frecuenciaEvento2.setIdFrecuenciaEvento(1);
+                    frecuenciaEvento2.setLunesActive(lunesActive);
+                    frecuenciaEvento2.setMartesActive(martesActive);
+                    frecuenciaEvento2.setMiercolesActive(miercolesActive);
+                    frecuenciaEvento2.setJuevesActive(juevesActive);
+                    frecuenciaEvento2.setViernesActive(viernesActive);
+                    frecuenciaEvento2.setSabadoActive(sabadoActive);
+                    frecuenciaEvento2.setDomingoActive(domingoActive);
+
+                    EstadoEvento estadoEvento1 = new EstadoEvento();
+                    // Inicializar con el estado NoIniciado
+                    estadoEvento1.setIdEstadoEvento(1);
+                    evento1.setEstadoEvento(estadoEvento1);
+                    evento1.setFrecuenciaEvento(frecuenciaEvento2);
+                    evento1.setIdCoordinadora(idCoordinadora1);
+                    eventoDao.actualizarEvento(evento1);
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage", "Error al actualizar el evento.");
+                    request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                }
+                break;
+
 
             default:
                 doGet(request, response);

@@ -2,10 +2,7 @@ package com.example.sanmi_telesoft.daos;
 
 import com.example.sanmi_telesoft.beans.Usuario;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDAO {
     private String jdbcURL = "jdbc:mysql://127.0.0.1:3306/proyecto-iweb";
@@ -44,4 +41,7 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+
+
+
 }
