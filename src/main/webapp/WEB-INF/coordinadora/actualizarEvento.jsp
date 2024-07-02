@@ -100,7 +100,7 @@
                                 <div class="card-body">
                                     <div class="row g-3">
                                         <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento" enctype="multipart/form-data">
-
+                                            <input type="hidden" name="idEvento" value="<%= evento.getIdEventos()%>"/>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="nombre">Nombre del evento</label>
                                                 <input type="text" id="nombre" name="nombre" value="<%= evento.getNombreEvento() == null ? "" : evento.getNombreEvento()%>" class="form-control" placeholder="Nombre" required/>
@@ -151,9 +151,16 @@
 
                                             <div class="col-md-6 mb-4">
                                                 <label for="selectpickerLiveSearch" class="form-label">Profesores</label>
-                                                <select id="selectpickerLiveSearch" name="profesorId" class="selectpicker w-100" data-style="btn-default" data-live-search="true" data-dropup-auto="false" data-none-results-text="Ningun resultado para '{0}'">
-                                                    <% for (Profesor profesor : profesores) { %>
-                                                    <option value="<%= profesor.getIdProfesores() %>">
+                                                <select id="selectpickerLiveSearch" name="profesorId" class="selectpicker w-100" data-style="btn-default" data-live-search="true" data-dropup-auto="false" data-none-results-text="Ningún resultado para '{0}'">
+                                                    <%
+                                                        // Obtén el ID del profesor seleccionado desde el objeto Evento
+                                                        int profesorIdSeleccionado = evento.getProfesor().getIdProfesores();
+
+                                                        // Itera sobre la lista de profesores y marca el seleccionado
+                                                        for (Profesor profesor : profesores) {
+                                                            String selected = (profesor.getIdProfesores() == profesorIdSeleccionado) ? "selected" : "";
+                                                    %>
+                                                    <option value="<%= profesor.getIdProfesores() %>" <%= selected %>>
                                                         <%= profesor.getNombreProfesor() + " " + profesor.getApellidoProfesor() %>
                                                     </option>
                                                     <% } %>

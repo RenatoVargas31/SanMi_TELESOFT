@@ -393,13 +393,13 @@ public class ServletCoordinadora extends HttpServlet {
 
             case "actualizarEvento":
                 try {
+
                     String nombreEvento1 = request.getParameter("nombre");
                     String vacantes1 = request.getParameter("vacantes");
                     String descripcion1 = request.getParameter("descripcion");
                     String ubicacion1 = request.getParameter("LugarExacto");
                     String FechaInicio1 = request.getParameter("FechaInicio");
                     String FechaFin1 = request.getParameter("FechaFin");
-                    int idEvento1 = Integer.parseInt(request.getParameter("tipoEvento"));
                     String horaInicio1 = request.getParameter("horaInicio");
                     int idProfesor1 = Integer.parseInt(request.getParameter("profesorId"));
                     String horaFin1 = request.getParameter("horaFin");
@@ -409,6 +409,8 @@ public class ServletCoordinadora extends HttpServlet {
                     byte[] fotoEvento3 = fotoEvento1.readAllBytes();
 
                     Evento evento1 = new Evento();
+                    evento1.setIdEventos(Integer.parseInt(request.getParameter("idEvento")));
+
                     evento1.setNombreEvento(nombreEvento1);
                     evento1.setVacantesDisp(Integer.parseInt(vacantes1));
                     evento1.setDescriptionEvento(descripcion1);
@@ -423,9 +425,7 @@ public class ServletCoordinadora extends HttpServlet {
                     profesor1.setIdProfesores(idProfesor1);
                     evento1.setProfesor(profesor1);
 
-                    TipoEvento tipoEvento2 = new TipoEvento();
-                    tipoEvento2.setIdTipoEvento(idEvento1);
-                    evento1.setTipoEvento(tipoEvento2);
+
 
 
                     //Validacion de la frecuencia

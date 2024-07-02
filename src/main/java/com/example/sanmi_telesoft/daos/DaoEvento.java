@@ -12,67 +12,89 @@ import java.util.Random;
 public class DaoEvento extends BaseDao {
 
     public void crearEvento(Evento evento) {
-        String sql = "INSERT INTO eventos (idEventos, nombreEvento, fotosStart, descriptionEvento, vacantesDisp, lugarEvento, fechaEventoStart, fechaEventoEnd, horaEventoStart,horaEventoEnd, materialesEvento,Profesores_idProfesores, fotosEnd, TipoEvento_idtipoEvento,FrecuenciaEvento_idFrecuenciaEvento,EstadoEvento_idEstadoEvento,asistenciaCoordi,asistenciaLlegada,asistenciaSalida, idCoordinadora) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?)";
+        // SQL de inserción con el número correcto de placeholders
+        String sql = "INSERT INTO eventos (idEventos, nombreEvento, fotosStart, descriptionEvento, vacantesDisp, lugarEvento, fechaEventoStart, fechaEventoEnd, horaEventoStart, horaEventoEnd, materialesEvento, Profesores_idProfesores, fotosEnd, TipoEvento_idtipoEvento, EstadoEvento_idEstadoEvento, asistenciaCoordi, asistenciaLlegada, asistenciaSalida, idCoordinadora, lunesActive, martesActive, miercolesActive, juevesActive, viernesActive, sabadoActive, domingoActive) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            // Configura los parámetros del PreparedStatement en el orden correcto
             pstmt.setInt(1, evento.getIdEventos());
             pstmt.setString(2, evento.getNombreEvento());
-            pstmt.setBytes(3, evento.getFotosStart());
+            pstmt.setBytes(3, evento.getFotosStart()); // Asume que es un BLOB o BYTEA
             pstmt.setString(4, evento.getDescriptionEvento());
             pstmt.setInt(5, evento.getVacantesDisp());
             pstmt.setString(6, evento.getLugarEvento());
             pstmt.setString(7, evento.getFechaEventoStart());
             pstmt.setString(8, evento.getFechaEventoEnd());
-
             pstmt.setString(9, evento.getHoraEventoStart());
             pstmt.setString(10, evento.getHoraEventoEnd());
             pstmt.setString(11, evento.getMaterialesEvento());
-
             pstmt.setInt(12, evento.getProfesor().getIdProfesores());
-            pstmt.setBytes(13, evento.getFotosEnd());
+            pstmt.setBytes(13, evento.getFotosEnd()); // Asume que es un BLOB o BYTEA
             pstmt.setInt(14, evento.getTipoEvento().getIdTipoEvento());
-            pstmt.setInt(15, evento.getFrecuenciaEvento().getIdFrecuenciaEvento());
-            pstmt.setInt(16, evento.getEstadoEvento().getIdEstadoEvento());
-            pstmt.setBoolean(17, evento.isAsistenciaCoordi());
-            pstmt.setString(18, evento.getAsistenciaLlegada());
-            pstmt.setString(19, evento.getAsistenciaSalida());
-            pstmt.setInt(20, evento.getIdCoordinadora());
+            pstmt.setInt(15, evento.getEstadoEvento().getIdEstadoEvento());
+            pstmt.setBoolean(16, evento.isAsistenciaCoordi());
+            pstmt.setString(17, evento.getAsistenciaLlegada());
+            pstmt.setString(18, evento.getAsistenciaSalida());
+            pstmt.setInt(19, evento.getIdCoordinadora());
+            pstmt.setBoolean(20, evento.isLunesActive());
+            pstmt.setBoolean(21, evento.isMartesActive());
+            pstmt.setBoolean(22, evento.isMiercolesActive());
+            pstmt.setBoolean(23, evento.isJuevesActive());
+            pstmt.setBoolean(24, evento.isViernesActive());
+            pstmt.setBoolean(25, evento.isSabadoActive());
+            pstmt.setBoolean(26, evento.isDomingoActive());
+
+            // Ejecuta la inserción
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Manejo de errores
+            e.printStackTrace(); // Considera usar un logger en lugar de printStackTrace
         }
     }
+
+
     public void actualizarEvento(Evento evento) {
-        String sql = "UPDATE eventos SET nombreEvento = ?, fotosStart = ?, descriptionEvento = ?, vacantesDisp = ?, lugarEvento = ?, fechaEventoStart = ?, fechaEventoEnd = ?, horaEventoStart = ?, horaEventoEnd = ?, materialesEvento = ?, Profesores_idProfesores = ?, fotosEnd = ?, TipoEvento_idtipoEvento = ?, FrecuenciaEvento_idFrecuenciaEvento = ?, EstadoEvento_idEstadoEvento = ?, asistenciaCoordi = ?, asistenciaLlegada = ?, asistenciaSalida = ? WHERE idEventos = ?"; // Assuming 'id' is the primary key
+        // SQL de actualización con todos los campos, incluyendo los días de la semana
+        String sql = "UPDATE eventos SET nombreEvento = ?, fotosStart = ?, descriptionEvento = ?, vacantesDisp = ?, lugarEvento = ?, fechaEventoStart = ?, fechaEventoEnd = ?, horaEventoStart = ?, horaEventoEnd = ?, materialesEvento = ?, Profesores_idProfesores = ?, fotosEnd = ?, EstadoEvento_idEstadoEvento = ?, asistenciaCoordi = ?, asistenciaLlegada = ?, asistenciaSalida = ?, lunesActive = ?, martesActive = ?, miercolesActive = ?, juevesActive = ?, viernesActive = ?, sabadoActive = ?, domingoActive = ? WHERE idEventos = ?";
 
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
+            // Configura los parámetros del PreparedStatement
             pstmt.setString(1, evento.getNombreEvento());
-            pstmt.setBytes(2, evento.getFotosStart());
+            pstmt.setBytes(2, evento.getFotosStart()); // Asume que fotosStart es de tipo BLOB o BYTEA
             pstmt.setString(3, evento.getDescriptionEvento());
             pstmt.setInt(4, evento.getVacantesDisp());
             pstmt.setString(5, evento.getLugarEvento());
             pstmt.setString(6, evento.getFechaEventoStart());
             pstmt.setString(7, evento.getFechaEventoEnd());
-
             pstmt.setString(8, evento.getHoraEventoStart());
             pstmt.setString(9, evento.getHoraEventoEnd());
             pstmt.setString(10, evento.getMaterialesEvento());
-
             pstmt.setInt(11, evento.getProfesor().getIdProfesores());
             pstmt.setBytes(12, evento.getFotosEnd());
-            pstmt.setInt(13, evento.getTipoEvento().getIdTipoEvento());
-            pstmt.setInt(14, evento.getFrecuenciaEvento().getIdFrecuenciaEvento());
-            pstmt.setInt(15, evento.getEstadoEvento().getIdEstadoEvento());
-            pstmt.setBoolean(16, evento.isAsistenciaCoordi());
-            pstmt.setString(17, evento.getAsistenciaLlegada());
-            pstmt.setString(18, evento.getAsistenciaSalida());
-            pstmt.setInt(19, evento.getIdEventos()); // Set the primary key value for the WHERE clause
+            pstmt.setInt(13, evento.getEstadoEvento().getIdEstadoEvento());
+            pstmt.setBoolean(14, evento.isAsistenciaCoordi());
+            pstmt.setString(15, evento.getAsistenciaLlegada());
+            pstmt.setString(16, evento.getAsistenciaSalida());
+            pstmt.setBoolean(17, evento.isLunesActive());
+            pstmt.setBoolean(18, evento.isMartesActive());
+            pstmt.setBoolean(19, evento.isMiercolesActive());
+            pstmt.setBoolean(20, evento.isJuevesActive());
+            pstmt.setBoolean(21, evento.isViernesActive());
+            pstmt.setBoolean(22, evento.isSabadoActive());
+            pstmt.setBoolean(23, evento.isDomingoActive());
 
+            // Establece el valor de la clave primaria al final
+            pstmt.setInt(24, evento.getIdEventos());
+
+            // Ejecuta la actualización
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Considera usar un logger en lugar de printStackTrace
         }
     }
+
+
 
 
     public ArrayList<Evento> listaEventos(int offset, int limit) {
@@ -333,13 +355,11 @@ public class DaoEvento extends BaseDao {
         Evento evento = new Evento();
         Profesor profesor = new Profesor();
         EstadoEvento estadoEvento = new EstadoEvento();
-        FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
         TipoEvento tipoEvento = new TipoEvento();
 
         String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN profesores p ON e.Profesores_idProfesores = p.idProfesores " +
                 "LEFT JOIN tipoevento t ON e.Tipoevento_idTipoEvento = t.idTipoEvento " +
-                "LEFT JOIN frecuenciaevento f ON e.FrecuenciaEvento_idFrecuenciaEvento = f.idFrecuenciaEvento " +
                 "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
                 "WHERE e.idEventos = ?";
         try (Connection connection = this.getConection();
@@ -375,9 +395,6 @@ public class DaoEvento extends BaseDao {
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
 
-                    frecuenciaEvento.setIdFrecuenciaEvento(rs.getInt("FrecuenciaEvento_idFrecuenciaEvento"));
-                    frecuenciaEvento.setFrecuenciaTipo(rs.getString("f.frecuenciaTipo"));
-                    evento.setFrecuenciaEvento(frecuenciaEvento);
 
                     estadoEvento.setIdEstadoEvento(rs.getInt("EstadoEvento_idEstadoEvento"));
                     estadoEvento.setNameEstado(rs.getString("ee.nameEstado"));
@@ -387,6 +404,14 @@ public class DaoEvento extends BaseDao {
                     evento.setAsistenciaLlegada(rs.getString("asistenciaLlegada"));
                     evento.setAsistenciaSalida(rs.getString("asistenciaSalida"));
                     evento.setIdCoordinadora(rs.getInt("idCoordinadora"));
+                    evento.setLunesActive(rs.getBoolean("lunesActive"));
+                    evento.setMartesActive(rs.getBoolean("martesActive"));
+                    evento.setMiercolesActive(rs.getBoolean("miercolesActive"));
+                    evento.setJuevesActive(rs.getBoolean("juevesActive"));
+                    evento.setViernesActive(rs.getBoolean("viernesActive"));
+                    evento.setSabadoActive(rs.getBoolean("sabadoActive"));
+                    evento.setDomingoActive(rs.getBoolean("domingoActive"));
+
 
                 }
             }
@@ -402,8 +427,7 @@ public class DaoEvento extends BaseDao {
         String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN profesores p ON e.Profesores_idProfesores = p.idProfesores " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "LEFT JOIN frecuenciaevento f ON e.FrecuenciaEvento_idFrecuenciaEvento = f.idFrecuenciaEvento " +
-                "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
+               "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
                 "WHERE nombreEvento LIKE ?";
 
         try (Connection connection = getConection();
@@ -416,7 +440,6 @@ public class DaoEvento extends BaseDao {
                     Evento evento = new Evento();
                     Profesor profesor = new Profesor();
                     EstadoEvento estadoEvento = new EstadoEvento();
-                    FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
                     TipoEvento tipoEvento = new TipoEvento();
 
                     evento.setIdEventos(rs.getInt("idEventos"));
@@ -442,10 +465,13 @@ public class DaoEvento extends BaseDao {
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
 
-                    frecuenciaEvento.setIdFrecuenciaEvento(rs.getInt("FrecuenciaEvento_idFrecuenciaEvento"));
-                    frecuenciaEvento.setFrecuenciaTipo(rs.getString("f.frecuenciaTipo"));
-                    evento.setFrecuenciaEvento(frecuenciaEvento);
-
+                    evento.setLunesActive(rs.getBoolean("lunesActive"));
+                    evento.setMartesActive(rs.getBoolean("martesActive"));
+                    evento.setMiercolesActive(rs.getBoolean("miercolesActive"));
+                    evento.setJuevesActive(rs.getBoolean("juevesActive"));
+                    evento.setViernesActive(rs.getBoolean("viernesActive"));
+                    evento.setSabadoActive(rs.getBoolean("sabadoActive"));
+                    evento.setDomingoActive(rs.getBoolean("domingoActive"));
                     estadoEvento.setIdEstadoEvento(rs.getInt("EstadoEvento_idEstadoEvento"));
                     estadoEvento.setNameEstado(rs.getString("ee.nameEstado"));
                     evento.setEstadoEvento(estadoEvento);
@@ -470,8 +496,7 @@ public class DaoEvento extends BaseDao {
         String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN profesores p ON e.Profesores_idProfesores = p.idProfesores " +
                 "LEFT JOIN tipoevento t ON e.Tipoevento_idTipoEvento = t.idTipoEvento " +
-                "LEFT JOIN frecuenciaevento f ON e.FrecuenciaEvento_idFrecuenciaEvento = f.idFrecuenciaEvento " +
-                "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
+                 "LEFT JOIN estadoevento ee ON e.EstadoEvento_idEstadoEvento = ee.idEstadoEvento " +
                 "WHERE nombreEvento LIKE ? AND Tipoevento_idTipoEvento = ? ";
 
         try (Connection connection = getConection();
@@ -485,7 +510,6 @@ public class DaoEvento extends BaseDao {
                     Evento evento = new Evento();
                     Profesor profesor = new Profesor();
                     EstadoEvento estadoEvento = new EstadoEvento();
-                    FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
                     TipoEvento tipoEvento = new TipoEvento();
 
                     evento.setIdEventos(rs.getInt("idEventos"));
@@ -499,7 +523,13 @@ public class DaoEvento extends BaseDao {
                     evento.setHoraEventoStart(rs.getString("horaEventoStart"));
                     evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
                     evento.setMaterialesEvento(rs.getString("materialesEvento"));
-
+                    evento.setLunesActive(rs.getBoolean("lunesActive"));
+                    evento.setMartesActive(rs.getBoolean("martesActive"));
+                    evento.setMiercolesActive(rs.getBoolean("miercolesActive"));
+                    evento.setJuevesActive(rs.getBoolean("juevesActive"));
+                    evento.setViernesActive(rs.getBoolean("viernesActive"));
+                    evento.setSabadoActive(rs.getBoolean("sabadoActive"));
+                    evento.setDomingoActive(rs.getBoolean("domingoActive"));
                     profesor.setIdProfesores(rs.getInt("Profesores_idProfesores"));
                     profesor.setNombreProfesor(rs.getString("p.nombreProfesor"));
                     profesor.setApellidoProfesor(rs.getString("p.apellidoProfesor"));
@@ -509,10 +539,6 @@ public class DaoEvento extends BaseDao {
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
-
-                    frecuenciaEvento.setIdFrecuenciaEvento(rs.getInt("FrecuenciaEvento_idFrecuenciaEvento"));
-                    frecuenciaEvento.setFrecuenciaTipo(rs.getString("f.frecuenciaTipo"));
-                    evento.setFrecuenciaEvento(frecuenciaEvento);
 
                     estadoEvento.setIdEstadoEvento(rs.getInt("EstadoEvento_idEstadoEvento"));
                     estadoEvento.setNameEstado(rs.getString("ee.nameEstado"));
