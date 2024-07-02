@@ -114,9 +114,10 @@
 
 
                                             <div class="col-12">
-                                                <label class="form-label" for="descripcion">Descripción <%= evento.isLunesActive()%><%= evento.isMartesActive()%><%= evento.isMiercolesActive()%></label>
-                                                <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required><%= evento.getDescriptionEvento() == null ? "" : evento.getDescriptionEvento() %></textarea>
-                                            </div>
+                                                <label class="form-label" for="descripcion">Descripción</label>
+                                                <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required maxlength="255"><%= evento.getDescriptionEvento() == null ? "" : evento.getDescriptionEvento() %></textarea>
+                                                 </div>
+
 
 
                                             <div class="col-12">
@@ -148,6 +149,10 @@
                                                 <label class="form-label" for="horaFin">Hora de fin</label>
                                                 <input type="time" id="horaFin" name="horaFin" value="<%= evento.getHoraEventoEnd() == null ? "" : evento.getHoraEventoEnd()%>"  class="form-control" placeholder="" required/>
                                             </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="materiales">Materiales (opcional)</label>
+                                                <input type="text" class="form-control" name="materiales" id="materiales" value="<%= evento.getMaterialesEvento() == null ? "" : evento.getMaterialesEvento()%>" placeholder="Máximo 255 caracteres." maxlength="255"/>
+                                                </div>
 
                                             <div class="col-md-6 mb-4">
                                                 <label for="selectpickerLiveSearch" class="form-label">Profesores</label>
@@ -316,8 +321,68 @@
             </div>
         </div>
     </div></div></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const form = document.querySelector('form');
+                        const descripcion = document.getElementById('descripcion');
+                        const materiales = document.getElementById('materiales');
+                        const charCount = document.getElementById('charCount');
+                        const materialesCharCount = document.getElementById('materialesCharCount');
 
-<script>
+                        form.addEventListener('submit', function(event) {
+                            const fechaInicio = document.getElementById('FechaInicio').value;
+                            const fechaFin = document.getElementById('FechaFin').value;
+                            const horaInicio = document.getElementById('horaInicio').value;
+                            const horaFin = document.getElementById('horaFin').value;
+
+                            if (fechaFin < fechaInicio) {
+                                alert('La fecha de fin debe ser mayor o igual a la fecha de inicio.');
+                                event.preventDefault();
+                                return;
+                            }
+
+                            if (fechaFin === fechaInicio && horaFin <= horaInicio) {
+                                alert('Si la fecha de fin es igual a la fecha de inicio, la hora de fin debe ser mayor a la hora de inicio.');
+                                event.preventDefault();
+                                return;
+                            }
+
+                            if (descripcion.value.length > 255) {
+                                alert('La descripción no puede tener más de 255 caracteres.');
+                                event.preventDefault();
+                                return;
+                            }
+
+                            if (materiales.value.length > 255) {
+                                alert('Los materiales no pueden tener más de 255 caracteres.');
+                                event.preventDefault();
+                                return;
+                            }
+                        });
+
+                        descripcion.addEventListener('input', function() {
+                            const currentLength = descripcion.value.length;
+                            charCount.textContent = `${currentLength}/255 caracteres`;
+
+                            if (currentLength > 255) {
+                                descripcion.value = descripcion.value.slice(0, 255);
+                                charCount.textContent = '255/255 caracteres';
+                            }
+                        });
+
+                        materiales.addEventListener('input', function() {
+                            const currentLength = materiales.value.length;
+                            materialesCharCount.textContent = `${currentLength}/255 caracteres`;
+
+                            if (currentLength > 255) {
+                                materiales.value = materiales.value.slice(0, 255);
+                                materialesCharCount.textContent = '255/255 caracteres';
+                            }
+                        });
+                    });
+                </script>
+
+                <script>
     function closeModal() {
         const modal = document.getElementById('deletionModal');
         modal.style.display = 'none'; // Oculta el modal
@@ -334,9 +399,9 @@
             return;
         }
 
-        if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
+        if (confirm('¿Está seguro de que desea eliminar este evento?')) {
             console.log('Motivo:', reason); // Aquí deberías enviar el motivo a la base de datos
-            alert('La incidencia ha sido eliminada correctamente.');
+            alert('El evento ha sido eliminada correctamente.');
             closeModal();
             // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
         }

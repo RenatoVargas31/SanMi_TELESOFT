@@ -145,7 +145,7 @@ public class ServletCoordinadora extends HttpServlet {
                     try {
                         eventoId = Integer.parseInt(incIdString);
                     } catch (NumberFormatException ex) {
-                        response.sendRedirect("/error.jsp");
+                        response.sendRedirect("WEB-INF/coordinadora/error.jsp");
                     }
                     daoEvento.borrarEvento(eventoId);
 
@@ -217,7 +217,7 @@ public class ServletCoordinadora extends HttpServlet {
                 } else {
                     // Manejar el caso donde el usuario no está en sesión
                     // Por ejemplo, redirigir a una página de error o hacer alguna otra acción
-                    response.sendRedirect("error.jsp");
+                    response.sendRedirect("WEB-INF/coordinadora/error.jsp");
                 }
                 break;
 
@@ -393,7 +393,6 @@ public class ServletCoordinadora extends HttpServlet {
 
             case "actualizarEvento":
                 try {
-
                     String nombreEvento1 = request.getParameter("nombre");
                     String vacantes1 = request.getParameter("vacantes");
                     String descripcion1 = request.getParameter("descripcion");
@@ -401,16 +400,41 @@ public class ServletCoordinadora extends HttpServlet {
                     String FechaInicio1 = request.getParameter("FechaInicio");
                     String FechaFin1 = request.getParameter("FechaFin");
                     String horaInicio1 = request.getParameter("horaInicio");
-                    int idProfesor1 = Integer.parseInt(request.getParameter("profesorId"));
                     String horaFin1 = request.getParameter("horaFin");
+                    int idProfesor1 = Integer.parseInt(request.getParameter("profesorId"));
                     int idCoordinadora1 = Integer.parseInt(request.getParameter("idCoordinadora"));
+                    String materiales1 = request.getParameter("materiales");
+
+                    // Validaciones
+                    if (descripcion1.length() > 255) {
+                        request.setAttribute("errorMessage", "La descripción no puede exceder los 255 caracteres.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+
+                    if (materiales1 != null && materiales1.length() > 255) {
+                        request.setAttribute("errorMessage", "Los materiales no pueden exceder los 255 caracteres.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+
+                    if (FechaFin1.compareTo(FechaInicio1) < 0) {
+                        request.setAttribute("errorMessage", "La fecha de fin debe ser mayor o igual a la fecha de inicio.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+
+                    if (FechaFin1.equals(FechaInicio1) && horaFin1.compareTo(horaInicio1) <= 0) {
+                        request.setAttribute("errorMessage", "Si la fecha de fin es igual a la fecha de inicio, la hora de fin debe ser mayor a la hora de inicio.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
 
                     InputStream fotoEvento1 = request.getPart("file").getInputStream();
                     byte[] fotoEvento3 = fotoEvento1.readAllBytes();
 
                     Evento evento1 = new Evento();
                     evento1.setIdEventos(Integer.parseInt(request.getParameter("idEvento")));
-
                     evento1.setNombreEvento(nombreEvento1);
                     evento1.setVacantesDisp(Integer.parseInt(vacantes1));
                     evento1.setDescriptionEvento(descripcion1);
@@ -420,16 +444,13 @@ public class ServletCoordinadora extends HttpServlet {
                     evento1.setHoraEventoStart(horaInicio1);
                     evento1.setHoraEventoEnd(horaFin1);
                     evento1.setFotosStart(fotoEvento3);
+                    evento1.setMaterialesEvento(materiales1);
 
                     Profesor profesor1 = new Profesor();
                     profesor1.setIdProfesores(idProfesor1);
                     evento1.setProfesor(profesor1);
 
-
-
-
-                    //Validacion de la frecuencia
-
+                    // Validacion de la frecuencia
                     String[] diasSeleccionados2 = request.getParameterValues("diasSemana");
 
                     if (diasSeleccionados2 != null) {
@@ -459,6 +480,7 @@ public class ServletCoordinadora extends HttpServlet {
                             }
                         }
                     }
+
                     evento1.setLunesActive(lunesActive);
                     evento1.setMartesActive(martesActive);
                     evento1.setMiercolesActive(miercolesActive);
@@ -467,22 +489,21 @@ public class ServletCoordinadora extends HttpServlet {
                     evento1.setSabadoActive(sabadoActive);
                     evento1.setDomingoActive(domingoActive);
 
-
-
-
                     EstadoEvento estadoEvento1 = new EstadoEvento();
                     // Inicializar con el estado NoIniciado
                     estadoEvento1.setIdEstadoEvento(1);
                     evento1.setEstadoEvento(estadoEvento1);
                     evento1.setIdCoordinadora(idCoordinadora1);
+
                     eventoDao.actualizarEvento(evento1);
                     response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");
                 } catch (Exception e) {
                     e.printStackTrace();
                     request.setAttribute("errorMessage", "Error al actualizar el evento.");
-                    request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                    request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
                 }
                 break;
+
 
 
             default:

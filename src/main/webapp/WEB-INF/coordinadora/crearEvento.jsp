@@ -118,7 +118,7 @@
 
                                             <div class="col-12">
                                                 <label class="form-label" for="descripcion">Descripción</label>
-                                                <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required></textarea>
+                                                <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required maxlength="255"></textarea>
                                             </div>
 
 
@@ -168,7 +168,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label" for="materiales">Materiales (opcional)</label>
-                                                <input type="text" class="form-control" name="materiales" id="materiales"  placeholder="Máximo 255 caracteres." required/>
+                                                <input type="text" class="form-control" name="materiales" id="materiales" maxlength="255"/>
                                             </div>
 
                                             <div class="col-md-6 mb-4">
@@ -369,6 +369,66 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector('form');
+        const descripcion = document.getElementById('descripcion');
+        const materiales = document.getElementById('materiales');
+        const charCount = document.getElementById('charCount');
+        const materialesCharCount = document.getElementById('materialesCharCount');
+
+        form.addEventListener('submit', function(event) {
+            const fechaInicio = document.getElementById('FechaInicio').value;
+            const fechaFin = document.getElementById('FechaFin').value;
+            const horaInicio = document.getElementById('horaInicio').value;
+            const horaFin = document.getElementById('horaFin').value;
+
+            if (fechaFin < fechaInicio) {
+                alert('La fecha de fin debe ser mayor o igual a la fecha de inicio.');
+                event.preventDefault();
+                return;
+            }
+
+            if (fechaFin === fechaInicio && horaFin <= horaInicio) {
+                alert('Si la fecha de fin es igual a la fecha de inicio, la hora de fin debe ser mayor a la hora de inicio.');
+                event.preventDefault();
+                return;
+            }
+
+            if (descripcion.value.length > 255) {
+                alert('La descripción no puede tener más de 255 caracteres.');
+                event.preventDefault();
+                return;
+            }
+
+            if (materiales.value.length > 255) {
+                alert('Los materiales no pueden tener más de 255 caracteres.');
+                event.preventDefault();
+                return;
+            }
+        });
+
+        descripcion.addEventListener('input', function() {
+            const currentLength = descripcion.value.length;
+            charCount.textContent = `${currentLength}/255 caracteres`;
+
+            if (currentLength > 255) {
+                descripcion.value = descripcion.value.slice(0, 255);
+                charCount.textContent = '255/255 caracteres';
+            }
+        });
+
+        materiales.addEventListener('input', function() {
+            const currentLength = materiales.value.length;
+            materialesCharCount.textContent = `${currentLength}/255 caracteres`;
+
+            if (currentLength > 255) {
+                materiales.value = materiales.value.slice(0, 255);
+                materialesCharCount.textContent = '255/255 caracteres';
+            }
+        });
+    });
+</script>
 <script>
     function closeModal() {
         const modal = document.getElementById('deletionModal');
