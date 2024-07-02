@@ -111,7 +111,6 @@ CREATE TABLE `eventos` (
   `Profesores_idProfesores` int DEFAULT NULL,
   `fotosEnd` longblob DEFAULT NULL,
   `TipoEvento_idTipoEvento` int NOT NULL,
-  `FrecuenciaEvento_idFrecuenciaEvento` int NOT NULL,
   `EstadoEvento_idEstadoEvento` int NOT NULL,
   `asistenciaCoordi` tinyint DEFAULT NULL,
   `asistenciaLlegada` time DEFAULT NULL,
@@ -120,10 +119,8 @@ CREATE TABLE `eventos` (
   PRIMARY KEY (`idEventos`),
   KEY `fk_Eventos_Profesores1_idx` (`Profesores_idProfesores`),
   KEY `fk_Eventos_TipoEvento1_idx` (`TipoEvento_idTipoEvento`),
-  KEY `fk_Eventos_FrecuenciaEvento1_idx` (`FrecuenciaEvento_idFrecuenciaEvento`),
   KEY `fk_Eventos_EstadoEvento1_idx` (`EstadoEvento_idEstadoEvento`),
   CONSTRAINT `fk_Eventos_EstadoEvento1` FOREIGN KEY (`EstadoEvento_idEstadoEvento`) REFERENCES `estadoevento` (`idEstadoEvento`),
-  CONSTRAINT `fk_Eventos_FrecuenciaEvento1` FOREIGN KEY (`FrecuenciaEvento_idFrecuenciaEvento`) REFERENCES `frecuenciaevento` (`idFrecuenciaEvento`),
   CONSTRAINT `fk_Eventos_Profesores1` FOREIGN KEY (`Profesores_idProfesores`) REFERENCES `profesores` (`idProfesores`),
   CONSTRAINT `fk_Eventos_TipoEvento1` FOREIGN KEY (`TipoEvento_idTipoEvento`) REFERENCES `tipoevento` (`idTipoEvento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -140,118 +137,83 @@ INSERT INTO `eventos` VALUES (
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00',6
+  null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,1,1,1,1
 ), (
   2, 'Deporte', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 2, 1, 1, true, '08:00:00', '10:00:00',6
+  null, 2, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
   3, 'Festival de la Música Peruana', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00',6
+  null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
   4, 'Deporte 2', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 2, 1, 1, true, '08:00:00', '10:00:00',6
+  null, 2, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
   5, 'Festival de la Música Peruana', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00',6
+  null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
   6, 'Concierto de Rock', 0x0102,
   'Un concierto de rock con bandas locales e internacionales que te hará vibrar.', 
   200, 'Estadio Nacional, Lima, Perú', '2024-11-10', 
   '2024-11-10', '18:00:00', '22:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '18:00:00', '22:00:00',6
+  null, 1,  1, true, '18:00:00', '22:00:00',6,1,1,1,0,1,1,1
 ),
 (
   7, 'Feria Gastronómica', 0x0103,
   'La feria gastronómica más grande del país, con los mejores chefs y restaurantes.', 
   300, 'Parque de la Exposición, Lima, Perú', '2024-09-15', 
   '2024-09-17', '10:00:00', '20:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '10:00:00', '20:00:00',6
+  null, 1,  1, true, '10:00:00', '20:00:00',6,1,1,1,0,1,1,1
 ),
 (
   8, 'Maratón de Lima', 0x0104,
   'Participa en la maratón más importante de Lima, abierta para todas las edades.', 
   500, 'Centro de Lima, Perú', '2024-08-05', 
   '2024-08-05', '06:00:00', '14:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '06:00:00', '14:00:00',6
+  null, 1, 1, true, '06:00:00', '14:00:00',6,1,1,1,0,1,1,1
 ),(
   9, 'Exposición de Arte Contemporáneo', 0x0105,
   'Descubre las obras más recientes de artistas contemporáneos peruanos.', 
   150, 'Museo de Arte de Lima, Perú', '2024-07-20', 
   '2024-07-25', '09:00:00', '18:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '09:00:00', '18:00:00',6
+  null, 1, 1, true, '09:00:00', '18:00:00',6,1,1,1,0,1,1,1
 ),
 (
   10, 'Festival de Cine Independiente', 0x0106,
   'Proyecciones de cine independiente de Perú y el mundo, con la presencia de directores y actores.', 
   250, 'Cineplanet, Lima, Perú', '2024-12-01', 
   '2024-12-05', '15:00:00', '23:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '15:00:00', '23:00:00',6
+  null, 1, 1, true, '15:00:00', '23:00:00',6,1,1,1,0,1,1,1
 ),
 (
   11, 'Conferencia de Tecnología', 0x0107,
   'Una conferencia que reúne a los líderes de la industria tecnológica para discutir las últimas tendencias e innovaciones.', 
   350, 'Centro de Convenciones de Lima, Perú', '2024-09-30', 
   '2024-10-01', '09:00:00', '17:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '09:00:00', '17:00:00',6
+  null, 1, 1, true, '09:00:00', '17:00:00',6,1,1,1,0,1,1,1
 ),
 (
   12, 'Feria del Libro', 0x0108,
   'La feria del libro más grande del país, con autores nacionales e internacionales.', 
   400, 'Jockey Plaza, Lima, Perú', '2024-08-20', 
   '2024-08-27', '10:00:00', '21:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '10:00:00', '21:00:00',6
+  null, 1, 1, true, '10:00:00', '21:00:00',6,1,1,1,0,1,1,1
 );
 
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
 
 UNLOCK TABLES;
-
---
--- Table structure for table `frecuenciaevento`
---
-
-DROP TABLE IF EXISTS `frecuenciaevento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `frecuenciaevento` (
-  `idFrecuenciaEvento` int NOT NULL AUTO_INCREMENT,
-  `frecuenciaTipo` varchar(100) NOT NULL,
-  `lunesActive` tinyint DEFAULT NULL,
-  `martesActive` tinyint DEFAULT NULL,
-  `miercolesActive` tinyint DEFAULT NULL,
-  `juevesActive` tinyint DEFAULT NULL,
-  `viernesActive` tinyint DEFAULT NULL,
-  `sabadoActive` tinyint DEFAULT NULL,
-  `domingoActive` tinyint DEFAULT NULL,
-  PRIMARY KEY (`idFrecuenciaEvento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `frecuenciaevento`
---
-
-LOCK TABLES `frecuenciaevento` WRITE;
-/*!40000 ALTER TABLE `frecuenciaevento` DISABLE KEYS */;
-INSERT INTO `frecuenciaevento` (idFrecuenciaEvento, frecuenciaTipo) VALUES (1, 'Personalizado'), (2, 'Diario');
-/*!40000 ALTER TABLE `frecuenciaevento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `incidencias`
---
 
 DROP TABLE IF EXISTS `incidencias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
