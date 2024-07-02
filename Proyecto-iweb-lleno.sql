@@ -116,6 +116,7 @@ CREATE TABLE `eventos` (
   `asistenciaCoordi` tinyint DEFAULT NULL,
   `asistenciaLlegada` time DEFAULT NULL,
   `asistenciaSalida` time DEFAULT NULL,
+  `idCoordinadora` int DEFAULT NULL,
   PRIMARY KEY (`idEventos`),
   KEY `fk_Eventos_Profesores1_idx` (`Profesores_idProfesores`),
   KEY `fk_Eventos_TipoEvento1_idx` (`TipoEvento_idTipoEvento`),
@@ -139,78 +140,78 @@ INSERT INTO `eventos` VALUES (
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00'
+  null, 1, 1, 1, true, '08:00:00', '10:00:00',6
 ), (
   2, 'Deporte', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 2, 1, 1, true, '08:00:00', '10:00:00'
+  null, 2, 1, 1, true, '08:00:00', '10:00:00',6
 ),(
   3, 'Festival de la Música Peruana', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00'
+  null, 1, 1, 1, true, '08:00:00', '10:00:00',6
 ),(
   4, 'Deporte 2', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 2, 1, 1, true, '08:00:00', '10:00:00'
+  null, 2, 1, 1, true, '08:00:00', '10:00:00',6
 ),(
   5, 'Festival de la Música Peruana', 0x0101, 
   'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '08:00:00', '10:00:00'
+  null, 1, 1, 1, true, '08:00:00', '10:00:00',6
 ),(
   6, 'Concierto de Rock', 0x0102,
   'Un concierto de rock con bandas locales e internacionales que te hará vibrar.', 
   200, 'Estadio Nacional, Lima, Perú', '2024-11-10', 
   '2024-11-10', '18:00:00', '22:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '18:00:00', '22:00:00'
+  null, 1, 1, 1, true, '18:00:00', '22:00:00',6
 ),
 (
   7, 'Feria Gastronómica', 0x0103,
   'La feria gastronómica más grande del país, con los mejores chefs y restaurantes.', 
   300, 'Parque de la Exposición, Lima, Perú', '2024-09-15', 
   '2024-09-17', '10:00:00', '20:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '10:00:00', '20:00:00'
+  null, 1, 1, 1, true, '10:00:00', '20:00:00',6
 ),
 (
   8, 'Maratón de Lima', 0x0104,
   'Participa en la maratón más importante de Lima, abierta para todas las edades.', 
   500, 'Centro de Lima, Perú', '2024-08-05', 
   '2024-08-05', '06:00:00', '14:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '06:00:00', '14:00:00'
+  null, 1, 1, 1, true, '06:00:00', '14:00:00',6
 ),(
   9, 'Exposición de Arte Contemporáneo', 0x0105,
   'Descubre las obras más recientes de artistas contemporáneos peruanos.', 
   150, 'Museo de Arte de Lima, Perú', '2024-07-20', 
   '2024-07-25', '09:00:00', '18:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '09:00:00', '18:00:00'
+  null, 1, 1, 1, true, '09:00:00', '18:00:00',6
 ),
 (
   10, 'Festival de Cine Independiente', 0x0106,
   'Proyecciones de cine independiente de Perú y el mundo, con la presencia de directores y actores.', 
   250, 'Cineplanet, Lima, Perú', '2024-12-01', 
   '2024-12-05', '15:00:00', '23:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '15:00:00', '23:00:00'
+  null, 1, 1, 1, true, '15:00:00', '23:00:00',6
 ),
 (
   11, 'Conferencia de Tecnología', 0x0107,
   'Una conferencia que reúne a los líderes de la industria tecnológica para discutir las últimas tendencias e innovaciones.', 
   350, 'Centro de Convenciones de Lima, Perú', '2024-09-30', 
   '2024-10-01', '09:00:00', '17:00:00', 'No hay', 2, 
-  null, 1, 1, 1, true, '09:00:00', '17:00:00'
+  null, 1, 1, 1, true, '09:00:00', '17:00:00',6
 ),
 (
   12, 'Feria del Libro', 0x0108,
   'La feria del libro más grande del país, con autores nacionales e internacionales.', 
   400, 'Jockey Plaza, Lima, Perú', '2024-08-20', 
   '2024-08-27', '10:00:00', '21:00:00', 'No hay', 1, 
-  null, 1, 1, 1, true, '10:00:00', '21:00:00'
+  null, 1, 1, 1, true, '10:00:00', '21:00:00',6
 );
 
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
