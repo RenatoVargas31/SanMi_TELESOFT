@@ -2,6 +2,8 @@ package com.example.sanmi_telesoft.beans;
 
 import java.sql.Blob;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Evento {
     public Evento() {
@@ -244,5 +246,27 @@ private int entradaUser;
 
     public void setEntradaUser(int entradaUser) {
         this.entradaUser = entradaUser;
+    }
+    public String getFechaEventoEnTexto(String fecha) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+            Date date = inputFormat.parse(fecha);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.fechaEventoStart; // En caso de error, retorna la fecha en formato original
+        }
+    }
+    public String getHoraEventoEnTexto(String hora) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a");
+            Date date = inputFormat.parse(hora);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.horaEventoStart; // En caso de error, retorna la hora en formato original
+        }
     }
 }

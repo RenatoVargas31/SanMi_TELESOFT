@@ -244,21 +244,26 @@
                                                         <div style="cursor:default" class="accordion-body py-3 border-top">
                                                             <div style="cursor:default" class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Fecha: </a>
-                                                                    <p class="mt-2"><%= evento.getFechaEventoStart() %></p>
+                                                                    <a class="h5">Fecha de Inicio: </a>
+                                                                    <p class="mt-2"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoStart()) %></p>
                                                                 </label>
                                                             </div>
-
+                                                            <div style="cursor:default" class="form d-flex align-items-center mb-3">
+                                                                <label class="form-check-label ms-3" style="cursor:auto">
+                                                                    <a class="h5">Fecha de Fin: </a>
+                                                                    <p class="mt-2"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoEnd()) %></p>
+                                                                </label>
+                                                            </div>
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
                                                                     <a class="h5">Hora de inicio: </a>
-                                                                    <p class="mt-2"><%= evento.getHoraEventoStart() %></p>
+                                                                    <p class="mt-2"><%= evento.getHoraEventoEnTexto(evento.getHoraEventoStart()) %></p>
                                                                 </label>
                                                             </div>
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
                                                                     <a class="h5">Hora de fin: </a>
-                                                                    <p class="mt-2"><%= evento.getHoraEventoEnd() %></p>
+                                                                    <p class="mt-2"><%= evento.getHoraEventoEnTexto(evento.getHoraEventoEnd()) %></p>
                                                                 </label>
                                                             </div>
 

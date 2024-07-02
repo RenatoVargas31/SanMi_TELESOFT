@@ -166,7 +166,7 @@
                                     <div class="me-10" style="flex:auto; margin-left:30px"  >
 
                                         <h5 style="font-size:30px;  color:#383737" class="mb-1" style="margin-bottom: 10px"><%= evento.getNombreEvento() %></h5>
-                                        <h5 style="font-size:15px;  color:#535252; margin-right: 20px;margin-top: 15px"    class="mb-1"><i class="fas fa-calendar"style="margin-right:10px"></i><h7 style="margin-right: 10px"><%= evento.getFechaEventoStart()%></h7>  <i class="fas fa-clock" style="margin-right: 10px"></i><%= evento.getHoraEventoStart()%>-<%= evento.getHoraEventoEnd() %></h5>
+                                        <h5 style="font-size:15px;  color:#535252; margin-right: 20px;margin-top: 15px"    class="mb-1"><i class="fas fa-calendar"style="margin-right:10px"></i><h7 style="margin-right: 10px"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoStart())+ " -  " +evento.getFechaEventoEnTexto(evento.getFechaEventoEnd())%></h7>  <i class="fas fa-clock" style="margin-right: 10px"></i><%= evento.getHoraEventoEnTexto(evento.getHoraEventoStart())%> - <%=evento.getHoraEventoEnTexto(evento.getHoraEventoEnd()) %></h5>
 
 
                                     </div>
