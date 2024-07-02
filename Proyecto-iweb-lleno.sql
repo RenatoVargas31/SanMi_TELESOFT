@@ -562,6 +562,7 @@ CREATE TABLE `usuarios_has_eventos` (
   `usuarioEventoInscrito` int NOT NULL auto_increment,
   `Usuarios_idUsuarios` int DEFAULT NULL,
   `Eventos_idEventos` int DEFAULT NULL,
+  `entradas` int DEFAULT '1',
   `is_bannedEvento` tinyint DEFAULT '0',
   `motivo_bannedEvento` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`usuarioEventoInscrito`),
