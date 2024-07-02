@@ -54,7 +54,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
-
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css" />
     <!-- Row Group CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
     <!-- Form Validation -->
@@ -97,17 +103,21 @@
 
                                             <div class="col-md-6">
                                                 <label class="form-label" for="nombre">Nombre del evento</label>
-                                                <input type="text" id="nombre" name="nombre" class="form-control" value="<%= evento.getNombreEvento() == null ? "" : evento.getNombreEvento()%>" placeholder="Nombre" required/>
+                                                <input type="text" id="nombre" name="nombre" value="<%= evento.getNombreEvento() == null ? "" : evento.getNombreEvento()%>" class="form-control" placeholder="Nombre" required/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="vacantes">Vacantes</label>
-                                                <input type="text" id="vacantes" name="vacantes" class="form-control"  value="<%= evento.getVacantesDisp () == 0 ? "" : evento.getVacantesDisp()%>" placeholder="Número de vacantes" required pattern="[0-9]+"/>
+                                                <input type="number"  id="vacantes" name="vacantes" class="form-control" placeholder="Número de vacantes" value="<%= evento.getVacantesDisp() == 0 ? "" : evento.getVacantesDisp()%>" required min="1"
+                                                       onkeydown="return (event.key >= '0' && event.key <= '9') || (event.key === 'Backspace' || event.key === 'Delete' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') || (this.value === '' && event.key === '1')"
+                                                       oninput="validity.valid||(value='1');"/>
                                             </div>
+
 
                                             <div class="col-12">
                                                 <label class="form-label" for="descripcion">Descripción</label>
-                                                <input type="text" class="form-control" name="descripcion" id="descripcion"  value="<%= evento.getDescriptionEvento() == null ? "" : evento.getDescriptionEvento()%>" placeholder="Máximo 255 caracteres." required/>
+                                                <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required><%= evento.getDescriptionEvento() == null ? "" : evento.getDescriptionEvento() %></textarea>
                                             </div>
+
 
                                             <div class="col-12">
                                                 <label class="form-label" for="LugarExacto">Ubicación del Evento</label>
@@ -154,9 +164,9 @@
                                                 <input type="time" id="horaFin" name="horaFin" value="<%= evento.getHoraEventoEnd() == null ? "" : evento.getHoraEventoEnd()%>"  class="form-control" placeholder="" required/>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <label class="form-label">Profesor encargado</label>
-                                                <select name="profesorId" class="form-control" required>
+                                            <div class="col-md-6 mb-4">
+                                                <label for="selectpickerLiveSearch" class="form-label">Profesores</label>
+                                                <select id="selectpickerLiveSearch" name="profesorId" class="selectpicker w-100" data-style="btn-default" data-live-search="true" data-dropup-auto="false" data-none-results-text="Ningun resultado para '{0}'">
                                                     <% for (Profesor profesor : profesores) { %>
                                                     <option value="<%= profesor.getIdProfesores() %>">
                                                         <%= profesor.getNombreProfesor() + " " + profesor.getApellidoProfesor() %>
@@ -165,6 +175,18 @@
                                                 </select>
                                             </div>
 
+                                            <div class="col-md-6 mb-4">
+                                                <label for="selectpickerMultiple" class="form-label">Frecuencia del Evento</label>
+                                                <select id="selectpickerMultiple" name="diasSemana" class="selectpicker w-100" data-style="btn-default" multiple data-icon-base="bx" data-dropup-auto="false" data-none-selected-text="Sin frecuencia" data-tick-icon="bx-check text-primary">
+                                                    <option value="lunesActive">Todos los lunes</option>
+                                                    <option value="martesActive">Todos los martes</option>
+                                                    <option value="miercolesActive">Todos los miércoles</option>
+                                                    <option value="juevesActive">Todos los jueves</option>
+                                                    <option value="viernesActive">Todos los viernes</option>
+                                                    <option value="sabadoActive">Todos los sábados</option>
+                                                    <option value="domingoActive">Todos los domingos</option>
+                                                </select>
+                                            </div>
 
                                             <div class="col-12">
                                                 <div class="input-group">
@@ -192,33 +214,7 @@
                     </div>
                 </div>
 
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
-                <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
 
-                <!-- endbuild -->
-
-                <!-- Vendors JS -->
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/popular.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/auto-focus.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/js/ui-modals.js"></script>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
                 <script>
 
@@ -326,8 +322,8 @@
                 <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
             </div>
         </div>
-    </div>
-</div>
+    </div></div></div>
+
 <script>
     function closeModal() {
         const modal = document.getElementById('deletionModal');
@@ -352,7 +348,49 @@
             // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
         }
     }
+
+
+
 </script>
+                <!-- jQuery -->
+                <!-- jQuery -->
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+                <!-- Bootstrap JS -->
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+                <!-- Perfect Scrollbar -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+                <!-- Hammer.js -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
+
+                <!-- i18n -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
+
+                <!-- Typeahead.js and Bloodhound -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+                <!-- Menu -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
+
+                <!-- Select2 -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
+
+                <!-- Tagify -->
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/tagify/tagify.js"></script>
+
+                <!-- Bootstrap Select -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+
+                <!-- Main JS -->
+                <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+
+                <!-- Page JS -->
+                <script src="${pageContext.request.contextPath}/assets/js/forms-selects.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/forms-tagify.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/forms-typeahead.js"></script>
 
 </body>
 </html>

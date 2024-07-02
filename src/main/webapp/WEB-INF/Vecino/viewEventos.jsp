@@ -261,12 +261,7 @@
                                                                     <p class="mt-2"><%= evento.getHoraEventoEnd() %></p>
                                                                 </label>
                                                             </div>
-                                                            <!--<div class="form d-flex align-items-center mb-3">
-                                <label class="form-check-label ms-3" style="cursor:auto">
-                                    <a class="h5">Evento Repetitivo: </a>
-                                    <p class="mt-2"><%= evento.getFrecuenciaEvento().getFrecuenciaTipo()%></p>
-                                </label>
-                            </div>-->
+
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
                                                                     <a class="h5">Vacantes disponibles: </a>
