@@ -132,21 +132,6 @@
                                                 <label class="form-label" for="FechaFin">Fecha de fin</label>
                                                 <input type="date" id="FechaFin" name="FechaFin" class="form-control" value="<%= evento.getFechaEventoEnd() == null ? "" : evento.getFechaEventoEnd()%>" placeholder="" required/>
                                             </div>
-                                            <div class="col-md-6" hidden>
-                                                <label class="form-label" for="tipoEvento">Tipo de Evento</label>
-                                                <%
-                                                    // Suponiendo que user es un objeto que tiene el método getTipoCoordinadora()
-                                                    int tipoCoordinadora = usuario.getIdTipoCoordinadora();
-                                                    int tipoEventoValue = 0;
-                                                    if (tipoCoordinadora == 1) {
-                                                        tipoEventoValue = 1;
-                                                    }
-                                                    if (tipoCoordinadora == 2) {
-                                                        tipoEventoValue = 2;
-                                                    }
-                                                %>
-                                                <input type="text" id="tipoEvento" name="tipoEvento" class="form-control" placeholder="Tipo de Evento" value="<%= tipoEventoValue %>" />
-                                            </div>
 
                                             <div class="col-md-6" hidden>
                                                 <label class="form-label" for="idCoordinadora"></label>
