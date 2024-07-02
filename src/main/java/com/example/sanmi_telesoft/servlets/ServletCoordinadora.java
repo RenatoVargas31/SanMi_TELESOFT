@@ -184,6 +184,7 @@ public class ServletCoordinadora extends HttpServlet {
                 } else {
                     response.sendRedirect("ServletCoordinadora");
                 }
+                break;
 
 
             case "verMisEventos":
