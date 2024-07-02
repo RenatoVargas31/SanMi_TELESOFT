@@ -1,7 +1,7 @@
 package com.example.sanmi_telesoft.filters;
 
 import com.example.sanmi_telesoft.beans.Usuario;
-
+import com.example.sanmi_telesoft.daos.DaoEvento;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -13,6 +13,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebFilter("/*")
 public class SecurityFilter implements Filter {
@@ -31,8 +36,8 @@ public class SecurityFilter implements Filter {
 
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
-
-        // Definir permisos para cada rol y servlet
+        DaoEvento daoEvento = new DaoEvento();
+        // Verificar permisos basados en roles
         if (path.startsWith("/ServletAdministrador")) {
             if (usuario == null || usuario.getIdRoles() != 1) {
                 httpResponse.sendRedirect(httpRequest.getContextPath() + "/accessDenied.jsp");
@@ -55,6 +60,23 @@ public class SecurityFilter implements Filter {
             }
         }
 
+        // Verificar inscripción a eventos
+        if (path.startsWith("/ServletVecino") && "inscribirEvento".equals(httpRequest.getParameter("action"))) {
+            String idEvento = httpRequest.getParameter("id");
+            if (usuario != null && idEvento != null) {
+                try {
+                    ArrayList<Integer> eventosInscritos = daoEvento.eventosInscritosporUsuario(usuario.getIdUsuarios());
+                    if (eventosInscritos.contains(Integer.parseInt(idEvento))) {
+                        // El usuario ya está inscrito en el evento
+                        httpResponse.sendRedirect(httpRequest.getContextPath() + "/error404.jsp");
+                        return;
+                    }
+                } catch (SQLException e) {
+                    throw new ServletException("Error al verificar la inscripción del evento", e);
+                }
+            }
+        }
+
         chain.doFilter(request, response);
     }
 
@@ -62,5 +84,11 @@ public class SecurityFilter implements Filter {
     public void destroy() {
         // Limpieza si es necesaria
     }
-}
 
+    // Método para obtener la conexión a la base de datos
+    private Connection getConnection() throws SQLException {
+        // Implementa aquí tu lógica para obtener una conexión a la base de datos
+        // Por ejemplo, usando un pool de conexiones
+        return null;
+    }
+}

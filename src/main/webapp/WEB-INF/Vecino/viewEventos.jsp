@@ -1,9 +1,12 @@
 <%@ page import="com.example.sanmi_telesoft.daos.UsuarioDAO" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
+<%@ page import="java.util.ArrayList" %>
 <%
     UsuarioDAO usuarioDAO = new UsuarioDAO();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    ArrayList<Integer> usuarioEvento=(ArrayList<Integer>) request.getAttribute("eventosUsuario");%>
 <jsp:useBean id="evento" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 
 <!DOCTYPE html>
@@ -312,9 +315,14 @@
                                                                     <p class="mt-2 fw-medium" style="color:rgb(55,55,55)"><%= evento.getLugarEvento() %></p>
                                                                 </label>
                                                             </div>
+
                                                             <div class="form d-flex align-content-center mb-3" style="margin-top: 30px;">
-                                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %>"
-                                                                   class="btn btn-primary" style="flex: auto;">Inscríbete aquí</a>
+                                                                <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
+                                                                <a href="<%= request.getContextPath() %>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %>" class="btn btn-primary" style="flex: auto;">Inscríbete aquí</a>
+                                                                <% } else { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>Ya inscrito</button>
+                                                                <% } %>
+
                                                             </div>
                                                         </div>
                                                     </div>

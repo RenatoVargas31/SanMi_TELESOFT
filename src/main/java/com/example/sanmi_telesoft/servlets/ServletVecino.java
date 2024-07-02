@@ -39,6 +39,8 @@ public class ServletVecino extends HttpServlet {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         RequestDispatcher view;
         HttpSession session = request.getSession(false);
+
+
         if (session == null || session.getAttribute("usuario") == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
@@ -49,6 +51,11 @@ public class ServletVecino extends HttpServlet {
         if (usuario != null) {
             // Obtener el id del usuario como String
             idUsuario = usuario.getIdUsuarios();
+        }
+        try {
+            request.setAttribute("eventosUsuario",eventoDao.eventosInscritosporUsuario(idUsuario));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         switch (action) {
 
