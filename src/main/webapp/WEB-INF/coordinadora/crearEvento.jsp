@@ -110,13 +110,17 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="vacantes">Vacantes</label>
-                                                <input type="text" id="vacantes" name="vacantes" class="form-control" placeholder="Número de vacantes" required pattern="[0-9]+"/>
+                                                <input type="number" id="vacantes" name="vacantes" class="form-control" placeholder="Número de vacantes" required min="1"
+                                                       onkeydown="return (event.key >= '0' && event.key <= '9') || (event.key === 'Backspace' || event.key === 'Delete' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') || (this.value === '' && event.key === '1')"
+                                                       oninput="validity.valid||(value='1');"/>
                                             </div>
+
 
                                             <div class="col-12">
                                                 <label class="form-label" for="descripcion">Descripción</label>
-                                                <input type="text" class="form-control" name="descripcion" id="descripcion"  placeholder="Máximo 255 caracteres." required/>
+                                                <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required></textarea>
                                             </div>
+
 
                                             <div class="col-12">
                                                 <label class="form-label" for="LugarExacto">Ubicación del Evento</label>
@@ -163,7 +167,7 @@
                                                 <input type="time" id="horaFin" name="horaFin" class="form-control" placeholder="" required/>
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="materiales">Materiales(opcional)</label>
+                                                <label class="form-label" for="materiales">Materiales (opcional)</label>
                                                 <input type="text" class="form-control" name="materiales" id="materiales"  placeholder="Máximo 255 caracteres." required/>
                                             </div>
 
