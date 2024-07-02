@@ -1,7 +1,6 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 
 <%ArrayList<Evento>lista=(ArrayList<Evento>) request.getAttribute("listarEventos");
 %>
