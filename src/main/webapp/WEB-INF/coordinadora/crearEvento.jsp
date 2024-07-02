@@ -281,6 +281,12 @@
     </div>
 </div>
 
+
+<script>
+    $(document).ready(function() {
+        $('.selectpicker').selectpicker();
+    });
+</script>
 <script>
     $(function () {
         var e = $(".select2");

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @WebServlet(name = "ServletCoordinadora", value = "/ServletCoordinadora")
 @MultipartConfig
@@ -342,6 +343,7 @@ public class ServletCoordinadora extends HttpServlet {
                 //Validacion de la frecuencia
 
                 String[] diasSeleccionados = request.getParameterValues("diasSemana");
+                System.out.println(Arrays.toString(diasSeleccionados));
 
                 if (diasSeleccionados != null) {
                     for (String dia : diasSeleccionados) {
@@ -371,17 +373,13 @@ public class ServletCoordinadora extends HttpServlet {
                     }
                 }
 
-                FrecuenciaEvento frecuenciaEvento = new FrecuenciaEvento();
-                frecuenciaEvento.setIdFrecuenciaEvento(1);
-                frecuenciaEvento.setLunesActive(lunesActive);
-                frecuenciaEvento.setMartesActive(martesActive);
-                frecuenciaEvento.setMiercolesActive(miercolesActive);
-                frecuenciaEvento.setJuevesActive(juevesActive);
-                frecuenciaEvento.setViernesActive(viernesActive);
-                frecuenciaEvento.setSabadoActive(sabadoActive);
-                frecuenciaEvento.setDomingoActive(domingoActive);
-
-                evento.setFrecuenciaEvento(frecuenciaEvento);
+                evento.setLunesActive(lunesActive);
+                evento.setMartesActive(martesActive);
+                evento.setMiercolesActive(miercolesActive);
+                evento.setJuevesActive(juevesActive);
+                evento.setViernesActive(viernesActive);
+                evento.setSabadoActive(sabadoActive);
+                evento.setDomingoActive(domingoActive);
                 EstadoEvento estadoEvento = new EstadoEvento();
                 //Todos se inicializan con el estado NoIniciado
                 estadoEvento.setIdEstadoEvento(1);
@@ -389,7 +387,7 @@ public class ServletCoordinadora extends HttpServlet {
                 evento.setEstadoEvento(estadoEvento);
                 evento.setTipoEvento(tipoEvento1);
                 eventoDao.crearEvento(evento);
-                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");
                 break;
 
 
@@ -461,24 +459,21 @@ public class ServletCoordinadora extends HttpServlet {
                             }
                         }
                     }
+                    evento1.setLunesActive(lunesActive);
+                    evento1.setMartesActive(martesActive);
+                    evento1.setMiercolesActive(miercolesActive);
+                    evento1.setJuevesActive(juevesActive);
+                    evento1.setViernesActive(viernesActive);
+                    evento1.setSabadoActive(sabadoActive);
+                    evento1.setDomingoActive(domingoActive);
 
 
 
-                    FrecuenciaEvento frecuenciaEvento2 = new FrecuenciaEvento();
-                    frecuenciaEvento2.setIdFrecuenciaEvento(1);
-                    frecuenciaEvento2.setLunesActive(lunesActive);
-                    frecuenciaEvento2.setMartesActive(martesActive);
-                    frecuenciaEvento2.setMiercolesActive(miercolesActive);
-                    frecuenciaEvento2.setJuevesActive(juevesActive);
-                    frecuenciaEvento2.setViernesActive(viernesActive);
-                    frecuenciaEvento2.setSabadoActive(sabadoActive);
-                    frecuenciaEvento2.setDomingoActive(domingoActive);
 
                     EstadoEvento estadoEvento1 = new EstadoEvento();
                     // Inicializar con el estado NoIniciado
                     estadoEvento1.setIdEstadoEvento(1);
                     evento1.setEstadoEvento(estadoEvento1);
-                    evento1.setFrecuenciaEvento(frecuenciaEvento2);
                     evento1.setIdCoordinadora(idCoordinadora1);
                     eventoDao.actualizarEvento(evento1);
                     response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");

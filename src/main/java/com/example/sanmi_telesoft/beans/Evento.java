@@ -19,12 +19,18 @@ public class Evento {
     private Profesor profesor;
     private byte[] fotosEnd;
     private TipoEvento tipoEvento;
-    private FrecuenciaEvento frecuenciaEvento;
     private EstadoEvento estadoEvento;
     private boolean asistenciaCoordi;
     private String asistenciaLlegada;
     private String asistenciaSalida;
     private int idCoordinadora;
+    private boolean lunesActive;
+    private boolean martesActive;
+    private boolean miercolesActive;
+    private boolean juevesActive;
+    private boolean viernesActive;
+    private boolean sabadoActive;
+    private boolean domingoActive;
 
     private int idEventos;
     private String nombreEvento;
@@ -75,10 +81,6 @@ public class Evento {
 
     public void setTipoEvento(TipoEvento tipoEvento) {
         this.tipoEvento = tipoEvento;
-    }
-
-    public void setFrecuenciaEvento(FrecuenciaEvento frecuenciaEvento) {
-        this.frecuenciaEvento = frecuenciaEvento;
     }
 
     public void setEstadoEvento(EstadoEvento estadoEvento) {
@@ -145,10 +147,6 @@ public class Evento {
         return tipoEvento;
     }
 
-    public FrecuenciaEvento getFrecuenciaEvento() {
-        return frecuenciaEvento;
-    }
-
     public EstadoEvento getEstadoEvento() {
         return estadoEvento;
     }
@@ -184,4 +182,59 @@ public class Evento {
     public int getIdCoordinadora() {return idCoordinadora;}
 
     public void setIdCoordinadora(int idCoordinadora) {this.idCoordinadora = idCoordinadora;}
+
+    public boolean isLunesActive() {
+        return lunesActive;
+    }
+    public void setLunesActive(boolean lunesActive) {
+        this.lunesActive = lunesActive;
+    }
+
+    public boolean isMartesActive() {
+        return martesActive;
+    }
+
+    public void setMartesActive(boolean martesActive) {
+        this.martesActive = martesActive;
+    }
+
+    public boolean isMiercolesActive() {
+        return miercolesActive;
+    }
+
+    public void setMiercolesActive(boolean miercolesActive) {
+        this.miercolesActive = miercolesActive;
+    }
+
+    public boolean isJuevesActive() {
+        return juevesActive;
+    }
+
+    public void setJuevesActive(boolean juevesActive) {
+        this.juevesActive = juevesActive;
+    }
+
+    public boolean isViernesActive() {
+        return viernesActive;
+    }
+
+    public void setViernesActive(boolean viernesActive) {
+        this.viernesActive = viernesActive;
+    }
+
+    public boolean isSabadoActive() {
+        return sabadoActive;
+    }
+
+    public void setSabadoActive(boolean sabadoActive) {
+        this.sabadoActive = sabadoActive;
+    }
+
+    public boolean isDomingoActive() {
+        return domingoActive;
+    }
+
+    public void setDomingoActive(boolean domingoActive) {
+        this.domingoActive = domingoActive;
+    }
 }

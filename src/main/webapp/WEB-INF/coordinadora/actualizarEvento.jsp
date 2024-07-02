@@ -114,7 +114,7 @@
 
 
                                             <div class="col-12">
-                                                <label class="form-label" for="descripcion">Descripción</label>
+                                                <label class="form-label" for="descripcion">Descripción <%= evento.isLunesActive()%><%= evento.isMartesActive()%><%= evento.isMiercolesActive()%></label>
                                                 <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Máximo 255 caracteres." required><%= evento.getDescriptionEvento() == null ? "" : evento.getDescriptionEvento() %></textarea>
                                             </div>
 
@@ -163,15 +163,16 @@
                                             <div class="col-md-6 mb-4">
                                                 <label for="selectpickerMultiple" class="form-label">Frecuencia del Evento</label>
                                                 <select id="selectpickerMultiple" name="diasSemana" class="selectpicker w-100" data-style="btn-default" multiple data-icon-base="bx" data-dropup-auto="false" data-none-selected-text="Sin frecuencia" data-tick-icon="bx-check text-primary">
-                                                    <option value="lunesActive">Todos los lunes</option>
-                                                    <option value="martesActive">Todos los martes</option>
-                                                    <option value="miercolesActive">Todos los miércoles</option>
-                                                    <option value="juevesActive">Todos los jueves</option>
-                                                    <option value="viernesActive">Todos los viernes</option>
-                                                    <option value="sabadoActive">Todos los sábados</option>
-                                                    <option value="domingoActive">Todos los domingos</option>
+                                                    <option value="lunesActive" <% if (evento.isLunesActive()) { %> selected <% } %>>Todos los lunes</option>
+                                                    <option value="martesActive" <% if (evento.isMartesActive()) { %> selected <% } %>>Todos los martes</option>
+                                                    <option value="miercolesActive" <% if (evento.isMiercolesActive()) { %> selected <% } %>>Todos los miércoles</option>
+                                                    <option value="juevesActive" <% if (evento.isJuevesActive()) { %> selected <% } %>>Todos los jueves</option>
+                                                    <option value="viernesActive" <% if (evento.isViernesActive()) { %> selected <% } %>>Todos los viernes</option>
+                                                    <option value="sabadoActive" <% if (evento.isSabadoActive()) { %> selected <% } %>>Todos los sábados</option>
+                                                    <option value="domingoActive" <% if (evento.isDomingoActive()) { %> selected <% } %>>Todos los domingos</option>
                                                 </select>
                                             </div>
+
 
                                             <div class="col-12">
                                                 <div class="input-group">
