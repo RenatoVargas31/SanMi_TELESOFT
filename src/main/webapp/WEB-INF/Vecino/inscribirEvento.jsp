@@ -1,6 +1,7 @@
 <jsp:useBean id="evento" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 <jsp:useBean id="evento1" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
 <jsp:useBean id="evento2" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 <%@ page import="com.example.sanmi_telesoft.daos.UsuarioDAO" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
 <%
@@ -324,7 +325,7 @@
                                                         <div class="card-body p-3 pt-2">
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
-                                                                    <img style="height: 200px; width: fit-content; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento 1" />
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento 1" />
                                                                 </a>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -348,7 +349,7 @@
                                                         <div class="card-body p-3 pt-2">
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
-                                                                    <img style="height: 200px; width: fit-content; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento2.jpg" alt="Imagen del evento 2" />
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento2.jpg" alt="Imagen del evento 2" />
                                                                 </a>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-3">

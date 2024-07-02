@@ -7,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
+
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 <%
@@ -119,10 +121,10 @@
                     <div class="card bg-transparent shadow-none border-0 my-4">
                         <div class="card-body row p-0 pb-3">
 
-                                <h1 class="py-3 mb-4">
-                                    <span class="text fw-black">¡Bienvenido Vecino! 👋 </span>
-                                </h1>
 
+                                    <h1 class="text-center ¡Bienvenido, coordinador de deportes! ">¡Bienvenido <%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>! 👋 </h1>
+                                  <h3 class="text-center">Vecino sanmiguelino</h3>
+                            <hr class="my-4">
                                     <p>Tu actividad es importante para mejorar el bienestar de todos los vecinos del
                                         distrito,
                                         tu participación en los eventos y tus reportes de incidencias nos permite
@@ -174,35 +176,38 @@
 
                         <div class="col-sm-6 col-lg-4">
                             <div class="card p-2 h-100 shadow-none border" data-value="<%= evento.getTipoEvento() %>">
-                                <div class="rounded-2 text-center mb-3">
-                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
-                                        <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento">
+                            <div class="rounded-2 text-center mb-3">
+                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
+                                    <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento">
+                                </a>
+                            </div>
+                            <div class="card-body p-3 pt-2 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                    <span class="badge bg-label-hover-success">Deporte</span>
+                                    <% } %>
+                                    <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                    <span class="badge bg-label-warning">Cultura</span>
+                                    <% } %>
+                                </div>
+                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5 fw-bold" style="color:black"><%= evento.getNombreEvento() %></a>
+                                <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getDescriptionEvento() %></p>
+
+                                <!-- Div que debe estar al final del card-body -->
+                                <div class="mt-auto d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
+                                    <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
+                                        <span class="me-2">Inscríbete aquí</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
                                     </a>
                                 </div>
-                                <div class="card-body p-3 pt-2">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
-                                        <span class="badge bg-label-hover-success">Deporte</span>
-                                        <% } %>
-                                        <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
-                                        <span class="badge bg-label-warning">Cultura</span>
-                                        <% } %>
-                                    </div>
-                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5 fw-bold" style="color:black"><%= evento.getNombreEvento() %></a>
-                                    <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getDescriptionEvento() %></p>
-                                    <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
-                                        <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
-                                            <span class="me-2">Inscríbete aquí</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
+                        </div>
+
                         </div>
 
                         <% i++; %>
                         <% } %>
                     </div>
-                    <div class="form d-flex justify-content-center mb-3" style="margin-top: 30px;">
+                    <div class="form d-flex justify-content-center mb-3" style="margin-top: 50px;">
                         <a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos"
                            class="btn btn-primary w-auto">Descubre más eventos</a>
                     </div>
