@@ -155,7 +155,7 @@
                             <div class="col-lg-8">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
                                     <div class="me-1">
-                                        <h5 style="font-size:30px; color:#000000; font-weight: bold" class="mb-1"><%= evento.getNombreEvento() %></h5>
+                                        <h5 style="font-size:35px; color:#000000; font-weight: bolder" class="mb-1"><%= evento.getNombreEvento() %></h5>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
@@ -174,29 +174,29 @@
                                                     alt="tutor image 1" /></a>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <h5 style="font-size: 25px; color: #595858" class="mb-2">Descripción</h5>
-                                        <p class="mb-0 pt-1"><%= evento.getDescriptionEvento() %></p>
+                                    <div  class="card-body">
+                                        <h4 style="font-size: 30px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2 ">Resumen: </h4>
+                                        <p class="mb-0 pt-1 h5 " style="margin-bottom: 20px;line-height: 1.5;color: rgb(55,55,55);text-align: justify"><%= evento.getDescriptionEvento() %></p>
 
                                         <hr class="my-4">
 
                                         <div class="row">
                                             <% if (evento.getProfesor() != null) { %>
-                                            <div class="col-md-5">
-                                                <h5>Organizado por:</h5>
-                                                <div class="d-flex justify-content-start align-items-center user-name">
-                                                    <div class="avatar-wrapper">
-                                                        <div class="avatar avatar-sm me-2">
-                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle">
+                                            <div class="col-md-6">
+                                                <h5 style="color: rgb(0,0,0); font-weight: 650">Organizado por:</h5>
+                                                <div class="d-flex justify-content-start align-items-start user-name">
+                                                    <div class="d-flex flex-column" >
+                                                        <div class="avatar avatar-lg me-4">
+                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle img-fluid">
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-column">
                                                         <% int idCoordi = evento.getIdCoordinadora(); %>
-                                                        <span class="fw-medium">
+                                                        <span class="fs-6"  style="color: rgb(0,0,0);font-weight: 650">
                     <%= usuarioDAO.obtenerDatosporId(idCoordi).getNombreUsuario() + " " + usuarioDAO.obtenerDatosporId(idCoordi).getApellidoUsuario() %>
                 </span>
-                                                        <small class="text-muted">Coordinador de eventos</small>
-                                                        <small class="text-muted">Contacto: <%= usuarioDAO.obtenerDatosporId(idCoordi).getCorreoUsuario() %></small>
+                                                        <span class="fs-6 fw-medium"  style="color: rgb(55,55,55)">Coordinador de eventos</span>
+                                                        <span class="fs-6 fw-medium"  style="color: rgb(55,55,55)">Contacto: <%= usuarioDAO.obtenerDatosporId(idCoordi).getCorreoUsuario() %></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -204,21 +204,20 @@
                                             <div class="col-md-1 d-flex justify-content-center align-items-center">
                                                 <div style="border-left: 1px solid rgba(83,82,82,0.6); height: 100%;"></div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <h5>Profesor:</h5>
-                                                <div class="d-flex justify-content-start align-items-center user-name">
-                                                    <div class="avatar-wrapper">
-                                                        <div class="avatar avatar-sm me-2">
-                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle">
+                                            <div class="col-md-5 mt-lg-0 mt-3">
+                                                <h5 style="color: rgb(0,0,0);font-weight: 650" >Profesor:</h5>
+                                                <div class="d-flex justify-content-start align-items-start user-name">
+                                                    <div class="d-flex flex-column" >
+                                                        <div class="avatar avatar-lg me-4">
+                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle img-fluid">
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-column">
-                                                        <span class="fw-medium">
+                                                        <span class="fs-6"  style="color: rgb(0,0,0);font-weight: 650">
                                                             <%= evento.getProfesor().getNombreProfesor() + " " + evento.getProfesor().getApellidoProfesor() %>
                                                         </span>
-                                                        <small class="text-muted">Profesor de <%= evento.getTipoEvento().getNameTipo() %></small>
-                                                        <small class="text-muted">Especialista en <%= evento.getProfesor().getCursoProfesor() %></small>
-
+                                                        <span class="fs-6 fw-medium"  style="color: rgb(55,55,55)"> Profesor de <%= evento.getTipoEvento().getNameTipo() %> </span>
+                                                        <span class="fs-6  fw-medium"  style="color: rgb(55,55,55)">  Especialista en <%= evento.getProfesor().getCursoProfesor() %> </span>
                                                         <!--<small class="text-muted">Contacto: <%= evento.getProfesor().getDniProfesor() %></small>  Aquí puedes añadir más detalles si es necesario -->
                                                     </div>
                                                 </div>
@@ -235,7 +234,7 @@
                                                                 data-bs-toggle="collapse" data-bs-target="#chapterOne"
                                                                 aria-expanded="true" aria-controls="chapterOne">
                             <span class="d-flex flex-column">
-                                <span class="h5 mb-1">Descripción</span>
+                                <span class="h5 mb-1 fw-bolder fs-4" style="color:rgb(55,55,55)">Detalles</span>
                             </span>
                                                         </button>
                                                     </div>
@@ -244,39 +243,73 @@
                                                         <div style="cursor:default" class="accordion-body py-3 border-top">
                                                             <div style="cursor:default" class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Fecha de Inicio: </a>
-                                                                    <p class="mt-2"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoStart()) %></p>
+                                                                    <a class="h5 fw-semibold" style="color:black">Fecha de Inicio: </a>
+                                                                    <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoStart()) %></p>
                                                                 </label>
                                                             </div>
                                                             <div style="cursor:default" class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Fecha de Fin: </a>
-                                                                    <p class="mt-2"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoEnd()) %></p>
+                                                                    <a class="h5 fw-semibold" style="color:black">Fecha de Fin: </a>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)"><%= evento.getFechaEventoEnTexto(evento.getFechaEventoEnd()) %></p>
                                                                 </label>
                                                             </div>
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Hora de inicio: </a>
-                                                                    <p class="mt-2"><%= evento.getHoraEventoEnTexto(evento.getHoraEventoStart()) %></p>
+                                                                    <a class="h5 fw-semibold" style="color:black">Hora de inicio: </a>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)"><%= evento.getHoraEventoEnTexto(evento.getHoraEventoStart()) %></p>
                                                                 </label>
                                                             </div>
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Hora de fin: </a>
-                                                                    <p class="mt-2"><%= evento.getHoraEventoEnTexto(evento.getHoraEventoEnd()) %></p>
+                                                                    <a class="h5 fw-semibold" style="color:black">Hora de fin: </a>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)"><%= evento.getHoraEventoEnTexto(evento.getHoraEventoEnd()) %></p>
+                                                                </label>
+                                                            </div>
+                                                            <div class="form d-flex align-items-center mb-3">
+                                                                <label class="form-check-label ms-3" style="cursor:auto">
+                                                                    <a class="h5 fw-semibold" style="color:black">Frecuencia:</a>
+                                                                    <% if (evento.isLunesActive() && evento.isMartesActive() && evento.isMiercolesActive() && evento.isJuevesActive() && evento.isViernesActive() && evento.isSabadoActive() && evento.isDomingoActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Evento activo todos los días</p>
+                                                                    <% } else { %>
+                                                                    <% if (evento.isLunesActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los lunes</p>
+                                                                    <% } %>
+                                                                    <% if (evento.isMartesActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los martes</p>
+                                                                    <% } %>
+                                                                    <% if (evento.isMiercolesActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los miércoles</p>
+                                                                    <% } %>
+                                                                    <% if (evento.isJuevesActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los jueves</p>
+                                                                    <% } %>
+                                                                    <% if (evento.isViernesActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los viernes</p>
+                                                                    <% } %>
+                                                                    <% if (evento.isSabadoActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los sábados</p>
+                                                                    <% } %>
+                                                                    <% if (evento.isDomingoActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">Todos los domingos</p>
+                                                                    <% } %>
+                                                                    <% if (!evento.isLunesActive() && !evento.isMartesActive() && !evento.isMiercolesActive() && !evento.isJuevesActive() && !evento.isViernesActive() && !evento.isSabadoActive() && !evento.isDomingoActive()) { %>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)">No se repite</p>
+                                                                    <% } %>
+                                                                    <% } %>
+
                                                                 </label>
                                                             </div>
 
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Vacantes disponibles: </a>
-                                                                    <p class="mt-2"><%= evento.getVacantesDisp() %></p>
+                                                                    <a class="h5 fw-semibold" style="color:black">Vacantes disponibles: </a>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)"><%= evento.getVacantesDisp() %></p>
                                                                 </label>
                                                             </div>
                                                             <div class="form d-flex align-items-center mb-3">
                                                                 <label class="form-check-label ms-3" style="cursor:auto">
-                                                                    <a class="h5">Ubicación: </a>
-                                                                    <p class="mt-2"><%= evento.getLugarEvento() %></p>
+                                                                    <a class="h5 fw-semibold" style="color:black">Ubicación: </a>
+                                                                    <p class="mt-2 fw-medium" style="color:rgb(55,55,55)"><%= evento.getLugarEvento() %></p>
                                                                 </label>
                                                             </div>
                                                             <div class="form d-flex align-content-center mb-3" style="margin-top: 30px;">

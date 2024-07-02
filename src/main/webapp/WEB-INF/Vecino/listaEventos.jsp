@@ -214,8 +214,8 @@
                                                     <% } %>
 
                                                 </div>
-                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5"><%= evento.getNombreEvento() %></a>
-                                                <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
+                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5 fw-bold" style="color:black"><%= evento.getNombreEvento() %></a>
+                                                <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getDescriptionEvento() %></p>
                                                 <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
                                                     <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
                                                         <span class="me-2">Inscríbete aquí</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>

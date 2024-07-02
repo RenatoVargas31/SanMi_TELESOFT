@@ -163,7 +163,8 @@
                     <!-- Hour chart End  -->
 
                     <hr class="my-4">
-                    <h3> Eventos para ti</h3>
+                    <h3  class="mb-1 fw-bold fs-3 " style="color:black" > Eventos para ti</h3>
+                    <hr class="my-4 opacity-0">
                     <!-- Topic and Instructors -->
                     <% int i = 0; %>
 
@@ -187,8 +188,8 @@
                                         <span class="badge bg-label-warning">Cultura</span>
                                         <% } %>
                                     </div>
-                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5"><%= evento.getNombreEvento() %></a>
-                                    <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
+                                    <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5 fw-bold" style="color:black"><%= evento.getNombreEvento() %></a>
+                                    <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getDescriptionEvento() %></p>
                                     <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
                                         <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
                                             <span class="me-2">Inscríbete aquí</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
