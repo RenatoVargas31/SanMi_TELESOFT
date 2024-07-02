@@ -1,49 +1,48 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Sergio
-  Date: 21/06/2024
-  Time: 03:41
+  User: CARLOS
+  Date: 16/06/2024
+  Time: 16:18
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.ParseException" %>
+<jsp:useBean id="listaMisEventos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Evento>" scope="request"/>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
+
+<!DOCTYPE html>
+
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
 
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:08 GMT -->
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi : Eventos Inscritos</title>
-
+    <title>SanMi | Mis Eventos</title>
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
           rel="stylesheet">
-
-    <!-- Icons -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/boxicons.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/fontawesome.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/flag-icons.css"/>
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/rtl/core.css" class="template-customizer-core-css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/rtl/theme-semi-dark.css"
           class="template-customizer-theme-css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/demo.css"/>
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
@@ -51,494 +50,147 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
-
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
-
-
-    <!-- Row Group CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
-    <!-- Form Validation -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/form-validation.css"/>
 
-    <!-- Page CSS -->
-
-
-    <!-- Helpers -->
     <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
-
+    <style>
+        /* Personalización adicional del modal */
+        .modal-content {
+            border-radius: 15px;
+            padding: 20px;
+            background: linear-gradient(145deg, #f0f0f0, #cacaca);
+        }
+        .modal-header {
+            background-color: #1A4D8F;
+            color: white;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 15px 15px 0 0;
+        }
+        .modal-footer {
+            border-top: 1px solid #dee2e6;
+            border-radius: 0 0 15px 15px;
+        }
+        .modal-title {
+            color: white;
+        }
+        .modal-body {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .btn-close {
+            background-color: white;
+            border-radius: 50%;
+        }
+        .btn-secondary, .btn-danger {
+            margin: 0 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-
-<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
             style="display: none; visibility: hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
 
-<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
-
-
-        <!-- Menu -->
-
         <jsp:include page="sideBar.jsp"/>
-        <!-- / Menu -->
-        <!-- Layout container -->
         <div class="layout-page">
-            <!-- Navbar -->
-
             <jsp:include page="navBar.jsp"/>
-            <!-- / Navbar -->
 
-
-            <!-- Content wrapper -->
-            <!-- Content wrapper -->
             <div class="content-wrapper">
-
-                <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
 
-                    <!-- DataTable with Buttons -->
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Lista de eventos inscritos</h3>
+                                <h3 class="m-4 fw-bold">Mis eventos</h3>
+
+                                <a class="btn btn-secondary create-new btn-primary me-4" type="button"
+                                   href="<%= request.getContextPath()%>/ServletCoordinadora?action=crearEventos">
+                                    <i class='bx bx-bell-plus bx-tada'></i>
+                                    <span class="d-none d-sm-inline-block">Nuevo Evento</span>
+                                </a>
                             </div>
-                            <table id="table-usuariosHabilitados" class="datatables-basic table border-top">
-                                <thead>
-                                <tr>
+                            <div class="table-responsive">
+                                <table id="table-misincidencias" class="datatables-basic table border-top">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre del evento</th>
+                                        <th>Lugar</th>
+                                        <th>Entradas</th>
+                                        <th>Fecha del Evento</th>
+                                        <th>Hora del Evento</th>
+                                        <th>Ver</th>
+                                    </tr>
+                                    </thead>
 
-                                    <th>Nombre del evento</th>
-                                    <th>Lugar del evento</th>
-                                    <th>Tipo de evento</th>
-                                    <th>Acciones</th>
-                                </tr>
-                                </thead>
+                                    <tbody>
+                                    <%
+                                        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Formato de entrada para fecha
+                                        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy"); // Formato de salida para fecha
+
+                                        SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm"); // Formato de entrada para hora
+                                        SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a"); // Formato de salida para hora (AM/PM)
+
+                                        int i = 1;
+                                        int a = 15000;
+
+                                        for (Evento evento : listaMisEventos) {
+                                            String modalId = "modalScrollable" + i;
+
+                                            // Formatear hora
+                                            String horaEventoStart = evento.getHoraEventoStart();
+                                            String horaEventoStartAMPM = "";
+                                            try {
+                                                Date time = inputTimeFormat.parse(horaEventoStart);
+                                                horaEventoStartAMPM = outputTimeFormat.format(time);
+                                            } catch (ParseException e) {
+                                                horaEventoStartAMPM = "Formato inválido";
+                                            }
+
+                                            // Formatear fecha
+                                            String fechaEventoStart = evento.getFechaEventoStart();
+                                            String fechaEventoStartTexto = "";
+                                            try {
+                                                Date date = inputDateFormat.parse(fechaEventoStart);
+                                                fechaEventoStartTexto = outputDateFormat.format(date);
+                                            } catch (ParseException e) {
+                                                fechaEventoStartTexto = "Formato inválido";
+                                            }
 
 
+                                    %>
+                                    <tr>
+                                        <td><%=evento.getNombreEvento() %></td>
+                                        <td><%=evento.getLugarEvento()%></td>
+                                        <td><%=evento.getEntradaUser()%></td>
+                                        <td><%=fechaEventoStartTexto%></td>
+                                        <td><%=horaEventoStartAMPM%></td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/ServletVecino?action=viewEvento&id=<%=evento.getIdEventos() %>" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm">
+                                                <i class='bx bx-show'></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+
+                                    <%
+                                            i++;
+                                            a++;
+                                        } %>
+                                    </tbody>
+                                </table>
 
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="modalVerUsuario" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalScrollableTitle1">Detalles del Usuario</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <p>Nombre de Usuario: Victoria Ruiz Vega</p>
-
-                                                <p>Correo: vic.vega@gmail.com </p>
-
-                                                <p>DNI: 87422011</p>
-
-                                                <p>Dirección: Jr Las Magnolias 166</p>
-
-                                                <p>Teléfono: 992130132</p>
-
-                                                <p>Nacimiento: 13/05/1989</p>
-
-                                                <p>Urbanización: San Miguelito</p>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Modal -->
-
-
-                                <tbody>
-                                <tr>
-
-                                    <td>Arturo Martinez Lara</td>
-                                    <td>Vecino</td>
-                                    <td><span>985632145</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>José García López</td>
-                                    <td>Serenazgo Dispatcher</td>
-                                    <td><span>985632145</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Sofía Martínez Valdez</td>
-                                    <td>Vecino</td>
-                                    <td><span>742198563</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Alejandro García Sánchez</td>
-                                    <td>Vecino</td>
-                                    <td><span>316895247</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Valentina Rodríguez Reyes</td>
-                                    <td>Coordinadora - Cultura</td>
-                                    <td><span>524178936</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Juan López Ramírez</td>
-                                    <td>Vecino</td>
-                                    <td><span>897451236</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Isabella Pérez Gómez</td>
-                                    <td>Coordinadora - Deporte</td>
-                                    <td><span>631254789</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Diego Hernández Flores</td>
-                                    <td>Vecino</td>
-                                    <td><span>458796321</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Camila Díaz Mendoza</td>
-                                    <td>Vecino</td>
-                                    <td><span>369857412</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Lucas González Cruz</td>
-                                    <td>Vecino</td>
-                                    <td><span>214563897</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Emma Vázquez Morales</td>
-                                    <td>Vecino</td>
-                                    <td><span>785632149</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Mateo Torres Ortiz</td>
-                                    <td>Vecino</td>
-                                    <td><span>632145789</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Victoria Ruiz Vega</td>
-                                    <td>Vecino</td>
-                                    <td><span>159487632</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                onclick="promptDeletion();" id="confirm-color"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Nicolás Castro Jiménez</td>
-                                    <td>Vecino</td>
-                                    <td><span>874596321</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Olivia Herrera Silva</td>
-                                    <td>Vecino</td>
-                                    <td><span>365214978</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- Modal to add new record -->
-                    <div class="offcanvas offcanvas-end" id="add-new-record">
-                        <div class="offcanvas-header border-bottom">
-                            <h5 class="offcanvas-title" id="exampleModalLabel">New Record</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body flex-grow-1">
-                            <form class="add-new-record pt-0 row g-2" id="form-add-new-record" onsubmit="return false">
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicFullname">Full Name</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicFullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <input type="text" id="basicFullname" class="form-control dt-full-name"
-                                               name="basicFullname" placeholder="John Doe" aria-label="John Doe"
-                                               aria-describedby="basicFullname2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicPost">Post</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicPost2" class="input-group-text"><i class='bx bxs-briefcase'></i></span>
-                                        <input type="text" id="basicPost" name="basicPost" class="form-control dt-post"
-                                               placeholder="Web Developer" aria-label="Web Developer"
-                                               aria-describedby="basicPost2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicEmail">Email</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                        <input type="text" id="basicEmail" name="basicEmail"
-                                               class="form-control dt-email" placeholder="john.doe@example.com"
-                                               aria-label="john.doe@example.com"/>
-                                    </div>
-                                    <div class="form-text">
-                                        You can use letters, numbers & periods
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicDate">Joining Date</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicDate2" class="input-group-text"><i
-                                                class='bx bx-calendar'></i></span>
-                                        <input type="text" class="form-control dt-date" id="basicDate" name="basicDate"
-                                               aria-describedby="basicDate2" placeholder="MM/DD/YYYY"
-                                               aria-label="MM/DD/YYYY"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label class="form-label" for="basicSalary">Salary</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basicSalary2" class="input-group-text"><i
-                                                class='bx bx-dollar'></i></span>
-                                        <input type="number" id="basicSalary" name="basicSalary"
-                                               class="form-control dt-salary" placeholder="12000" aria-label="12000"
-                                               aria-describedby="basicSalary2"/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit
-                                    </button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -551,85 +203,75 @@
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
-
-                <!-- endbuild -->
-
-                <!-- Vendors JS -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-                <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
-                <!-- Flat Picker -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-                <!-- Form Validation -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/popular.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
-
-                <!-- Main JS -->
                 <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
-
-
-                <!-- Page JS -->
-                <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
-
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
+                <footer class="content-footer footer bg-footer-theme">
+                    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                        <div class="mb-2 mb-md-0">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
 
+                            </script>
+                            , made by <a href="https://themeselection.com/" target="_blank"
+                                         class="footer-link fw-medium">Telesoft</a>
+                        </div>
+
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres eliminar este evento?</h5>
             </div>
             <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar este elemento?</p>
-                <div class="mb-3">
-                    <label for="deleteReason" class="form-label">Motivo de la eliminación:</label>
-                    <input type="text" class="form-control" id="deleteReason" required>
-                </div>
+                <p>Esta acción no se puede deshacer.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeletionBtn">Eliminar</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
 <script>
-    function closeModal() {
-        const modal = document.getElementById('deletionModal');
-        modal.style.display = 'none'; // Oculta el modal
-    }
-    function promptDeletion() {
+    function promptDeletion(eventoId) {
+        const confirmDeletionBtn = document.getElementById('confirmDeletionBtn');
+        confirmDeletionBtn.onclick = function() {
+            submitDeletion(eventoId);
+        };
         var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
-        myModal.show(); // This is the correct way to show a mod
+        myModal.show(); // This is the correct way to show a modal
     }
 
+    function submitDeletion(eventoId) {
+        alert('La incidencia ha sido eliminada correctamente.');
+        // Hide the modal first
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deletionModal'));
+        modal.hide();
 
-
-    function submitDeletion() {
-        const reason = document.getElementById('deleteReason').value;
-        if (reason === '') {
-            alert('Por favor, ingrese un motivo para la eliminación.');
-            return;
-        }
-
-        if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
-            console.log('Motivo:', reason); // Aquí deberías enviar el motivo a la base de datos
-            alert('La incidencia ha sido eliminada correctamente.');
-            closeModal();
-            // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
-        }
+        // Redirect to the servlet with the id of the incidencia
+        window.location.href = '<%= request.getContextPath() %>/ServletCoordinadora?action=borrarEvento&id=' + eventoId;
     }
-
 </script>
+
 </body>
 
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:16:09 GMT -->
 </html>

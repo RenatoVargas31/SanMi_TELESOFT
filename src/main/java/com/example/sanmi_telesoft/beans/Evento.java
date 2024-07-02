@@ -31,7 +31,7 @@ public class Evento {
     private boolean viernesActive;
     private boolean sabadoActive;
     private boolean domingoActive;
-
+private int entradaUser;
     private int idEventos;
     private String nombreEvento;
 
@@ -236,5 +236,13 @@ public class Evento {
 
     public void setDomingoActive(boolean domingoActive) {
         this.domingoActive = domingoActive;
+    }
+
+    public int getEntradaUser() {
+        return entradaUser;
+    }
+
+    public void setEntradaUser(int entradaUser) {
+        this.entradaUser = entradaUser;
     }
 }

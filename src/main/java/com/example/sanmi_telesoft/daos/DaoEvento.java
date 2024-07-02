@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class DaoEvento extends BaseDao {
 
@@ -140,19 +139,17 @@ public class DaoEvento extends BaseDao {
 
     public ArrayList<Evento> listaEventosUser(int userId) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        String sql = "SELECT e.*, t.nameTipo \n" +
-                "                FROM eventos e \n" +
-                "                LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento \n" +
-                "                INNER JOIN usuarios_has_eventos uhe ON e.idEventos = uhe.Eventos_idEventos \n" +
-                "                WHERE uhe.Usuarios_idUsuarios = ?;";
+        String sql = "SELECT e.*, t.nameTipo, uhe.entradas \n" +
+                "FROM eventos e \n" +
+                "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento \n" +
+                "INNER JOIN usuarios_has_eventos uhe ON e.idEventos = uhe.Eventos_idEventos \n" +
+                "WHERE uhe.Usuarios_idUsuarios = ?;";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
-
-            LocalDateTime now = LocalDateTime.now(); // Obtener la fecha y hora actuales
 
             while (rs.next()) {
                 Evento evento = new Evento();
@@ -163,29 +160,26 @@ public class DaoEvento extends BaseDao {
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
                 evento.setLugarEvento(rs.getString("lugarEvento"));
+                evento.setEntradaUser(rs.getInt("entradas")); // Cambiado de "uhe.entradas" a "entradas"
+
+                TipoEvento tipoEvento = new TipoEvento();
+                tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
+                tipoEvento.setNameTipo(rs.getString("nameTipo"));
+                evento.setTipoEvento(tipoEvento);
 
                 // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
-                LocalDateTime fechaHoraEvento = LocalDateTime.of(
-                        LocalDate.parse(evento.getFechaEventoStart()),
-                        LocalTime.parse(evento.getHoraEventoStart())
-                );
-                TipoEvento tipoEvento = new TipoEvento();
-                // Comparar la fecha y hora del evento con la fecha y hora actuales
                 if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
-                    tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
-                    tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
-                    evento.setTipoEvento(tipoEvento);
-
                     listaEventos.add(evento);
                 }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error al listar eventos de tipo Cultura con fecha y hora válidas", e);
+            throw new RuntimeException("Error al listar eventos de usuario con fecha y hora válidas", e);
         }
 
         return listaEventos;
     }
+
 
     public ArrayList<Evento> listaEventosCoordinadora(int userId) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
@@ -572,8 +566,9 @@ public class DaoEvento extends BaseDao {
         return 0;
     }
 
-    public void actualizarEntradas(int id, int inscritos) {
-        Evento evento = searchEventobyId(id);
+    public void actualizarEntradas(int idEvento, int inscritos, int idUsuario) {
+        inscribirHasEventos(idUsuario, idEvento, inscritos);
+        Evento evento = searchEventobyId(idEvento);
         int vacantes = evento.getVacantesDisp();
         if (vacantes > 0) {
 
@@ -586,7 +581,7 @@ public class DaoEvento extends BaseDao {
 
                 // Establecer los parámetros en la consulta preparada
                 stmt.setInt(1, nuevasVacantes);
-                stmt.setInt(2, id);
+                stmt.setInt(2, idEvento);
                 stmt.executeUpdate();
 
             } catch (SQLException e) {
@@ -595,6 +590,27 @@ public class DaoEvento extends BaseDao {
             }
         }
     }
+
+    public void inscribirHasEventos(int idUsuario, int idEvento, int entradas) {
+        String sql = "INSERT INTO usuarios_has_eventos (Usuarios_idUsuarios, Eventos_idEventos, entradas) VALUES (?, ?, ?)";
+
+        try (Connection connection = this.getConection(); // Asumiendo que tienes un DataSource configurado
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Configura los parámetros del PreparedStatement
+            statement.setInt(1, idUsuario);
+            statement.setInt(2, idEvento);
+            statement.setInt(3, entradas);
+
+            // Ejecuta la actualización
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de errores, dependiendo de tu aplicación podrías lanzar una excepción o manejar el error de otra forma
+        }
+    }
+
 
     private boolean esFechaHoraValida(String fechaEvento, String horaEvento) {
         // Convertir la fecha y hora actuales a objetos LocalDateTime

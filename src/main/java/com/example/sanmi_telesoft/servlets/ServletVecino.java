@@ -44,7 +44,12 @@ public class ServletVecino extends HttpServlet {
             return;
         }
         String id = "";
-
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        int idUsuario = 0;
+        if (usuario != null) {
+            // Obtener el id del usuario como String
+            idUsuario = usuario.getIdUsuarios();
+        }
         switch (action) {
 
             case "mostrarInicio":
@@ -86,7 +91,10 @@ public class ServletVecino extends HttpServlet {
             case "eventosInscritos":
                 request.setAttribute("activeMenu", "EventosInscritos");
                 request.setAttribute("activeMenuToggle", "Eventos");
-                request.getRequestDispatcher("WEB-INF/Vecino/eventosInscritos.jsp").forward(request, response);                break;
+                ArrayList<Evento> listaMisEventos = eventoDao.listaEventosUser(idUsuario);
+                request.setAttribute("listaMisEventos", listaMisEventos);
+                request.getRequestDispatcher("WEB-INF/Vecino/eventosInscritos.jsp").forward(request, response);
+                break;
 
             case "incidenciasGenerales":
                 request.setAttribute("activeMenu", "IncidenciasGenerales");
@@ -575,7 +583,14 @@ public class ServletVecino extends HttpServlet {
 
     private void actualizarEntradas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Obtener los parámetros del formulario
-        int id = Integer.parseInt(request.getParameter("id"));
+        int idEvento = Integer.parseInt(request.getParameter("id"));
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        int idUsuario = 0;
+        if (usuario != null) {
+            // Obtener el id del usuario como String
+            idUsuario = usuario.getIdUsuarios();
+            }
+        System.out.println(idUsuario);
         int entradas = 0;
         String entradasParam = request.getParameter("entradas");
 
@@ -591,7 +606,7 @@ public class ServletVecino extends HttpServlet {
 
         // Actualizar las entradas en la base de datos utilizando el DAO
         try {
-            eventoDao.actualizarEntradas(id, entradas);
+            eventoDao.actualizarEntradas(idEvento, entradas,idUsuario);
             // Guardar el mensaje en un atributo de sesión para mostrarlo una vez
             String mensaje = "Se ha inscrito satisfactoriamente. En breve, las entradas llegarán a su correo";
             request.getSession().setAttribute("info", mensaje);
