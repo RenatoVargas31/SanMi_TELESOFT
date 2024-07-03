@@ -119,9 +119,12 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
 
 
-                    <div class="row">
-                        <!-- Gallery effect-->
+
+
+
+                    <div class="row h-auto"><!-- Gallery effect-->
                         <div class="col-12">
+
                             <div id="swiper-gallery">
                                 <div class="swiper gallery-top">
                                     <div class="swiper-wrapper">
@@ -148,7 +151,7 @@
                     </div>
                 </div>
 
-                <h1 class="text-center ¡Bienvenido, coordinador de deportes! "> ¡Bienvenido,<%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>!</h1>
+                <h1 class="text-center ">¡Bienvenido <%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>! 👋 </h1>
                 <%  // Etiqueta de script JSP para inserción de código Java
                     if (usuario.getIdTipoCoordinadora() == 1) {  // Verifica si el tipo de coordinadora es 1
                 %>

@@ -162,17 +162,17 @@
                         <div class="card mb-4">
                             <div class="card-header d-flex flex-wrap justify-content-between gap-3">
                                 <div class="card-title mb-0 me-1">
-                                    <h5 class="mb-1" style="font-size: 30px;color:#000000; font-weight: bold">Todos los eventos</h5>
+
+                                    <%  // Etiqueta de script JSP para inserción de código Java
+                                        if (usuario.getIdTipoCoordinadora() == 1) {  // Verifica si el tipo de coordinadora es 1
+                                    %>
+                                    <h5 class="mb-1" style="font-size: 30px;color:#000000; font-weight: bold">Todos los eventos de Cultura </h5>
+                                    <%  } else if (usuario.getIdTipoCoordinadora() == 2) {  // Verifica si el tipo de coordinadora es 2
+                                    %>
+                                    <h5 class="mb-1" style="font-size: 30px;color:#000000; font-weight: bold">Todos los eventos de Deporte </h5>
+                                    <%  }%>
                                 </div>
-                                <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
-                                    <form id="filtroForm" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=listarEventos">
-                                        <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
-                                            <option value="Todo" >Todo</option>
-                                            <option value="Deporte">Deporte</option>
-                                            <option value="Cultura">Cultura</option>
-                                        </select>
-                                    </form>
-                                </div>
+
                             </div>
 
                             <div class="card-body">
@@ -190,7 +190,7 @@
                                                     <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento">
                                                 </a>
                                             </div>
-                                            <div class="card-body p-3 pt-2">
+                                            <div class="card-body p-3 pt-2 d-flex flex-column">
                                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                                     <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
                                                     <span class="badge bg-label-hover-success">Deporte</span>
@@ -198,10 +198,10 @@
                                                     <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
                                                     <span class="badge bg-label-warning">Cultura</span>
                                                     <% } %>
-
                                                 </div>
-                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5"><%= evento.getNombreEvento() %></a>
-                                                <p class="mt-2"><%= evento.getDescriptionEvento() %></p>
+                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5 fw-bold" style="color:black"><%= evento.getNombreEvento() %></a>
+                                                <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getDescriptionEvento() %></p>
+
                                             </div>
                                         </div>
                                     </div>

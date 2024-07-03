@@ -122,7 +122,7 @@
                         <div class="card-body row p-0 pb-3">
 
 
-                                    <h1 class="text-center ¡Bienvenido, coordinador de deportes! ">¡Bienvenido <%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>! 👋 </h1>
+                                    <h1 class="text-center ">¡Bienvenido <%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>! 👋 </h1>
                                   <h3 class="text-center">Vecino sanmiguelino</h3>
                             <hr class="my-4">
                                     <p>Tu actividad es importante para mejorar el bienestar de todos los vecinos del

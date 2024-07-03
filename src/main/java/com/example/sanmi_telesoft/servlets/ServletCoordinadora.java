@@ -20,6 +20,7 @@ import java.util.Arrays;
 public class ServletCoordinadora extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         DaoProfesor daoProfesor = new DaoProfesor();
         DaoEvento daoEvento = new DaoEvento();
@@ -107,9 +108,11 @@ public class ServletCoordinadora extends HttpServlet {
 
 
             case "listarEventos":
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
                 request.setAttribute("activeMenu", "Eventos");
                 request.setAttribute("activeMenuToggle", "Eventos1");
-                manejarListaEventos(request, response);
+                manejarListaEventos(request, response,usuario);
                 break;
 
             case "detalleEvento":
@@ -190,11 +193,11 @@ public class ServletCoordinadora extends HttpServlet {
 
             case "verMisEventos":
                 // Obtener el usuario de la sesión
-                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                Usuario usuario2 = (Usuario) request.getSession().getAttribute("usuario");
 
-                if (usuario != null) {
+                if (usuario2 != null) {
                     // Obtener el id del usuario como String
-                    String idUsuario = String.valueOf(usuario.getIdUsuarios());
+                    String idUsuario = String.valueOf(usuario2.getIdUsuarios());
 
                     // Obtener el idUsuario de los parámetros de la solicitud (si se pasa como parámetro en el GET)
                     String idUsuarioParametro = request.getParameter("idUsuario");
@@ -230,6 +233,21 @@ public class ServletCoordinadora extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuario != null) {
+            // Obtener el id del usuario como String
+            String idUsuario = String.valueOf(usuario.getIdUsuarios());
+
+            // Obtener el idUsuario de los parámetros de la solicitud (si se pasa como parámetro en el GET)
+            String idUsuarioParametro = request.getParameter("idUsuario");
+
+            // Verificar y asegurar que el idUsuario sea correcto y no nulo
+            if (idUsuarioParametro != null && !idUsuarioParametro.isEmpty()) {
+                idUsuario = idUsuarioParametro;
+            }
+            }
+
         response.setContentType("text/html");
         String action = request.getParameter("action");
         if (action == null) {
@@ -249,7 +267,7 @@ public class ServletCoordinadora extends HttpServlet {
 
         switch (action){
             case "buscarEventos":
-                manejarBuscarEventos(request, response);
+                manejarBuscarEventos(request, response,usuario);
                 break;
             case "reportarIncidencia":
                 DaoIncidencia incidenciaDao = new DaoIncidencia();
@@ -515,18 +533,14 @@ public class ServletCoordinadora extends HttpServlet {
 
     }
 
-    private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response, Usuario usuario) throws ServletException, IOException {
         DaoEvento eventoDao = new DaoEvento();
         ArrayList<Evento> listaEventos;
         int total ;
-        String tipo = request.getParameter("tipoFiltrado");
-
-        //Se envia el tipo de filtrado para el combobox;
-        ArrayList<String> filtrado = new ArrayList<>();
-        filtrado.add("Todo");
-        filtrado.add("Deporte");
-        filtrado.add("Cultura");
-        request.setAttribute("filtrado", filtrado);
+        String tipo="Todo";
+            assert usuario != null;
+            if (usuario.getIdTipoCoordinadora()==1){ tipo="Cultura";}
+        if (usuario.getIdTipoCoordinadora()==2){ tipo="Deporte";}
 
         //Jala el total de eventos por filtro
         if ("Deporte".equals(tipo)) {
@@ -569,11 +583,14 @@ public class ServletCoordinadora extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp");
         view.forward(request, response);
     }
-    private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void manejarBuscarEventos(HttpServletRequest request, HttpServletResponse response, Usuario usuario) throws ServletException, IOException {
         String textSearch = request.getParameter("textoBuscar");
         DaoEvento eventoDao = new DaoEvento();
+            String tipoFiltrado="Todo";
+            assert usuario != null;
+            if (usuario.getIdTipoCoordinadora()==1){ tipoFiltrado="Cultura";}
+            if (usuario.getIdTipoCoordinadora()==2){ tipoFiltrado="Deporte";}
 
-        String tipoFiltrado = request.getParameter("tipoFiltrado");
         ArrayList<Evento> lista;
         int pg = 1;
         request.setAttribute("currentPage", pg);
