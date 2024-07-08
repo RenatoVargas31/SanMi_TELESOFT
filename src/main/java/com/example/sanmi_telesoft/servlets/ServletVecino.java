@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 //import org.apache.commons.lang3.StringEscapeUtils;
 import jakarta.servlet.http.Part;
+import jdk.jfr.Event;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -126,7 +127,30 @@ public class ServletVecino extends HttpServlet {
                 obtenerDetallesIncidencia(request, response);
                 break;
             case "servirImagenIncidencia":
-                servirImagenIncidencia(request, response);
+                int idl = Integer.parseInt(request.getParameter("id"));
+                DaoIncidencia dao = new DaoIncidencia();
+                Incidencia im = dao.obtenerIncidencia(idl);
+
+                if (im != null) {
+                    response.setContentType("image/jpeg");
+                    response.setContentLength(im.getFotoIncidencia().length);
+                    OutputStream os = response.getOutputStream();
+                    os.write(im.getFotoIncidencia());
+                    os.flush();
+                }
+                break;
+            case "servirImagenEvento":
+                int idk = Integer.parseInt(request.getParameter("id"));
+                DaoEvento dao2 = new DaoEvento();
+                Evento im2 = dao2.searchEventobyId(idk);
+
+                if (im2 != null) {
+                    response.setContentType("image/jpeg");
+                    response.setContentLength(im2.getFotosStart().length);
+                    OutputStream os = response.getOutputStream();
+                    os.write(im2.getFotosStart());
+                    os.flush();
+                }
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
