@@ -164,7 +164,11 @@
                                     <div class="flex-grow-1 ms-3">
                                         <div class="row">
                                         <div class="col-lg-3">
-                                        <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="tutor image 1" />
+                                            <% if (evento.getIdEventos() > 12) { %>
+                                            <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
+                                            <% } else {%>
+                                            <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento.getIdEventos() %>.jpg" alt="Imagen del evento">
+                                            <% }%>
                                        </div>
                                             <div class="col-lg-9 mt-lg-0 mt-4">
                                         <h5 style="font-size:30px; font-weight:700;  color:#000000" class="mb-1"><%= evento.getNombreEvento() %></h5>
@@ -325,7 +329,11 @@
                                                         <div class="card-body p-3 pt-2">
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
-                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento 1" />
+                                                                    <% if (evento1.getIdEventos() > 12) { %>
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento1.getIdEventos() %>" alt="Foto del reporte">
+                                                                    <% } else {%>
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento1.getIdEventos() %>.jpg" alt="Imagen del evento">
+                                                                    <% }%>
                                                                 </a>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -349,7 +357,11 @@
                                                         <div class="card-body p-3 pt-2">
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
-                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento2.jpg" alt="Imagen del evento 2" />
+                                                                    <% if (evento2.getIdEventos() > 12) { %>
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento2.getIdEventos() %>" alt="Foto del reporte">
+                                                                    <% } else {%>
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento2.getIdEventos() %>.jpg" alt="Imagen del evento">
+                                                                    <% }%>
                                                                 </a>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-3">

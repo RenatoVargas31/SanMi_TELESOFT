@@ -24,8 +24,10 @@ import java.io.PrintWriter;
 import java.io.OutputStream;
 import java.sql.SQLException;
 //import org.apache.commons.lang3.StringEscapeUtils;
-
-
+import jakarta.servlet.http.Part;
+import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -336,6 +338,8 @@ public class ServletVecino extends HttpServlet {
     }
 
     private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         String nombreIncidencia = Sanitizer.sanitize(request.getParameter("nombreIncidencia"));
         String telefono = Sanitizer.sanitize(request.getParameter("phone"));
@@ -344,34 +348,45 @@ public class ServletVecino extends HttpServlet {
         boolean requiereAmbulancia = request.getParameter("requiereAmbulancia") != null;
         Part fotoPart = request.getPart("fotoincidencia");
 
-        int error = 0;
+        Map<String, String> errores = new HashMap<>();
+
 
         // Validaciones
+
+
         if (nombreIncidencia == null || nombreIncidencia.isBlank() || nombreIncidencia.length() > 100) {
-            request.setAttribute("msg1", "Nombre de la incidencia no válido.");
-            error++;
+            errores.put("nombreIncidencia", "Nombre de la incidencia no válido.");
         }
 
-        if (telefono == null || telefono.isBlank() || !telefono.matches("\\d{9}")) {
-            request.setAttribute("msg2", "Número de teléfono no válido.");
-            error++;
+        if (telefono != null && !telefono.isBlank() && !telefono.matches("\\d{9}")) {
+            errores.put("telefono", "Número de teléfono no válido.");
         }
 
         if (lugarExacto == null || lugarExacto.isBlank() || lugarExacto.length() > 100) {
-            request.setAttribute("msg3", "Lugar exacto no válido.");
-            error++;
+            errores.put("lugarExacto", "Lugar exacto no válido.");
         }
 
         if (referencia == null || referencia.isBlank() || referencia.length() > 255) {
-            request.setAttribute("msg4", "Referencia no válida.");
-            error++;
-        }
-        if (fotoPart == null || (fotoPart.getSize() > 5 * 1024 * 1024)) { // 5 MB máximo
-            request.setAttribute("msg5", "El archivo es demasiado grande. Máximo permitido es 5MB.");
-            error++;
+            errores.put("referencia", "Referencia no válida.");
         }
 
-        if(error > 0) {request.getRequestDispatcher("WEB-INF/Vecino/vecino-reportarIncidencia.jsp").forward(request, response); return;}
+        if (fotoPart != null && fotoPart.getSize() > 0) {
+            String fileName = fotoPart.getSubmittedFileName();
+            if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg")) {
+                errores.put("fotoincidencia", "El archivo debe ser una imagen en formato PNG o JPG.");
+            } else if (fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
+                errores.put("fotoincidencia", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+            } else if (!isImageFile(fotoPart)) {
+                errores.put("fotoincidencia", "El archivo subido no es una imagen válida.");
+            }
+        }
+
+        if (!errores.isEmpty()) {
+            JSONObject jsonResponse = new JSONObject(errores);
+            response.getWriter().write(jsonResponse.toString());
+            return;
+        }
+
 
 
         System.out.println("Parametros recibidos:");
@@ -393,7 +408,7 @@ public class ServletVecino extends HttpServlet {
 
         Incidencia incidencia = new Incidencia();
         incidencia.setNombreIncidencia(nombreIncidencia);
-        incidencia.setTelefono(telefono != null ? Integer.parseInt(telefono) : 0);
+        incidencia.setTelefono(telefono != null && !telefono.isBlank() ? Integer.parseInt(telefono) : 0);
         incidencia.setLugarIncidencia(lugarExacto);
         incidencia.setReferenciaIncidencia(referencia);
         incidencia.setRequiereAmbulancia(requiereAmbulancia);
@@ -403,7 +418,7 @@ public class ServletVecino extends HttpServlet {
 
 
 
-        if (fotoPart.getInputStream() != null) {
+        if (fotoPart != null && fotoPart.getSize() > 0) {
             try (InputStream inputStream = fotoPart.getInputStream()) {
                 byte[] fotoBytes = inputStream.readAllBytes();
                 incidencia.setFotoIncidencia(fotoBytes);
@@ -416,33 +431,19 @@ public class ServletVecino extends HttpServlet {
 
         try {
             incidenciaDao.insertarIncidencia_vecino(incidencia);
-            System.out.println("Incidencia insertada correctamente.");
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("success", true);
+            response.getWriter().write(jsonResponse.toString());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Error al insertar la incidencia", e);
         }
         response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
-    }
-    private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        if (id == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta el parámetro id");
-            return;
-        }
 
-        try {
-            byte[] imgData = incidenciaDao.obtenerFotoIncidencia(Integer.parseInt(id));
-            if (imgData != null) {
-                response.setContentType("image/jpeg");
-                try (OutputStream os = response.getOutputStream()) {
-                    os.write(imgData);
-                }
-            } else {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagen no encontrada para id: " + id);
-            }
-        } catch (SQLException e) {
-            throw new ServletException("Error al acceder a la base de datos", e);
-        }
+    }
+    private boolean isImageFile(Part filePart) {
+        String fileName = filePart.getSubmittedFileName();
+        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png");
     }
 
 
@@ -498,6 +499,28 @@ public class ServletVecino extends HttpServlet {
         request.setAttribute("total", total);
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp");
         view.forward(request, response);
+    }
+    private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        if (id == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta el parámetro id");
+            return;
+        }
+        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
+
+        try {
+            byte[] imgData = incidenciaDao.obtenerFotoIncidencia(Integer.parseInt(id));
+            if (imgData != null) {
+                response.setContentType("image/jpeg");
+                try (OutputStream os = response.getOutputStream()) {
+                    os.write(imgData);
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagen no encontrada para id: " + id);
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Error al acceder a la base de datos", e);
+        }
     }
 
 
