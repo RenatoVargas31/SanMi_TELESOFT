@@ -24,8 +24,10 @@ import java.io.PrintWriter;
 import java.io.OutputStream;
 import java.sql.SQLException;
 //import org.apache.commons.lang3.StringEscapeUtils;
-
-
+import jakarta.servlet.http.Part;
+import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -436,8 +438,12 @@ public class ServletVecino extends HttpServlet {
             e.printStackTrace();
             throw new ServletException("Error al insertar la incidencia", e);
         }
-        //response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
+        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
 
+    }
+    private boolean isImageFile(Part filePart) {
+        String fileName = filePart.getSubmittedFileName();
+        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png");
     }
 
 
@@ -493,6 +499,28 @@ public class ServletVecino extends HttpServlet {
         request.setAttribute("total", total);
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/listaEventos.jsp");
         view.forward(request, response);
+    }
+    private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        if (id == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta el parámetro id");
+            return;
+        }
+        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
+
+        try {
+            byte[] imgData = incidenciaDao.obtenerFotoIncidencia(Integer.parseInt(id));
+            if (imgData != null) {
+                response.setContentType("image/jpeg");
+                try (OutputStream os = response.getOutputStream()) {
+                    os.write(imgData);
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagen no encontrada para id: " + id);
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Error al acceder a la base de datos", e);
+        }
     }
 
 
