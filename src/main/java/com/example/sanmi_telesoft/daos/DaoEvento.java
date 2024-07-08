@@ -159,6 +159,7 @@ public class DaoEvento extends BaseDao {
                 evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
                 evento.setLugarEvento(rs.getString("lugarEvento"));
                 evento.setEntradaUser(rs.getInt("entradas")); // Cambiado de "uhe.entradas" a "entradas"
 

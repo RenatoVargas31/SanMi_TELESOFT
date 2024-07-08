@@ -24,7 +24,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi | Mis Eventos</title>
+    <title>SanMi | Eventos Inscritos</title>
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
@@ -111,13 +111,7 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Mis eventos</h3>
-
-                                <a class="btn btn-secondary create-new btn-primary me-4" type="button"
-                                   href="<%= request.getContextPath()%>/ServletCoordinadora?action=crearEventos">
-                                    <i class='bx bx-bell-plus bx-tada'></i>
-                                    <span class="d-none d-sm-inline-block">Nuevo Evento</span>
-                                </a>
+                                <h3 class="m-4 fw-bold">Eventos inscritos</h3>
                             </div>
                             <div class="table-responsive">
                                 <table id="table-misincidencias" class="datatables-basic table border-top">
@@ -125,9 +119,9 @@
                                     <tr>
                                         <th>Nombre del evento</th>
                                         <th>Lugar</th>
-                                        <th>Entradas</th>
-                                        <th>Fecha del Evento</th>
-                                        <th>Hora del Evento</th>
+                                        <th>Fecha</th>
+                                        <th>Horario</th>
+                                        <th>Tipo</th>
                                         <th>Ver</th>
                                     </tr>
                                     </thead>
@@ -148,10 +142,15 @@
 
                                             // Formatear hora
                                             String horaEventoStart = evento.getHoraEventoStart();
+                                            String horaEventoEnd = evento.getHoraEventoEnd();
                                             String horaEventoStartAMPM = "";
+                                            String horaEventoEndAMPM = "";
+
                                             try {
                                                 Date time = inputTimeFormat.parse(horaEventoStart);
                                                 horaEventoStartAMPM = outputTimeFormat.format(time);
+                                                Date time2 = inputTimeFormat.parse(horaEventoEnd);
+                                                horaEventoEndAMPM = outputTimeFormat.format(time2);
                                             } catch (ParseException e) {
                                                 horaEventoStartAMPM = "Formato inválido";
                                             }
@@ -171,9 +170,14 @@
                                     <tr>
                                         <td><%=evento.getNombreEvento() %></td>
                                         <td><%=evento.getLugarEvento()%></td>
-                                        <td><%=evento.getEntradaUser()%></td>
                                         <td><%=fechaEventoStartTexto%></td>
-                                        <td><%=horaEventoStartAMPM%></td>
+                                        <td><%=horaEventoStartAMPM%> - <%=horaEventoEndAMPM %></td>
+                                        <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                        <td> <span class="badge bg-label-warning">Cultura</span></td>
+                                        <% } %>
+                                        <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                        <td> <span class="badge bg-label-hover-success">Deporte</span></td>
+                                        <% } %>
                                         <td>
                                             <a href="${pageContext.request.contextPath}/ServletVecino?action=viewEvento&id=<%=evento.getIdEventos() %>" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm">
                                                 <i class='bx bx-show'></i>
