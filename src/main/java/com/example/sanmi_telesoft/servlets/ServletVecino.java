@@ -506,7 +506,6 @@ public class ServletVecino extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta el parámetro id");
             return;
         }
-        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
 
         try {
             byte[] imgData = incidenciaDao.obtenerFotoIncidencia(Integer.parseInt(id));

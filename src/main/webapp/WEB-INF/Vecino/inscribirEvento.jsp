@@ -165,7 +165,7 @@
                                         <div class="row">
                                         <div class="col-lg-3">
                                             <% if (evento.getIdEventos() > 12) { %>
-                                            <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
+                                            <img style="border-radius: 5px"  src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
                                             <% } else {%>
                                             <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento.getIdEventos() %>.jpg" alt="Imagen del evento">
                                             <% }%>
@@ -330,7 +330,7 @@
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
                                                                     <% if (evento1.getIdEventos() > 12) { %>
-                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento1.getIdEventos() %>" alt="Foto del reporte">
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;"  src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento1.getIdEventos() %>" alt="Foto del reporte">
                                                                     <% } else {%>
                                                                     <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento1.getIdEventos() %>.jpg" alt="Imagen del evento">
                                                                     <% }%>
@@ -358,7 +358,7 @@
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento2.getIdEventos() %>">
                                                                     <% if (evento2.getIdEventos() > 12) { %>
-                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento2.getIdEventos() %>" alt="Foto del reporte">
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;"  src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento2.getIdEventos() %>" alt="Foto del reporte">
                                                                     <% } else {%>
                                                                     <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento2.getIdEventos() %>.jpg" alt="Imagen del evento">
                                                                     <% }%>
