@@ -243,6 +243,9 @@ CREATE TABLE `incidencias` (
   `CriticidadIncidencia_idCriticidadIncidencia` int DEFAULT NULL,
   `TipoIncidencia_idTipoIncidencia` int DEFAULT NULL,
   `enabled` tinyint default 1,
+  `fecha_registro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  
   PRIMARY KEY (`idIncidencias`),
   KEY `fk_Incidencias_Serenazgos1_idx` (`Serenazgos_idSerenazgos`),
   KEY `fk_Incidencias_personalAmbulancia1_idx` (`personalAmbulancia_idpersonalAmbulancia`),
@@ -265,19 +268,20 @@ CREATE TABLE `incidencias` (
 
 LOCK TABLES `incidencias` WRITE;
 /*!40000 ALTER TABLE `incidencias` DISABLE KEYS */;
-INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia) VALUES ('AS', 'AS', 'AS',0 ,0, 0, 942841110);
-INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, contactoIncidencia, Usuarios_idUsuarios, EstadoIncidencia_idEstadoIncidencia, CriticidadIncidencia_idCriticidadIncidencia) 
+INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fecha_registro) 
+VALUES ('AS', 'AS', 'AS', 0, 0, 0, '942841110', '2024-01-01 10:00:00');
+INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, contactoIncidencia, Usuarios_idUsuarios, EstadoIncidencia_idEstadoIncidencia, CriticidadIncidencia_idCriticidadIncidencia, fecha_registro) 
 VALUES 
-('Arresto en la calle 3', 'Las causarinas', 'Cerca al paradero Josias', '981084527', 4, 1, null),
-('Robo en tienda', 'Avenida Principal 123', 'Frente a la plaza', '987654321', 2, 2, 3),
-('Accidente vehicular', 'Esquina de Calle 5 y 6', 'Cerca al supermercado', '912345678', 5, 1, null),
-('Incendio en vivienda', 'Calle Los Pinos 456', 'Al lado del parque', '923456789', 3, 3, 2),
-('Vandalismo en escuela', 'Calle Los Cedros 789', 'Junto a la biblioteca', '934567890', 6, 2, 1),
-('Emergencia médica', 'Pasaje Las Rosas 101', 'Frente al banco', '945678901', 7, 1, null),
-('Perro perdido', 'Jirón Las Flores 202', 'Cerca de la panadería', '956789012', 1, 3, 1),
-('Fuga de gas', 'Avenida Las Palmas 303', 'A una cuadra del parque', '967890123', 1, 1, null),
-('Pelea callejera', 'Calle Las Acacias 404', 'Cerca del mercado', '978901234', 1, 2, 3),
-('Ruido excesivo', 'Jirón Las Lomas 505', 'A dos cuadras de la iglesia', '989012345', 10, 3, 1);
+('Arresto en la calle 3', 'Las causarinas', 'Cerca al paradero Josias', '981084527', 4, 1, null, '2024-02-01 11:00:00'),
+('Robo en tienda', 'Avenida Principal 123', 'Frente a la plaza', '987654321', 2, 2, 3, '2024-03-01 12:00:00'),
+('Accidente vehicular', 'Esquina de Calle 5 y 6', 'Cerca al supermercado', '912345678', 5, 1, null, '2024-04-01 13:00:00'),
+('Incendio en vivienda', 'Calle Los Pinos 456', 'Al lado del parque', '923456789', 3, 3, 2, '2024-05-01 14:00:00'),
+('Vandalismo en escuela', 'Calle Los Cedros 789', 'Junto a la biblioteca', '934567890', 6, 2, 1, '2024-06-01 15:00:00'),
+('Emergencia médica', 'Pasaje Las Rosas 101', 'Frente al banco', '945678901', 7, 1, null, '2024-07-01 16:00:00'),
+('Perro perdido', 'Jirón Las Flores 202', 'Cerca de la panadería', '956789012', 1, 3, 1, '2024-08-01 17:00:00'),
+('Fuga de gas', 'Avenida Las Palmas 303', 'A una cuadra del parque', '967890123', 1, 1, null, '2024-09-01 18:00:00'),
+('Pelea callejera', 'Calle Las Acacias 404', 'Cerca del mercado', '978901234', 1, 2, 3, '2024-10-01 19:00:00'),
+('Ruido excesivo', 'Jirón Las Lomas 505', 'A dos cuadras de la iglesia', '989012345', 10, 3, 1, '2024-11-01 20:00:00');
 /*!40000 ALTER TABLE `incidencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
