@@ -140,82 +140,82 @@ CREATE TABLE `eventos` (
 LOCK TABLES `eventos` WRITE;
 /*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
 INSERT INTO `eventos` VALUES (
-  1, 'Festival de la Música Peruana', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
+  1, 'Taller de Pintura y Dibujo', 0x0101, 
+  'Aprender técnicas de pintura al óleo, acuarela y dibujo a lápiz.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
   null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,1,1,1,1
 ), (
-  2, 'Deporte', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
+  2, 'Taller de Yoga y Meditación', 0x0101, 
+  'Técnicas de relajación, meditación y posturas de yoga.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
   null, 2, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
-  3, 'Festival de la Música Peruana', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
+  3, 'Taller de Cerámica', 0x0101, 
+  'Creación de piezas de cerámica, desde el modelado hasta el esmaltado.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
   null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
-  4, 'Deporte 2', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
+  4, 'Taller de Zumba', 0x0101, 
+  'Ejercicio aeróbico con música y movimientos de baile.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
   null, 2, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
-  5, 'Festival de la Música Peruana', 0x0101, 
-  'El Festival de la Música Peruana es un evento que celebra y promueve la rica diversidad musical del Perú.', 
+  5, 'Taller de Teatro', 0x0101, 
+  'Técnicas de actuación, improvisación y montaje de obras.', 
   100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
   '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
   null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
 ),(
-  6, 'Concierto de Rock', 0x0102,
-  'Un concierto de rock con bandas locales e internacionales que te hará vibrar.', 
+  6, 'Taller de Danza Folclórica', 0x0102,
+  'Bailes tradicionales de diferentes regiones.', 
   200, 'Estadio Nacional, Lima, Perú', '2024-11-10', 
   '2024-11-10', '18:00:00', '22:00:00', 'No hay', 1, 
   null, 1,  1, true, '18:00:00', '22:00:00',6,1,1,1,0,1,1,1
 ),
 (
-  7, 'Feria Gastronómica', 0x0103,
-  'La feria gastronómica más grande del país, con los mejores chefs y restaurantes.', 
+  7, 'Taller de Artes Marciales (Karate, Taekwondo, Judo)', 0x0103,
+  'Entrenamiento en artes marciales y defensa personal.', 
   300, 'Parque de la Exposición, Lima, Perú', '2024-09-15', 
   '2024-09-17', '10:00:00', '20:00:00', 'No hay', 2, 
-  null, 1,  1, true, '10:00:00', '20:00:00',6,1,1,1,0,1,1,1
+  null, 2,  1, true, '10:00:00', '20:00:00',6,1,1,1,0,1,1,1
 ),
 (
-  8, 'Maratón de Lima', 0x0104,
-  'Participa en la maratón más importante de Lima, abierta para todas las edades.', 
+  8, 'Taller de Natación', 0x0104,
+  'Técnicas de nado para diferentes niveles, desde principiantes hasta avanzados.', 
   500, 'Centro de Lima, Perú', '2024-08-05', 
   '2024-08-05', '06:00:00', '14:00:00', 'No hay', 1, 
-  null, 1, 1, true, '06:00:00', '14:00:00',6,1,1,1,0,1,1,1
+  null, 2, 1, true, '06:00:00', '14:00:00',6,1,1,1,0,1,1,1
 ),(
-  9, 'Exposición de Arte Contemporáneo', 0x0105,
-  'Descubre las obras más recientes de artistas contemporáneos peruanos.', 
+  9, 'Taller de Música (Guitarra, Piano, Violín)', 0x0105,
+  'Clases de instrumentos musicales para principiantes y avanzados.', 
   150, 'Museo de Arte de Lima, Perú', '2024-07-20', 
   '2024-07-25', '09:00:00', '18:00:00', 'No hay', 2, 
   null, 1, 1, true, '09:00:00', '18:00:00',6,1,1,1,0,1,1,1
 ),
 (
-  10, 'Festival de Cine Independiente', 0x0106,
-  'Proyecciones de cine independiente de Perú y el mundo, con la presencia de directores y actores.', 
+  10, 'Taller de Cine y Video', 0x0106,
+  'Producción, edición y dirección de cortometrajes y videos.', 
   250, 'Cineplanet, Lima, Perú', '2024-12-01', 
   '2024-12-05', '15:00:00', '23:00:00', 'No hay', 1, 
   null, 1, 1, true, '15:00:00', '23:00:00',6,1,1,1,0,1,1,1
 ),
 (
-  11, 'Conferencia de Tecnología', 0x0107,
-  'Una conferencia que reúne a los líderes de la industria tecnológica para discutir las últimas tendencias e innovaciones.', 
+  11, 'Taller de Atletismo', 0x0107,
+  'Entrenamiento en carreras, saltos y lanzamientos.', 
   350, 'Centro de Convenciones de Lima, Perú', '2024-09-30', 
   '2024-10-01', '09:00:00', '17:00:00', 'No hay', 2, 
-  null, 1, 1, true, '09:00:00', '17:00:00',6,1,1,1,0,1,1,1
+  null, 2, 1, true, '09:00:00', '17:00:00',6,1,1,1,0,1,1,1
 ),
 (
-  12, 'Feria del Libro', 0x0108,
-  'La feria del libro más grande del país, con autores nacionales e internacionales.', 
+  12, 'Taller de Fútbol', 0x0108,
+  'Técnicas tácticas y entrenamiento en equipo.', 
   400, 'Jockey Plaza, Lima, Perú', '2024-08-20', 
   '2024-08-27', '10:00:00', '21:00:00', 'No hay', 1, 
-  null, 1, 1, true, '10:00:00', '21:00:00',6,1,1,1,0,1,1,1
+  null, 2, 1, true, '10:00:00', '21:00:00',6,1,1,1,0,1,1,1
 );
 
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
@@ -542,6 +542,7 @@ CREATE TABLE `usuarios` (
   `TipoCoordinadora_idTipoCoordinadora` int DEFAULT NULL,
   `is_bannedApp` tinyint NOT NULL DEFAULT '0',
   `motivo_bannedApp` varchar(255) DEFAULT NULL,
+  `genero` int NOT NULL,
   PRIMARY KEY (`idUsuarios`),
   KEY `fk_Usuarios_Roles_idx` (`Roles_idRoles`),
   KEY `fk_Usuarios_Urbanizacion1_idx` (`Urbanizacion_idUrbanizacion`),
@@ -558,7 +559,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO usuarios VALUES (1,2,'jose.martinez@gmail.com',sha2('martinez',256),'Jose','Martinez','74857485','Calle Los Pinos 123','912345678',11,'newtoken12345',1,'1985-06-15',1,0,NULL),(2,3,'andrea.lopez@gmail.com',sha2('lopez00',256),'Andrea','Lopez','78543214','Avenida Los Alamos 456','987654321',2,'newtoken67890',1,'1990-08-20',NULL,0,NULL),(3,3,'fernando.garcia@gmail.com',sha2('garcia0',256),'Fernando','Garcia','75896321','Jiron Las Flores 789','912345987',9,'newtoken24680',1,'1988-12-05',NULL,0,NULL),(4,4,'laura.perez@gmail.com',sha2('perez00',256),'Laura','Perez','76985412','Avenida Los Cedros 101','987654123',8,'newtoken13579',1,'1982-03-22',NULL,0,NULL),(5,2,'manuel.ruiz@gmail.com',sha2('ruiz000',256),'Manuel','Ruiz','75236485','Calle Las Rosas 202','912349876',14,'newtoken54321',1,'1995-11-10',2,0,NULL),(6,3,'monica.sanchez@gmail.com',sha2('sanchez',256),'Monica','Sanchez','71258963','Pasaje Los Olivos 303','987652341',1,'newtoken67890',1,'1979-07-17',1,0,NULL),(7,3,'alejandro.fernandez@gmail.com',sha2('fernandez',256),'Alejandro','Fernandez','73489562','Avenida Las Palmas 404','912348765',1,'newtoken123456',1,'1993-05-30',1,0,NULL),(8,4,'valeria.gonzales@gmail.com',sha2('gonzales',256),'Valeria','Gonzales','72986412','Calle Las Acacias 505','987651234',4,'newtoken654321',1,'1986-09-25',NULL,0,NULL),(9,4,'adrian.torres@gmail.com',sha2('torres0',256),'Adrian','Torres','74561238','Jiron Las Lomas 606','912347654',2,'newtoken789012',1,'1991-04-12',NULL,0,NULL),(10,2,'claudia.morales@gmail.com',sha2('morales',256),'Claudia','Morales','73845612','Avenida Los Jazmines 707','987654987',7,'newtoken098765',1,'1984-01-05',NULL,0,NULL),(11,1,'administrador@sanmiguel.com',sha2('administrador2024',256),'Lionel','Messi','74857481','Av. Universitaria 322','912345677',11,null,null,'1987-06-24',null,0,NULL),(12,4,'gabriel.telesoft2024@gmail.com',sha2('marquez',256),'Gabriel','Garcia','75489356','Calle Los Pinos 143','912345647',10,'newtoken12345',1,'1985-06-15',NULL,0,NULL);
+INSERT INTO usuarios VALUES (1,2,'jose.martinez@gmail.com',sha2('martinez',256),'Jose','Martinez','74857485','Calle Los Pinos 123','912345678',11,'newtoken12345',1,'1985-06-15',1,0,NULL,1),(2,3,'andrea.lopez@gmail.com',sha2('lopez00',256),'Andrea','Lopez','78543214','Avenida Los Alamos 456','987654321',2,'newtoken67890',1,'1990-08-20',NULL,0,NULL,2),(3,3,'fernando.garcia@gmail.com',sha2('garcia0',256),'Fernando','Garcia','75896321','Jiron Las Flores 789','912345987',9,'newtoken24680',1,'1988-12-05',NULL,0,NULL,1),(4,4,'laura.perez@gmail.com',sha2('perez00',256),'Laura','Perez','76985412','Avenida Los Cedros 101','987654123',8,'newtoken13579',1,'1982-03-22',NULL,0,NULL,2),(5,2,'manuel.ruiz@gmail.com',sha2('ruiz000',256),'Manuel','Ruiz','75236485','Calle Las Rosas 202','912349876',14,'newtoken54321',1,'1995-11-10',2,0,NULL,1),(6,3,'monica.sanchez@gmail.com',sha2('sanchez',256),'Monica','Sanchez','71258963','Pasaje Los Olivos 303','987652341',1,'newtoken67890',1,'1979-07-17',1,0,NULL,2),(7,3,'alejandro.fernandez@gmail.com',sha2('fernandez',256),'Alejandro','Fernandez','73489562','Avenida Las Palmas 404','912348765',1,'newtoken123456',1,'1993-05-30',1,0,NULL,1),(8,4,'valeria.gonzales@gmail.com',sha2('gonzales',256),'Valeria','Gonzales','72986412','Calle Las Acacias 505','987651234',4,'newtoken654321',1,'1986-09-25',NULL,0,NULL,2),(9,4,'adrian.torres@gmail.com',sha2('torres0',256),'Adrian','Torres','74561238','Jiron Las Lomas 606','912347654',2,'newtoken789012',1,'1991-04-12',NULL,0,NULL,1),(10,2,'claudia.morales@gmail.com',sha2('morales',256),'Claudia','Morales','73845612','Avenida Los Jazmines 707','987654987',7,'newtoken098765',1,'1984-01-05',NULL,0,NULL,2),(11,1,'administrador@sanmiguel.com',sha2('administrador2024',256),'Lionel','Messi','74857481','Av. Universitaria 322','912345677',11,null,null,'1987-06-24',null,0,NULL,1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 unlock TABLES;
 
