@@ -6,8 +6,6 @@ import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.filters.Sanitizer;
-import java.util.Map;
-import java.util.HashMap;
 
 import java.net.URLEncoder;
 import java.nio.file.Paths;
@@ -25,9 +23,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import jakarta.servlet.http.Part;
-import org.json.JSONObject;
-
 //import org.apache.commons.lang3.StringEscapeUtils;
 
 
@@ -176,7 +171,6 @@ public class ServletVecino extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-
     private void actualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nombreIncidencia = Sanitizer.sanitize(request.getParameter("fullname"));
         String telefono = Sanitizer.sanitize(request.getParameter("phone"));
@@ -306,6 +300,41 @@ public class ServletVecino extends HttpServlet {
         out.print(json);
         out.flush();
     }
+    private void eliminarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+        System.out.println("Usuario ID: " + usuario.getIdUsuarios());
+
+        Incidencia incidenciaExistente = incidenciaDao.obtenerIncidencia(id);
+        if (incidenciaExistente.getEstado() != 1) {
+            request.setAttribute("errorMessage", "No se puede eliminar una incidencia que no esté en estado 'nueva'.");
+            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            return;
+        }
+
+        incidenciaDao.eliminarIncidencia(id);
+        System.out.println("Incidencia eliminada correctamente.");
+
+        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+    }
+    private void manejarMisIncidencias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null) {
+            int vecinoId = usuario.getIdUsuarios();
+            List<Incidencia> misIncidencias = incidenciaDao.listarMisIncidencias(vecinoId);
+            request.setAttribute("misIncidencias", misIncidencias);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-misIncidencias.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+
     private void reportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -408,72 +437,6 @@ public class ServletVecino extends HttpServlet {
             throw new ServletException("Error al insertar la incidencia", e);
         }
         //response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
-
-    }
-    private void eliminarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-
-        HttpSession session = request.getSession(false);
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {
-            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
-            return;
-        }
-        System.out.println("Usuario ID: " + usuario.getIdUsuarios());
-
-        Incidencia incidenciaExistente = incidenciaDao.obtenerIncidencia(id);
-        if (incidenciaExistente.getEstado() != 1) {
-            request.setAttribute("errorMessage", "No se puede eliminar una incidencia que no esté en estado 'nueva'.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
-        }
-
-        incidenciaDao.eliminarIncidencia(id);
-        System.out.println("Incidencia eliminada correctamente.");
-
-        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
-    }
-    private void manejarMisIncidencias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario != null) {
-            int vecinoId = usuario.getIdUsuarios();
-            List<Incidencia> misIncidencias = incidenciaDao.listarMisIncidencias(vecinoId);
-            request.setAttribute("misIncidencias", misIncidencias);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-misIncidencias.jsp");
-            dispatcher.forward(request, response);
-        }
-    }
-    private boolean isImageFile(Part part) {
-        try {
-            String contentType = part.getContentType();
-            return contentType.equals("image/jpeg") || contentType.equals("image/png");
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
-    private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        if (id == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta el parámetro id");
-            return;
-        }
-
-        try {
-            byte[] imgData = incidenciaDao.obtenerFotoIncidencia(Integer.parseInt(id));
-            if (imgData != null) {
-                response.setContentType("image/jpeg");
-                try (OutputStream os = response.getOutputStream()) {
-                    os.write(imgData);
-                }
-            } else {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagen no encontrada para id: " + id);
-            }
-        } catch (SQLException e) {
-            throw new ServletException("Error al acceder a la base de datos", e);
-        }
 
     }
 
