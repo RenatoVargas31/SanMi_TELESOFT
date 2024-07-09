@@ -1,7 +1,5 @@
 package com.example.sanmi_telesoft.beans;
 
-import java.io.InputStream;
-
 public class Incidencia {
     private int idIncidencias;
     private String nombreIncidencia;
@@ -24,6 +22,7 @@ public class Incidencia {
     private int tipo;
     private String victima;
     private int usuarioId;
+    private String fechaCreacion;
 
     public int getUsuarioId() {
         return usuarioId;
@@ -197,6 +196,14 @@ public class Incidencia {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }
 

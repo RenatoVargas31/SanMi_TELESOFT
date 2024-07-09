@@ -66,6 +66,11 @@
                         <div class="text-truncate" data-i18n="Incidencias Falsas">Incidencias Falsas</div>
                     </a>
                 </li>
+                <li class="menu-item ${activeMenu == 'IncidenciasHistorial' ? 'active' : ''}">
+                    <a href="<%=request.getContextPath()%>/ServletSerenazgo?action=mostrarIncidenciasHistorial" class="menu-link">
+                        <div class="text-truncate" data-i18n="Historial de casos">Historial de casos</div>
+                    </a>
+                </li>
             </ul>
         </li>
 

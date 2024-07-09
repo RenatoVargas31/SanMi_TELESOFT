@@ -251,4 +251,38 @@ public class DaoIncidencia extends BaseDao{
         return listaFalsas;
     }
 
+    public ArrayList<Incidencia> listarIncidenciasHistorial() {
+        ArrayList<Incidencia> listaHistorial = new ArrayList<>();
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and EstadoIncidencia_idEstadoIncidencia = 3 AND enabled = 1";
+
+        try (Connection conn = this.getConection();
+            Statement st =  conn.createStatement();
+            ResultSet rs = st.executeQuery(sql)){
+                while (rs.next()) {
+                    Incidencia incidencia = new Incidencia();
+                    incidencia.setIdIncidencias(rs.getInt(1));
+                    incidencia.setNombreIncidencia(rs.getString(2));
+                    incidencia.setLugarIncidencia(rs.getString(3));
+                    incidencia.setReferenciaIncidencia(rs.getString(4));
+                    incidencia.setTelefono(rs.getInt(6));
+                    incidencia.setRequiereAmbulancia(rs.getBoolean(7));
+                    incidencia.setRequierePolicia(rs.getBoolean(8));
+                    incidencia.setRequiereBombero(rs.getBoolean(9));
+                    incidencia.setDescripcionSolucion(rs.getString(10));
+                    incidencia.setSerenazgoid(rs.getInt(11));
+                    incidencia.setAmbulalciaid(rs.getInt(12));
+                    incidencia.setEstado(rs.getInt(14));
+                    incidencia.setCriticidad(rs.getInt(15));
+                    incidencia.setTipo(rs.getInt(16));
+                    incidencia.setFechaCreacion(rs.getString(18));
+                    incidencia.setNameUsuario(rs.getString(19));
+
+                    listaHistorial.add(incidencia);
+                }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return listaHistorial;
+    }
+
 }

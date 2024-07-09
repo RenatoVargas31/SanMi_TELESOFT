@@ -54,6 +54,15 @@ public class ServletSerenazgo extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/Serenazgo/incidenciasFalsasSerenazgo.jsp").forward(request, response);
                 break;
 
+            case "mostrarIncidenciasHistorial":
+                request.setAttribute("activeMenuToggle", "Incidencias");
+                request.setAttribute("activeMenu", "IncidenciasHistorial");
+                DaoIncidencia daoIncidenciaHistorial = new DaoIncidencia();
+                ArrayList<Incidencia> listaIncidenciasHisorial = daoIncidenciaHistorial.listarIncidenciasHistorial();
+                request.setAttribute("historial", listaIncidenciasHisorial);
+                request.getRequestDispatcher("WEB-INF/Serenazgo/historial.jsp").forward(request, response);
+                break;
+
             case "falsearIncidencia":
                 if (request.getParameter("id") != null) {
                     String incIdString = request.getParameter("id");
