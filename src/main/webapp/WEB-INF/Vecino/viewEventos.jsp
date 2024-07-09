@@ -173,7 +173,7 @@
                                     <div class="p-2">
                                         <div class="rounded-2 text-center mb-3">
                                             <% if (evento.getIdEventos() > 12) { %>
-                                            <img style="height:auto;width: 800px; border-radius: 10px; margin-bottom: -20px" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
+                                            <img style="height:auto;width: 800px; border-radius: 10px; margin-bottom: -20px" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenEvento&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
                                             <% } else {%>
                                             <img style="height:auto;width: 800px; border-radius: 10px; margin-bottom: -20px" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento.getIdEventos() %>.jpg" alt="Imagen del evento">
                                             <% }%>
