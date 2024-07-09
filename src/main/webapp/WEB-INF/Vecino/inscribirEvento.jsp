@@ -165,7 +165,7 @@
                                         <div class="row">
                                         <div class="col-lg-3">
                                             <% if (evento.getIdEventos() > 12) { %>
-                                            <img style="border-radius: 5px"  src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenEvento&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
+                                            <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenEvento&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
                                             <% } else {%>
                                             <img style="border-radius: 5px" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento.getIdEventos() %>.jpg" alt="Imagen del evento">
                                             <% }%>
@@ -186,67 +186,7 @@
 
                                 <div style="margin-top: 25px" class="card academy-content shadow-none border">
                                     <div class="card-body">
-                                    <form method="post" action="<%= request.getContextPath() %>/ServletVecino?action=guardarInscripcion&id=<%= evento.getIdEventos() %> ">
-
-                                            <h3 style="font-size: 35px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
-
-                                        <hr class="my-4">
-                                            <!-- Contenido de la tarjeta u otras secciones -->
-
-                                        <h3 style="color: rgb(0,0,0); margin-bottom: 40px; font-weight: 650;" class="mb-0 pt-1">Cantidad:</h3>
-
-                                        <div class="container mt-4"> <!-- Aumenté el margen top aquí -->
-                                            <div class="row">
-                                                <div class="col-12 col-md-3">
-                                                    <div class="form-check">
-                                                        <input name="entradas" class="form-check-input" type="radio" value="1" id="defaultRadio1" checked/>
-                                                        <label class="form-check-label" for="defaultRadio1" style="color: rgb(55,55,55);font-size: 18px;">
-                                                            1 entrada
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-3">
-                                                    <div class="form-check">
-                                                        <input name="entradas" class="form-check-input" type="radio" value="2" id="inlineRadio2" />
-                                                        <label class="form-check-label" for="inlineRadio2" style="color: rgb(55,55,55);font-size: 18px;" >
-                                                            2 entradas
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-3">
-                                                    <div class="form-check">
-                                                        <input name="entradas" class="form-check-input" type="radio" value="3" id="inlineRadio3" />
-                                                        <label class="form-check-label" for="inlineRadio3" style="color: rgb(55,55,55);font-size: 18px;">
-                                                            3 entradas
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-3">
-                                                    <div class="form-check">
-                                                        <input name="entradas" class="form-check-input" type="radio" value="4" id="defaultRadio4" />
-                                                        <label class="form-check-label" for="defaultRadio4" style="color: rgb(55,55,55);font-size: 18px;">
-                                                            4 entradas
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="container mt-4">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="form d-flex align-items-center mb-1">
-                                                        <button type="submit" class="btn btn-primary" style="flex: auto;">
-                                                            Confirmar inscripción
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-                                    </form>
+                                        <h3 style="font-size: 35px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
                                         <hr class="my-4">
                                         <div class="row lh-lg ">
                                                     <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Recuerda que:</h3>
@@ -256,6 +196,27 @@
                                         <div class ="row lh-lg pr-3" style="padding-right: 30px" ><h5 style="color: rgb(55,55,55);margin-left: 15px;line-height: 1.5;text-align: justify">- El máximo de entradas es 4, con el fin de mantener el orden</h5></div>
                                             <div class ="row lh-lg " style="padding-right: 30px"><h5 style="color: rgb(55,55,55);margin-left: 15px;line-height: 1.5;text-align: justify">- El uso indebido de las entradas puede terminar en la suspensión de tu cuenta </h5></div>
 
+                                        <form method="post" action="<%= request.getContextPath() %>/ServletVecino?action=guardarInscripcion&id=<%= evento.getIdEventos() %> ">
+
+
+
+
+
+                                            <div class="container mt-4">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form d-flex align-items-center mb-1">
+                                                            <button type="submit" class="btn btn-primary" style="flex: auto;">
+                                                                Confirmar inscripción
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </form>
 
                                         <hr class="my-4">
                                         <div class="row">
