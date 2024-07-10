@@ -59,7 +59,7 @@
                 <div class="card-body">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center">
-                        <a href="index.jsp" class="app-brand-link gap-2">
+                        <a href="javascript:void(0);" class="app-brand-link gap-2">
                             <img class="img-fluid w-20" src="${pageContext.request.contextPath}/assets/img/illustrations/logo-sanmiguel-retocado.jpg" alt="logo-sanmiguel">
                             <span class="app-brand-text demo text-body fw-bold">SanMI</span>
                         </a>
@@ -67,11 +67,14 @@
                     <!-- /Logo -->
                     <h4 class="mb-2">¿Contraseña olvidada? 🔒</h4>
                     <p class="mb-4">Ingresa tu correo y nosotros le enviaremos instrucciones para reestablecer su password.</p>
-                    <form id="formAuthentication" class="mb-3" action="sis-confirmresetpass.jsp" method="GET">
+                    <form id="formAuthentication" class="mb-3" action="ServletSistema?action=verificarEmail2" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo</label>
                             <input type="text" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" autofocus>
                         </div>
+                        <% if (request.getAttribute("error") != null) { %>
+                        <div class="text-danger mb-3">Esta credencial no existe</div>
+                        <% } %>
                         <button class="btn btn-primary d-grid w-100">Enviar</button>
                     </form>
                     <div class="text-center">

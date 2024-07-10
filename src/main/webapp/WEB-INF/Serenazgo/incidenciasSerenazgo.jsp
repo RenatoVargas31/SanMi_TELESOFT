@@ -103,10 +103,11 @@
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
 
+
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Mis incidencias</h3>
+                                <h3 class="m-4 fw-bold">Reporte de Incidencia</h3>
 
                             </div>
                             <table id="table-misincidencias" class="datatables-basic table border-top">
@@ -123,7 +124,7 @@
 
                                 <tbody>
                                 <%
-                                    int i = 1;
+                                    int j = 1;
                                     for (Incidencia incidencia : listaIncidencias) {
                                         String modalId = "modalScrollable" + i;
 
@@ -204,7 +205,7 @@
                                     </td>
                                 </tr>
                                 <%
-                                        i++;
+                                        j++;
                                     }
                                 %>
                                 </tbody>

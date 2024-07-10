@@ -16,6 +16,7 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
 public class EmailService {
+
     public boolean asd(String to, String subject, String body)  {
         Properties properties = new Properties();
         String user = "loliperales17@gmail.com";
@@ -26,15 +27,12 @@ public class EmailService {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.port", "587");
-
         Session session = Session.getInstance(properties,
                 new jakarta.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(user, password);
                     }
                 });
-
-
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(user));
@@ -61,6 +59,49 @@ public class EmailService {
         } catch (MessagingException e) {
             e.printStackTrace();
             return false;
+        } /*catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }*/
+    }
+
+    public void enviarLink(String to, String subject, String link)  {
+        Properties properties = new Properties();
+        String user = "loliperales17@gmail.com";
+        String password = "xpkwbfgqhgjovpex";
+
+        //ssl
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(properties,
+                new jakarta.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, password);
+                    }
+                });
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject(subject);
+
+            MimeBodyPart bodyPart = new MimeBodyPart();
+            String htmlContent = "<h1>Hola,</h1>"
+                    + "<p>Haz clic en el siguiente enlace para más información:</p>"
+                    + "<a href=\"" + link + "\">Enlace</a>";
+            bodyPart.setContent(htmlContent, "text/html");
+
+
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(bodyPart);
+
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("sent");
+        } catch (MessagingException e) {
+            e.printStackTrace();
         } /*catch (IOException e) {
             e.printStackTrace();
             return false;

@@ -63,13 +63,13 @@
         <h3 class="m-4 fw-bold">Incidencias Generales</h3>
         <thead>
         <tr>
-          <th><input type="checkbox" class="form-check-input" id="select-all"></th>
           <th>Incidencia</th>
           <th>Lugar</th>
           <th>Estado</th>
           <th>Prioridad</th>
           <th>Usuario</th>
           <th>Acciones</th>
+          <th>Fecha y hora</th>
         </tr>
         </thead>
         <tbody>
@@ -150,7 +150,6 @@
             </div>
           </div>
           <tr>
-            <td><input type="checkbox" class="form-check-input"></td>
             <td><%= incidencia.getNombreIncidencia() %></td>
             <td><%= incidencia.getLugarIncidencia() %></td>
             <% if (incidencia.getEstado() == 1) { %>
@@ -170,6 +169,7 @@
             <td><span class="badge bg-secondary">No asignado</span></td>
             <% } %>
             <td><%= incidencia.getNameUsuario() %></td>
+            <td><%= incidencia.getFechaCreacion()%></td>
             <td>
               <button type="button"
                       class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"

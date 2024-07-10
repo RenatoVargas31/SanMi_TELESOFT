@@ -80,7 +80,7 @@ public class UsuarioDAO {
 
     public Usuario obtenerDatosporId(int usuarioId) {
         Usuario usuario = null;
-        String sql = "SELECT nombreUsuario, apellidoUsuario, correoUsuario FROM usuarios WHERE idUsuarios = ?";
+        String sql = "SELECT idUsuarios, nombreUsuario, apellidoUsuario, correoUsuario FROM usuarios WHERE idUsuarios = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -94,6 +94,7 @@ public class UsuarioDAO {
                 String correo = resultSet.getString("correoUsuario");
                 // Crear un objeto Usuario con los datos recuperados
                 usuario = new Usuario();
+                usuario.setIdUsuarios(resultSet.getInt(1));
                 usuario.setNombreUsuario(nombre);
                 usuario.setApellidoUsuario(apellido);
                 usuario.setCorreoUsuario(correo);
@@ -129,6 +130,51 @@ public class UsuarioDAO {
         }
 
         return usuario;
+    }
+
+    public Usuario obtenerDatosporCorreo(String correo) {
+        Usuario usuario = null;
+        String sql = "SELECT idUsuarios, nombreUsuario, apellidoUsuario, correoUsuario FROM usuarios WHERE correoUsuario = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, correo);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                String nombre = resultSet.getString("nombreUsuario");
+                String apellido = resultSet.getString("apellidoUsuario");
+                String correo1 = resultSet.getString("correoUsuario");
+                // Crear un objeto Usuario con los datos recuperados
+                usuario = new Usuario();
+                usuario.setIdUsuarios(resultSet.getInt(1));
+                usuario.setNombreUsuario(nombre);
+                usuario.setApellidoUsuario(apellido);
+                usuario.setCorreoUsuario(correo1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return usuario;
+    }
+
+    public void cambiarContrasena(int id, String pass){
+        String sql = "UPDATE usuarios SET passWordUsuario = sha2(?, 256) WHERE idUsuarios = ?;";
+
+        try(Connection con = this.getConnection();
+           PreparedStatement st = con.prepareStatement(sql)){
+
+            st.setString(1, pass);
+            st.setInt(2, id);
+            st.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="user" type="com.example.sanmi_telesoft.beans.Usuario" scope="request" />
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-wide customizer-hide" dir="ltr" data-theme="theme-semi-dark" data-assets-path="<%=request.getContextPath()%>/assets/" data-template="vertical-menu-template-semi-dark">
 <head>
@@ -69,22 +72,27 @@
                     </div>
                     <!-- /Logo -->
                     <h4 class="mb-2">Reestablecer contraseña 🔒</h4>
-                    <p class="mb-4">para <span class="fw-medium">example@email.com</span></p>
-                    <form id="formAuthentication" class="mb-3" action="sis-confirmresetpass.jsp" method="GET">
+                    <p class="mb-4">para <span class="fw-medium"><%= user.getCorreoUsuario()%></span></p>
+                    <% if(request.getAttribute("as") == null){ %>
+                    <form id="formAuthentication" class="mb-3" action="ServletSistema?action=confirmResetPass" method="POST">
+                        <input type="hidden" name="idUsuario" value="<%= user.getIdUsuarios()%>"/>
                         <div class="mb-3 form-password-toggle">
                             <label class="form-label" for="password">Contraseña nueva</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                <input type="password" id="password" class="form-control" name="new" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <label class="form-label" for="confirm-password">Confirmar la contraseña</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="confirm-password" class="form-control" name="confirm-password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                <input type="password" id="confirm-password" class="form-control" name="confirm" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
+                        <% if (request.getAttribute("ga") != null) { %>
+                        <div class="text-danger mb-2">Las contraseñas no son iguales</div>
+                        <% } %>
                         <button class="btn btn-primary d-grid w-100 mb-3">
                             Establecer contraseña
                         </button>
@@ -94,7 +102,11 @@
                             Regresar al inicio de sesión
                           </a>
                         </div>-->
-                    </form>
+                    </form><% } else {%>
+                    <div class="text-danger mb-2">Ha excedido el tiempo de reestablecimiento de contraseña</div>
+                    <% }%>
+
+
                 </div>
             </div>
             <!-- /Reset Password -->

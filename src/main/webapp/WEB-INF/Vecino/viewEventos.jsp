@@ -253,9 +253,9 @@
                                                         <button type="button" class="accordion-button bg-lighter rounded-0"
                                                                 data-bs-toggle="collapse" data-bs-target="#chapterOne"
                                                                 aria-expanded="true" aria-controls="chapterOne">
-                            <span class="d-flex flex-column">
-                                <span class="h5 mb-1 fw-bolder fs-4" style="color:rgb(55,55,55)">Detalles</span>
-                            </span>
+                                                                <span class="d-flex flex-column">
+                                                                    <span class="h5 mb-1 fw-bolder fs-4" style="color:rgb(55,55,55)">Detalles</span>
+                                                                </span>
                                                         </button>
                                                     </div>
 

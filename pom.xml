@@ -55,28 +55,7 @@
             <artifactId>json</artifactId>
             <version>20240303</version>
         </dependency>
-        <!-- Dependencias de Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <!-- Dependencia para manejo de archivos multipart -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.eclipse.angus</groupId>
@@ -85,7 +64,6 @@
         </dependency>
 
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

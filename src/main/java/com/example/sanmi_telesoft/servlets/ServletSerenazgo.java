@@ -38,7 +38,7 @@ public class ServletSerenazgo extends HttpServlet {
 
             case "mostrarReportesIncidencias":
                 DaoIncidencia daoIncidencia = new DaoIncidencia();
-                ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidencias();
+                ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidenciasSerenazo();
                 request.setAttribute("listaIncidencias", listaIncidencias);
                 request.setAttribute("activeMenuToggle", "Incidencias");
                 request.setAttribute("activeMenu", "ReporteIncidencias");
