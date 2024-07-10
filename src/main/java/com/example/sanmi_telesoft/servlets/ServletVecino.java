@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.beans.Usuario;
+import com.example.sanmi_telesoft.dto.DiaconHoras;
 import com.example.sanmi_telesoft.filters.Sanitizer;
 
 import java.net.URLEncoder;
@@ -56,7 +57,8 @@ public class ServletVecino extends HttpServlet {
             idUsuario = usuario.getIdUsuarios();
         }
         try {
-            request.setAttribute("eventosUsuario",eventoDao.eventosInscritosporUsuario(idUsuario));
+            ArrayList<Integer> listaIdEventos= eventoDao.eventosInscritosporUsuario(idUsuario);
+            request.setAttribute("eventosUsuario",listaIdEventos);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -102,6 +104,7 @@ public class ServletVecino extends HttpServlet {
                 request.setAttribute("activeMenu", "EventosInscritos");
                 request.setAttribute("activeMenuToggle", "Eventos");
                 ArrayList<Evento> listaMisEventos = eventoDao.listaEventosUser(idUsuario);
+
                 request.setAttribute("listaMisEventos", listaMisEventos);
                 request.getRequestDispatcher("WEB-INF/Vecino/eventosInscritos.jsp").forward(request, response);
                 break;
@@ -644,7 +647,7 @@ public class ServletVecino extends HttpServlet {
             idUsuario = usuario.getIdUsuarios();
             }
         System.out.println(idUsuario);
-        int entradas = 0;
+        int entradas = 1;
         String entradasParam = request.getParameter("entradas");
 
         // Validar y convertir la cantidad de entradas si está presente en el formulario

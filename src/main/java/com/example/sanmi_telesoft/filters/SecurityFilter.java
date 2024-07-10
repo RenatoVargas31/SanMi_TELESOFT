@@ -1,5 +1,6 @@
 package com.example.sanmi_telesoft.filters;
 
+import com.example.sanmi_telesoft.beans.Evento;
 import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.daos.DaoEvento;
 import jakarta.servlet.Filter;
@@ -63,10 +64,29 @@ public class SecurityFilter implements Filter {
         // Verificar inscripción a eventos
         if (path.startsWith("/ServletVecino") && "inscribirEvento".equals(httpRequest.getParameter("action"))) {
             String idEvento = httpRequest.getParameter("id");
+
             if (usuario != null && idEvento != null) {
+                Evento eventoactual = daoEvento.searchEventobyId(Integer.parseInt(idEvento));
                 try {
                     ArrayList<Integer> eventosInscritos = daoEvento.eventosInscritosporUsuario(usuario.getIdUsuarios());
-                    if (eventosInscritos.contains(Integer.parseInt(idEvento))) {
+                    int eventoTraslapado = 0;
+                    boolean traslapado = false;
+
+                    for (Integer integer : eventosInscritos) {
+                        if (integer == (Integer.parseInt(idEvento))) {
+                            continue; // Saltar el evento actual si es el mismo que estamos evaluando
+                        }
+
+                        Evento evento2 = daoEvento.searchEventobyId(integer);
+
+                        if (daoEvento.hayTraslapeEventos(eventoactual, evento2)) {
+                            eventoTraslapado = integer;
+                            traslapado = true;
+                            break;
+                        }
+                    }
+
+                    if (eventosInscritos.contains(Integer.parseInt(idEvento))|| traslapado) {
                         // El usuario ya está inscrito en el evento
                         httpResponse.sendRedirect(httpRequest.getContextPath() + "/error404.jsp");
                         return;
@@ -75,6 +95,7 @@ public class SecurityFilter implements Filter {
                     throw new ServletException("Error al verificar la inscripción del evento", e);
                 }
             }
+
         }
 
         chain.doFilter(request, response);

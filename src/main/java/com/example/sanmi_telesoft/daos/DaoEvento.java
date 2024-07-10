@@ -1,11 +1,14 @@
 package com.example.sanmi_telesoft.daos;
 
 import com.example.sanmi_telesoft.beans.*;
+import com.example.sanmi_telesoft.dto.DiaconHoras;
 
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DaoEvento extends BaseDao {
@@ -690,6 +693,80 @@ public class DaoEvento extends BaseDao {
 
         return lista;
     }
+    public ArrayList<DiaconHoras> fechasUtilizadas(Integer eventId) {
+        ArrayList<DiaconHoras> diasConHoras = new ArrayList<>();
+            Evento evento = searchEventobyId(eventId);
+
+            if (evento != null) {
+                LocalDate fechaInicio = LocalDate.parse(evento.getFechaEventoStart(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate fechaFin = LocalDate.parse(evento.getFechaEventoEnd(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                while (!fechaInicio.isAfter(fechaFin)) {
+                    if (isDiaActivo(fechaInicio, evento)) {
+                        DiaconHoras diaconHoras = new DiaconHoras();
+                        diaconHoras.setFecha(fechaInicio);
+                        diaconHoras.setHoraInicio(LocalTime.parse(evento.getHoraEventoStart()));
+                        diaconHoras.setHoraFin(LocalTime.parse(evento.getHoraEventoEnd()));
+
+                        diasConHoras.add(diaconHoras);
+                    }
+                    fechaInicio = fechaInicio.plusDays(1);
+                }
+            }
+
+
+        return diasConHoras;
+    }
+    private boolean isDiaActivo(LocalDate fecha, Evento evento) {
+        DayOfWeek diaSemana = fecha.getDayOfWeek();
+        switch (diaSemana) {
+            case MONDAY:
+                return evento.isLunesActive();
+            case TUESDAY:
+                return evento.isMartesActive();
+            case WEDNESDAY:
+                return evento.isMiercolesActive();
+            case THURSDAY:
+                return evento.isJuevesActive();
+            case FRIDAY:
+                return evento.isViernesActive();
+            case SATURDAY:
+                return evento.isSabadoActive();
+            case SUNDAY:
+                return evento.isDomingoActive();
+            default:
+                return false;
+        }
+    }
+
+    public boolean hayTraslapeEventos(Evento evento1, Evento evento2) {
+        ArrayList<DiaconHoras> diasConHorasEvento1 = fechasUtilizadas(evento1.getIdEventos()); // Obtener días con horas del evento1
+        ArrayList<DiaconHoras> diasConHorasEvento2 = fechasUtilizadas(evento2.getIdEventos()); // Obtener días con horas del evento2
+
+        for (DiaconHoras diaEvento1 : diasConHorasEvento1) {
+            for (DiaconHoras diaEvento2 : diasConHorasEvento2) {
+                // Verificar traslape de fechas
+                if (diaEvento1.getFecha().equals(diaEvento2.getFecha())) {
+                    // Verificar traslape de horas
+                    if (hayTraslapeHoras(diaEvento1.getHoraInicio(), diaEvento1.getHoraFin(), diaEvento2.getHoraInicio(), diaEvento2.getHoraFin())) {
+                        return true; // Hay traslape
+                    }
+                }
+            }
+        }
+
+        return false; // No hay traslape
+    }
+    private boolean hayTraslapeHoras(LocalTime inicio1, LocalTime fin1, LocalTime inicio2, LocalTime fin2) {
+        // Verificar si hay traslape entre los intervalos de horas
+        return !fin1.isBefore(inicio2) && !fin2.isBefore(inicio1);
+    }
+
+
+
+
+
+
 
 }
 

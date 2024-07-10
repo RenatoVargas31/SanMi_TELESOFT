@@ -52,7 +52,7 @@
     </style>
 
 
-    <title>SanMi | Entradas: <%= evento.getNombreEvento() %></title>
+    <title>SanMi | Inscripcion: <%= evento.getNombreEvento() %></title>
 
 
     <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
@@ -153,7 +153,7 @@
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">Todos los eventos</a></li>
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>"> <%= evento.getNombreEvento() %></a></li>
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %> " style="color:black">Entradas</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %> " style="color:black">Inscripción</a></li>
                         </ul>
                     </nav>
                     <div class="card g-3 mt-5" >
@@ -186,7 +186,7 @@
 
                                 <div style="margin-top: 25px" class="card academy-content shadow-none border">
                                     <div class="card-body">
-                                        <h3 style="font-size: 35px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Entradas</h3>
+                                        <h3 style="font-size: 35px; margin-bottom: 20px; font-weight: bold; color: #000000" class="mb-2">Inscripción</h3>
                                         <hr class="my-4">
                                         <div class="row lh-lg ">
                                                     <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Recuerda que:</h3>
@@ -291,7 +291,7 @@
                                                             <div class="rounded-2 text-center mb-3">
                                                                 <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento1.getIdEventos() %>">
                                                                     <% if (evento1.getIdEventos() > 12) { %>
-                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;"  src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenEvento&id=<%= evento1.getIdEventos() %>" alt="Foto del reporte">
+                                                                    <img style="height: 175px; width: 390px; border-radius: 10px;"  class="img-fluid" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenEvento&id=<%= evento1.getIdEventos() %>" alt="Foto del reporte">
                                                                     <% } else {%>
                                                                     <img style="height: 175px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento1.getIdEventos() %>.jpg" alt="Imagen del evento">
                                                                     <% }%>

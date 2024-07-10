@@ -361,7 +361,6 @@ public class ServletCoordinadora extends HttpServlet {
                 //Validacion de la frecuencia
 
                 String[] diasSeleccionados = request.getParameterValues("diasSemana");
-                System.out.println(Arrays.toString(diasSeleccionados));
 
                 if (diasSeleccionados != null) {
                     for (String dia : diasSeleccionados) {

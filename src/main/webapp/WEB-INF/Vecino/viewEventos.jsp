@@ -1,8 +1,11 @@
 <%@ page import="com.example.sanmi_telesoft.daos.UsuarioDAO" %>
+<%@ page import="com.example.sanmi_telesoft.daos.DaoEvento" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Objects" %>
 <%
     UsuarioDAO usuarioDAO = new UsuarioDAO();
+    DaoEvento daoEvento = new DaoEvento();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -184,7 +187,19 @@
                                         <p class="mb-0 pt-1 h5 " style="margin-bottom: 20px;line-height: 1.5;color: rgb(55,55,55);text-align: justify"><%= evento.getDescriptionEvento() %></p>
 
                                         <hr class="my-4">
+                                        <%
+                                            String materialesEvento = evento.getMaterialesEvento();
 
+                                            if (materialesEvento != null && !materialesEvento.isEmpty()) {
+                                        %>
+                                        <h5 style="color: rgb(0,0,0); font-weight: 650">Materiales a usar:</h5>
+                                        <p class="mb-0 pt-1 h5" style="margin-bottom: 20px; line-height: 1.5; color: rgb(55,55,55); text-align: justify">
+                                            <%= materialesEvento %>
+                                        </p>
+                                        <hr class="my-4">
+                                        <%
+                                            }
+                                        %>
                                         <div class="row">
                                             <% if (evento.getProfesor() != null) { %>
                                             <div class="col-md-6">
@@ -319,11 +334,39 @@
                                                             </div>
 
                                                             <div class="form d-flex align-content-center mb-3" style="margin-top: 30px;">
+                                                                <%
+                                                                    int eventoTraslapado = 0;
+                                                                    boolean traslapado = false;
+
+                                                                    for (Integer integer : usuarioEvento) {
+                                                                        if (integer.equals(evento.getIdEventos())) {
+                                                                            continue; // Saltar el evento actual si es el mismo que estamos evaluando
+                                                                        }
+
+                                                                        Evento evento2 = daoEvento.searchEventobyId(integer);
+
+                                                                        if (daoEvento.hayTraslapeEventos(evento, evento2)) {
+                                                                            eventoTraslapado = integer;
+                                                                            traslapado = true;
+                                                                            break;
+                                                                        }
+                                                                    }%>
+                                                                <% if (traslapado) { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>
+                                                                    El horario de este evento interfiere con el del evento <%= daoEvento.searchEventobyId(eventoTraslapado).getNombreEvento() %>
+                                                                </button>
+                                                                <% } else { %>
+
                                                                 <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
                                                                 <a href="<%= request.getContextPath() %>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %>" class="btn btn-primary" style="flex: auto;">Inscríbete aquí</a>
-                                                                <% } else { %>
+
+                                                                <% }else { %>
                                                                 <button class="btn btn-primary" style="flex: auto;" disabled>Ya inscrito</button>
+                                                                <%} %>
+
                                                                 <% } %>
+
+
 
                                                             </div>
                                                         </div>
@@ -406,4 +449,3 @@
 <!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/app-academy-course-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Apr 2024 13:14:36 GMT -->
 </html>
 
-<!-- beautify ignore:end -->

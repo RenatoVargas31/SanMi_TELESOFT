@@ -3,6 +3,10 @@ package com.example.sanmi_telesoft.beans;
 import java.sql.Blob;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Evento {
@@ -269,4 +273,6 @@ private int entradaUser;
             return this.horaEventoStart; // En caso de error, retorna la hora en formato original
         }
     }
+
+
 }

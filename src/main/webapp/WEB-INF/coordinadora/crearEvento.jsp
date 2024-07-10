@@ -371,18 +371,20 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
         const form = document.querySelector('form');
         const descripcion = document.getElementById('descripcion');
         const materiales = document.getElementById('materiales');
         const charCount = document.getElementById('charCount');
         const materialesCharCount = document.getElementById('materialesCharCount');
-
+        const selectElement = document.getElementById('selectpickerMultiple');
         form.addEventListener('submit', function(event) {
             const fechaInicio = document.getElementById('FechaInicio').value;
             const fechaFin = document.getElementById('FechaFin').value;
             const horaInicio = document.getElementById('horaInicio').value;
             const horaFin = document.getElementById('horaFin').value;
 
+            const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
             if (fechaFin < fechaInicio) {
                 alert('La fecha de fin debe ser mayor o igual a la fecha de inicio.');
                 event.preventDefault();
@@ -406,6 +408,7 @@
                 event.preventDefault();
                 return;
             }
+
         });
 
         descripcion.addEventListener('input', function() {
@@ -427,7 +430,18 @@
                 materialesCharCount.textContent = '255/255 caracteres';
             }
         });
+
+
+
+
+
+
+
     });
+
+
+
+
 </script>
 <script>
     function closeModal() {
