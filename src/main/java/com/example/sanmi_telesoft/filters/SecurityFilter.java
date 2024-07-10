@@ -66,14 +66,16 @@ public class SecurityFilter implements Filter {
             String idEvento = httpRequest.getParameter("id");
 
             if (usuario != null && idEvento != null) {
-                Evento eventoactual = daoEvento.searchEventobyId(Integer.parseInt(idEvento));
                 try {
+                    int eventoId = Integer.parseInt(idEvento); // Intentar convertir a entero
+
+                    Evento eventoactual = daoEvento.searchEventobyId(eventoId);
                     ArrayList<Integer> eventosInscritos = daoEvento.eventosInscritosporUsuario(usuario.getIdUsuarios());
                     int eventoTraslapado = 0;
                     boolean traslapado = false;
 
                     for (Integer integer : eventosInscritos) {
-                        if (integer == (Integer.parseInt(idEvento))) {
+                        if (integer == eventoId) {
                             continue; // Saltar el evento actual si es el mismo que estamos evaluando
                         }
 
@@ -86,17 +88,21 @@ public class SecurityFilter implements Filter {
                         }
                     }
 
-                    if (eventosInscritos.contains(Integer.parseInt(idEvento))|| traslapado||eventoactual.getVacantesDisp()<=0) {
-                        // El usuario ya está inscrito en el evento
-                        httpResponse.sendRedirect(httpRequest.getContextPath() + "/error404.jsp");
+                    if (eventosInscritos.contains(eventoId) || traslapado || eventoactual.getVacantesDisp() <= 0) {
+                        // El usuario ya está inscrito en el evento o hay traslape de horarios o no hay vacantes disponibles
+                        httpResponse.sendRedirect(httpRequest.getContextPath() + "/errorEvento.jsp");
                         return;
                     }
+                } catch (NumberFormatException e) {
+                    // Manejo de error si idEvento no es un número válido
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + "/errorEvento.jsp");
+                    return;
                 } catch (SQLException e) {
                     throw new ServletException("Error al verificar la inscripción del evento", e);
                 }
             }
-
         }
+
 
         chain.doFilter(request, response);
     }

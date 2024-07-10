@@ -126,6 +126,9 @@ public class ServletVecino extends HttpServlet {
             case "error":
                 manejarError(request, response, "Ha ocurrido un error ! :c");
                 break;
+            case "errorEvento":
+                manejarErrorEvento(request, response, "Ha ocurrido un error en evento! :c");
+                break;
             case "obtenerDetallesIncidencia":
                 obtenerDetallesIncidencia(request, response);
                 break;
@@ -561,13 +564,13 @@ public class ServletVecino extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/viewEventos.jsp");
                     view.forward(request, response);
                 } else {
-                    manejarError(request, response, "Evento no encontrado");
+                    manejarErrorEvento(request, response, "Evento no encontrado");
                 }
             } catch (NumberFormatException e) {
-                manejarError(request, response, "ID de evento inválido");
+                manejarErrorEvento(request, response, "ID de evento inválido");
             }
         } else {
-            manejarError(request, response, "ID de evento no proporcionado");
+            manejarErrorEvento(request, response, "ID de evento no proporcionado");
         }
     }
 
@@ -591,13 +594,13 @@ public class ServletVecino extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/inscribirEvento.jsp");
                     view.forward(request, response);
                 } else {
-                    manejarError(request, response, "Evento no encontrado");
+                    manejarErrorEvento(request, response, "Evento no encontrado");
                 }
             } catch (NumberFormatException e) {
-                manejarError(request, response, "ID de evento inválido");
+                manejarErrorEvento(request, response, "ID de evento inválido");
             }
         } else {
-            manejarError(request, response, "ID de evento no proporcionado");
+            manejarErrorEvento(request, response, "ID de evento no proporcionado");
         }
     }
 
@@ -634,6 +637,11 @@ public class ServletVecino extends HttpServlet {
     private void manejarError(HttpServletRequest request, HttpServletResponse response, String mensaje) throws ServletException, IOException {
         request.setAttribute("error", mensaje);
         RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/error.jsp");
+        view.forward(request, response);
+    }
+    private void manejarErrorEvento(HttpServletRequest request, HttpServletResponse response, String mensaje) throws ServletException, IOException {
+        request.setAttribute("errorEvento", mensaje);
+        RequestDispatcher view = request.getRequestDispatcher("errorEvento.jsp");
         view.forward(request, response);
     }
 
