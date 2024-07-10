@@ -121,8 +121,10 @@ public class DaoEvento extends BaseDao {
                     evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                     evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                     evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                    evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                    evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
 
-                    if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
+                    if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
                         TipoEvento tipoEvento = new TipoEvento();
                         tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                         tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
@@ -162,6 +164,7 @@ public class DaoEvento extends BaseDao {
                 evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
                 evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
                 evento.setLugarEvento(rs.getString("lugarEvento"));
                 evento.setEntradaUser(rs.getInt("entradas")); // Cambiado de "uhe.entradas" a "entradas"
@@ -172,8 +175,7 @@ public class DaoEvento extends BaseDao {
                 evento.setTipoEvento(tipoEvento);
 
                 // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
-                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
-                    listaEventos.add(evento);
+                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {      listaEventos.add(evento);
                 }
             }
 
@@ -208,6 +210,8 @@ public class DaoEvento extends BaseDao {
                 evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
                 evento.setLugarEvento(rs.getString("lugarEvento"));
 
                 // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
@@ -217,8 +221,7 @@ public class DaoEvento extends BaseDao {
                 );
                 TipoEvento tipoEvento = new TipoEvento();
                 // Comparar la fecha y hora del evento con la fecha y hora actuales
-                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
-                    tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
+                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {          tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
 
@@ -278,6 +281,8 @@ public class DaoEvento extends BaseDao {
                 evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
 
                 // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
                 LocalDateTime fechaHoraEvento = LocalDateTime.of(
@@ -286,7 +291,7 @@ public class DaoEvento extends BaseDao {
                 );
 
                 // Comparar la fecha y hora del evento con la fecha y hora actuales
-                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
+                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
@@ -324,6 +329,8 @@ public class DaoEvento extends BaseDao {
                 evento.setVacantesDisp(rs.getInt("vacantesDisp"));
                 evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
                 evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
 
                 // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
                 LocalDateTime fechaHoraEvento = LocalDateTime.of(
@@ -332,7 +339,7 @@ public class DaoEvento extends BaseDao {
                 );
 
                 // Comparar la fecha y hora del evento con la fecha y hora actuales
-                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())) {
+                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
@@ -628,6 +635,18 @@ public class DaoEvento extends BaseDao {
         return fechaHoraEvento.isAfter(now);
     }
 
+    private boolean esFechaHoraPasada(String fechaEvento, String horaEvento) {
+        // Convertir la fecha y hora actuales a objetos LocalDateTime
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime fechaHoraEvento = LocalDateTime.of(
+                LocalDate.parse(fechaEvento),
+                LocalTime.parse(horaEvento)
+        );
+
+        // Comparar la fecha y hora del evento con la fecha y hora actuales
+        return fechaHoraEvento.isBefore(now);
+    }
+
     public ArrayList<Evento> crearEventoAleatorio(int idTipoEvento, int id) {
         ArrayList<Evento> eventos = new ArrayList<>();
         String sql = "SELECT * FROM eventos e " +
@@ -652,14 +671,17 @@ public class DaoEvento extends BaseDao {
                     evento.setNombreEvento(rs.getString("nombreEvento"));
                     evento.setFotosStart(rs.getBytes("fotosStart"));
                     evento.setDescriptionEvento(rs.getString("descriptionEvento"));
-
+                    evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
+                    evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                    evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                    evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
                     TipoEvento tipoEvento = new TipoEvento();
                     tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
                     tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
                     evento.setTipoEvento(tipoEvento);
 
                     // Validar si el evento tiene fecha y hora válida
-                    if (esFechaHoraValida(rs.getString("fechaEventoStart"), rs.getString("horaEventoStart"))) {
+                    if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
                         eventos.add(evento);
                         i++;
                     }
