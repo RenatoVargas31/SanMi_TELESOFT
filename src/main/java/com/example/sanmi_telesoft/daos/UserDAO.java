@@ -42,6 +42,20 @@ public class UserDAO {
         }
     }
 
+    public int contarVecinos() {
+        String sql = "SELECT COUNT(*) AS total FROM usuarios WHERE Roles_idRoles = 4 and is_active=1";
+        try (Connection connection = this.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
 
 
 }

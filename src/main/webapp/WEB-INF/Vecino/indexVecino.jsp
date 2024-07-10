@@ -8,10 +8,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
-
+<jsp:useBean id="listaMisEventos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Evento>" scope="request"/>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
-<%
+<% int vecinos=(int) request.getAttribute("vecinosActivos");
     ArrayList<Evento> lista=(ArrayList<Evento>) request.getAttribute("listarEventos");
 %>
 
@@ -116,6 +116,44 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
 
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11 col-md-11 col-sm-11 ">
+                            <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
+
+                                </div>
+                                <div class="carousel-inner" >
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100 "  style=" height: 32vw;" src="${pageContext.request.contextPath}/assets/img/backgrounds/ga1.jpg" alt="First slide" />
+
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" style=" height: 32vw;" src="${pageContext.request.contextPath}/assets/img/backgrounds/ga2.png" alt="Second slide" />
+
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100"  style=" height: 32vw;"  src="${pageContext.request.contextPath}/assets/img/backgrounds/ga5.jpg" alt="Third slide" />
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100 " style=" height: 32vw;"  src="${pageContext.request.contextPath}/assets/img/backgrounds/ga3.jpg" alt="Third slide" />
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleDark" role="button" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleDark" role="button" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Hour chart  -->
                     <div class="card bg-transparent shadow-none border-0 my-4">
@@ -133,20 +171,20 @@
                                 <div class="d-flex justify-content-between flex-wrap gap-3 me-5">
                                     <div class="d-flex align-items-center gap-3 me-4 me-sm-0">
           <span class=" bg-label-primary p-2 rounded">
-            <i class='bx bx-laptop bx-sm'></i>
+            <i class='bx bx-user bx-sm'></i>
           </span>
                                         <div class="content-right">
-                                            <p class="mb-0">Eventos de la semana</p>
-                                            <h4 class="text-primary mb-0">2</h4>
+                                            <p class="mb-0">Vecinos activos</p>
+                                            <h4 class="text-primary mb-0"><%=vecinos%></h4>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center gap-3">
           <span class="bg-label-info p-2 rounded">
-            <i class='bx bx-bulb bx-sm'></i>
+            <i class='bx bx-time bx-sm'></i>
           </span>
                                         <div class="content-right">
                                             <p class="mb-0">Eventos en curso</p>
-                                            <h4 class="text-info mb-0">15</h4>
+                                            <h4 class="text-info mb-0"><%=lista.size()%></h4>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center gap-3">
@@ -155,7 +193,7 @@
           </span>
                                         <div class="content-right">
                                             <p class="mb-0">Eventos inscritos </p>
-                                            <h4 class="text-warning mb-0">5</h4>
+                                            <h4 class="text-warning mb-0"><%=listaMisEventos.size()%></h4>
                                         </div>
                                     </div>
                                 </div>

@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.beans.Incidencia;
 import com.example.sanmi_telesoft.beans.Usuario;
+import com.example.sanmi_telesoft.daos.UserDAO;
 import com.example.sanmi_telesoft.dto.DiaconHoras;
 import com.example.sanmi_telesoft.filters.Sanitizer;
 
@@ -38,6 +39,7 @@ import java.util.Map;
 public class ServletVecino extends HttpServlet {
     private DaoEvento eventoDao  = new DaoEvento();
     private DaoIncidencia incidenciaDao  = new DaoIncidencia();
+    private UserDAO userDAO  = new UserDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
@@ -62,11 +64,15 @@ public class ServletVecino extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        ArrayList<Evento> listaMisEventos = eventoDao.listaEventosUser(idUsuario);
+        request.setAttribute("listaMisEventos", listaMisEventos);
+
         switch (action) {
 
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
-                request.setAttribute("listarEventos", eventoDao.listaEventos(0,3));
+                request.setAttribute("vecinosActivos",userDAO.contarVecinos());
+                request.setAttribute("listarEventos", eventoDao.listaEventos(0,10000));
                 request.getRequestDispatcher("WEB-INF/Vecino/indexVecino.jsp").forward(request, response);
                 break;
 
@@ -103,9 +109,7 @@ public class ServletVecino extends HttpServlet {
             case "eventosInscritos":
                 request.setAttribute("activeMenu", "EventosInscritos");
                 request.setAttribute("activeMenuToggle", "Eventos");
-                ArrayList<Evento> listaMisEventos = eventoDao.listaEventosUser(idUsuario);
 
-                request.setAttribute("listaMisEventos", listaMisEventos);
                 request.getRequestDispatcher("WEB-INF/Vecino/eventosInscritos.jsp").forward(request, response);
                 break;
 
