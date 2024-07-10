@@ -351,6 +351,16 @@
                                                                             break;
                                                                         }
                                                                     }%>
+                                                                <% if (evento.getVacantesDisp()==0) { %>
+                                                                <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>
+                                                                    No hay vacantes </button>
+                                                                <% }else { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>Ya inscrito</button>
+                                                                <%} %>
+
+                                                                <% } else { %>
+
                                                                 <% if (traslapado) { %>
                                                                 <button class="btn btn-primary" style="flex: auto;" disabled>
                                                                     El horario de este evento interfiere con el del evento <%= daoEvento.searchEventobyId(eventoTraslapado).getNombreEvento() %>
@@ -365,7 +375,7 @@
                                                                 <%} %>
 
                                                                 <% } %>
-
+                                                                <% } %>
 
 
                                                             </div>

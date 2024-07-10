@@ -86,7 +86,7 @@ public class SecurityFilter implements Filter {
                         }
                     }
 
-                    if (eventosInscritos.contains(Integer.parseInt(idEvento))|| traslapado) {
+                    if (eventosInscritos.contains(Integer.parseInt(idEvento))|| traslapado||eventoactual.getVacantesDisp()>0) {
                         // El usuario ya está inscrito en el evento
                         httpResponse.sendRedirect(httpRequest.getContextPath() + "/error404.jsp");
                         return;
