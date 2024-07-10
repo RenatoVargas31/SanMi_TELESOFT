@@ -53,6 +53,7 @@ public class UsuarioDAO {
                 //usuario.setIdEstadoVecinoEvento(rs.getInt("idEstadoVecinoEvento"));
                 usuario.setIsBannedApp(rs.getString("is_bannedApp"));
                 usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
+                usuario.setGenero(rs.getInt("genero"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,4 +178,19 @@ public class UsuarioDAO {
         }
     }
 
+    public void actualizarUsuario(Usuario usuario) {
+        String sql = "UPDATE usuarios SET telefonoUsuario = ?, direccionUsuario = ? WHERE idUsuarios = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, usuario.getTelefonoUsuario());
+            preparedStatement.setString(2, usuario.getDireccionUsuario());
+            preparedStatement.setInt(3, usuario.getIdUsuarios());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

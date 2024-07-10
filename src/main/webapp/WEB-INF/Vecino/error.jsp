@@ -25,6 +25,10 @@
             display: inline-block;
             text-align: left;
         }
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
     </style>
 </head>
 <body>

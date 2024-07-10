@@ -117,6 +117,11 @@
         .btn-secondary, .btn-danger {
             margin: 0 10px;
         }
+
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
     </style>
 
 </head>

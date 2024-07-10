@@ -192,6 +192,9 @@ public class ServletAdministrador extends HttpServlet {
                 request.setAttribute("activeMenu", "Ayuda");
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-ayuda.jsp").forward(request, response);
                 break;
+            case "mostrarPerfil":
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-perfil.jsp").forward(request, response);
+                break;
         }
     }
 

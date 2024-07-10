@@ -61,6 +61,14 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
     <!-- Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
+
+    <style>
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+
 </head>
 
 <body>

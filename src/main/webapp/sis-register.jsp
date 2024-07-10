@@ -48,6 +48,13 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
 <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
@@ -70,6 +77,9 @@
                     <!-- /Logo -->
                     <h4 class="mb-2">Registro de Usuario 📝</h4>
                     <p class="mb-4">Por favor, ingresa la información necesaria para el registro de usuario</p>
+
+
+
                     <form id="formAuthentication" class="mb-3" action="${pageContext.request.contextPath}/ServletSistema?action=insertarUsuario" method="POST">
                         <div class="content-header mb-3">
                             <h5 class="mb-1">Información de Ingreso</h5>
@@ -77,7 +87,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo (Gmail)</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo" value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>" required>
                         </div>
                         <div class="content-header mb-3">
                             <h5 class="mb-1">Información personal</h5>
@@ -86,26 +96,35 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label class="form-label" for="Nombre">Nombres</label>
-                                <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Ingrese sus nombres" required />
+                                <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Ingrese sus nombres" value="<%= request.getParameter("Nombre") != null ? request.getParameter("Nombre") : "" %>" required />
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="Apellido">Apellidos</label>
-                                <input type="text" id="Apellido" name="Apellido" class="form-control" placeholder="Ingrese sus apellidos" required />
+                                <input type="text" id="Apellido" name="Apellido" class="form-control" placeholder="Ingrese sus apellidos" value="<%= request.getParameter("Apellido") != null ? request.getParameter("Apellido") : "" %>" required />
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="Genero">Género</label>
+                                <select id="Genero" name="Genero" class="select2 form-select" data-allow-clear="true" required>
+                                    <option value="">Select</option>
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                    <option value="3">Otro</option>
+                                </select>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="Telefono">N° de celular</label>
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text">PE (+51)</span>
-                                    <input type="text" id="Telefono" name="Telefono" class="form-control multi-steps-mobile" placeholder="999 999 999" maxlength="11" required />
+                                    <input type="text" id="Telefono" name="Telefono" class="form-control multi-steps-mobile" placeholder="999 999 999" maxlength="9" value="<%= request.getParameter("Telefono") != null ? request.getParameter("Telefono") : "" %>" required />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="DNI">DNI</label>
-                                <input type="text" id="DNI" name="DNI" class="form-control multi-steps-pincode" placeholder="Ingrese su número de DNI" maxlength="8" required />
+                                <input type="text" id="DNI" name="DNI" class="form-control multi-steps-pincode" placeholder="Ingrese su número de DNI" maxlength="8" value="<%= request.getParameter("DNI") != null ? request.getParameter("DNI") : "" %>" required />
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="Direccion">Dirección</label>
-                                <input type="text" id="Direccion" name="Direccion" class="form-control" placeholder="Ingrese su domicilio" required />
+                                <input type="text" id="Direccion" name="Direccion" class="form-control" placeholder="Ingrese su domicilio" value="<%= request.getParameter("Direccion") != null ? request.getParameter("Direccion") : "" %>" required />
                             </div>
                             <div class="col-sm-12">
                                 <label class="form-label" for="IDUrbanizacion">Urbanización</label>
@@ -135,6 +154,12 @@
                             Registrar
                         </button>
                     </form>
+                    <!-- Mensaje de error -->
+                    <% if (request.getAttribute("errorMsg") != null) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= request.getAttribute("errorMsg") %>
+                    </div>
+                    <% } %>
                     <p class="text-center">
                         <span>¿Tienes una cuenta ya creada?</span>
                         <a href="${pageContext.request.contextPath}/index.jsp">

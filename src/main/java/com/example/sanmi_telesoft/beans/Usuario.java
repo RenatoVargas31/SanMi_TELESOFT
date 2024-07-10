@@ -19,6 +19,7 @@ public class Usuario {
     private String isBannedApp;
     private String motivoBannedApp;
     private String passwordTemporal;
+    private int genero;
 
     public String getRol() {
         switch (idRoles) {
@@ -147,5 +148,12 @@ public class Usuario {
 
     public void setPasswordTemporal(String passwordTemporal) {
         this.passwordTemporal = passwordTemporal;
+    }
+
+    public int getGenero() {
+        return genero;
+    }
+    public void setGenero(int genero) {
+        this.genero = genero;
     }
 }

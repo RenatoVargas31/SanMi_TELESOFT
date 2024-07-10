@@ -84,6 +84,10 @@
         .btn-secondary, .btn-danger {
             margin: 0 10px;
         }
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
     </style>
 </head>
 
@@ -189,12 +193,11 @@
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
                                                 class='bx bx-show'></i></button>
-                                        <button type="button"
+                                        <a type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                onclick="window.location.href='<%= request.getContextPath()%>/ServletSerenazo?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>';"
-                                                data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
+                                                href="<%= request.getContextPath()%>/ServletSerenazgo?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>"
+                                                ><i
+                                                class='bx bx-edit'></i></a>
 
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"

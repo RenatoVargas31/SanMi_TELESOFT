@@ -46,6 +46,13 @@
     <script src="<%=request.getContextPath()%>/assets/vendor/js/template-customizer.js"></script>
     <!-- Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
     <script src="<%=request.getContextPath()%>/assets/js/config.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>

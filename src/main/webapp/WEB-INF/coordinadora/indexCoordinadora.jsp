@@ -116,46 +116,41 @@
 
                 <!-- Content -->
 
-                <div class="container-xxl container-p-y">
+                <div class="container-xxl flex-grow-1 container-p-y">
 
-<div class="row justify-content-center">
-                    <div class="col-lg-11 col-md-11 col-sm-11 ">
-                    <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
 
+
+
+
+                    <div class="row h-auto"><!-- Gallery effect-->
+                        <div class="col-12">
+
+                            <div id="swiper-gallery">
+                                <div class="swiper gallery-top">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"
+                                             style="background-image:url(${pageContext.request.contextPath}/assets/img/backgrounds/ga1.jpg)">
+                                        </div>
+                                        <div class="swiper-slide"
+                                             style="background-image:url(${pageContext.request.contextPath}/assets/img/backgrounds/ga2.png)">
+                                        </div>
+                                        <div class="swiper-slide"
+                                             style="background-image:url(${pageContext.request.contextPath}/assets/img/backgrounds/ga3.jpg)">
+                                        </div>
+                                        <div class="swiper-slide"
+                                             style="background-image:url(${pageContext.request.contextPath}/assets/img/backgrounds/ga5.jpg)">
+                                        </div>
+                                    </div>
+                                    <!-- Add Arrows -->
+                                    <div class="swiper-button-next swiper-button-white"></div>
+                                    <div class="swiper-button-prev swiper-button-white"></div>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="carousel-inner" >
-                            <div class="carousel-item active">
-                                <img class="d-block w-100 "  style="  height: 32vw;" src="${pageContext.request.contextPath}/assets/img/backgrounds/ga1.jpg" alt="First slide" />
-
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" style="  height: 32vw;" src="${pageContext.request.contextPath}/assets/img/backgrounds/ga2.png" alt="Second slide" />
-
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100"  style=" height: 32vw;"  src="${pageContext.request.contextPath}/assets/img/backgrounds/ga5.jpg" alt="Third slide" />
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100 " style="  height: 32vw;"  src="${pageContext.request.contextPath}/assets/img/backgrounds/ga3.jpg" alt="Third slide" />
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleDark" role="button" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleDark" role="button" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </a>
                     </div>
                 </div>
-                </div>
-                </div>
+
                 <h1 class="text-center ">¡Bienvenido <%=usuario.getNombreUsuario()+" "+usuario.getApellidoUsuario()%>! 👋 </h1>
                 <%  // Etiqueta de script JSP para inserción de código Java
                     if (usuario.getIdTipoCoordinadora() == 1) {  // Verifica si el tipo de coordinadora es 1

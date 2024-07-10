@@ -67,6 +67,13 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
 
+    <style>
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -158,7 +165,7 @@
                                         </div>
                                     </div>
                                     <div id="accordionPayment" class="accordion">
-                                        <div class="card accordion-item active">
+                                        <div class="card accordion-item">
                                             <h2 class="accordion-header">
                                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                         aria-expanded="true" data-bs-target="#accordionPayment-1"
@@ -167,7 +174,7 @@
                                                 </button>
                                             </h2>
 
-                                            <div id="accordionPayment-1" class="accordion-collapse collapse show">
+                                            <div id="accordionPayment-1" class="accordion-collapse collapse">
                                                 <div class="accordion-body">
                                                     El rol de Serenazgo en nuestra página es fundamental para garantizar
                                                     la seguridad y el bienestar de los residentes y visitantes de San

@@ -66,30 +66,77 @@ public class ServletSistema extends HttpServlet {
                 String dni = request.getParameter("DNI");
                 String direccion = request.getParameter("Direccion");
                 int urbanizacionId = Integer.parseInt(request.getParameter("IDUrbanizacion"));
+                int genero = Integer.parseInt(request.getParameter("Genero"));
 
-                // Generar una contraseña temporal
-                String tempPassword = PassUtil.generateRandomPassword();
-                String token = PassUtil.generateRandomPassword();
+                // Validaciones
+                boolean valid = true;
+                String errorMsg = "";
 
-                // Crear un nuevo usuario
-                Usuario usuario = new Usuario();
-                usuario.setCorreoUsuario(email);
-                usuario.setNombreUsuario(nombre);
-                usuario.setApellidoUsuario(apellido);
-                usuario.setTelefonoUsuario(telefono);
-                usuario.setDniUsuario(dni);
-                usuario.setDireccionUsuario(direccion);
-                usuario.setIdUrbanizacion(urbanizacionId);
-                usuario.setPasswordUsuario(tempPassword);
+                // Validar correo
+                if (!email.endsWith("@gmail.com")) {
+                    valid = false;
+                    errorMsg += "El correo debe ser de dominio @gmail.com.<br>";
+                } else {
+                    UserDAO userDAO = new UserDAO();
+                    if (userDAO.correoExists(email)) {
+                        valid = false;
+                        errorMsg += "El correo ya se encuentra registrado.<br>";
+                    }
+                }
 
-                UserDAO userDAO = new UserDAO();
-                userDAO.registerUser(usuario);
+                // Validar nombres y apellidos
+                if (!nombre.matches("[a-zA-Z ]+") || !apellido.matches("[a-zA-Z ]+")) {
+                    valid = false;
+                    errorMsg += "Los nombres y apellidos solo deben contener letras.<br>";
+                }
 
-                // Guardar el usuario en la sesión
-                //request.getSession().setAttribute("usuario", usuario);
+                // Validar número de celular
+                if (!telefono.matches("\\d{9}")) {
+                    valid = false;
+                    errorMsg += "El número de celular debe contener exactamente 9 dígitos y no contener letras.<br>";
+                }
 
-                // Redirigir a la página de datos del usuario
-                response.sendRedirect(request.getContextPath() + "/ServletSistema?action=verificarEmail");
+                // Validar DNI
+                if (!dni.matches("\\d{8}")) {
+                    valid = false;
+                    errorMsg += "El DNI debe contener exactamente 8 dígitos.<br>";
+                } else {
+                    UserDAO userDAO = new UserDAO();
+                    if (userDAO.dniExists(dni)) {
+                        valid = false;
+                        errorMsg += "El DNI ya se encuentra registrado.<br>";
+                    }
+                }
+
+                if (valid) {
+                    // Generar una contraseña temporal
+                    String tempPassword = PassUtil.generateRandomPassword();
+                    String token = PassUtil.generateRandomPassword();
+
+                    // Crear un nuevo usuario
+                    Usuario usuario = new Usuario();
+                    usuario.setCorreoUsuario(email);
+                    usuario.setNombreUsuario(nombre);
+                    usuario.setApellidoUsuario(apellido);
+                    usuario.setTelefonoUsuario(telefono);
+                    usuario.setDniUsuario(dni);
+                    usuario.setDireccionUsuario(direccion);
+                    usuario.setIdUrbanizacion(urbanizacionId);
+                    usuario.setPasswordUsuario(tempPassword);
+                    usuario.setGenero(genero);
+
+                    UserDAO userDAO = new UserDAO();
+                    userDAO.registerUser(usuario);
+
+                    // Guardar el usuario en la sesión
+                    //request.getSession().setAttribute("usuario", usuario);
+
+                    // Redirigir a la página de datos del usuario
+                    response.sendRedirect(request.getContextPath() + "/ServletSistema?action=verificarEmail");
+                } else {
+                    request.setAttribute("errorMsg", errorMsg);
+                    request.getRequestDispatcher("/sis-register.jsp").forward(request, response);
+                }
                 break;
             case "verificarEmail2":
                 String correo = request.getParameter("email");

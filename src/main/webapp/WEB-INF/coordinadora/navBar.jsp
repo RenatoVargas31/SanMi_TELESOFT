@@ -152,6 +152,15 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
+                    <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCord?action=mostrarPerfil">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
                     <a class="dropdown-item" href="<%=request.getContextPath()%>/LogoutServlet">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>

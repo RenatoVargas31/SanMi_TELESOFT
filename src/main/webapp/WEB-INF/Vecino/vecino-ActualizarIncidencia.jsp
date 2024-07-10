@@ -17,6 +17,7 @@
     }
 %>
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
+
 <body>
 <jsp:include page="../Fragmentos/FragmentosVecino/menuFragmentVecino.jsp"/>
 <jsp:include page="../Vecino/navBar.jsp"/>

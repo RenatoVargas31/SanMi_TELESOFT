@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.daos.DaoCoordinadora;
 import com.example.sanmi_telesoft.daos.DaoEvento;
 import com.example.sanmi_telesoft.daos.DaoIncidencia;
 import com.example.sanmi_telesoft.daos.DaoProfesor;
+import com.example.sanmi_telesoft.daos.UsuarioDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -223,9 +224,6 @@ public class ServletCoordinadora extends HttpServlet {
                     response.sendRedirect("WEB-INF/coordinadora/error.jsp");
                 }
                 break;
-
-
-
         }
 
 

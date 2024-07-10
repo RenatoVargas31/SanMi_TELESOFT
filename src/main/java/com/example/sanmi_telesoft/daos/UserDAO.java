@@ -24,7 +24,7 @@ public class UserDAO {
     }
 
     public void registerUser(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (Roles_idRoles, correoUsuario, passwordUsuario, nombreUsuario, apellidoUsuario, dniUsuario, direccionUsuario, telefonoUsuario, Urbanizacion_idUrbanizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (Roles_idRoles, correoUsuario, passwordUsuario, nombreUsuario, apellidoUsuario, dniUsuario, direccionUsuario, telefonoUsuario, Urbanizacion_idUrbanizacion, genero) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, 4); // Assuming role vecino for new users, adjust as needed
@@ -36,6 +36,7 @@ public class UserDAO {
             preparedStatement.setString(7, usuario.getDireccionUsuario());
             preparedStatement.setString(8, usuario.getTelefonoUsuario());
             preparedStatement.setInt(9, usuario.getIdUrbanizacion());
+            preparedStatement.setInt(10, usuario.getGenero());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,6 +57,32 @@ public class UserDAO {
         return 0;
     }
 
-
-
+    public boolean dniExists(String dni) {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE dniUsuario = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, dni);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean correoExists(String correo) {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE correoUsuario = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, correo);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

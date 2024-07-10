@@ -5,6 +5,14 @@
 
     <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
     <title>Error</title>
+
+    <style>
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+
 </head>
 <body>
 

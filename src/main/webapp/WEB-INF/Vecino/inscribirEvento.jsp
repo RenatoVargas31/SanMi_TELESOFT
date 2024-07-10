@@ -30,27 +30,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <style>
-        .breadcrumb {
-            display: flex;
-            list-style: none;
-            padding: 0;
-            color: gray;
-
-        }
-        .breadcrumb li {
-            font-size: 20px;
-        }
-        .breadcrumb li:not(:last-child)::after {
-            content: "/";
-            margin: 0 10px;
-        }
-        .breadcrumb a {
-            color: gray;
-
-        }
-    </style>
-
 
     <title>SanMi | Inscripcion: <%= evento.getNombreEvento() %></title>
 
@@ -105,6 +84,32 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            color: gray;
+
+        }
+        .breadcrumb li {
+            font-size: 20px;
+        }
+        .breadcrumb li:not(:last-child)::after {
+            content: "/";
+            margin: 0 10px;
+        }
+        .breadcrumb a {
+            color: gray;
+
+        }
+        body {
+            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
 
 </head>
 
