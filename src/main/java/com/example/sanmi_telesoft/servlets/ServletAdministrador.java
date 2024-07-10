@@ -143,6 +143,10 @@ public class ServletAdministrador extends HttpServlet {
                 request.setAttribute("activeMenu", "Instructores");
                 //Listar instructores
                 ArrayList<Profesor> listaProfesores = daoAdministrador.listarProfesores();
+                //imprmir "isEnable" de cada profesor
+                for (Profesor profesor : listaProfesores) {
+                    System.out.println("Log: " + profesor.getIsEnable());
+                }
                 request.setAttribute("listaProfesores", listaProfesores);
                 //Redireccionar a la vista
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-instructores.jsp").forward(request, response);

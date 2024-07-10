@@ -162,7 +162,7 @@
                                 <tbody>
 
                                 <%for (Profesor profesor : listaProfesores) {%>
-                                <%if(Objects.equals(profesor.getIsEnable(), "1")){%>
+                                <%if(profesor.getIsEnable()){%>
                                 <tr>
                                     <td><div class="d-flex align-items-center">
                                         <div class="avatar-wrapper">
