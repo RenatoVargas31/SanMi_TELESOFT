@@ -205,10 +205,35 @@
                                             <div class="container mt-4">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="form d-flex align-items-center mb-1">
-                                                            <button type="submit" class="btn btn-primary" style="flex: auto;">
-                                                                Confirmar inscripción
-                                                            </button>
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-10">
+                                                                <button style="width: 100%;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewCCModal"> Confirmar inscripción </button></div></div>
+                                                            <!-- Add New Credit Card Modal-->
+                                                            <div class="modal fade" id="addNewCCModal" tabindex="-1" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                                                    <div class="modal-content p-3 p-md-5">
+                                                                        <div class="modal-body">
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            <div class="text-center mb-4">
+                                                                                <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Confirmación de inscripción</h3>
+                                                                                <hr class="my-4">
+                                                                                <h5>¿Estás seguro de inscribirte en el evento <%= evento.getNombreEvento()%>?</h5>
+                                                                                <p>No podrás eliminar esta inscripción a futuro</p>
+                                                                            </div>
+                                                                                <div class="col-12 text-center">
+                                                                                    <button type="submit" class="btn btn-primary me-sm-3 me-1 mt-3">
+                                                                                        Confirmar inscripción
+                                                                                    </button>
+                                                                                    <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                                                </div>
+
+                                                                        </div>
+
+                                                                </div>
+                                                            </div>
+
+
+
                                                         </div>
                                                     </div>
                                                 </div>
