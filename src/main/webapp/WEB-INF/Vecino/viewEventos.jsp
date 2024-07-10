@@ -37,7 +37,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Eventos | <%=evento.getNombreEvento() %></title>
+    <title>Eventos | <%= (evento.getNombreEvento() != null) ? evento.getNombreEvento() : "Evento no encontrado" %></title>
 
 
     <meta name="description"
@@ -150,7 +150,7 @@
                     <nav>
                         <ul class="breadcrumb" style="margin-bottom: -30px" >
                             <li><a href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">Todos los eventos</a></li>
-                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" style="color:black"><%= evento.getNombreEvento() %></a></li>
+                            <li><a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>" style="color:black"><%= (evento.getNombreEvento() != null) ? evento.getNombreEvento() : "Evento no encontrado" %></a></li>
                         </ul>
                     </nav>
 
@@ -161,7 +161,7 @@
                             <div class="col-lg-8">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
                                     <div class="me-1">
-                                        <h5 style="font-size:35px; color:#000000; font-weight: bolder" class="mb-1"><%= evento.getNombreEvento() %></h5>
+                                        <h5 style="font-size:35px; color:#000000; font-weight: bolder" class="mb-1"><%= (evento.getNombreEvento() != null) ? evento.getNombreEvento() : "Evento no encontrado" %></h5>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
