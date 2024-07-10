@@ -556,13 +556,36 @@ CREATE TABLE `usuarios` (
 --
 -- Dumping data for table `usuarios`
 --
-
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO usuarios VALUES (1,2,'jose.martinez@gmail.com',sha2('martinez',256),'Jose','Martinez','74857485','Calle Los Pinos 123','912345678',11,'newtoken12345',1,'1985-06-15',1,0,NULL,1),(2,3,'andrea.lopez@gmail.com',sha2('lopez00',256),'Andrea','Lopez','78543214','Avenida Los Alamos 456','987654321',2,'newtoken67890',1,'1990-08-20',NULL,0,NULL,2),(3,3,'fernando.garcia@gmail.com',sha2('garcia0',256),'Fernando','Garcia','75896321','Jiron Las Flores 789','912345987',9,'newtoken24680',1,'1988-12-05',NULL,0,NULL,1),(4,4,'laura.perez@gmail.com',sha2('perez00',256),'Laura','Perez','76985412','Avenida Los Cedros 101','987654123',8,'newtoken13579',1,'1982-03-22',NULL,0,NULL,2),(5,2,'manuel.ruiz@gmail.com',sha2('ruiz000',256),'Manuel','Ruiz','75236485','Calle Las Rosas 202','912349876',14,'newtoken54321',1,'1995-11-10',2,0,NULL,1),(6,3,'monica.sanchez@gmail.com',sha2('sanchez',256),'Monica','Sanchez','71258963','Pasaje Los Olivos 303','987652341',1,'newtoken67890',1,'1979-07-17',1,0,NULL,2),(7,3,'alejandro.fernandez@gmail.com',sha2('fernandez',256),'Alejandro','Fernandez','73489562','Avenida Las Palmas 404','912348765',1,'newtoken123456',1,'1993-05-30',1,0,NULL,1),(8,4,'valeria.gonzales@gmail.com',sha2('gonzales',256),'Valeria','Gonzales','72986412','Calle Las Acacias 505','987651234',4,'newtoken654321',1,'1986-09-25',NULL,0,NULL,2),(9,4,'adrian.torres@gmail.com',sha2('torres0',256),'Adrian','Torres','74561238','Jiron Las Lomas 606','912347654',2,'newtoken789012',1,'1991-04-12',NULL,0,NULL,1),(10,2,'claudia.morales@gmail.com',sha2('morales',256),'Claudia','Morales','73845612','Avenida Los Jazmines 707','987654987',7,'newtoken098765',1,'1984-01-05',NULL,0,NULL,2),(11,1,'administrador@sanmiguel.com',sha2('administrador2024',256),'Lionel','Messi','74857481','Av. Universitaria 322','912345677',11,null,null,'1987-06-24',null,0,NULL,1);
+INSERT INTO usuarios VALUES (1,2,'jose.martinez@gmail.com',sha2('martinez',256),'Jose','Martinez','74857485','Calle Los Pinos 123','912345678',11,'newtoken12345',1,'1985-06-15',1,0,NULL,1),(2,3,'andrea.lopez@gmail.com',sha2('lopez00',256),'Andrea','Lopez','78543214','Avenida Los Alamos 456','987654321',2,'newtoken67890',1,'1990-08-20',NULL,0,NULL,2),(3,3,'ffernando.garcia709@gmail.com',sha2('garcia000',256),'Fernando','Garcia','75896321','Jiron Las Flores 789','912345987',9,'newtoken24680',1,'1988-12-05',NULL,0,NULL,1),(4,4,'laura.perez@gmail.com',sha2('perez00',256),'Laura','Perez','76985412','Avenida Los Cedros 101','987654123',8,'newtoken13579',1,'1982-03-22',NULL,0,NULL,2),(5,2,'manuel.ruiz@gmail.com',sha2('ruiz000',256),'Manuel','Ruiz','75236485','Calle Las Rosas 202','912349876',14,'newtoken54321',1,'1995-11-10',2,0,NULL,1),(6,3,'monica.sanchez@gmail.com',sha2('sanchez',256),'Monica','Sanchez','71258963','Pasaje Los Olivos 303','987652341',1,'newtoken67890',1,'1979-07-17',1,0,NULL,2),(7,3,'alejandro.fernandez@gmail.com',sha2('fernandez',256),'Alejandro','Fernandez','73489562','Avenida Las Palmas 404','912348765',1,'newtoken123456',1,'1993-05-30',1,0,NULL,1),(8,4,'valeria.gonzales@gmail.com',sha2('gonzales',256),'Valeria','Gonzales','72986412','Calle Las Acacias 505','987651234',4,'newtoken654321',1,'1986-09-25',NULL,0,NULL,2),(9,4,'adrian.torres@gmail.com',sha2('torres0',256),'Adrian','Torres','74561238','Jiron Las Lomas 606','912347654',2,'newtoken789012',1,'1991-04-12',NULL,0,NULL,1),(10,2,'claudia.morales@gmail.com',sha2('morales',256),'Claudia','Morales','73845612','Avenida Los Jazmines 707','987654987',7,'newtoken098765',1,'1984-01-05',NULL,0,NULL,2),(11,1,'administrador@sanmiguel.com',sha2('administrador2024',256),'Lionel','Messi','74857481','Av. Universitaria 322','912345677',11,null,null,'1987-06-24',null,0,NULL,1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 unlock TABLES;
 
+
+DROP table IF EXISTS `token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE IF NOT EXISTS `token` (
+  `id` VARCHAR(256) NOT NULL,
+  `fecha` timestamp NOT NULL,
+  `usuarios_idUsuarios` INT NOT NULL,
+  `tiempo` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_token_usuarios_idx` (`usuarios_idUsuarios` ASC) VISIBLE,
+  CONSTRAINT `fk_token_usuarios`
+    FOREIGN KEY (`usuarios_idUsuarios`)
+    REFERENCES `proyecto-iweb`.`usuarios` (`idUsuarios`)
+)ENGINE = InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `token`
+--
+LOCK TABLES `token` WRITE;
+/*!40000 ALTER TABLE `token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `token` ENABLE KEYS */;
+unlock TABLES;
 --
 -- Table structure for table `usuarios_has_eventos`
 --
