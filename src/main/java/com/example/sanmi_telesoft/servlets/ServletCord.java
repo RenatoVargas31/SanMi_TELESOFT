@@ -16,12 +16,15 @@ public class ServletCord extends HttpServlet {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        request.setAttribute("usuario", usuario);
         switch (action) {
             case "mostrarPerfil":
-                HttpSession session = request.getSession(false);
-                Usuario usuario = (Usuario) session.getAttribute("usuario");
-                request.setAttribute("usuario", usuario);
                 request.getRequestDispatcher("WEB-INF/coordinadora/cord-perfil.jsp").forward(request, response);
+                break;
+            case "mostrarPerfil2":
+                request.getRequestDispatcher("WEB-INF/Vecino/veci-perfil.jsp").forward(request, response);
                 break;
         }
     }

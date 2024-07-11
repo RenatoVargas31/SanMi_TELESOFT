@@ -177,8 +177,6 @@ public class ServletVecino extends HttpServlet {
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
-
-
         }
     }
 

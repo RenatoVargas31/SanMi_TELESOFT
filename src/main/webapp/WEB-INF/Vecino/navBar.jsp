@@ -150,9 +150,18 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
+                    <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCord?action=mostrarPerfil2">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
                     <a class="dropdown-item" href="<%=request.getContextPath()%>/LogoutServlet">
                         <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
+                        <span class="align-middle">Cerrar Sesión</span>
                     </a>
                 </li>
             </ul>
@@ -184,9 +193,19 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
+                    <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCord?action=mostrarPerfil2">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">Perfil</span>
+                    </a>
+                </li>
+                <li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
                     <a class="dropdown-item" href="<%=request.getContextPath()%>/LogoutServlet">
                         <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
+                        <span class="align-middle">Cerrar Sesión</span>
                     </a>
                 </li>
             </ul>
@@ -218,9 +237,19 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
+                    <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCord?action=mostrarPerfil2">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">Perfil</span>
+                    </a>
+                </li>
+                <li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
                     <a class="dropdown-item" href="<%=request.getContextPath()%>/LogoutServlet">
                         <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
+                        <span class="align-middle">Cerrar Sesión</span>
                     </a>
                 </li>
             </ul>

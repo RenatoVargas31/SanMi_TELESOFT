@@ -14,7 +14,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi | Perfil Coordinadora</title>
+    <title>SanMi | Perfil Vecino</title>
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
@@ -121,7 +121,7 @@
 
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h3 class="address-title fw-bold">Perfil Coordinadora</h3>
+                    <h3 class="address-title fw-bold">Perfil Vecino</h3>
                     <div class="row">
                         <div class="col-12">
                             <div class="card mb-4">
@@ -129,16 +129,26 @@
                                     <img src="${pageContext.request.contextPath}/assets/img/pages/profile-banner.png" alt="Banner image" class="rounded-top">
                                 </div>
                                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-                                    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/22.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                    </div>
-                                    <div class="flex-grow-1 mt-3 mt-sm-5">
+                                    <%if(usuario.getGenero()==1){%>
+                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/male.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                        </div>
+                                    <% } else if (usuario.getGenero()==2) { %>
+                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/female.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                        </div>
+                                    <%} else { %>
+                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/24.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                        </div>
+                                    <%} %>
+                                        <div class="flex-grow-1 mt-3 mt-sm-5">
                                         <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                             <div class="user-profile-info">
                                                 <h4><%= usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%></h4>
                                                 <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                                     <li class="list-inline-item fw-medium">
-                                                        <i class='bx bx-pen'></i> Coordinadora
+                                                        <i class='bx bx-pen'></i> Vecino Sanmiguelino
                                                     </li>
                                                     <li class="list-inline-item fw-medium">
                                                         <i class='bx bx-map'></i> <%=usuario.getDireccionUsuario()%>
@@ -188,16 +198,90 @@
                                                 <p class="form-control-plaintext" id="dni"><%= usuario.getDniUsuario() %></p>
                                             </div>
                                             <% if (usuario.getIdTipoCoordinadora() == 1) { %>
-                                                <div class="mb-3 col-md-6">
-                                                    <label class="form-label" for="Tipo1">Tipo</label>
-                                                    <p class="form-control-plaintext" id="Tipo1">Cultura</p>
-                                                </div>
-                                            <%} else {%>
-                                                <div class="mb-3 col-md-6">
-                                                    <label class="form-label" for="Tipo2">Tipo</label>
-                                                    <p class="form-control-plaintext" id="Tipo2">Deporte</p>
-                                                </div>
-                                            <%}%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba1">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba1">Maranga</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==2){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba2">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba2">Pando</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==3){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba3">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba3">Miramar</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==4){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba4">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba4">San Miguelito</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==5){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba5">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba5">Elio</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==6){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba6">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba6">Bertolotto</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==7){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba7">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba7">La Perla</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==8){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba8">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba8">San Antonio</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==9){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba9">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba9">Santa Patricia</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==10){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba10">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba10">Residencial San Felipe</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==11){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba11">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba11">Cueva</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==12){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba12">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba12">Las Brisas</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==13){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba13">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba13">Las Leyendas</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==14){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba14">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba14">Parque de las Leyendas</p>
+                                            </div>
+                                            <%} else if (usuario.getIdUrbanizacion()==15){%>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba15">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba15">San José</p>
+                                            </div>
+                                            <%} else { %>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="Urba16">Urbanización</label>
+                                                <p class="form-control-plaintext" id="Urba16">Los Cipreses</p>
+                                            </div>
+                                            <%} %>
+                                            <div class="mb-3 col-md-6">
+                                                <label class="form-label" for="correo">Correo</label>
+                                                <p class="form-control-plaintext" id="correo"><%=usuario.getCorreoUsuario()%></p>
+                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Actualizar</button>
                                     </form>
