@@ -37,10 +37,10 @@ public class ServletAdministrador extends HttpServlet {
                 ArrayList<Usuario> listaUsuariosSolicitudes = daoAdministrador.listarUsuarios();
                 request.setAttribute("listaUsuarios", listaUsuariosSolicitudes);
 
-                System.out.println("Log: " + listaUsuariosSolicitudes.size());
+                //Imprimir las urbanizaciones de los usuarios
 
                 request.getRequestDispatcher("WEB-INF/Administrador/adm-solicitudesRegistro.jsp").forward(request, response);
-                System.out.println("Log: mostrarSolicitudesRegistro");
+
                 break;
             case "mostrarUsuariosHabilitados":
                 request.setAttribute("activeMenuToggle", "Usuarios");

@@ -335,27 +335,6 @@
         })
     });
 </script>
-<div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar este elemento?</p>
-                <div class="mb-3">
-                    <label for="deleteReason" class="form-label">Motivo de la eliminación:</label>
-                    <input type="text" class="form-control" id="deleteReason" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     function closeModal() {
         const modal = document.getElementById('deletionModal');

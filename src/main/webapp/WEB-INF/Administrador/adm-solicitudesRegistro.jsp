@@ -58,7 +58,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
 
@@ -126,6 +126,8 @@
                                 <tr>
                                     <th>Nombre y Apellido</th>
                                     <th>Rol</th>
+                                    <th>Domicilio</th>
+                                    <th>Urbanización</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -191,8 +193,6 @@
                                 <%if (usuario.getRol().equals("Vecino") || usuario.getRol().equals("Coordinadora")){%>
 
                                 <tr>
-                                    <%-- Falta terminar el formulario --%>
-                                    <form action="<%=request.getContextPath()%>/ServletAdministrador" method="post">
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-wrapper">
@@ -206,12 +206,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="position-relative col-7">
-                                            <select class="select2 form-select form-select select2-hidden-accessible" data-allow-clear="true" data-select2-id="select2Basic" tabindex="-1" aria-hidden="true">
-                                                <option value="Ve" data-select2-id="2">Vecino</option>
-                                                <option value="Co">Coordinador</option>
-                                            </select>
-                                        </div>
+                                        <%=usuario.getRol()%>
+                                    </td>
+                                    <td>
+                                        <%=usuario.getDireccionUsuario()%>
+                                    </td>
+                                    <td>
+                                        <%=usuario.getUrbanizacion()%>
                                     </td>
                                     <td>
                                         <%if(usuario.getIsActive().equals("0")){%>
@@ -221,20 +222,79 @@
                                         <%}%>
                                     </td>
                                     <td>
+                                        <!-- Modal para confirmar como Vecino -->
+                                        <button type="button"
+                                                class="btn btn-label-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalVecino<%= usuario.getIdUsuarios() %>"><i
+                                                class='bx bx-user'></i><span>Vecino</span>
+                                        </button>
+                                        <div class="modal fade" id="modalVecino<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" >Aceptar como Vecino</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b> ¿Está seguro de aceptar a <%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%> como Vecino? </b>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-primary"  href="<%=request.getContextPath()%>/ServletAdministrador?action=aceptarVecino&idDeUsuario=<%= usuario.getIdUsuarios() %>">Si</a>
+                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal para confirmar como Coordinadora -->
+                                        <button type="button"
+                                                class="btn btn-label-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalCoordinadora<%= usuario.getIdUsuarios() %>"><i
+                                                class='bx bx-calendar-event'></i><span>Coordinadora</span>
+                                        </button>
+                                        <div class="modal fade" id="modalCoordinadora<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" >Aceptar como Coordinadora</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b> ¿Está seguro de aceptar a <%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%> como Coordinadora? </b>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-primary"  href="<%=request.getContextPath()%>/ServletAdministrador?action=aceptarCoordinador&idDeUsuario=<%= usuario.getIdUsuarios() %>">Si</a>
+                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal para confirmar eliminación -->
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                id="confirm-text"><i
-                                                class='bx bx-check'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                onclick="promptDeletion();" id="confirm-color"><i
-                                                class='bx bx-trash'></i></button>
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
+                                                class='bx bx-trash'></i>
+                                        </button>
+                                        <div class="modal fade" id="modalDelete<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalToggleLabel">Eliminar solicitud</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b> ¿Está seguro de eliminar esta solicitud? </b>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-primary"  href="<%=request.getContextPath()%>/ServletAdministrador?action=eliminarSolicitudRegistro&idDeUsuario=<%= usuario.getIdUsuarios() %>">Si</a>
+                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    </form>
                                 </tr>
 
                                 <% } %>
@@ -262,13 +322,14 @@
                 <!-- Vendors JS -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
                 <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
                 <!-- Flat Picker -->
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/moment/moment.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.js"></script>
                 <!-- Form Validation -->
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/popular.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
-                <script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/popular.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+                <script src="${pageContext.request.contextPath}/assets/vendor/libs/@form-validation/auto-focus.js"></script>
 
                 <!-- Main JS -->
                 <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>

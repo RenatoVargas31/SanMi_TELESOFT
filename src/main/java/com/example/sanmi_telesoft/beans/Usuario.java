@@ -11,6 +11,7 @@ public class Usuario {
     private String direccionUsuario;
     private String telefonoUsuario;
     private int idUrbanizacion;
+    private String urbanizacion;
     private String activationToken;
     private String isActive;
     private String nacimientoDate;
@@ -155,5 +156,13 @@ public class Usuario {
     }
     public void setGenero(int genero) {
         this.genero = genero;
+    }
+
+    public String getUrbanizacion() {
+        return urbanizacion;
+    }
+
+    public void setUrbanizacion(String urbanizacion) {
+        this.urbanizacion = urbanizacion;
     }
 }

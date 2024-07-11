@@ -42,7 +42,7 @@ public class DaoAdministrador extends BaseDao {
     public ArrayList<Usuario> listarUsuarios(){
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 
-        String sql = "select * from usuarios";
+        String sql = "select * from usuarios u join urbanizacion b on u.Urbanizacion_idUrbanizacion = b.idUrbanizacion";
 
         try(Connection conn = getConection();
             Statement stmt = conn.createStatement();
@@ -62,6 +62,7 @@ public class DaoAdministrador extends BaseDao {
                 usuario.setIsActive(rs.getString("is_active"));
                 usuario.setIsBannedApp(rs.getString("is_bannedApp"));
                 usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
+                usuario.setUrbanizacion(rs.getString("nameUrbanizacion"));
                 listaUsuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -69,6 +70,39 @@ public class DaoAdministrador extends BaseDao {
         }
 
         return listaUsuarios;
+    }
+    public void borrarUsuario(String idUsuario) throws SQLException {
+        String sql = "delete from usuarios where idUsuarios = ?";
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,idUsuario);
+
+            pstmt.executeUpdate();
+
+        }
+    }
+    public void aceptarCoordinadora(String idUsuario) throws SQLException {
+        String sql = "update usuarios set Roles_idRoles='3', is_active='1' where idUsuarios = ?";
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,idUsuario);
+
+            pstmt.executeUpdate();
+
+        }
+    }
+    public void aceptarVecino(String idUsuario) throws SQLException {
+        String sql = "update usuarios set Roles_idRoles='4', is_active='1' where idUsuarios = ?";
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,idUsuario);
+
+            pstmt.executeUpdate();
+
+        }
     }
     /////////SerenazgosDeCampo///////////
     public Serenazgo buscarDeCampoPorId(String id){
