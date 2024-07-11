@@ -190,7 +190,7 @@
 
                                 <tbody>
                                 <%for (Usuario usuario : listaUsuarios) {%>
-                                <%if (usuario.getRol().equals("Vecino") || usuario.getRol().equals("Coordinadora")){%>
+                                <%if (usuario.getRol().equals("Vecino") || usuario.getRol().equals("Coordinadora") || usuario.getRol().equals("Desconocido")){%>
 
                                 <tr>
                                     <td>
@@ -206,7 +206,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <%=usuario.getRol()%>
+                                        <%=usuario.getRol().equals("Desconocido") ? "Sin asignar" : usuario.getRol() %>
                                     </td>
                                     <td>
                                         <%=usuario.getDireccionUsuario()%>
