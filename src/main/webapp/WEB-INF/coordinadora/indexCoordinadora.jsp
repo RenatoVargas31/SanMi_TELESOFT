@@ -256,7 +256,7 @@
 
                                             <div id="accordionPayment-1" class="accordion-collapse collapse show">
                                                 <div class="accordion-body">
-                                                    ¡Ey, bienvenido! Como coordinador de deportes tendrás la posibilidad
+                                                    ¡Hey, bienvenido! Como coordinador de deportes tendrás la posibilidad
                                                     de crear,
                                                     administrar y editar eventos relacionados a deportes. El principal
                                                     objetivo es promover el bienestar físico, la participación activa y
