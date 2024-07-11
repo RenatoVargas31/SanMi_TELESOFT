@@ -148,7 +148,8 @@
                                         Los eventos más esperados en San Miguel
                                         <span class="text-primary fw-medium text-nowrap"> están en tus manos</span>.
                                     </h3>
-                                    <form method="post" action="<%=request.getContextPath()%>/ServletVecino?action=buscarEventos">
+                                    <%String filtrado5= request.getParameter("filtrado"); %>
+                                    <form method="post" action="<%=request.getContextPath()%>/ServletVecino?action=buscarEventos<% if ( filtrado5!= null) { %>&filtrado=<%= filtrado5 %><% } %>">
                                         <div class="d-flex align-items-center justify-content-between app-academy-md-80">
                                             <input type="search" placeholder="Busca tu evento" name="textoBuscar" id="floatingInput" class="form-control me-2" />
                                             <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
@@ -183,13 +184,13 @@
                                     <h5 class="mb-1" style="font-size: 30px;color:#000000; font-weight: bold">Todos los eventos</h5>
                                 </div>
                             <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
-                                <form id="filtroForm" method="post" action="<%=request.getContextPath()%>/ServletVecino?action=listaEventos">
-                                        <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:">
-                                            <option value="Todo" >Todo</option>
-                                            <option value="Deporte">Deporte</option>
-                                            <option value="Cultura">Cultura</option>
-                                        </select>
+                                <form id="filtroForm" method="post" action="<%= request.getContextPath() %>/ServletVecino?action=listaEventos">
+                                    <select id="tipoFiltrado" name="tipoFiltrado" class="select2 form-select" data-placeholder="Filtrar por:" onchange="handleFiltrado()">
+                                        <option value="Todo" <% if (request.getParameter("tipoFiltrado") == null || (!"Deporte".equals(request.getParameter("tipoFiltrado")) && !"Cultura".equals(request.getParameter("tipoFiltrado")))) { %>selected<% } %>>Todo</option>
+                                        <option value="Deporte" <% if ("Deporte".equals(request.getParameter("filtrado"))) { %>selected<% } %>>Deporte</option>
+                                        <option value="Cultura" <% if ("Cultura".equals(request.getParameter("filtrado"))) { %>selected<% } %>>Cultura</option>
 
+                                    </select>
                                 </form>
                             </div>
                             </div>
@@ -253,8 +254,14 @@
                 <%
                     int pag = (int) request.getAttribute("currentPage");
                     int sizeArray = (int) request.getAttribute("total");
+                    int maxPag =0;
                     //Elementos por página.
-                    int maxPag = ((sizeArray) / 9) + 1;
+                    if(sizeArray%9!=0){
+                        maxPag = ((sizeArray) / 9) + 1;}
+                    else{
+                        maxPag = (sizeArray) / 9 ;
+                    }
+
                     //Aquí hago una operación para obtener el número de registro del que inicia.
                     int regMin = (pag - 1) * 9;
                     //Aquí hago una operación para obtener el número de registros máximos para mostrar en esa página.
@@ -265,32 +272,57 @@
 
                 <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
                     <ul class="pagination">
-                        <% if(maxPag >= 1){
-                            if(pag != 1) {%>
+                        <% if (maxPag >= 1) {
+                            if (pag != 1) { %>
                         <li class="page-item prev">
-                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= pag - 1 %>"><i
-                                    class="tf-icon bx bx-chevron-left"></i></a>
-                        </li>
-                        <% } %>
-                        <% for (int j= 1; j <= maxPag; j++){ %>
-                        <li class="page-item <% if (j == pag) {%> active <% } %>">
-                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= j %>"><%= j %> </a>
+                            <input type="hidden" name="tipoFiltrado" id="hiddenTipoFiltrado2">
+                            <%
+                                String filtrado = request.getParameter("filtrado");
+
+                                 %>
+                            <a class="page-link" href="<%= request.getContextPath() %>/ServletVecino?action=listaEventos&pg=<%= pag-1 %><% if (filtrado != null) { %>&filtrado=<%= filtrado %><% } %>">
+                                <i class="tf-icon bx bx-chevron-left"></i>
+                            </a>
+
+
+
                         </li>
                         <% } %>
 
-                        <% if(pag != maxPag) {%>
+                        <% for (int j = 1; j <= maxPag; j++) {
+                            String filtrado2 = request.getParameter("filtrado");
+                        %>
+                        <li class="page-item <%= j == pag ? "active" : "" %>">
+                            <a class="page-link" href="<%= request.getContextPath() %>/ServletVecino?action=listaEventos&pg=<%= j %><% if (filtrado2 != null) { %>&filtrado=<%= filtrado2 %><% } %>">
+                                <%= j %>
+                            </a>
+                        </li>
+
+
+                        <% } %>
+
+                        <% String filtrado3 = request.getParameter("filtrado");%>
+                        <%if (pag != maxPag)
+                        { %>
                         <li class="page-item next">
-                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= pag + 1 %>"><i
-                                    class="tf-icon bx bx-chevron-right"></i></a>
-                        </li>
-                        <% }
-                        } else {%>
-                        <li class="page-item active ">
-                            <a class="page-link" href="<%=request.getContextPath()%>/ServletVecino?action=listaEventos&pg=<%= pag %>"> 1 </a>
+                            <a class="page-link" href="<%= request.getContextPath() %>/ServletVecino?action=listaEventos&pg=<%= pag+1 %><% if (filtrado3 != null) { %>&filtrado=<%= filtrado3 %><% } %>">
+                            <i class="tf-icon bx bx-chevron-right"></i>
+                            </a>
+
                         </li>
                         <% } %>
 
+                        <% } else { %>
+                        <% String filtrado4 = request.getParameter("filtrado");%>
+                        <li class="page-item active">
+                            <a class="page-link" href="<%= request.getContextPath() %>/ServletVecino?action=listaEventos&pg=<%= pag %><% if ( filtrado4!= null) { %>&filtrado=<%= filtrado4 %><% } %>">
+
+                            1
+                            </a>
+                        </li>
+                        <% } %>
                     </ul>
+
                 </nav>
                     </div>
                 </div>
@@ -304,41 +336,26 @@
                         <div class="mb-2 mb-md-0">
                             ©
                             <script>
-                                //Script para el filtro
-                                document.getElementById('tipoFiltrado').addEventListener('change', function() {
-                                    // Guardar el valor seleccionado en el localStorage
-                                    localStorage.setItem('selectedTipoFiltrado', this.value);
-                                    // Enviar el formulario de filtro cuando cambia la selección
-                                    document.getElementById('filtroForm').submit();
-                                });
+                                function handleFiltrado() {
+                                    var select = document.getElementById("tipoFiltrado");
+                                    var selectedValue = select.options[select.selectedIndex].value;
 
-                                window.addEventListener('load', function() {
-                                    var tipoFiltradoSelect = document.getElementById('tipoFiltrado');
-                                    var selectedValue = localStorage.getItem('selectedTipoFiltrado');
+                                    var baseUrl = "<%= request.getContextPath() %>/ServletVecino?action=listaEventos";
+                                    var newUrl = baseUrl;
 
-                                    // Si hay un valor seleccionado guardado, establecerlo en el select
-                                    if (selectedValue) {
-                                        tipoFiltradoSelect.value = selectedValue;
+                                    if (selectedValue === "Cultura") {
+                                        newUrl += "&filtrado=Cultura";
+                                        // Redireccionar a la URL con el parámetro filtrado=Cultura
+                                        window.location.href = newUrl;
+                                    } else if (selectedValue === "Deporte") {
+                                        newUrl += "&filtrado=Deporte";
+                                        // Redireccionar a la URL con el parámetro filtrado=Deporte
+                                        window.location.href = newUrl;
+                                    } else {
+                                        // Si no es Cultura ni Deporte, enviar el formulario normalmente
+                                        document.getElementById("filtroForm").submit();
                                     }
-
-                                    // Sincronizar el valor del select con el campo oculto del formulario de búsqueda
-                                    document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
-
-                                    // Guardar el valor seleccionado en el localStorage al cambiar la selección
-                                    tipoFiltradoSelect.addEventListener('change', function() {
-                                        localStorage.setItem('selectedTipoFiltrado', tipoFiltradoSelect.value);
-                                        document.getElementById('hiddenTipoFiltrado').value = tipoFiltradoSelect.value;
-                                    });
-                                });
-
-
-
-
-                                document.write(new Date().getFullYear())
-
-
-
-
+                                }
                             </script>
                             <a>© Telesoft</a>
                         </div>

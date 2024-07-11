@@ -45,6 +45,7 @@ public class ServletVecino extends HttpServlet {
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         RequestDispatcher view;
         HttpSession session = request.getSession(false);
+        String filtrado = request.getParameter("filtrado") == null ? "Todo" : request.getParameter("filtrado");
 
 
         if (session == null || session.getAttribute("usuario") == null) {
@@ -573,20 +574,13 @@ public class ServletVecino extends HttpServlet {
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Evento> listaEventos;
         int total ;
-        String tipo = request.getParameter("tipoFiltrado");
-
-        //Se envia el tipo de filtrado para el combobox;
-        ArrayList<String> filtrado = new ArrayList<>();
-        filtrado.add("Todo");
-        filtrado.add("Deporte");
-        filtrado.add("Cultura");
+        String filtrado = request.getParameter("filtrado") == null ? "Todo" : request.getParameter("filtrado");
         request.setAttribute("filtrado", filtrado);
-
         //Jala el total de eventos por filtro
-        if ("Deporte".equals(tipo)) {
-            total = eventoDao.listaEventosDeporte().size();
-        } else if ("Cultura".equals(tipo)) {
-            total = eventoDao.listaEventosCultura().size();
+        if ("Deporte".equals(filtrado)) {
+            total = eventoDao.listaEventosDeporte(0,1000000).size();
+        } else if ("Cultura".equals(filtrado)) {
+            total = eventoDao.listaEventosCultura(0,1000000).size();
         } else {
             total = eventoDao.listaEventos(0, 1000000).size();
         }
@@ -608,10 +602,10 @@ public class ServletVecino extends HttpServlet {
         int offset = (pg - 1) * eventosPorPagina;
 
         //Se jala la lista de eventos por filtro
-        if ("Deporte".equals(tipo)) {
-            listaEventos = eventoDao.listaEventosDeporte();
-        } else if ("Cultura".equals(tipo)) {
-            listaEventos = eventoDao.listaEventosCultura();
+        if ("Deporte".equals(filtrado)) {
+            listaEventos = eventoDao.listaEventosDeporte(offset, eventosPorPagina);
+        } else if ("Cultura".equals(filtrado)) {
+            listaEventos = eventoDao.listaEventosCultura(offset, eventosPorPagina);
         } else {
             listaEventos = eventoDao.listaEventos(offset, eventosPorPagina);
         }
@@ -703,12 +697,13 @@ public class ServletVecino extends HttpServlet {
 
         int pg = 1;
         request.setAttribute("currentPage", pg);
-        String tipoFiltrado = request.getParameter("tipoFiltrado");
+        String filtrado = request.getParameter("filtrado") == null ? "Todo" : request.getParameter("filtrado");
+        request.setAttribute("filtrado", filtrado);
         ArrayList<Evento> lista;
 
-        if ("Deporte".equals(tipoFiltrado)) {
+        if ("Deporte".equals(filtrado)) {
             lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
-        } else if ("Cultura".equals(tipoFiltrado)) {
+        } else if ("Cultura".equals(filtrado)) {
             lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
         } else {
             lista = eventoDao.searchEventobyName(textSearch);

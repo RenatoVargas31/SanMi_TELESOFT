@@ -103,8 +103,9 @@ public class DaoEvento extends BaseDao {
         ArrayList<Evento> listaEventos = new ArrayList<>();
         String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "ORDER BY e.idEventos DESC " + // Ordenar por algún criterio, en este caso, por el ID de eventos de forma descendente
-                "LIMIT ? OFFSET ?"; // Limitar y desplazar los resultados según los parámetros
+                "WHERE e.fechaEventoEnd > NOW() OR (fechaEventoEnd = NOW() AND horaEventoEnd > TIME(NOW())) " +
+                "ORDER BY e.idEventos DESC " +
+                "LIMIT ? OFFSET ?";
 
         try (Connection connection = this.getConection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -260,96 +261,94 @@ public class DaoEvento extends BaseDao {
     }
 
 
-    public ArrayList<Evento> listaEventosCultura() {
+    public ArrayList<Evento> listaEventosCultura(int offset, int limit) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        TipoEvento tipoEvento = new TipoEvento();
-        String sql = "SELECT e.*, t.nameTipo FROM eventos e " +
+        String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "WHERE e.TipoEvento_idTipoEvento = 1"; // Filtrar por eventos de tipo Cultura
+                "WHERE e.TipoEvento_idTipoEvento = 1 " + // Filtro por TipoEvento_idTipoEvento = 1
+                "AND (fechaEventoEnd > NOW() OR (fechaEventoEnd = NOW() AND horaEventoEnd > TIME(NOW()))) " + // Filtro por fecha y hora de finalización
+                "ORDER BY e.idEventos DESC " +
+                "LIMIT ? OFFSET ?";
+        // Limitar y desplazar los resultados según los parámetros
 
         try (Connection connection = this.getConection();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            LocalDateTime now = LocalDateTime.now(); // Obtener la fecha y hora actuales
+            stmt.setInt(1, limit); // Establecer el límite de resultados por página
+            stmt.setInt(2, offset); // Establecer el desplazamiento para la paginación
 
-            while (rs.next()) {
-                Evento evento = new Evento();
-                evento.setIdEventos(rs.getInt("idEventos"));
-                evento.setNombreEvento(rs.getString("nombreEvento"));
-                evento.setDescriptionEvento(rs.getString("descriptionEvento"));
-                evento.setVacantesDisp(rs.getInt("vacantesDisp"));
-                evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
-                evento.setHoraEventoStart(rs.getString("horaEventoStart"));
-                evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
-                evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Evento evento = new Evento();
+                    evento.setIdEventos(rs.getInt("idEventos"));
+                    evento.setNombreEvento(rs.getString("nombreEvento"));
+                    evento.setDescriptionEvento(rs.getString("descriptionEvento"));
+                    evento.setVacantesDisp(rs.getInt("vacantesDisp"));
+                    evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
+                    evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                    evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                    evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
 
-                // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
-                LocalDateTime fechaHoraEvento = LocalDateTime.of(
-                        LocalDate.parse(evento.getFechaEventoStart()),
-                        LocalTime.parse(evento.getHoraEventoStart())
-                );
+                    if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
+                        TipoEvento tipoEvento = new TipoEvento();
+                        tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
+                        tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
+                        evento.setTipoEvento(tipoEvento);
 
-                // Comparar la fecha y hora del evento con la fecha y hora actuales
-                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
-                    tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
-                    tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
-                    evento.setTipoEvento(tipoEvento);
-
-                    listaEventos.add(evento);
+                        listaEventos.add(evento);
+                    }
                 }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error al listar eventos de tipo Cultura con fecha y hora válidas", e);
+            throw new RuntimeException("Error al listar eventos con fecha y hora válidas con paginación", e);
         }
 
         return listaEventos;
     }
 
 
-    public ArrayList<Evento> listaEventosDeporte() {
+    public ArrayList<Evento> listaEventosDeporte(int offset, int limit) {
         ArrayList<Evento> listaEventos = new ArrayList<>();
-        TipoEvento tipoEvento = new TipoEvento();
-        String sql = "SELECT e.*, t.nameTipo FROM eventos e " +
+        String sql = "SELECT * FROM eventos e " +
                 "LEFT JOIN tipoevento t ON e.TipoEvento_idTipoEvento = t.idTipoEvento " +
-                "WHERE e.TipoEvento_idTipoEvento = 2"; // Filtrar por eventos de tipo Deporte
+                "WHERE e.TipoEvento_idTipoEvento = 2 " + // Filtro por TipoEvento_idTipoEvento = 2
+                "AND (fechaEventoEnd > NOW() OR (fechaEventoEnd = NOW() AND horaEventoEnd > TIME(NOW()))) " + // Filtro por fecha y hora de finalización
+                "ORDER BY e.idEventos DESC " +
+                "LIMIT ? OFFSET ?";
+// Limitar y desplazar los resultados según los parámetros
 
         try (Connection connection = this.getConection();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            LocalDateTime now = LocalDateTime.now(); // Obtener la fecha y hora actuales
+            stmt.setInt(1, limit); // Establecer el límite de resultados por página
+            stmt.setInt(2, offset); // Establecer el desplazamiento para la paginación
 
-            while (rs.next()) {
-                Evento evento = new Evento();
-                evento.setIdEventos(rs.getInt("idEventos"));
-                evento.setNombreEvento(rs.getString("nombreEvento"));
-                evento.setDescriptionEvento(rs.getString("descriptionEvento"));
-                evento.setVacantesDisp(rs.getInt("vacantesDisp"));
-                evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
-                evento.setHoraEventoStart(rs.getString("horaEventoStart"));
-                evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
-                evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Evento evento = new Evento();
+                    evento.setIdEventos(rs.getInt("idEventos"));
+                    evento.setNombreEvento(rs.getString("nombreEvento"));
+                    evento.setDescriptionEvento(rs.getString("descriptionEvento"));
+                    evento.setVacantesDisp(rs.getInt("vacantesDisp"));
+                    evento.setFechaEventoStart(rs.getString("fechaEventoStart"));
+                    evento.setHoraEventoStart(rs.getString("horaEventoStart"));
+                    evento.setFechaEventoEnd(rs.getString("fechaEventoEnd"));
+                    evento.setHoraEventoEnd(rs.getString("horaEventoEnd"));
 
-                // Convertir la fecha y hora del evento a objetos LocalDateTime para comparación
-                LocalDateTime fechaHoraEvento = LocalDateTime.of(
-                        LocalDate.parse(evento.getFechaEventoStart()),
-                        LocalTime.parse(evento.getHoraEventoStart())
-                );
+                    if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
+                        TipoEvento tipoEvento = new TipoEvento();
+                        tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
+                        tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
+                        evento.setTipoEvento(tipoEvento);
 
-                // Comparar la fecha y hora del evento con la fecha y hora actuales
-                if (esFechaHoraValida(evento.getFechaEventoStart(), evento.getHoraEventoStart())||!esFechaHoraPasada(evento.getFechaEventoEnd(), evento.getHoraEventoEnd())) {
-                    tipoEvento.setIdTipoEvento(rs.getInt("TipoEvento_idTipoEvento"));
-                    tipoEvento.setNameTipo(rs.getString("t.nameTipo"));
-                    evento.setTipoEvento(tipoEvento);
-
-                    listaEventos.add(evento);
+                        listaEventos.add(evento);
+                    }
                 }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error al listar eventos de tipo Cultura con fecha y hora válidas", e);
+            throw new RuntimeException("Error al listar eventos con fecha y hora válidas con paginación", e);
         }
 
         return listaEventos;
