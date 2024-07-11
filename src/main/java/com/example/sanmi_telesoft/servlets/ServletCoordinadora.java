@@ -541,9 +541,9 @@ public class ServletCoordinadora extends HttpServlet {
 
         //Jala el total de eventos por filtro
         if ("Deporte".equals(tipo)) {
-            total = eventoDao.listaEventosDeporte().size();
+            total = eventoDao.listaEventosDeporte(0, 1000000).size();
         } else if ("Cultura".equals(tipo)) {
-            total = eventoDao.listaEventosCultura().size();
+            total = eventoDao.listaEventosCultura(0, 1000000).size();
         } else {
             total = eventoDao.listaEventos(0, 1000000).size();
         }
@@ -566,9 +566,9 @@ public class ServletCoordinadora extends HttpServlet {
 
         //Se jala la lista de eventos por filtro
         if ("Deporte".equals(tipo)) {
-            listaEventos = eventoDao.listaEventosDeporte();
+            listaEventos = eventoDao.listaEventosDeporte(offset, eventosPorPagina);
         } else if ("Cultura".equals(tipo)) {
-            listaEventos = eventoDao.listaEventosCultura();
+            listaEventos = eventoDao.listaEventosCultura(offset, eventosPorPagina);
         } else {
             listaEventos = eventoDao.listaEventos(offset, eventosPorPagina);
         }
