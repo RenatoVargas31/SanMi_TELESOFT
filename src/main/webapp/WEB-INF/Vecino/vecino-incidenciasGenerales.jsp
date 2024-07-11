@@ -58,16 +58,23 @@
 <div class="container-xxl flex-grow-1 container-p-y">
   <!-- DataTable with Buttons -->
   <div class="card">
+    <div class="card-header">
+      <h3 class="m-4 fw-bold">Incidencias Generales</h3>
+      <div>
+        <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=filtrarIncidenciasDia'">Incidencias del Día</button>
+        <button class="btn btn-outline-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=filtrarIncidenciasSemana'">Incidencias de la Semana</button>
+        <button class="btn btn-outline-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=incidenciasGenerales'">Todas las Incidencias</button>
+      </div>
+    </div>
     <div class="card-datatable table-responsive">
       <table id="table-incidenciasGenerales" class="datatables-basic table border-top">
-        <h3 class="m-4 fw-bold">Incidencias Generales</h3>
         <thead>
         <tr>
           <th>Incidencia</th>
           <th>Lugar</th>
           <th>Estado</th>
           <th>Prioridad</th>
-          <th>Usuario</th>
+          <th>Fecha de Registro</th>
           <th>Acciones</th>
           <th>Fecha y hora</th>
         </tr>
@@ -76,79 +83,7 @@
         <%
           int i = 1;
           for (Incidencia incidencia : incidencias) {
-            String modalId = "modalScrollable" + i;
         %>
-        <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p>Estimado Serenazgo de la Zona,</p>
-                <% if(incidencia.getDescripcionSolucion() == null) { %>
-                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
-                <% } else { %>
-                <p><%= incidencia.getDescripcionSolucion() %></p>
-                <% } %>
-                <p>Atentamente,</p>
-                <p><%= incidencia.getNameUsuario() %></p>
-                <div class="card">
-                  <%
-                    if (incidencia.getFotoIncidencia() != null) { %>
-                  <img class="card-img-top" src="${pageContext.request.contextPath}/ServletVecino?action=servirImagenIncidencia&id=<%= incidencia.getIdIncidencias() %>" alt="Foto del reporte" />
-                  <% } else { %>
-                  <div class="alert alert-warning text-center" role="alert" style="font-size: 1.2em; font-weight: bold; color: blue;">
-                    No hay foto adjunta para este reporte.
-                  </div>
-                  <% } %>
-                  <div class="card-body">
-                    <h5 class="card-title">Foto del reporte</h5>
-                    <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
-                    <p class="card-text">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
-              <div class="modal-content">
-                <div class="modal-header" style="background-color: #154360;">
-                  <h5 class="modal-title text-white" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <p class="text-center">Estimado Serenazgo de la Zona,</p>
-
-                  <% if(incidencia.getDescripcionSolucion() == null) { %>
-                  <p class="text-center">Me dirijo a ustedes con preocupación para informar sobre un incidente que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
-                  <% } else { %>
-                  <p class="text-center"><%= incidencia.getDescripcionSolucion() %></p>
-                  <% } %>
-
-                  <p class="text-center">Atentamente,</p>
-                  <p class="text-center"><%= incidencia.getNameUsuario() %></p>
-
-                  <div class="card h-100">
-                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio1.jpg" alt="Card image cap" />
-                    <div class="card-body">
-                      <h5 class="card-title text-center">Foto del reporte</h5>
-                      <p class="card-text text-center">Lugar: <%= incidencia.getLugarIncidencia() %></p>
-                      <p class="card-text text-center">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
-                </div>
-              </div>
-            </div>
-          </div>
           <tr>
             <td><%= incidencia.getNombreIncidencia() %></td>
             <td><%= incidencia.getLugarIncidencia() %></td>
@@ -168,12 +103,12 @@
             <% } else { %>
             <td><span class="badge bg-secondary">No asignado</span></td>
             <% } %>
-            <td><%= incidencia.getNameUsuario() %></td>
+            <td><%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(incidencia.getFechaRegistro()) %></td>
             <td><%= incidencia.getFechaCreacion()%></td>
             <td>
               <button type="button"
                       class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                      data-bs-toggle="modal" data-bs-target="#<%= modalId %>">
+                      onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=verDetallesIncidenciaGeneral&id=<%= incidencia.getIdIncidencias() %>';">
                 <i class='bx bx-show'></i>
               </button>
             </td>

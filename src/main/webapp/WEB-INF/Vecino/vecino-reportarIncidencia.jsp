@@ -60,9 +60,13 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="input-group">
-                                        <input type="file" class="form-control" id="inputGroupFile03" name="fotoincidencia" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                        <input type="file" class="form-control" id="file" name="fotoincidencia" accept="image/jpeg, image/png">
                                         <div id="fotoincidenciaError" class="error" style="color: red;"></div>
                                     </div>
+                                </div>
+                                <div class="col-12 mt-3 text-center">
+                                    <label for="previewImage" class="form-label">Imagen a subir:</label>
+                                    <img id="previewImage" style="max-width: 400px; display: none; margin: 0 auto;"/>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-4">
@@ -78,6 +82,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <jsp:include page="../Fragmentos/FragmentosVecino/strylesFragmentVecino.jsp"/>
@@ -139,6 +144,24 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    document.getElementById('file').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        if (!allowedExtensions.exec(file.name)) {
+            alert('Solo puedes subir imágenes (archivos con terminación jpg o png)');
+            event.target.value = '';
+        } else {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewImage = document.getElementById('previewImage');
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
     $(document).ready(function() {
         $("#reportarIncidenciaForm").submit(function(event) {
             event.preventDefault();
@@ -153,7 +176,7 @@
                 contentType: false,
                 success: function(response) {
                     if (response.success) {
-                        window.location.href = "${pageContext.request.contextPath}/ServletVecino?action=incidenciasGenerales";
+                        window.location.href = "${pageContext.request.contextPath}/ServletVecino?action=misIncidencias";
                     } else {
                         $(".error").text(""); // Clear previous errors
                         for (var key in response) {

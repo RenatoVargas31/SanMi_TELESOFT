@@ -121,6 +121,9 @@ public class ServletVecino extends HttpServlet {
             case "misIncidencias":
                 manejarMisIncidencias(request, response);
                 break;
+            case "verDetallesIncidenciaGeneral":
+                verDetallesIncidenciaGeneral(request, response);
+                break;
             case "actualizarIncidencia":
                 mostrarFormularioActualizarIncidencia(request, response);
                 break;
@@ -129,6 +132,15 @@ public class ServletVecino extends HttpServlet {
                 break;
             case "error":
                 manejarError(request, response, "Ha ocurrido un error ! :c");
+                break;
+            case "filtrarIncidenciasSemana":
+                filtrarIncidenciasSemana(request, response);
+                break;
+            case "verDetallesIncidencia":
+                verDetallesIncidencia(request, response);
+                break;
+            case "filtrarIncidenciasDia":
+                filtrarIncidenciasDia(request, response);
                 break;
             case "errorEvento":
                 manejarErrorEvento(request, response, "Ha ocurrido un error en evento! :c");
@@ -199,15 +211,64 @@ public class ServletVecino extends HttpServlet {
                 break;
         }
     }
+    private void filtrarIncidenciasDia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Incidencia> incidencias = incidenciaDao.listarIncidenciasDia();
+        request.setAttribute("incidencias", incidencias);
+        request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+    }
+    private void filtrarIncidenciasSemana(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Incidencia> incidencias = incidenciaDao.listarIncidenciasSemana();
+        request.setAttribute("incidencias", incidencias);
+        request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+    }
+    private void verDetallesIncidenciaGeneral(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idIncidencia = Integer.parseInt(request.getParameter("id"));
+        Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+
+        if (incidencia != null) {
+            String nombreCompleto = incidenciaDao.obtenerNombreUsuarioPorIdIncidencia(idIncidencia);
+            request.setAttribute("nombreCompletoUsuario", nombreCompleto);
+            request.setAttribute("incidencia", incidencia);
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-detallesIncidenciaGeneral.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
+        }
+    }
     private void mostrarFormularioActualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int idIncidencia = Integer.parseInt(request.getParameter("id"));
         Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
         request.setAttribute("incidencia", incidencia);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-ActualizarIncidencia.jsp");
         dispatcher.forward(request, response);
     }
+    private void verDetallesIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+
+
+        int idIncidencia = Integer.parseInt(request.getParameter("id"));
+        Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+
+        if (incidencia.getUsuarioId() != usuario.getIdUsuarios()) {
+            request.setAttribute("errorMessage", "No tiene permiso para ver esta incidencia.");
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+            return;
+        }
+
+        request.setAttribute("incidencia", incidencia);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-detallesIncidencia.jsp");
+        dispatcher.forward(request, response);
+    }
 
     private void actualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         String nombreIncidencia = Sanitizer.sanitize(request.getParameter("fullname"));
         String telefono = Sanitizer.sanitize(request.getParameter("phone"));
         int id = Integer.parseInt(request.getParameter("incidencia_id"));
@@ -216,6 +277,7 @@ public class ServletVecino extends HttpServlet {
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
         Part fotoPart = request.getPart("file");
 
+        Map<String, String> errores = new HashMap<>();
 
         System.out.println("Parametros recibidos:");
         System.out.println("nombreIncidencia: " + nombreIncidencia);
@@ -227,31 +289,28 @@ public class ServletVecino extends HttpServlet {
 
         // Validaciones
         if (nombreIncidencia == null || nombreIncidencia.isEmpty() || nombreIncidencia.length() > 100) {
-            request.setAttribute("msg1", "Nombre de la incidencia no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/vecino-reportarIncidencia.jsp").forward(request, response);
-            return;
+            errores.put("nombreIncidencia", "Nombre de la incidencia no válido.");
         }
 
         if (telefono != null && !telefono.isEmpty() && !telefono.matches("\\d{9}")) {
-            request.setAttribute("errorMessage", "Número de teléfono no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+            errores.put("telefono", "Número de teléfono no válido.");
         }
 
         if (lugarExacto == null || lugarExacto.isEmpty() || lugarExacto.length() > 100) {
-            request.setAttribute("errorMessage", "Lugar exacto no válido.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+            errores.put("lugarExacto", "Lugar exacto no válido.");
         }
 
         if (referencia == null || referencia.isEmpty() || referencia.length() > 255) {
-            request.setAttribute("errorMessage", "Referencia no válida.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
-            return;
+            errores.put("referencia", "Referencia no válida.");
         }
+
         if (fotoPart != null && fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
-            request.setAttribute("errorMessage", "El archivo es demasiado grande. Máximo permitido es 5MB.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            errores.put("fotoincidencia", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+        }
+
+        if (!errores.isEmpty()) {
+            JSONObject jsonResponse = new JSONObject(errores);
+            response.getWriter().write(jsonResponse.toString());
             return;
         }
 
@@ -265,9 +324,20 @@ public class ServletVecino extends HttpServlet {
         }
         System.out.println("Usuario ID: " + usuario.getIdUsuarios());
         Incidencia incidenciaExistente = incidenciaDao.obtenerIncidencia(id);
+        if (incidenciaExistente == null) {
+            request.setAttribute("errorMessage", "La incidencia no existe.");
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+            return;
+        }
+        if (incidenciaExistente.getUsuarioId() != usuario.getIdUsuarios()) {
+            request.setAttribute("errorMessage", "No tiene permiso para actualizar esta incidencia.");
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+            return;
+        }
+
         if (incidenciaExistente.getEstado() != 1) {
             request.setAttribute("errorMessage", "No se puede actualizar una incidencia que no esté en estado 'nueva'.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
             return;
         }
 
@@ -304,7 +374,9 @@ public class ServletVecino extends HttpServlet {
         incidenciaDao.actualizarIncidencia(incidencia);
         System.out.println("Incidencia actualizada correctamente.");
 
-        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("success", true);
+        response.getWriter().write(jsonResponse.toString());
     }
     private void mostrarFormularioReportarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-reportarIncidencia.jsp");
@@ -347,10 +419,25 @@ public class ServletVecino extends HttpServlet {
         }
         System.out.println("Usuario ID: " + usuario.getIdUsuarios());
 
+
+
+
         Incidencia incidenciaExistente = incidenciaDao.obtenerIncidencia(id);
+
+        if (incidenciaExistente == null) {
+            request.setAttribute("errorMessage", "La incidencia no existe.");
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+            return;
+        }
+
+        if (incidenciaExistente.getUsuarioId() != usuario.getIdUsuarios()) {
+            request.setAttribute("errorMessage", "No tiene permiso para eliminar esta incidencia.");
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
+            return;
+        }
         if (incidenciaExistente.getEstado() != 1) {
             request.setAttribute("errorMessage", "No se puede eliminar una incidencia que no esté en estado 'nueva'.");
-            request.getRequestDispatcher("WEB-INF/Vecino/error.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
             return;
         }
 
@@ -472,9 +559,11 @@ public class ServletVecino extends HttpServlet {
             e.printStackTrace();
             throw new ServletException("Error al insertar la incidencia", e);
         }
-        response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
+
 
     }
+
+
     private boolean isImageFile(Part filePart) {
         String fileName = filePart.getSubmittedFileName();
         return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png");

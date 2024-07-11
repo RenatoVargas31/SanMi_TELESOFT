@@ -1,4 +1,7 @@
 package com.example.sanmi_telesoft.beans;
+import java.sql.Timestamp;
+
+import java.io.InputStream;
 
 public class Incidencia {
     private int idIncidencias;
@@ -24,12 +27,32 @@ public class Incidencia {
     private int usuarioId;
     private String fechaCreacion;
 
+    private Timestamp fechaRegistro;
+
+    // Getters y Setters
+    public Timestamp getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Timestamp fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
     public int getUsuarioId() {
         return usuarioId;
     }
 
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public int getCriticidad() {
@@ -196,14 +219,6 @@ public class Incidencia {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
-    }
-
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
     }
 }
 
