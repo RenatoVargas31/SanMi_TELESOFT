@@ -13,7 +13,7 @@ public abstract class BaseDao {
         }
 
         String username = "root";
-        String password = "loboenparis80";
+        String password = "root";
         String database = "proyecto-iweb";
         String params = "serverTimezone=America/Lima&useSSL=false&allowPublicKeyRetrieval=true";
         String url = "jdbc:mysql://localhost:3306/" + database + "?" + params;
