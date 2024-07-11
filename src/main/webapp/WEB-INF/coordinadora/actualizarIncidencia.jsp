@@ -1,4 +1,8 @@
+<%@ page import="com.example.sanmi_telesoft.beans.TipoIncidencia" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Urbanizacion" %>
 <jsp:useBean id="incidencia" type="com.example.sanmi_telesoft.beans.Incidencia" scope="request"/>
+<jsp:useBean id="tipos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoIncidencia>" scope="request" />;
+<jsp:useBean id="urbanizaciones" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Urbanizacion>" scope="request" />;
 
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
@@ -104,28 +108,55 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label class="form-label" for="phone">Telefono</label>
-                                                <input type="text" class="form-control" name="phone" id="phone" value="<%= incidencia.getTelefono()%>"  placeholder="" />
+                                                <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
+                                                <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
+                                                    <% for (TipoIncidencia t : tipos) {
+                                                        String selected = "";
+                                                        if (incidencia.getIdTipoIncidencia()==t.getId()) {
+                                                            selected = "selected";
+                                                        }
+                                                    %>
+                                                    <option value="<%=t.getId()%>" <%=selected%>><%=t.getName()%></option>
+                                                    <%}%>
+
+                                                </select>
                                             </div>
 
-                                            <div class="col-12">
+
+                                            <div class="col-md-6">
                                                 <label class="form-label" for="LugarExacto">Lugar Exacto</label>
                                                 <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" value="<%= incidencia.getLugarIncidencia() == null ? "" : incidencia.getLugarIncidencia()%>" placeholder="Av, jr, calle."/>
                                             </div>
 
-                                            <div class="col-12">
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="urbanizacion">Urbanizacion</label>
+                                                <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
+                                                    <% for (Urbanizacion u : urbanizaciones) {
+                                                        String selected = "";
+                                                        if (incidencia.getIdUrbanizacion()==u.getId()) {
+                                                            selected = "selected";
+                                                        }
+                                                    %>
+                                                    <option value="<%=u.getId()%>" <%=selected%>><%=u.getName()%></option>
+                                                    <%}%>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
                                                 <label class="form-label" for="Referencia">Referencia</label>
                                                 <input type="text" id="Referencia" name="Referencia" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." />
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="phone">Telefono</label>
+                                                <input type="text" class="form-control" name="phone" id="phone" value="<%= incidencia.getTelefono()%>"  placeholder="" />
                                             </div>
 
                                             <div class="col-12">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" <% if(incidencia.isRequiereAmbulancia()) { %> checked="" <%}%> >
                                                     <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" value="" id="bomberos" name="bomberos" <% if(incidencia.isRequiereBombero()) { %> checked="" <%}%> >
-                                                    <label class="form-check-label" for="bomberos">Es necesario bomberos</label>
                                                 </div>
                                             </div>
 

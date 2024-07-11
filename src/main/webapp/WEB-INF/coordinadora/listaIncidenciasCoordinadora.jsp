@@ -170,6 +170,7 @@
                                     <th>Estado</th>
                                     <th>Prioridad</th>
                                     <th>Usuario</th>
+                                    <th>Fecha de registro</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -239,6 +240,7 @@
                                     <td><span class="badge bg-secondary">No asignado</span></td>
                                     <% } %>
                                     <td><%= incidencia.getNameUsuario() %></td>
+                                    <td><%= incidencia.getFechaRegistro()%></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"

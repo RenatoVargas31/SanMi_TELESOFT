@@ -17,7 +17,7 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaIncidencia = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios AND enabled = 1 order by fecha_registro desc";
 
 
         try (Connection conn = this.getConection();
@@ -64,7 +64,7 @@ public class DaoIncidencia extends BaseDao{
         String sql = "SELECT i.*, CONCAT(u.nombreUsuario, ' ', u.apellidoUsuario) AS name_completo " +
                 "FROM incidencias i " +
                 "JOIN usuarios u ON i.Usuarios_idUsuarios = u.idUsuarios " +
-                "WHERE i.enabled = 1 AND (i.EstadoIncidencia_idEstadoIncidencia = 2 OR i.EstadoIncidencia_idEstadoIncidencia = 1)";
+                "WHERE i.enabled = 1 AND (i.EstadoIncidencia_idEstadoIncidencia = 2 OR i.EstadoIncidencia_idEstadoIncidencia = 1) order by i.fecha_registro desc";
 
         try (Connection conn = this.getConection();
              Statement stmt = conn.createStatement();
@@ -87,7 +87,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
                 incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia"));
-                incidencia.setFechaCreacion(rs.getString("fecha_registro"));
+                incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
                 incidencia.setFotoIncidencia(fotote);
@@ -106,7 +106,7 @@ public class DaoIncidencia extends BaseDao{
 
         ArrayList<Incidencia> listaMisIncidencias = new ArrayList<>();
 
-        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ? AND enabled = 1";
+        String sql = "select i.*, concat(u.nombreUsuario,' ', apellidoUsuario) as name_completo from incidencias i, usuarios u WHERE i.Usuarios_idUsuarios = u.idUsuarios and i.Usuarios_idUsuarios = ? AND enabled = 1 order by fecha_registro desc";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -418,7 +418,7 @@ public class DaoIncidencia extends BaseDao{
                     incidencia.setEstado(rs.getInt(14));
                     incidencia.setCriticidad(rs.getInt(15));
                     incidencia.setIdTipoIncidencia(rs.getInt(16));
-                    incidencia.setFechaCreacion(rs.getString(18));
+                    incidencia.setFechaRegistro(rs.getTimestamp(18));
                     incidencia.setNameUsuario(rs.getString(19));
 
                     listaHistorial.add(incidencia);

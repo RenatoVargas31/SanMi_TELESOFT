@@ -81,6 +81,9 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
             case "mostrarActualizarIncidencia":
+                DaoUrbanizacion dao3 = new DaoUrbanizacion();
+                DaoTipoIncidencias dao4 = new DaoTipoIncidencias();
+
                 if (request.getParameter("id") != null) {
                     String id4 = request.getParameter("id");
                     int incId = 0;
@@ -96,6 +99,8 @@ public class ServletCoordinadora extends HttpServlet {
 
                     if (i != null) {
                         request.setAttribute("incidencia", i);
+                        request.setAttribute("tipos", dao4.getTipoIncidencias() );
+                        request.setAttribute("urbanizaciones", dao3.getUrbanizaciones());
                         request.setAttribute("activeMenu", "Incidencias");
                         request.setAttribute("activeMenuSub", "Incidencias3");
 
@@ -308,7 +313,7 @@ public class ServletCoordinadora extends HttpServlet {
                 incidencia.setIdTipoIncidencia(idTipo);
                 incidencia.setIdUrbanizacion(idUrb);
                 incidenciaDao.insertarIncidencia(incidencia);
-                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarIncidencias");
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
                 break;
             case "resetIncidencia":
                 DaoIncidencia incidenciaDao2 = new DaoIncidencia();

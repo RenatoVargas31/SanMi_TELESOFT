@@ -23,7 +23,6 @@ public class Incidencia {
     private int criticidad;
     private String victima;
     private int usuarioId;
-    private String fechaCreacion;
 
 
     private Timestamp fechaRegistro;
@@ -43,15 +42,6 @@ public class Incidencia {
 
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
-    }
-
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
     }
 
     public int getCriticidad() {

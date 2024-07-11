@@ -125,6 +125,7 @@
                                     <th>Lugar</th>
                                     <th>Estado</th>
                                     <th>Prioridad</th>
+                                    <th>Fecha de registro</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -207,6 +208,7 @@
                                     <% } else { %>
                                     <td><span class="badge bg-secondary">No asignado</span></td>
                                     <% } %>
+                                    <td><%=incidencia.getFechaRegistro()%></td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
