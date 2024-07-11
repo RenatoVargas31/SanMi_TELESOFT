@@ -241,9 +241,12 @@ CREATE TABLE `incidencias` (
   `Usuarios_idUsuarios` int DEFAULT '1',
   `EstadoIncidencia_idEstadoIncidencia` int DEFAULT '1',
   `CriticidadIncidencia_idCriticidadIncidencia` int DEFAULT NULL,
-  `TipoIncidencia_idTipoIncidencia` int DEFAULT NULL,
+  `TipoIncidencia_idTipoIncidencia` int NOT NULL,
   `enabled` tinyint default 1,
   `fecha_registro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `Urbanizacion_idUrbanizacion` int NOT NULL,
+  `idSerenazgo` int NULL,
+  
 
   
   PRIMARY KEY (`idIncidencias`),
@@ -253,12 +256,16 @@ CREATE TABLE `incidencias` (
   KEY `fk_Incidencias_EstadoIncidencia1_idx` (`EstadoIncidencia_idEstadoIncidencia`),
   KEY `fk_Incidencias_CriticidadIncidencia1_idx` (`CriticidadIncidencia_idCriticidadIncidencia`),
   KEY `fk_Incidencias_TipoIncidencia1_idx` (`TipoIncidencia_idTipoIncidencia`),
+  KEY `fk_Urbanizacion_idUrbanizacion1_idx` (`Urbanizacion_idUrbanizacion`),
+  KEY `fk_idSerenazgo1_idx` (`idSerenazgo`),
   CONSTRAINT `fk_Incidencias_CriticidadIncidencia1` FOREIGN KEY (`CriticidadIncidencia_idCriticidadIncidencia`) REFERENCES `criticidadincidencia` (`idCriticidadIncidencia`),
   CONSTRAINT `fk_Incidencias_EstadoIncidencia1` FOREIGN KEY (`EstadoIncidencia_idEstadoIncidencia`) REFERENCES `estadoincidencia` (`idEstadoIncidencia`),
   CONSTRAINT `fk_Incidencias_personalAmbulancia1` FOREIGN KEY (`personalAmbulancia_idpersonalAmbulancia`) REFERENCES `personalambulancia` (`idpersonalAmbulancia`),
   CONSTRAINT `fk_Incidencias_Serenazgos1` FOREIGN KEY (`Serenazgos_idSerenazgos`) REFERENCES `serenazgos` (`idSerenazgos`),
   CONSTRAINT `fk_Incidencias_TipoIncidencia1` FOREIGN KEY (`TipoIncidencia_idTipoIncidencia`) REFERENCES `tipoincidencia` (`idTipoIncidencia`),
-  CONSTRAINT `fk_Incidencias_Usuarios1` FOREIGN KEY (`Usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`)
+  CONSTRAINT `fk_Incidencias_Usuarios1` FOREIGN KEY (`Usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`),
+  CONSTRAINT `fk_Urbanizacion_idUrbanizacion1_idx` FOREIGN KEY (`Urbanizacion_idUrbanizacion`) references `urbanizacion` (`idUrbanizacion`),
+  CONSTRAINT `fk_idSerenazgo1_idx` FOREIGN KEY (`idSerenazgo`) references `usuarios` (`idUsuarios`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -268,20 +275,18 @@ CREATE TABLE `incidencias` (
 
 LOCK TABLES `incidencias` WRITE;
 /*!40000 ALTER TABLE `incidencias` DISABLE KEYS */;
-INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fecha_registro) 
-VALUES ('AS', 'AS', 'AS', 0, 0, 0, '942841110', '2024-01-01 10:00:00');
-INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, contactoIncidencia, Usuarios_idUsuarios, EstadoIncidencia_idEstadoIncidencia, CriticidadIncidencia_idCriticidadIncidencia, fecha_registro) 
+INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, contactoIncidencia, Usuarios_idUsuarios, EstadoIncidencia_idEstadoIncidencia, CriticidadIncidencia_idCriticidadIncidencia, fecha_registro, TipoIncidencia_idTipoIncidencia, Urbanizacion_idUrbanizacion) 
 VALUES 
-('Arresto en la calle 3', 'Las causarinas', 'Cerca al paradero Josias', '981084527', 4, 1, null, '2024-02-01 11:00:00'),
-('Robo en tienda', 'Avenida Principal 123', 'Frente a la plaza', '987654321', 2, 2, 3, '2024-03-01 12:00:00'),
-('Accidente vehicular', 'Esquina de Calle 5 y 6', 'Cerca al supermercado', '912345678', 5, 1, null, '2024-04-01 13:00:00'),
-('Incendio en vivienda', 'Calle Los Pinos 456', 'Al lado del parque', '923456789', 3, 3, 2, '2024-05-01 14:00:00'),
-('Vandalismo en escuela', 'Calle Los Cedros 789', 'Junto a la biblioteca', '934567890', 6, 2, 1, '2024-06-01 15:00:00'),
-('Emergencia médica', 'Pasaje Las Rosas 101', 'Frente al banco', '945678901', 7, 1, null, '2024-07-01 16:00:00'),
-('Perro perdido', 'Jirón Las Flores 202', 'Cerca de la panadería', '956789012', 1, 3, 1, '2024-08-01 17:00:00'),
-('Fuga de gas', 'Avenida Las Palmas 303', 'A una cuadra del parque', '967890123', 1, 1, null, '2024-09-01 18:00:00'),
-('Pelea callejera', 'Calle Las Acacias 404', 'Cerca del mercado', '978901234', 1, 2, 3, '2024-10-01 19:00:00'),
-('Ruido excesivo', 'Jirón Las Lomas 505', 'A dos cuadras de la iglesia', '989012345', 10, 3, 1, '2024-11-01 20:00:00');
+('Arresto en la calle 3', 'Las causarinas', 'Cerca al paradero Josias', '981084527', 4, 1, null, '2024-02-01 11:00:00', 1, 1),
+('Robo en tienda', 'Avenida Principal 123', 'Frente a la plaza', '987654321', 2, 2, 3, '2024-03-01 12:00:00', 2, 2),
+('Accidente vehicular', 'Esquina de Calle 5 y 6', 'Cerca al supermercado', '912345678', 5, 1, null, '2024-04-01 13:00:00', 3, 3),
+('Incendio en vivienda', 'Calle Los Pinos 456', 'Al lado del parque', '923456789', 3, 3, 2, '2024-05-01 14:00:00', 4, 4),
+('Vandalismo en escuela', 'Calle Los Cedros 789', 'Junto a la biblioteca', '934567890', 6, 2, 1, '2024-06-01 15:00:00',5 , 5),
+('Emergencia médica', 'Pasaje Las Rosas 101', 'Frente al banco', '945678901', 7, 1, null, '2024-07-01 16:00:00', 6, 6),
+('Perro perdido', 'Jirón Las Flores 202', 'Cerca de la panadería', '956789012', 1, 3, 1, '2024-04-01 17:00:00', 7, 7),
+('Fuga de gas', 'Avenida Las Palmas 303', 'A una cuadra del parque', '967890123', 1, 1, null, '2024-02-01 18:00:00', 8, 8),
+('Pelea callejera', 'Calle Las Acacias 404', 'Cerca del mercado', '978901234', 1, 2, 3, '2024-06-01 19:00:00', 9, 9),
+('Ruido excesivo', 'Jirón Las Lomas 505', 'A dos cuadras de la iglesia', '989012345', 10, 3, 1, '2024-05-01 20:00:00', 10, 10);
 /*!40000 ALTER TABLE `incidencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
