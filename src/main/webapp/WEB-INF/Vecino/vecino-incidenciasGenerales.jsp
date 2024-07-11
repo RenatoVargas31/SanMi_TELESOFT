@@ -76,7 +76,6 @@
           <th>Prioridad</th>
           <th>Fecha de Registro</th>
           <th>Acciones</th>
-          <th>Fecha y hora</th>
         </tr>
         </thead>
         <tbody>
@@ -84,36 +83,35 @@
           int i = 1;
           for (Incidencia incidencia : incidencias) {
         %>
-          <tr>
-            <td><%= incidencia.getNombreIncidencia() %></td>
-            <td><%= incidencia.getLugarIncidencia() %></td>
-            <% if (incidencia.getEstado() == 1) { %>
-            <td><span class="badge bg-danger">Nueva</span></td>
-            <% } else if (incidencia.getEstado() == 2) { %>
-            <td><span class="badge bg-warning">Procesando</span></td>
-            <% } else if (incidencia.getEstado() == 3) { %>
-            <td><span class="badge bg-success">Resuelta</span></td>
-            <% } %>
-            <% if (incidencia.getCriticidad() == 1) { %>
-            <td><span class="badge bg-primary">Baja</span></td>
-            <% } else if (incidencia.getCriticidad() == 2) { %>
-            <td><span class="badge bg-warning">Media</span></td>
-            <% } else if (incidencia.getCriticidad() == 3) { %>
-            <td><span class="badge bg-danger">Alta</span></td>
-            <% } else { %>
-            <td><span class="badge bg-secondary">No asignado</span></td>
-            <% } %>
-            <td><%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(incidencia.getFechaRegistro()) %></td>
-            <td><%= incidencia.getFechaCreacion()%></td>
-            <td>
-              <button type="button"
-                      class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                      onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=verDetallesIncidenciaGeneral&id=<%= incidencia.getIdIncidencias() %>';">
-                <i class='bx bx-show'></i>
-              </button>
-            </td>
-          </tr>
-            <%
+        <tr>
+          <td><%= incidencia.getNombreIncidencia() %></td>
+          <td><%= incidencia.getLugarIncidencia() %></td>
+          <% if (incidencia.getEstado() == 1) { %>
+          <td><span class="badge bg-danger">Nueva</span></td>
+          <% } else if (incidencia.getEstado() == 2) { %>
+          <td><span class="badge bg-warning">Procesando</span></td>
+          <% } else if (incidencia.getEstado() == 3) { %>
+          <td><span class="badge bg-success">Resuelta</span></td>
+          <% } %>
+          <% if (incidencia.getCriticidad() == 1) { %>
+          <td><span class="badge bg-primary">Baja</span></td>
+          <% } else if (incidencia.getCriticidad() == 2) { %>
+          <td><span class="badge bg-warning">Media</span></td>
+          <% } else if (incidencia.getCriticidad() == 3) { %>
+          <td><span class="badge bg-danger">Alta</span></td>
+          <% } else { %>
+          <td><span class="badge bg-secondary">No asignado</span></td>
+          <% } %>
+          <td><%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(incidencia.getFechaRegistro()) %></td>
+          <td>
+            <button type="button"
+                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                    onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=verDetallesIncidenciaGeneral&id=<%= incidencia.getIdIncidencias() %>';">
+              <i class='bx bx-show'></i>
+            </button>
+          </td>
+        </tr>
+        <%
             i++;
           }
         %>
@@ -168,24 +166,6 @@
 
 <jsp:include page="../Fragmentos/FragmentosVecino/strylesFragmentVecino.jsp"/>
 
-<script>
-  function cargarDetallesIncidencia(idIncidencia) {
-    fetch('<%= request.getContextPath() %>/ServletVecino?action=obtenerDetallesIncidencia&idIncidencia=' + idIncidencia)
-            .then(response => response.json())
-            .then(data => {
-              document.getElementById('detalle-nombreIncidencia').innerText = 'Nombre: ' + data.nombreIncidencia;
-              document.getElementById('detalle-lugarIncidencia').innerText = 'Lugar: ' + data.lugarExacto;
-              document.getElementById('detalle-referenciaIncidencia').innerText = 'Referencia: ' + data.referenciaIncidencia;
-              document.getElementById('detalle-contactoIncidencia').innerText = 'Contacto: ' + data.contactoIncidencia;
-              document.getElementById('detalle-requiereAmbulancia').innerText = 'Requiere Ambulancia: ' + (data.requiereAmbulancia ? 'Sí' : 'No');
-              document.getElementById('detalle-requierePolicia').innerText = 'Requiere Policía: ' + (data.requierePolicia ? 'Sí' : 'No');
-              document.getElementById('detalle-requiereBombero').innerText = 'Requiere Bombero: ' + (data.requiereBombero ? 'Sí' : 'No');
-              document.getElementById('detalle-descripcionSolucion').innerText = 'Descripción Solución: ' + data.descripcionSolucion;
-              document.getElementById('detalle-nameUsuario').innerText = 'Usuario: ' + data.nameUsuario;
-            })
-            .catch(error => console.error('Error:', error));
-  }
-</script>
 
 </body>
 </html>

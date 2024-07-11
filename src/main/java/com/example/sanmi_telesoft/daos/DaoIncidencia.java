@@ -57,6 +57,50 @@ public class DaoIncidencia extends BaseDao{
 
         return listaIncidencia;
     }
+    public ArrayList<Incidencia> listarIncidenciasSerenazo() {
+
+        ArrayList<Incidencia> listaIncidencia = new ArrayList<>();
+
+        String sql = "SELECT i.*, CONCAT(u.nombreUsuario, ' ', u.apellidoUsuario) AS name_completo " +
+                "FROM incidencias i " +
+                "JOIN usuarios u ON i.Usuarios_idUsuarios = u.idUsuarios " +
+                "WHERE i.enabled = 1 AND (i.EstadoIncidencia_idEstadoIncidencia = 2 OR i.EstadoIncidencia_idEstadoIncidencia = 1)";
+
+        try (Connection conn = this.getConection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Incidencia incidencia = new Incidencia();
+                incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
+                incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
+                incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
+                incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
+                incidencia.setTelefono(rs.getInt("contactoIncidencia"));
+                incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
+                incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
+                incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
+                incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
+                incidencia.setSerenazgoid(rs.getInt("Serenazgos_idSerenazgos"));
+                incidencia.setAmbulalciaid(rs.getInt("personalAmbulancia_idpersonalAmbulancia"));
+                incidencia.setNameUsuario(rs.getString("name_completo"));
+                incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
+                incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
+                incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
+                incidencia.setFechaCreacion(rs.getString("fecha_registro"));
+
+                byte[] fotote = rs.getBytes("fotoIncidencia");
+                incidencia.setFotoIncidencia(fotote);
+
+                listaIncidencia.add(incidencia);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return listaIncidencia;
+    }
+
 
         public ArrayList<Incidencia> listarMisIncidencias(int idUsuario) {
 
