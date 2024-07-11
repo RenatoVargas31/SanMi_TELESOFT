@@ -1,3 +1,7 @@
+<%@ page import="com.example.sanmi_telesoft.beans.TipoIncidencia" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Urbanizacion" %>
+<jsp:useBean id="urbanizaciones" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Urbanizacion>" scope="request" />;
+<jsp:useBean id="tipos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoIncidencia>" scope="request" />
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
@@ -102,28 +106,44 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label class="form-label" for="phone">Telefono</label>
-                                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="" required/>
+                                                <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
+                                                <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
+                                                    <option value="sinSeleccion">--Seleccione--</option>
+                                                    <% for (TipoIncidencia t : tipos) {%>
+                                                    <option value="<%=t.getId()%>"><%=t.getName()%></option>
+                                                    <%}%>
+                                                </select>
                                             </div>
 
-                                            <div class="col-12">
+                                            <div class="col-md-6">
                                                 <label class="form-label" for="LugarExacto">Lugar Exacto</label>
                                                 <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" placeholder="Av, jr, calle." required/>
                                             </div>
 
-                                            <div class="col-12">
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="urbanizacion">Urbanizacion</label>
+                                                <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
+                                                    <option value="sinSeleccion">--Seleccione--</option>
+                                                    <% for (Urbanizacion u : urbanizaciones) {%>
+                                                    <option value="<%=u.getId()%>"><%=u.getName()%></option>
+                                                    <%}%>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
                                                 <label class="form-label" for="Referencia">Referencia</label>
                                                 <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required/>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="phone">Telefono</label>
+                                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="" required/>
                                             </div>
 
                                             <div class="col-12">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" value="a" id="ambulancia" name="ambulancia" >
                                                     <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" value="a" id="bomberos" name="bomberos" >
-                                                    <label class="form-check-label" for="bomberos">Es necesario bomberos</label>
                                                 </div>
                                             </div>
 

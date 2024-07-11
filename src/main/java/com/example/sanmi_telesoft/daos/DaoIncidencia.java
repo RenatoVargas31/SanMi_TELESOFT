@@ -40,7 +40,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setNameUsuario(rs.getString("name_completo"));
                 incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
-                incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
+                incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia"));
                 incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
@@ -86,7 +86,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setNameUsuario(rs.getString("name_completo"));
                 incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
-                incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
+                incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia"));
                 incidencia.setFechaCreacion(rs.getString("fecha_registro"));
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
@@ -130,7 +130,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setNameUsuario(rs.getString(18 ));
                 incidencia.setEstado(rs.getInt(14));
                 incidencia.setCriticidad(rs.getInt(15));
-                incidencia.setTipo(rs.getInt(16));
+                incidencia.setIdTipoIncidencia(rs.getInt(16));
                 incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
@@ -145,7 +145,7 @@ public class DaoIncidencia extends BaseDao{
         return listaMisIncidencias;
     }
     public void insertarIncidencia(Incidencia incidencia) {
-        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fotoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fotoIncidencia, TipoIncidencia_idTipoIncidencia, Urbanizacion_idUrbanizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, incidencia.getNombreIncidencia());
             pstmt.setString(2, incidencia.getLugarIncidencia());
@@ -155,6 +155,8 @@ public class DaoIncidencia extends BaseDao{
             pstmt.setBoolean(6, incidencia.isRequiereBombero());
             pstmt.setInt(7, incidencia.getTelefono());
             pstmt.setBytes(8, incidencia.getFotoIncidencia());
+            pstmt.setInt(9, incidencia.getIdTipoIncidencia());
+            pstmt.setInt(10, incidencia.getIdUrbanizacion());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -270,7 +272,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setNameUsuario(rs.getString("name_completo"));
                 incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
-                incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
+                incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia"));
                 incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
@@ -307,7 +309,7 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setNameUsuario(rs.getString("name_completo"));
                 incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
                 incidencia.setCriticidad(rs.getInt("CriticidadIncidencia_idCriticidadIncidencia"));
-                incidencia.setTipo(rs.getInt("TipoIncidencia_idTipoIncidencia"));
+                incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia"));
                 incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
@@ -415,7 +417,7 @@ public class DaoIncidencia extends BaseDao{
                     incidencia.setAmbulalciaid(rs.getInt(12));
                     incidencia.setEstado(rs.getInt(14));
                     incidencia.setCriticidad(rs.getInt(15));
-                    incidencia.setTipo(rs.getInt(16));
+                    incidencia.setIdTipoIncidencia(rs.getInt(16));
                     incidencia.setFechaCreacion(rs.getString(18));
                     incidencia.setNameUsuario(rs.getString(19));
 

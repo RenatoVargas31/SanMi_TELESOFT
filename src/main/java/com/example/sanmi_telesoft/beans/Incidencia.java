@@ -1,8 +1,6 @@
 package com.example.sanmi_telesoft.beans;
 import java.sql.Timestamp;
 
-import java.io.InputStream;
-
 public class Incidencia {
     private int idIncidencias;
     private String nombreIncidencia;
@@ -16,16 +14,17 @@ public class Incidencia {
     private String descripcionSolucion;
     private String nameUsuario;
     private int idTipoIncidencia;
+    private int idUrbanizacion;
     private String nombreUrbanizacion;
     private int telefono;
     private int serenazgoid;
     private int ambulalciaid;
     private int estado;
     private int criticidad;
-    private int tipo;
     private String victima;
     private int usuarioId;
     private String fechaCreacion;
+
 
     private Timestamp fechaRegistro;
 
@@ -61,14 +60,6 @@ public class Incidencia {
 
     public void setCriticidad(int criticidad) {
         this.criticidad = criticidad;
-    }
-
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
     }
 
     public String getVictima() {
@@ -219,6 +210,14 @@ public class Incidencia {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public int getIdUrbanizacion() {
+        return idUrbanizacion;
+    }
+
+    public void setIdUrbanizacion(int idUrbanizacion) {
+        this.idUrbanizacion = idUrbanizacion;
     }
 }
 

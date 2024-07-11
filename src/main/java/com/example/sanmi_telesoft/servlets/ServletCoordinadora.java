@@ -1,11 +1,7 @@
 package com.example.sanmi_telesoft.servlets;
 
 import com.example.sanmi_telesoft.beans.*;
-import com.example.sanmi_telesoft.daos.DaoCoordinadora;
-import com.example.sanmi_telesoft.daos.DaoEvento;
-import com.example.sanmi_telesoft.daos.DaoIncidencia;
-import com.example.sanmi_telesoft.daos.DaoProfesor;
-import com.example.sanmi_telesoft.daos.UsuarioDAO;
+import com.example.sanmi_telesoft.daos.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -39,6 +35,13 @@ public class ServletCoordinadora extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/coordinadora/ayudaCoordinadora.jsp").forward(request, response);
                 break;
             case "mostrarReportarIncidencias":
+                DaoTipoIncidencias dao1 = new DaoTipoIncidencias();
+                DaoUrbanizacion dao2 = new DaoUrbanizacion();
+                ArrayList<Urbanizacion> urbanizaciones = dao2.getUrbanizaciones();
+                ArrayList<TipoIncidencia> tipos = dao1.getTipoIncidencias();
+
+                request.setAttribute("urbanizaciones", urbanizaciones);
+                request.setAttribute("tipos", tipos);
                 request.setAttribute("activeMenu", "Incidencias");
                 request.setAttribute("activeMenuSub", "Incidencias1");
                 request.getRequestDispatcher("WEB-INF/coordinadora/reportarIncidencias.jsp").forward(request, response);
@@ -278,17 +281,32 @@ public class ServletCoordinadora extends HttpServlet {
                 boolean requiereBombero = request.getParameter("bomberos") != null;
                 boolean requiereSerenazo = request.getParameter("serenazgos") != null;
                 InputStream fotito = request.getPart("file").getInputStream();
+                int idUrb;
+                int idTipo;
+                try{
+                    idUrb = Integer.parseInt(request.getParameter("urbanizacion"));
+                } catch (NumberFormatException e){
+                    idUrb = 1;
+                }
+
+                try{
+                    idTipo = Integer.parseInt(request.getParameter("tipoIncidencia"));
+                } catch (NumberFormatException e){
+                    idTipo = 13;
+                }
                 byte[] foto = fotito.readAllBytes();
 
                 Incidencia incidencia = new Incidencia();
                 incidencia.setNombreIncidencia(nombreIncidencia);
-                //incidencia.setTelefono(Integer.parseInt(telefono));
+                incidencia.setTelefono(Integer.parseInt(telefono));
                 incidencia.setLugarIncidencia(lugarExacto);
                 incidencia.setReferenciaIncidencia(referencia);
                 incidencia.setRequiereAmbulancia(requiereAmbulancia);
                 incidencia.setRequiereBombero(requiereBombero);
                 incidencia.setRequierePolicia(requiereSerenazo);
                 incidencia.setFotoIncidencia(foto);
+                incidencia.setIdTipoIncidencia(idTipo);
+                incidencia.setIdUrbanizacion(idUrb);
                 incidenciaDao.insertarIncidencia(incidencia);
                 response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarIncidencias");
                 break;
