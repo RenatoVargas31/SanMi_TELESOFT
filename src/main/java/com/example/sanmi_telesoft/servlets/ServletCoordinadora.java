@@ -132,6 +132,20 @@ public class ServletCoordinadora extends HttpServlet {
                     request.getRequestDispatcher("indexCoordinadora.jsp").forward(request, response);
                 }
                 break;
+
+            case "servirImagenEvento":
+                int idk = Integer.parseInt(request.getParameter("id"));
+                DaoEvento dao10 = new DaoEvento();
+                Evento im2 = dao10.searchEventobyId(idk);
+
+                if (im2 != null) {
+                    response.setContentType("image/jpeg");
+                    response.setContentLength(im2.getFotosStart().length);
+                    OutputStream os = response.getOutputStream();
+                    os.write(im2.getFotosStart());
+                    os.flush();
+                }
+                break;
                 
             case "borrarIncidencia":
                 if (request.getParameter("id") != null) {

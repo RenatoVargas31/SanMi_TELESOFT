@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="incidencia" class="com.example.sanmi_telesoft.beans.Incidencia" scope="request"/>
+<jsp:useBean id="tipoIncidencia" type="com.example.sanmi_telesoft.beans.TipoIncidencia" scope="request"/>
+<jsp:useBean id="urbanizacion" type="com.example.sanmi_telesoft.beans.Urbanizacion" scope="request"/>
+<%@ page import="java.util.ArrayList, com.example.sanmi_telesoft.beans.TipoIncidencia, com.example.sanmi_telesoft.beans.Urbanizacion, com.example.sanmi_telesoft.beans.Incidencia" %>
 <%
     String pageName = "incidenciasGenerales";
     request.setAttribute("pageName", pageName);
@@ -55,6 +58,14 @@
                             <div class="col-12">
                                 <label class="form-label">Referencia</label>
                                 <input type="text" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." readonly/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Incidencia</label>
+                                <input type="text" class="form-control" value="${tipoIncidencia != null ? tipoIncidencia.name : ''}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Urbanización</label>
+                                <input type="text" class="form-control" value="${urbanizacion != null ? urbanizacion.name : ''}" readonly>
                             </div>
 
                             <div class="col-12">

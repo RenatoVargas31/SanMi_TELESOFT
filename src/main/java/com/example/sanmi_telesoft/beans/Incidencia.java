@@ -23,6 +23,25 @@ public class Incidencia {
     private int criticidad;
     private String victima;
     private int usuarioId;
+    private String tipoIncidenciaNombre;
+    private String urbanizacionNombre;
+
+    // Getters y Setters
+    public String getTipoIncidenciaNombre() {
+        return tipoIncidenciaNombre;
+    }
+
+    public void setTipoIncidenciaNombre(String tipoIncidenciaNombre) {
+        this.tipoIncidenciaNombre = tipoIncidenciaNombre;
+    }
+
+    public String getUrbanizacionNombre() {
+        return urbanizacionNombre;
+    }
+
+    public void setUrbanizacionNombre(String urbanizacionNombre) {
+        this.urbanizacionNombre = urbanizacionNombre;
+    }
 
 
     private Timestamp fechaRegistro;

@@ -7,6 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="incidencia" class="com.example.sanmi_telesoft.beans.Incidencia" scope="request"/>
+<%@ page import="com.example.sanmi_telesoft.beans.TipoIncidencia, com.example.sanmi_telesoft.beans.Urbanizacion, java.util.ArrayList" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Urbanizacion, com.example.sanmi_telesoft.beans.Urbanizacion, java.util.ArrayList" %>
+<%
+    System.out.println("Incidencia ID: " + incidencia.getIdIncidencias());
+    System.out.println("Tipo de Incidencia ID: " + incidencia.getIdTipoIncidencia());
+    System.out.println("Urbanizacion ID: " + incidencia.getIdUrbanizacion());
+%>
 <%
     String pageName = "misIncidencias";
     request.setAttribute("pageName", pageName);
@@ -16,6 +23,8 @@
         return;
     }
 %>
+<jsp:useBean id="urbanizaciones" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Urbanizacion>" scope="request" />
+<jsp:useBean id="tipos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoIncidencia>" scope="request" />
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
 
 <body>
@@ -57,6 +66,27 @@
                                     <label class="form-label" for="Referencia">Referencia</label>
                                     <input type="text" id="Referencia" name="Referencia" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." />
                                     <div id="referenciaError" class="error" style="color: red;"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
+                                    <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
+                                        <option value="sinSeleccion">--Seleccione--</option>
+                                        <% for (TipoIncidencia t : tipos) { %>
+                                        <option value="<%= t.getId() %>" <%= (incidencia.getIdTipoIncidencia() ==t.getId()) ? "selected" : "" %>><%= t.getName() %></option>
+                                        <% } %>
+                                    </select>
+                                    <div id="tipoIncidenciaError" class="error" style="color: red;"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="urbanizacion">Urbanizacion</label>
+                                    <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
+                                        <option value="sinSeleccion">--Seleccione--</option>
+                                        <% for (Urbanizacion u : urbanizaciones) { %>
+                                        <option value="<%= u.getId() %>" <%= (incidencia.getIdUrbanizacion() == u.getId()) ? "selected" : "" %>><%= u.getName() %></option>
+                                        <% } %>
+                                    </select>
+                                    <div id="urbanizacionError" class="error" style="color: red;"></div>
                                 </div>
 
                                 <div class="col-12 d-flex align-items-center">

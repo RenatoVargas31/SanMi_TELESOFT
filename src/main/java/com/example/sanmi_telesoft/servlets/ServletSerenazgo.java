@@ -25,6 +25,7 @@ public class ServletSerenazgo extends HttpServlet {
 
         DaoSerenazgo daoSerenazgo = new DaoSerenazgo();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+        DaoIncidencia daoIncidencia = new DaoIncidencia();
 
         switch (action){
             case "mostrarInicio":
@@ -38,7 +39,6 @@ public class ServletSerenazgo extends HttpServlet {
                 break;
 
             case "mostrarReportesIncidencias":
-                DaoIncidencia daoIncidencia = new DaoIncidencia();
                 ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidenciasSerenazo();
                 request.setAttribute("listaIncidencias", listaIncidencias);
                 request.setAttribute("activeMenuToggle", "Incidencias");
@@ -58,10 +58,19 @@ public class ServletSerenazgo extends HttpServlet {
             case "mostrarIncidenciasHistorial":
                 request.setAttribute("activeMenuToggle", "Incidencias");
                 request.setAttribute("activeMenu", "IncidenciasHistorial");
-                DaoIncidencia daoIncidenciaHistorial = new DaoIncidencia();
-                ArrayList<Incidencia> listaIncidenciasHisorial = daoIncidenciaHistorial.listarIncidenciasHistorial();
+                ArrayList<Incidencia> listaIncidenciasHisorial = daoIncidencia.listarIncidenciasHistorial();
                 request.setAttribute("historial", listaIncidenciasHisorial);
                 request.getRequestDispatcher("WEB-INF/Serenazgo/historial.jsp").forward(request, response);
+                break;
+
+            case "mostrarMisIncidencias":
+                HttpSession session2 = request.getSession(false);
+                Usuario user = (Usuario) session2.getAttribute("usuario");
+                ArrayList<Incidencia> misIncidencias = daoIncidencia.listarMisIncidenciasSerenazo(user.getIdUsuarios());
+                request.setAttribute("incidencias", misIncidencias);
+                request.setAttribute("activeMenuToggle", "Incidencias");
+                request.setAttribute("activeMenu", "MisReportes");
+                request.getRequestDispatcher("WEB-INF/Serenazgo/misIncidencias.jsp").forward(request, response);
                 break;
 
             case "falsearIncidencia":
@@ -73,12 +82,20 @@ public class ServletSerenazgo extends HttpServlet {
                     } catch (NumberFormatException ex) {
                         response.sendRedirect("EmployeeServlet");
                     }
-                    DaoIncidencia daoIncidencia4 = new DaoIncidencia();
-                    daoIncidencia4.falsearIncidencia(incId);
+                    daoIncidencia.falsearIncidencia(incId);
 
                 }
 
                 response.sendRedirect("ServletSerenazgo?action=mostrarReportesIncidencias");
+                break;
+
+            case "asignarIncidencia":
+                HttpSession session3 = request.getSession(false);
+                Usuario user1 = (Usuario) session3.getAttribute("usuario");
+                int idIncidencia = Integer.parseInt(request.getParameter("idIncidencia"));
+
+                daoIncidencia.insertarSerenazgoIncidencia(idIncidencia, user1.getIdUsuarios());
+                response.sendRedirect("ServletSerenazgo?action=mostrarMisIncidencias");
                 break;
             case "mostrarPerfil":
                 HttpSession session = request.getSession(false);
