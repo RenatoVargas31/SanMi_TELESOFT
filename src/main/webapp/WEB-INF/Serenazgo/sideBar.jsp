@@ -61,6 +61,11 @@
                         <div class="text-truncate" data-i18n="Reporte de Incidencias">Reporte de Incidencias</div>
                     </a>
                 </li>
+                <li class="menu-item ${activeMenu == 'MisReportes' ? 'active' : ''}">
+                    <a href="<%=request.getContextPath()%>/ServletSerenazgo?action=mostrarMisIncidencias" class="menu-link">
+                        <div class="text-truncate" data-i18n="Reportes aceptados">Reportes aceptados</div>
+                    </a>
+                </li>
                 <li class="menu-item ${activeMenu == 'IncidenciasFalsas' ? 'active' : ''}">
                     <a href="<%=request.getContextPath()%>/ServletSerenazgo?action=mostrarIncidenciasFalsas" class="menu-link">
                         <div class="text-truncate" data-i18n="Incidencias Falsas">Incidencias Falsas</div>

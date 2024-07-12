@@ -9,6 +9,8 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Incidencia" %>
 <%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="listaIncidencias" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Incidencia>" scope="request"/>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
+
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
@@ -111,7 +113,7 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Reporte de Incidencia</h3>
+                                <h3 class="m-4 fw-bold">Reporte de Incidencias</h3>
 
                             </div>
                             <table id="table-misincidencias" class="datatables-basic table border-top">
@@ -128,45 +130,28 @@
 
                                 <tbody>
                                 <%
-                                    int j = 1;
+                                    int i = 1;
                                     for (Incidencia incidencia : listaIncidencias) {
                                         String modalId = "modalScrollable" + i;
 
                                 %>
-                                <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title" id="deletionModalLabel<%= i%>">¿Estás seguro de que aceptas procesar esta incidencia?</h5>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Estimado Serenazgo de la Zona,</p>
-
-                                                <% if(incidencia.getDescripcionSolucion() == null) { %>
-                                                <p>Me dirijo a ustedes con preocupación para informar sobre un incidente  que está ocurriendo en este momento en <%=incidencia.getLugarIncidencia()%> de San Miguel.</p>
-                                                <% } else { %>
-                                                <p><%= incidencia.getDescripcionSolucion() %></p>
-                                                <% } %>
-
-                                                <p>Atentamente,</p>
-                                                <p><%= incidencia.getNameUsuario() %></p>
-
-                                                <div class="card h-100">
-                                                    <img class="card-img-top" src="${pageContext.request.contextPath}/assets/img/elements/incendio1.jpg" alt="Card image cap" />
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Foto del reporte</h5>
-                                                        <p class="card-text">Lugar: <%= incidencia.getLugarIncidencia() %></p>
-                                                        <p class="card-text">Referencia: <%= incidencia.getReferenciaIncidencia() %></p>
-                                                    </div>
-                                                </div>
+                                                <p>Esta acción no se puede deshacer.</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <a type="button" class="btn btn-danger" href="<%= request.getContextPath()%>/ServletSerenazgo?action=asignarIncidencia&idIncidencia=<%=incidencia.getIdIncidencias()%>">Reportar</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <tr>
                                     <td><%= incidencia.getNombreIncidencia() %></td>
@@ -189,26 +174,21 @@
                                     <td><span class="badge bg-secondary">No asignado</span></td>
                                     <% } %>
                                     <td>
+                                        <a type="button"
+                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                                href="<%=request.getContextPath()%>/ServletSerenazgo?action=verDetalleIncidencia&id=<%=incidencia.getIdIncidencias()%>"><i
+                                                class='bx bx-show'></i></a>
+                                        <% if(incidencia.getEstado() == 1) {%>
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
-                                                class='bx bx-show'></i></button>
-                                        <a type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                href="<%= request.getContextPath()%>/ServletSerenazgo?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>"
-                                                ><i
-                                                class='bx bx-edit'></i></a>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion(<%=incidencia.getIdIncidencias()%>)" data-bs-target="#"><i
-                                                class='bx bx-x'></i></button>
-
+                                                class='bx bxs-save'></i></button>
+                                        <%}%>
 
                                     </td>
                                 </tr>
                                 <%
-                                        j++;
+                                        i++;
                                     }
                                 %>
                                 </tbody>
@@ -256,43 +236,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">¿Estás seguro de que quieres calificar como falsa esta incidencia?</h5>
-            </div>
-            <div class="modal-body">
-                <p>Esta acción no se puede deshacer.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="confirmDeletionBtn">Reportar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script>
-    function promptDeletion(incidenciaId) {
-        var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
-        myModal.show(); // This is the correct way to show a modal
-        const confirmDeletionBtn = document.getElementById('confirmDeletionBtn');
-        confirmDeletionBtn.onclick = function() {
-            submitDeletion(incidenciaId);
-        };
-    }
 
-    function submitDeletion(incidenciaId) {
-        alert('La incidencia ha sido reportada correctamente.');
-        // Hide the modal first
-        const modal = bootstrap.Modal.getInstance(document.getElementById('deletionModal'));
-        modal.hide();
-
-        // Redirect to the servlet with the id of the incidencia
-        window.location.href = '<%= request.getContextPath() %>/ServletSerenazgo?action=falsearIncidencia&id=' + incidenciaId;
-    }
-</script>
 
 </body>
 
