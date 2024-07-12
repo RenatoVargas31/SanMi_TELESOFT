@@ -193,4 +193,36 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
     }
+
+    public void cambiarContrasena1(int id, String pass) {
+        String sql = "UPDATE usuarios SET passwordUsuario = sha2(?, 256) WHERE idUsuarios = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, pass);
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean validarUsuario1(String correoUsuario, String passwordUsuario) {
+        String sql = "SELECT * FROM usuarios WHERE correoUsuario = ? AND passwordUsuario = sha2(?,256)";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, correoUsuario);
+            preparedStatement.setString(2, passwordUsuario);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

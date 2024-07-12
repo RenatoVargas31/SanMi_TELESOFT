@@ -22,6 +22,8 @@ public class Usuario {
     private String passwordTemporal;
     private int genero;
 
+    private byte[] fotoPerfil;
+
     public String getRol() {
         switch (idRoles) {
             case 1:
@@ -165,4 +167,6 @@ public class Usuario {
     public void setUrbanizacion(String urbanizacion) {
         this.urbanizacion = urbanizacion;
     }
+
+
 }

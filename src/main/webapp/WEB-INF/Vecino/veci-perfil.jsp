@@ -4,11 +4,12 @@
 <%
     HttpSession session1 = request.getSession(false);
     Usuario usuario = (Usuario) session1.getAttribute("usuario");
+    String errorMessage = (String) request.getAttribute("errorMessage");
+    String successMessage = (String) request.getAttribute("successMessage");
 %>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
       data-theme="theme-semi-dark" data-assets-path="${pageContext.request.contextPath}/assets/" data-template="vertical-menu-template-semi-dark">
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport"
@@ -93,8 +94,9 @@
             }
         }
     </style>
-</head>
 
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript>
@@ -105,7 +107,6 @@
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
-
         <!-- Menu -->
         <jsp:include page="sideBar.jsp"/>
         <!-- / Menu -->
@@ -118,7 +119,6 @@
 
             <!-- Content wrapper -->
             <div class="content-wrapper">
-
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h3 class="address-title fw-bold">Perfil Vecino</h3>
@@ -130,19 +130,19 @@
                                 </div>
                                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                                     <%if(usuario.getGenero()==1){%>
-                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/male.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                        </div>
+                                    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/male.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                    </div>
                                     <% } else if (usuario.getGenero()==2) { %>
-                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/female.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                        </div>
+                                    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/female.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                    </div>
                                     <%} else { %>
-                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/24.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                        </div>
+                                    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/24.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                    </div>
                                     <%} %>
-                                        <div class="flex-grow-1 mt-3 mt-sm-5">
+                                    <div class="flex-grow-1 mt-3 mt-sm-5">
                                         <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                             <div class="user-profile-info">
                                                 <h4><%= usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%></h4>
@@ -164,6 +164,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card mb-4">
@@ -171,8 +172,27 @@
                                 <!-- Account -->
                                 <hr class="my-0">
                                 <div class="card-body">
+                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                                        <div class="button-wrapper">
+                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                                <span class="d-none d-sm-block">Subir Foto Nueva</span>
+                                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                                <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
+                                            </label>
+                                            <button type="button" class="btn btn-label-secondary account-image-reset mb-4">
+                                                <i class="bx bx-reset d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Resetear a Predeterminado</span>
+                                            </button>
+
+                                            <p class="text-muted mb-0">Solo Formatos Permitidos JPG o PNG.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-0">
+                                <div class="card-body">
                                     <form action="ServletCord" method="post">
-                                        <input type="hidden" name="action" value="updateProfile">
+                                        <input type="hidden" name="action" value="updateProfile1">
                                         <div class="row">
                                             <div class="mb-3 col-md-6">
                                                 <label for="firstName" class="form-label">Nombres</label>
@@ -183,158 +203,102 @@
                                                 <p class="form-control-plaintext" id="lastName"><%= usuario.getApellidoUsuario() %></p>
                                             </div>
                                             <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="phoneNumber">Teléfono</label>
-                                                <div class="input-group input-group-merge">
-                                                    <span class="input-group-text">PE (+51)</span>
-                                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="<%= usuario.getTelefonoUsuario() %>">
-                                                </div>
+                                                <label for="email" class="form-label">Correo Electrónico</label>
+                                                <p class="form-control-plaintext" id="email"><%= usuario.getCorreoUsuario() %></p>
                                             </div>
                                             <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="direccion">Dirección</label>
-                                                <input type="text" class="form-control" id="direccion" name="direccion" value="<%= usuario.getDireccionUsuario() %>">
+                                                <label for="phoneNumber" class="form-label">Teléfono</label>
+                                                <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="<%= usuario.getTelefonoUsuario() %>" required>
                                             </div>
                                             <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="dni">DNI</label>
-                                                <p class="form-control-plaintext" id="dni"><%= usuario.getDniUsuario() %></p>
+                                                <label for="direccion" class="form-label">Dirección</label>
+                                                <input class="form-control" type="text" id="direccion" name="direccion" value="<%= usuario.getDireccionUsuario() %>" required>
                                             </div>
-                                            <% if (usuario.getIdTipoCoordinadora() == 1) { %>
                                             <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba1">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba1">Maranga</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==2){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba2">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba2">Pando</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==3){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba3">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba3">Miramar</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==4){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba4">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba4">San Miguelito</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==5){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba5">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba5">Elio</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==6){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba6">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba6">Bertolotto</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==7){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba7">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba7">La Perla</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==8){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba8">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba8">San Antonio</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==9){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba9">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba9">Santa Patricia</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==10){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba10">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba10">Residencial San Felipe</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==11){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba11">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba11">Cueva</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==12){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba12">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba12">Las Brisas</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==13){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba13">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba13">Las Leyendas</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==14){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba14">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba14">Parque de las Leyendas</p>
-                                            </div>
-                                            <%} else if (usuario.getIdUrbanizacion()==15){%>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba15">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba15">San José</p>
-                                            </div>
-                                            <%} else { %>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="Urba16">Urbanización</label>
-                                                <p class="form-control-plaintext" id="Urba16">Los Cipreses</p>
-                                            </div>
-                                            <%} %>
-                                            <div class="mb-3 col-md-6">
-                                                <label class="form-label" for="correo">Correo</label>
-                                                <p class="form-control-plaintext" id="correo"><%=usuario.getCorreoUsuario()%></p>
+                                                <label for="birthday" class="form-label">Fecha de Nacimiento</label>
+                                                <p class="form-control-plaintext" id="birthday"><%= usuario.getNacimientoDate() %></p>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <div class="mt-2">
+                                            <button type="submit" class="btn btn-primary me-2">Guardar cambios</button>
+                                        </div>
                                     </form>
-
-                                    <% if (request.getAttribute("errorMessage") != null) { %>
-                                    <div class="alert alert-danger"><%= request.getAttribute("errorMessage") %></div>
-                                    <% } %>
-
-                                    <% if (request.getAttribute("successMessage") != null) { %>
-                                    <div class="alert alert-success"><%= request.getAttribute("successMessage") %></div>
-                                    <% } %>
-
                                 </div>
                                 <!-- /Account -->
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="card mb-4">
+                                <h5 class="card-header">Cambiar Contraseña</h5>
+                                <hr class="my-0">
+                                <div class="card-body">
+                                    <form action="ServletCord" method="post">
+                                        <input type="hidden" name="action" value="changePassword">
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="currentPassword" class="form-label">Contraseña Actual</label>
+                                                <input class="form-control" type="password" id="currentPassword" name="currentPassword" required>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="newPassword" class="form-label">Nueva Contraseña</label>
+                                                <input class="form-control" type="password" id="newPassword" name="newPassword" required>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="confirmNewPassword" class="form-label">Confirmar Nueva Contraseña</label>
+                                                <input class="form-control" type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button type="submit" class="btn btn-primary me-2">Cambiar Contraseña</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                </div>
-                <!-- / Content -->
+                    <!-- Mensajes de éxito y error -->
+                    <% if (errorMessage != null) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= errorMessage %>
+                    </div>
+                    <% } %>
+                    <% if (successMessage != null) { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= successMessage %>
+                    </div>
+                    <% } %>
 
-                <div class="content-backdrop fade"></div>
+                    <!-- / Content -->
+                </div>
             </div>
             <!-- / Content wrapper -->
         </div>
         <!-- / Layout container -->
     </div>
-    <!-- / Layout wrapper -->
 </div>
+<!-- / Layout wrapper -->
 
 <!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/hammer/hammer.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/i18n/i18n.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+
 <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
 
 <!-- Vendors JS -->
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/select2/select2.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/popular.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/cleavejs/cleave.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/cleavejs/cleave-phone.js"></script>
-<script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 <!-- Main JS -->
 <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 
 <!-- Page JS -->
-<script src="${pageContext.request.contextPath}/assets/js/pages-account-settings-account.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/dashboards-analytics.js"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
 </body>
 </html>

@@ -32,7 +32,7 @@ public class ServletLoguin extends HttpServlet {
         if (usuario != null) {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
-            session.setMaxInactiveInterval(10*60);
+            session.setMaxInactiveInterval(30*60);
 
             if ("true".equals(rememberMe)) {
                 Cookie userCookie = new Cookie("email-username", correoUsuario);
