@@ -60,10 +60,15 @@
   <div class="card">
     <div class="card-header">
       <h3 class="m-4 fw-bold">Incidencias Generales</h3>
-      <div>
-        <button class="btn btn-outline-primary me-2" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=filtrarIncidenciasDia'">Incidencias del Día</button>
-        <button class="btn btn-outline-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=filtrarIncidenciasSemana'">Incidencias de la Semana</button>
-        <button class="btn btn-outline-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=incidenciasGenerales'">Todas las Incidencias</button>
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Filtrar Incidencias
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ServletVecino?action=filtrarIncidenciasDia">Incidencias del Día</a></li>
+          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ServletVecino?action=filtrarIncidenciasSemana">Incidencias de la Semana</a></li>
+          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ServletVecino?action=incidenciasGenerales">Todas las Incidencias</a></li>
+        </ul>
       </div>
     </div>
     <div class="card-datatable table-responsive">
