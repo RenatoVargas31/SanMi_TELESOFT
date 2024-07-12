@@ -225,15 +225,19 @@ public class DaoIncidencia extends BaseDao{
 
 
     public void insertarIncidencia_vecino(Incidencia incidencia) {
-        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, contactoIncidencia, Usuarios_idUsuarios, fotoIncidencia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, requiereAmbulancia, requierePolicia, requiereBombero, contactoIncidencia, fotoIncidencia, TipoIncidencia_idTipoIncidencia, Urbanizacion_idUrbanizacion, Usuarios_idUsuarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, incidencia.getNombreIncidencia());
             pstmt.setString(2, incidencia.getLugarIncidencia());
             pstmt.setString(3, incidencia.getReferenciaIncidencia());
             pstmt.setBoolean(4, incidencia.isRequiereAmbulancia());
-            pstmt.setInt(5, incidencia.getTelefono());
-            pstmt.setInt(6, incidencia.getUsuarioId());
-            pstmt.setBytes(7, incidencia.getFotoIncidencia());
+            pstmt.setBoolean(5, incidencia.isRequierePolicia());
+            pstmt.setBoolean(6, incidencia.isRequiereBombero());
+            pstmt.setInt(7, incidencia.getTelefono());
+            pstmt.setBytes(8, incidencia.getFotoIncidencia());
+            pstmt.setInt(9, incidencia.getIdTipoIncidencia());
+            pstmt.setInt(10, incidencia.getIdUrbanizacion());
+            pstmt.setInt(11, incidencia.getUsuarioId());
 
 
             pstmt.executeUpdate();
@@ -243,7 +247,7 @@ public class DaoIncidencia extends BaseDao{
     }
 
     public void actualizarIncidencia(Incidencia incidencia) {
-        String sql = "UPDATE incidencias SET nombreIncidencia = ? ,lugarExacto = ?, referenciaIncidencia = ?, contactoIncidencia = ?, requiereAmbulancia = ?, requiereBombero = ?, fotoIncidencia = ? WHERE idIncidencias = ?";
+        String sql = "UPDATE incidencias SET nombreIncidencia = ?, lugarExacto = ?, referenciaIncidencia = ?, contactoIncidencia = ?, requiereAmbulancia = ?, requiereBombero = ?, fotoIncidencia = ?, TipoIncidencia_idTipoIncidencia = ?, Urbanizacion_idUrbanizacion = ? WHERE idIncidencias = ?";
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, incidencia.getNombreIncidencia());
             pstmt.setString(2, incidencia.getLugarIncidencia());
@@ -252,7 +256,9 @@ public class DaoIncidencia extends BaseDao{
             pstmt.setBoolean(5, incidencia.isRequiereAmbulancia());
             pstmt.setBoolean(6, incidencia.isRequiereBombero());
             pstmt.setBytes(7, incidencia.getFotoIncidencia());
-            pstmt.setInt(8, incidencia.getIdIncidencias());
+            pstmt.setInt(8, incidencia.getIdTipoIncidencia());
+            pstmt.setInt(9, incidencia.getIdUrbanizacion());
+            pstmt.setInt(10, incidencia.getIdIncidencias());
 
             int rowsUpdated = pstmt.executeUpdate();
             System.out.println("Rows updated: " + rowsUpdated);

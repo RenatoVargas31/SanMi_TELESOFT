@@ -15,6 +15,9 @@
         return;
     }
 %>
+<%@ page import="com.example.sanmi_telesoft.beans.TipoIncidencia, com.example.sanmi_telesoft.beans.Urbanizacion, java.util.ArrayList" %>
+<jsp:useBean id="urbanizaciones" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Urbanizacion>" scope="request" />
+<jsp:useBean id="tipos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoIncidencia>" scope="request" />
 <jsp:include page="../Fragmentos/FragmentosVecino/headFragmentVecino.jsp"/>
 <body>
 <jsp:include page="../Fragmentos/FragmentosVecino/menuFragmentVecino.jsp"/>
@@ -52,12 +55,33 @@
                                     <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required />
                                     <div id="referenciaError" class="error" style="color: red;"></div>
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
+                                    <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
+                                        <option value="sinSeleccion">--Seleccione--</option>
+                                        <% for (TipoIncidencia t : tipos) {%>
+                                        <option value="<%=t.getId()%>"><%=t.getName()%></option>
+                                        <%}%>
+                                    </select>
+                                    <div id="tipoIncidenciaError" class="error" style="color: red;"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="urbanizacion">Urbanizacion</label>
+                                    <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
+                                        <option value="sinSeleccion">--Seleccione--</option>
+                                        <% for (Urbanizacion u : urbanizaciones) {%>
+                                        <option value="<%=u.getId()%>"><%=u.getName()%></option>
+                                        <%}%>
+                                    </select>
+                                    <div id="urbanizacionError" class="error" style="color: red;"></div>
+                                </div>
                                 <div class="col-12">
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia">
                                         <label class="form-check-label" for="requiereAmbulancia">Es necesario una ambulancia</label>
                                     </div>
                                 </div>
+
                                 <div class="col-12">
                                     <div class="input-group">
                                         <input type="file" class="form-control" id="file" name="fotoincidencia" accept="image/jpeg, image/png">
