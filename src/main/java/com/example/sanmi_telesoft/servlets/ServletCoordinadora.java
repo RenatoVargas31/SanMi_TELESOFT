@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,6 +28,7 @@ public class ServletCoordinadora extends HttpServlet {
         switch (action){
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
+                request.setAttribute("listarEventos", daoEvento.listaEventos(0,10000));
                 request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
                 break;
 
@@ -251,6 +253,31 @@ public class ServletCoordinadora extends HttpServlet {
                     // Por ejemplo, redirigir a una página de error o hacer alguna otra acción
                     response.sendRedirect("WEB-INF/coordinadora/error.jsp");
                 }
+                break;
+
+            case "verUsuariosporEvento":
+
+
+                    // Llamar al método listaEventosCoordinadora con el id del usuario
+                ArrayList<Integer> listaUsuariosporEvento = null;
+                try {
+                    // Intentar obtener la lista de usuarios inscritos para el evento especificado por 'id'
+                    int eventId = Integer.parseInt(request.getParameter("id"));
+                    listaUsuariosporEvento = daoEvento.usuariosInscritosporEvento(eventId);
+
+                    // Establecer atributos en el request para pasar datos a la JSP
+                    request.setAttribute("listaUsuariosporEvento", listaUsuariosporEvento);
+                    request.setAttribute("activeMenu", "Eventos");
+                    request.setAttribute("activeMenuSub", "Eventos3");
+
+                    request.getRequestDispatcher("WEB-INF/coordinadora/listaUsuarioPorEvento.jsp").forward(request, response);
+
+
+                } catch (NumberFormatException | SQLException e) {
+                    // Capturar y manejar excepciones
+                    throw new RuntimeException("Error al procesar la solicitud", e);
+                }
+
                 break;
 
         }
@@ -573,6 +600,9 @@ public class ServletCoordinadora extends HttpServlet {
         }
 
     }
+
+
+
 
     private void manejarListaEventos(HttpServletRequest request, HttpServletResponse response, Usuario usuario) throws ServletException, IOException {
         DaoEvento eventoDao = new DaoEvento();

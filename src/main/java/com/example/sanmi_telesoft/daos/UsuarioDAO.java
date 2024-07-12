@@ -81,7 +81,7 @@ public class UsuarioDAO {
 
     public Usuario obtenerDatosporId(int usuarioId) {
         Usuario usuario = null;
-        String sql = "SELECT idUsuarios, nombreUsuario, apellidoUsuario, correoUsuario FROM usuarios WHERE idUsuarios = ?";
+        String sql = "SELECT * FROM usuarios WHERE idUsuarios = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -93,12 +93,16 @@ public class UsuarioDAO {
                 String nombre = resultSet.getString("nombreUsuario");
                 String apellido = resultSet.getString("apellidoUsuario");
                 String correo = resultSet.getString("correoUsuario");
+                String dni = resultSet.getString("dniUsuario");
+                String telefono =  resultSet.getString("telefonoUsuario");
                 // Crear un objeto Usuario con los datos recuperados
                 usuario = new Usuario();
                 usuario.setIdUsuarios(resultSet.getInt(1));
                 usuario.setNombreUsuario(nombre);
                 usuario.setApellidoUsuario(apellido);
                 usuario.setCorreoUsuario(correo);
+                usuario.setDniUsuario(dni);
+                usuario.setTelefonoUsuario(telefono);
             }
         } catch (SQLException e) {
             e.printStackTrace();

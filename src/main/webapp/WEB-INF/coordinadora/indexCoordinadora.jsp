@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.example.sanmi_telesoft.beans.Profesor" %><%--
+<%@ page import="com.example.sanmi_telesoft.beans.Profesor" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Evento" %><%--
   Created by IntelliJ IDEA.
   User: CARLOS
   Date: 11/06/2024
@@ -8,7 +9,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
-
+<%
+    ArrayList<Evento> lista=(ArrayList<Evento>) request.getAttribute("listarEventos");
+%>
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
@@ -173,180 +176,70 @@
                 <%  }  // Fin del bloque de código Java dentro de la etiqueta de script JSP
                 %>
 
-                <div class="row mt-4">
-                        <!-- Navigation -->
-                        <div class="col-lg-4 col-md-4 col-12 mb-md-0 mb-3">
-                            <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
-                                <ul class="nav nav-align-left nav-pills flex-column">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="bg-label-primary rounded-3 text-center mb-3 pt-4">
-                                                <img class="img-fluid w-60" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg"
-                                                     alt="Card girl image"/>
+                            <hr class="my-4">
+                            <h3 class="mb-1 fw-bold fs-3" style="color: black;">
+                                Eventos de
+                                <%
+                                    if (usuario.getIdTipoCoordinadora() == 1) {
+                                %>
+                                Cultura
+                                <%
+                                } else if (usuario.getIdTipoCoordinadora() == 2) {
+                                %>
+                                Deporte
+                                <%
+                                    }
+                                %>
+                            </h3>
+
+                            <% int i = 0; %>
+
+                            <div class="row gy-4 mb-4">
+                                <% for (Evento evento : lista) { %>
+                                <% if (i >= 3) break; %> <!-- Condición para mostrar solo 3 eventos -->
+
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="card p-2 h-100 shadow-none border" data-value="<%= evento.getTipoEvento() %>">
+                                        <div class="rounded-2 text-center mb-3">
+                                            <a href="<%=request.getContextPath()%>/ServletCoordinadora?action=viewEvento&id=<%= evento.getIdEventos() %>">
+                                                <% if (evento.getIdEventos() > 12) { %>
+                                                <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/ServletCoordinadora?action=servirImagenEvento&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
+                                                <% } else {%>
+                                                <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento.getIdEventos() %>.jpg" alt="Imagen del evento">
+                                                <% }%>
+                                            </a>
+                                        </div>
+                                        <div class="card-body p-3 pt-2 d-flex flex-column">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <% if (evento.getTipoEvento().getNameTipo().equals("Deporte")) { %>
+                                                <span class="badge bg-label-hover-success">Deporte</span>
+                                                <% } %>
+                                                <% if (evento.getTipoEvento().getNameTipo().equals("Cultura")) { %>
+                                                <span class="badge bg-label-warning">Cultura</span>
+                                                <% } %>
                                             </div>
-                                            <h4 class="mb-2 pb-1">Evento Reciente</h4>
-                                            <p class="small">El próximo festival de música en nuestra ciudad.</p>
-                                            <div class="row mb-3 g-3">
-                                                <div class="col-6">
-                                                    <div class="d-flex">
-                                                        <div class="avatar flex-shrink-0 me-2">
-                                                            <span class="avatar-initial rounded bg-label-primary"><i
-                                                                    class="bx bx-calendar-exclamation bx-sm"></i></span>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0 text-nowrap">17 Nov 23</h6>
-                                                            <small>Fecha</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="d-flex">
-                                                        <div class="avatar flex-shrink-0 me-2">
-                                                            <span class="avatar-initial rounded bg-label-primary"><i
-                                                                    class="bx bx-time-five bx-sm"></i></span>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0 text-nowrap">32 minutos</h6>
-                                                            <small>Duración</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 text-center">
-                                                <a href="details.html" class="btn btn-primary w-100 d-grid">Entrar al Evento</a>
+                                            <a href="<%=request.getContextPath()%>/ServletCoordinadora?action=viewEvento&id=<%= evento.getIdEventos() %>" class="h5 fw-bold" style="color:black"><%= evento.getNombreEvento() %></a>
+                                            <p class="mt-2" style="color:rgb(55,55,55)"><%= evento.getDescriptionEvento() %></p>
+
+                                            <!-- Div que debe estar al final del card-body -->
+                                            <div class="mt-auto d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
+                                                <a class="app-academy-md-50 btn btn-label-primary d-flex align-items-center" href="<%=request.getContextPath()%>/ServletCoordinadora?action=viewEvento&id=<%= evento.getIdEventos() %>">
+                                                    <span class="me-2">Inscríbete aquí</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
 
+                                </div>
 
-                                </ul>
-
+                                <% i++; %>
+                                <% } %>
+                            </div>
+                            <div class="form d-flex justify-content-center mb-3" style="margin-top: 50px;">
+                                <a href="<%=request.getContextPath()%>/ServletCoordinadora?action=listarEventos"
+                                   class="btn btn-primary w-auto">Descubre más eventos</a>
                             </div>
                         </div>
-                        <!-- /Navigation -->
-
-                        <!-- FAQ's -->
-                        <div class="col-lg-8 col-md-8 col-12">
-                            <div class="tab-content py-0">
-                                <div class="tab-pane fade show active" id="payment" role="tabpanel">
-                                    <div class="d-flex mb-3 gap-3">
-                                        <div>
-                                            <br>
-                                            <span class="badge bg-label-primary rounded-2">
-
-            </span>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-0">
-                                                <br>
-
-                                            </h4>
-
-                                        </div>
-                                    </div>
-                                    <div id="accordionPayment" class="accordion">
-                                        <div class="card accordion-item active">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                        aria-expanded="true" data-bs-target="#accordionPayment-1"
-                                                        aria-controls="accordionPayment-1">
-                                                    información
-                                                </button>
-                                            </h2>
-
-                                            <div id="accordionPayment-1" class="accordion-collapse collapse show">
-                                                <div class="accordion-body">
-                                                    ¡Hey, bienvenido! Como coordinador de deportes tendrás la posibilidad
-                                                    de crear,
-                                                    administrar y editar eventos relacionados a deportes. El principal
-                                                    objetivo es promover el bienestar físico, la participación activa y
-                                                    el espíritu deportivo entre nuestra comunidad sanmiguelina. Además
-                                                    buscamos fomentar la competencia saludable y el trabajo en equipo,
-                                                    brindando oportunidades para que todos los miembros encuentren una
-                                                    actividad deportiva que se adapte a sus interese y habilidades.
-                                                    !Estamos emocionados por verte contribuir en esta gran comunidad!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="tab-pane fade" id="product" role="tabpanel">
-                                <div class="d-flex mb-3 gap-3">
-                                    <div>
-            <span class="badge bg-label-primary rounded-2">
-              <i class="bx bx-camera bx-md"></i>
-            </span>
-                                    </div>
-                                    <div>
-                                        <h4 class="mb-0">
-                                            <span class="align-middle">Product & Services</span>
-                                        </h4>
-                                        <span>Get help with product & services</span>
-                                    </div>
-                                </div>
-                                <div id="accordionProduct" class="accordion">
-                                    <div class="card accordion-item active">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    aria-expanded="true" data-bs-target="#accordionProduct-1"
-                                                    aria-controls="accordionProduct-1">
-                                                Will I be notified once my order has shipped?
-                                            </button>
-                                        </h2>
-
-                                        <div id="accordionProduct-1" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                Yes, We will send you an email once your order has been shipped.
-                                                This email will contain tracking and order information.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#accordionProduct-2"
-                                                    aria-controls="accordionProduct-2">
-                                                Where can I find warranty information?
-                                            </button>
-                                        </h2>
-                                        <div id="accordionProduct-2" class="accordion-collapse collapse">
-                                            <div class="accordion-body">
-                                                We are committed to quality products. For information on
-                                                warranty period and warranty services, visit our Warranty
-                                                section <a href="javascript:void(0);">here</a>.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#accordionProduct-3"
-                                                    aria-controls="accordionProduct-3">
-                                                How can I purchase additional warranty coverage?
-                                            </button>
-                                        </h2>
-                                        <div id="accordionProduct-3" class="accordion-collapse collapse">
-                                            <div class="accordion-body">
-                                                For the peace of your mind, we offer extended warranty plans
-                                                that add additional year(s) of protection to the standard
-                                                manufacturer’s warranty provided by us. To purchase or find out
-                                                more about the extended warranty program, visit Extended
-                                                Warranty section <a href="javascript:void(0);">here</a>.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /FAQ's -->
-            </div>
-
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
@@ -357,7 +250,7 @@
                             document.write(new Date().getFullYear())
 
                         </script>
-                        , made by <a href="https://themeselection.com/" target="_blank"
+                        , made by <a target="_blank"
                                              class="footer-link fw-medium">Telesoft</a>
                     </div>
 

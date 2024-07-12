@@ -233,8 +233,13 @@
                 <%
                     int pag = (int) request.getAttribute("currentPage");
                     int sizeArray = (int) request.getAttribute("total");
+                    int maxPag=0;
                     //Elementos por página.
-                    int maxPag = ((sizeArray) / 9) + 1;
+                    if(sizeArray%9!=0){
+                        maxPag = ((sizeArray) / 9) + 1;}
+                    else{
+                        maxPag = (sizeArray) / 9 ;
+                    }
                     //Aquí hago una operación para obtener el número de registro del que inicia.
                     int regMin = (pag - 1) * 9;
                     //Aquí hago una operación para obtener el número de registros máximos para mostrar en esa página.

@@ -714,6 +714,58 @@ public class DaoEvento extends BaseDao {
 
         return lista;
     }
+
+    public void borrarInscripcion(int idUsuario, int idEvento){
+        String sql = "DELETE FROM usuarios_has_eventos WHERE Eventos_idEventos = ? AND Usuarios_idUsuarios=?";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, idEvento);
+            stmt.executeUpdate();
+            actualizarEntradas(idEvento, -1, idUsuario);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void banearUsuario(int idUsuario, int idEvento,String motivoBanneo){
+        String sql = "UPDATE usuarios_has_eventos SET is_bannedEvento=1 AND motivo_bannedEvento=? WHERE Eventos_idEventos = ? AND Usuarios_idUsuarios=?";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, motivoBanneo);
+            stmt.setInt(2, idUsuario);
+            stmt.setInt(3, idEvento);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<Integer> usuariosInscritosporEvento(int idEvento) throws SQLException {
+        ArrayList<Integer> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usuarios_has_eventos WHERE Eventos_idEventos = ?";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idEvento);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(rs.getInt("Usuarios_idUsuarios"));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Error al listar usuarios inscritos por evento", e);
+            }
+        }
+
+        return lista;
+    }
+
     public ArrayList<DiaconHoras> fechasUtilizadas(Integer eventId) {
         ArrayList<DiaconHoras> diasConHoras = new ArrayList<>();
             Evento evento = searchEventobyId(eventId);

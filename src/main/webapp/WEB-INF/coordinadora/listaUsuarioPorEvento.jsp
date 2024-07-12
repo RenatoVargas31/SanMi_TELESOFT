@@ -8,7 +8,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Evento" %>
 <%@ page import="java.util.ArrayList" %>
-<jsp:useBean id="listaMisEventos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Evento>" scope="request"/>
+<%@ page import="com.example.sanmi_telesoft.daos.UsuarioDAO" %>
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="com.example.sanmi_telesoft.daos.DaoEvento" %>
+<%ArrayList<Integer>lista=(ArrayList<Integer>) request.getAttribute("listaUsuariosporEvento");
+%>
+<%
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+    DaoEvento daoEvento = new DaoEvento();
+%>
+
 <jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 
 <!DOCTYPE html>
@@ -113,22 +122,18 @@
                     <div class="card">
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="m-4 fw-bold">Mis eventos</h3>
+                                <h3 class="m-4 fw-bold">Inscritos en <%=daoEvento.searchEventobyId(Integer.parseInt(request.getParameter("id"))).getNombreEvento()%></h3>
 
-                                <a class="btn btn-secondary create-new btn-primary me-4" type="button"
-                                   href="<%= request.getContextPath()%>/ServletCoordinadora?action=crearEventos">
-                                    <i class='bx bx-bell-plus bx-tada'></i>
-                                    <span class="d-none d-sm-inline-block">Nuevo Evento</span>
-                                </a>
+
                             </div>
                             <div class="table-responsive">
                                 <table id="table-misincidencias" class="datatables-basic table border-top">
                                     <thead>
                                     <tr>
-                                        <th>Evento</th>
-                                        <th>Lugar</th>
-                                        <th>Vacantes</th>
-                                        <th>Fecha del Evento</th>
+                                        <th>Usuario</th>
+                                        <th>Correo</th>
+                                        <th>DNI</th>
+                                        <th>Teléfono</th>
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
@@ -137,34 +142,26 @@
                                     <%
                                         int i = 1;
                                         int a = 15000;
-                                        for (Evento evento : listaMisEventos) {
+                                        for (Integer integer : lista) {
+                                            Usuario user =usuarioDAO.obtenerDatosporId(integer);
                                             String modalId = "modalScrollable" + i;
                                     %>
                                     <tr>
-                                        <td><%=evento.getNombreEvento() %></td>
-                                        <td><%=evento.getLugarEvento()%></td>
-                                        <td><%=evento.getVacantesDisp()%></td>
-                                        <td><%=evento.getFechaEventoStart()%></td>
+                                        <td><%=user.getNombreUsuario() +" "+user.getApellidoUsuario() %></td>
+                                        <td><%=user.getCorreoUsuario()%></td>
+                                        <td><%=user.getDniUsuario()%></td>
+                                        <td><%=user.getTelefonoUsuario()%></td>
                                         <td>
+
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                     data-bs-toggle="modal"
-                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=verUsuariosporEvento&id=<%=evento.getIdEventos()%>';"
-                                                    data-bs-target="#modal-editar-incidencia"><i
-                                                    class='bx bx-user'></i></button>
-                                            <button type="button"
-                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
-                                                    class='bx bx-show'></i></button>
-                                            <button type="button"
-                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento&id=<%=evento.getIdEventos()%>';"
+                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento&id=<%=user.getIdUsuarios()%>';"
                                                     data-bs-target="#modal-editar-incidencia"><i
                                                     class='bx bx-edit'></i></button>
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=evento.getIdEventos()%>)" data-bs-target="#"><i
+                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=user.getIdUsuarios()%>)" data-bs-target="#"><i
                                                     class='bx bx-x'></i></button>
                                         </td>
                                     </tr>
@@ -175,27 +172,7 @@
                                                     <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <p>Estimado Serenazgo de la Zona,</p>
 
-                                                    <% if(evento.getNombreEvento() == null) { %>
-                                                    <p>Me dirijo a ustedes con preocupación para informar sobre un incidente que está ocurriendo en este momento en de San Miguel.</p>
-                                                    <% } else { %>
-                                                    <p><%= evento.getNombreEvento() %></p>
-                                                    <% } %>
-
-                                                    <p>Atentamente,</p>
-                                                    <p><%= evento.getNombreEvento() %></p>
-
-                                                    <div class="card h-100">
-                                                        <img class="card-img-top" src="ServletCoordinadora?action=mostrarImagen&id=<%=evento.getNombreEvento() %>" alt="Card image cap" />
-                                                        <div class="card-body">
-                                                            <h5 class="card-title">Foto del reporte</h5>
-                                                            <p class="card-text">Lugar: <%= evento.getNombreEvento() %></p>
-                                                            <p class="card-text">Referencia: <%=evento.getNombreEvento() %></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
                                                 </div>
@@ -210,8 +187,8 @@
                                 </table>
 
 
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
