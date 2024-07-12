@@ -54,6 +54,7 @@ public class ServletAdministrador extends HttpServlet {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
                 }
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarSolicitudesRegistro");
                 break;
             case "aceptarCoordinador":
                 String idUsuarioCoordinador = request.getParameter("idDeUsuario");

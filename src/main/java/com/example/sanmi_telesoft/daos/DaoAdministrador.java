@@ -94,7 +94,7 @@ public class DaoAdministrador extends BaseDao {
         }
     }
     public void aceptarVecino(String idUsuario) throws SQLException {
-        String sql = "update usuarios set Roles_idRoles='4', is_active='1' where idUsuarios = ?";
+        String sql = "update usuarios set is_active='1' where idUsuarios = ?";
         try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 

@@ -190,7 +190,7 @@
 
                                 <tbody>
                                 <%for (Usuario usuario : listaUsuarios) {%>
-                                <%if (usuario.getRol().equals("Vecino") || usuario.getRol().equals("Coordinadora") || usuario.getRol().equals("Desconocido")){%>
+                                <%if (usuario.getRol().equals("Vecino")){%>
 
                                 <tr>
                                     <td>
@@ -222,12 +222,13 @@
                                         <%}%>
                                     </td>
                                     <td>
+                                        <%if (usuario.getIsActive().equals("0")){%>
                                         <!-- Modal para confirmar como Vecino -->
                                         <button type="button"
                                                 class="btn btn-label-primary btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalVecino<%= usuario.getIdUsuarios() %>"><i
-                                                class='bx bx-user'></i><span>Vecino</span>
+                                                class='bx bx-check-circle'></i>
                                         </button>
                                         <div class="modal fade" id="modalVecino<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
@@ -246,36 +247,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Modal para confirmar como Coordinadora -->
-                                        <button type="button"
-                                                class="btn btn-label-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalCoordinadora<%= usuario.getIdUsuarios() %>"><i
-                                                class='bx bx-calendar-event'></i><span>Coordinadora</span>
-                                        </button>
-                                        <div class="modal fade" id="modalCoordinadora<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" >Aceptar como Coordinadora</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <b> ¿Está seguro de aceptar a <%=usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%> como Coordinadora? </b>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a class="btn btn-primary"  href="<%=request.getContextPath()%>/ServletAdministrador?action=aceptarCoordinador&idDeUsuario=<%= usuario.getIdUsuarios() %>">Si</a>
-                                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <!-- Modal para confirmar eliminación -->
                                         <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
+                                                class="btn  btn-label-primary btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
-                                                class='bx bx-trash'></i>
+                                                class='bx bx-x-circle'></i>
                                         </button>
                                         <div class="modal fade" id="modalDelete<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
@@ -294,6 +271,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <%}else{%>
+                                        <!-- Modal para confirmar como Vecino -->
+                                        <button type="button"
+                                                class="btn btn-label-primary btn-sm disabled">
+                                                <i class='bx bx-check-circle'></i>
+                                        </button>
+                                        <button type="button"
+                                                class="btn  btn-label-primary btn-sm disabled">
+                                                <i class='bx bx-x-circle'></i>
+                                        </button>
+                                        <%}%>
                                     </td>
                                 </tr>
 
