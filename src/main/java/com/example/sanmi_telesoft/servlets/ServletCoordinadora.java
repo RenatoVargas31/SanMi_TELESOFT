@@ -213,6 +213,12 @@ public class ServletCoordinadora extends HttpServlet {
                 }
                 break;
 
+            case "viewEvento":
+                request.setAttribute("activeMenuSub", "Eventos1");
+                request.setAttribute("activeMenu", "Eventos");
+                manejarViewEvento(request, response);
+                break;
+
 
             case "verMisEventos":
                 // Obtener el usuario de la sesión
@@ -246,6 +252,7 @@ public class ServletCoordinadora extends HttpServlet {
                     response.sendRedirect("WEB-INF/coordinadora/error.jsp");
                 }
                 break;
+
         }
 
 
@@ -642,7 +649,32 @@ public class ServletCoordinadora extends HttpServlet {
         request.setAttribute("listarEventos", lista);
         request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
     }
+    private void manejarErrorEvento(HttpServletRequest request, HttpServletResponse response, String mensaje) throws ServletException, IOException {
+        request.setAttribute("errorEvento", mensaje);
+        RequestDispatcher view = request.getRequestDispatcher("errorEvento.jsp");
+        view.forward(request, response);
+    }
 
-
-
+    private void manejarViewEvento(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id3 = request.getParameter("id");
+        DaoEvento daoEvento = new DaoEvento();
+        if (id3 != null && !id3.isEmpty()) {
+            try {
+                int eventId = Integer.parseInt(id3);
+                Evento evento = daoEvento.searchEventobyId(eventId);
+                if (evento != null) {
+                    request.setAttribute("evento", evento);
+                    RequestDispatcher view = request.getRequestDispatcher("WEB-INF/coordinadora/viewEvento.jsp");
+                    view.forward(request, response);
+                } else {
+                    manejarErrorEvento(request, response, "Evento no encontrado");
+                }
+            } catch (NumberFormatException e) {
+                manejarErrorEvento(request, response, "ID de evento inválido");
+            }
+        } else {
+            manejarErrorEvento(request, response, "ID de evento no proporcionado");
+        }
+    }
 }
+

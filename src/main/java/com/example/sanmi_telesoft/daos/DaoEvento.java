@@ -356,7 +356,7 @@ public class DaoEvento extends BaseDao {
 
 
     public Evento searchEventobyId(int id) {
-        Evento evento = new Evento();
+        Evento evento = null;
         Profesor profesor = new Profesor();
         EstadoEvento estadoEvento = new EstadoEvento();
         TipoEvento tipoEvento = new TipoEvento();
@@ -373,7 +373,7 @@ public class DaoEvento extends BaseDao {
             try (ResultSet rs = pstmt.executeQuery()) {
 
                 while (rs.next()) {
-
+                    evento = new Evento();
                     evento.setIdEventos(rs.getInt("idEventos"));
                     evento.setNombreEvento(rs.getString("nombreEvento"));
                     evento.setFotosStart(rs.getBytes("fotosStart"));
