@@ -28,7 +28,22 @@ public class ServletCoordinadora extends HttpServlet {
         switch (action){
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
-                request.setAttribute("listarEventos", daoEvento.listaEventos(0,10000));
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                String tipoFiltrado="Todo";
+                ArrayList<Evento> lista =null;
+                assert usuario != null;
+
+                if (usuario.getIdTipoCoordinadora()==1){ tipoFiltrado="Cultura";}
+                if (usuario.getIdTipoCoordinadora()==2){ tipoFiltrado="Deporte";}
+
+                if ("Deporte".equals(tipoFiltrado)) {
+                    lista = daoEvento.listaEventosDeporte(0,10000);
+                } else if ("Cultura".equals(tipoFiltrado)) {
+                    lista = daoEvento.listaEventosCultura(0,10000);
+                }
+
+
+                request.setAttribute("listarEventos", lista);
                 request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
                 break;
 
@@ -119,11 +134,11 @@ public class ServletCoordinadora extends HttpServlet {
 
 
             case "listarEventos":
-                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                Usuario usuario0 = (Usuario) request.getSession().getAttribute("usuario");
 
                 request.setAttribute("activeMenu", "Eventos");
                 request.setAttribute("activeMenuToggle", "Eventos1");
-                manejarListaEventos(request, response,usuario);
+                manejarListaEventos(request, response,usuario0);
                 break;
 
             case "detalleEvento":
@@ -675,6 +690,17 @@ public class ServletCoordinadora extends HttpServlet {
         }
         int total = lista.size();
         request.setAttribute("total", total);
+
+        request.setAttribute("currentPage", pg);
+
+        if ("Deporte".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 2);
+        } else if ("Cultura".equals(tipoFiltrado)) {
+            lista = eventoDao.searchEventobyNameFiltrado(textSearch, 1);
+        } else {
+            lista = eventoDao.searchEventobyName(textSearch);
+        }
+
 
         request.setAttribute("listarEventos", lista);
         request.getRequestDispatcher("WEB-INF/coordinadora/listaEventos.jsp").forward(request, response);
