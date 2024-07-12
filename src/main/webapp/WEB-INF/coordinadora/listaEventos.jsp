@@ -193,9 +193,11 @@
                                     <div class="col-sm-6 col-lg-4">
                                         <div class="card p-2 h-100 shadow-none border" data-value="<%= evento.getTipoEvento() %>">
                                             <div class="rounded-2 text-center mb-3">
-                                                <a href="<%=request.getContextPath()%>/ServletVecino?action=viewEvento&id=<%= evento.getIdEventos() %>">
-                                                    <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento1.jpg" alt="Imagen del evento">
-                                                </a>
+                                                <% if (evento.getIdEventos() > 12) { %>
+                                                <img style="height: 200px; width: 390px; border-radius: 10px;"  class="img-fluid" src="${pageContext.request.contextPath}/ServletCoordinadora?action=servirImagenEvento&id=<%= evento.getIdEventos() %>" alt="Foto del reporte">
+                                                <% } else {%>
+                                                <img style="height: 200px; width: 390px; border-radius: 10px;" class="img-fluid" src="${pageContext.request.contextPath}/assets/img/events/evento<%= evento.getIdEventos() %>.jpg" alt="Imagen del evento">
+                                                <% }%>
                                             </div>
                                             <div class="card-body p-3 pt-2 d-flex flex-column">
                                                 <div class="d-flex justify-content-between align-items-center mb-3">
