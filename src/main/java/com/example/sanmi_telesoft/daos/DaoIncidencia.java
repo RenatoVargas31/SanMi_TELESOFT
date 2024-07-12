@@ -275,24 +275,24 @@ public class DaoIncidencia extends BaseDao{
             pstmt.setInt(1, idIncidencia);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                    incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
-                    incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
-                    incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
-                    incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
-                    incidencia.setTelefono(rs.getInt("contactoIncidencia"));
-                    incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
-                    incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
-                    incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
-                    incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
-                    incidencia.setNameUsuario(rs.getString("Usuarios_idUsuarios"));
-                    incidencia.setUsuarioId(rs.getInt("Usuarios_idUsuarios"));
-                    incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                    incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
+                incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
+                incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
+                incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
+                incidencia.setReferenciaIncidencia(rs.getString("referenciaIncidencia"));
+                incidencia.setTelefono(rs.getInt("contactoIncidencia"));
+                incidencia.setRequiereAmbulancia(rs.getBoolean("requiereAmbulancia"));
+                incidencia.setRequierePolicia(rs.getBoolean("requierePolicia"));
+                incidencia.setRequiereBombero(rs.getBoolean("requiereBombero"));
+                incidencia.setDescripcionSolucion(rs.getString("descriptionSolucion"));
+                incidencia.setNameUsuario(rs.getString("Usuarios_idUsuarios"));
+                incidencia.setUsuarioId(rs.getInt("Usuarios_idUsuarios"));
+                incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
+                incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia")); // Nuevo campo
+                incidencia.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion")); // Nuevo campo
 
-
-                    byte[] fotote = rs.getBytes("fotoIncidencia");
-                    incidencia.setFotoIncidencia(fotote);
-
+                byte[] fotote = rs.getBytes("fotoIncidencia");
+                incidencia.setFotoIncidencia(fotote);
             }
 
         } catch (SQLException e) {
