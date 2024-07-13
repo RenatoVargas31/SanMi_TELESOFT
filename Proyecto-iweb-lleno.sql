@@ -547,7 +547,7 @@ CREATE TABLE `usuarios` (
   `TipoCoordinadora_idTipoCoordinadora` int DEFAULT NULL,
   `is_bannedApp` tinyint NOT NULL DEFAULT '0',
   `motivo_bannedApp` varchar(255) DEFAULT NULL,
-  `genero` int default NULL,
+  `genero` int NOT NULL,
   `fotoPerfil` longblob DEFAULT NULL,
   PRIMARY KEY (`idUsuarios`),
   KEY `fk_Usuarios_Roles_idx` (`Roles_idRoles`),
