@@ -112,6 +112,9 @@ public class ServletSerenazgo extends HttpServlet {
             case "verDetallePersonal":
                 verDetallesIncidenciaPersonal(request, response);
                 break;
+
+            case "verDetalleHistorial":
+                verDetallesIncidenciaHistorial(request, response);
         }
 
     }
@@ -224,6 +227,69 @@ public class ServletSerenazgo extends HttpServlet {
 
         } else {
             response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarReportesIncidencias");
+        }
+
+    }
+
+    private void verDetallesIncidenciaHistorial(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Validar usuario
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+
+        DaoIncidencia incidenciaDao = new DaoIncidencia();
+        String idIncidencia = request.getParameter("id");
+
+        if(idIncidencia != null) {
+            try{
+                int id = Integer.parseInt(idIncidencia);
+                Incidencia incidencia = incidenciaDao.obtenerIncidencia(id);
+                if(incidencia != null && incidencia.getEstado() == 3) {
+                    //Detalles de urbanizacion y tipo de incidencia
+                    DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
+                    DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
+
+                    ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
+                    ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
+
+                    TipoIncidencia tipoIncidencia = null;
+                    for (TipoIncidencia t : tipos) {
+                        if (t.getId() == incidencia.getIdTipoIncidencia()) {
+                            tipoIncidencia = t;
+                            break;
+                        }
+                    }
+
+                    Urbanizacion urbanizacion = null;
+                    for (Urbanizacion u : urbanizaciones) {
+                        if (u.getId() == incidencia.getIdUrbanizacion()) {
+                            urbanizacion = u;
+                            break;
+                        }
+                    }
+
+                    String nombreCompleto = incidenciaDao.obtenerNombreUsuarioPorIdIncidencia(id);
+                    request.setAttribute("nombreCompletoUsuario", nombreCompleto);
+                    request.setAttribute("incidencia", incidencia);
+                    request.setAttribute("tipoIncidencia", tipoIncidencia);
+                    request.setAttribute("urbanizacion", urbanizacion);
+                    request.setAttribute("activeMenuToggle", "Incidencias");
+                    request.setAttribute("activeMenu", "IncidenciasHistorial");
+                    request.getRequestDispatcher("WEB-INF/Serenazgo/detallePersonal.jsp").forward(request, response);
+
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarIncidenciasHistorial");
+                }
+
+            } catch (NumberFormatException ex) {
+                response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarIncidenciasHistorial");
+            }
+
+        } else {
+            response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarIncidenciasHistorial");
         }
 
     }

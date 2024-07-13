@@ -190,10 +190,10 @@
                                     <% } %>
                                     <td><%= incidencia.getFechaRegistro()%></td>
                                     <td>
-                                        <button type="button"
+                                        <a type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
-                                                class='bx bx-show'></i></button>
+                                                href="<%=request.getContextPath()%>/ServletSerenazgo?action=verDetalleHistorial&id=<%=incidencia.getIdIncidencias()%>"><i
+                                                class='bx bx-show'></i></a>
                                     </td>
                                 </tr>
                                 <%
