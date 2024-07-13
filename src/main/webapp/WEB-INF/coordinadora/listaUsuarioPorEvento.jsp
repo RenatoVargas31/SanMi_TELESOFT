@@ -158,10 +158,10 @@
                                                     data-bs-toggle="modal"
                                                     onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento&id=<%=user.getIdUsuarios()%>';"
                                                     data-bs-target="#modal-editar-incidencia"><i
-                                                    class='bx bx-edit'></i></button>
+                                                    class='bx bxs-hand'></i></button>
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=user.getIdUsuarios()%>)" data-bs-target="#"><i
+                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=Integer.parseInt(request.getParameter("id"))%>,<%=user.getIdUsuarios()%>)" data-bs-target="#"><i
                                                     class='bx bx-x'></i></button>
                                         </td>
                                     </tr>
@@ -249,23 +249,23 @@
 
 
 <script>
-    function promptDeletion(eventoId) {
+    function promptDeletion(eventoId,userId) {
         const confirmDeletionBtn = document.getElementById('confirmDeletionBtn');
         confirmDeletionBtn.onclick = function() {
-            submitDeletion(eventoId);
+            submitDeletion(eventoId,userId);
         };
         var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
         myModal.show(); // This is the correct way to show a modal
     }
 
-    function submitDeletion(eventoId) {
+    function submitDeletion(eventoId,userId) {
         alert('La incidencia ha sido eliminada correctamente.');
         // Hide the modal first
         const modal = bootstrap.Modal.getInstance(document.getElementById('deletionModal'));
         modal.hide();
 
         // Redirect to the servlet with the id of the incidencia
-        window.location.href = '<%= request.getContextPath() %>/ServletCoordinadora?action=borrarEvento&id=' + eventoId;
+        window.location.href = '<%= request.getContextPath() %>/ServletCoordinadora?action=borrarInscripcion&id='+ eventoId+'&user='+userId ;
     }
 </script>
 

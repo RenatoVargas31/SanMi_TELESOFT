@@ -600,6 +600,30 @@ public class DaoEvento extends BaseDao {
             }
         }
     }
+    public void anadirVacante(int idEvento, int idUsuario) {
+
+        Evento evento = searchEventobyId(idEvento);
+        int vacantes = evento.getVacantesDisp();
+        if (vacantes > 0) {
+
+            int nuevasVacantes = vacantes +1;
+
+            String sql = "UPDATE eventos SET vacantesDisp = ? WHERE idEventos = ?";
+
+            try (Connection connection = getConection();
+                 PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+                // Establecer los parámetros en la consulta preparada
+                stmt.setInt(1, nuevasVacantes);
+                stmt.setInt(2, idEvento);
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                // Manejo de excepciones de SQL
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void inscribirHasEventos(int idUsuario, int idEvento, int entradas) {
         String sql = "INSERT INTO usuarios_has_eventos (Usuarios_idUsuarios, Eventos_idEventos, entradas) VALUES (?, ?, ?)";
@@ -720,10 +744,11 @@ public class DaoEvento extends BaseDao {
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idUsuario);
-            stmt.setInt(2, idEvento);
+            stmt.setInt(1, idEvento);
+            stmt.setInt(2, idUsuario);
+
+            anadirVacante(idEvento,  idUsuario);
             stmt.executeUpdate();
-            actualizarEntradas(idEvento, -1, idUsuario);
         } catch (SQLException e) {
             e.printStackTrace();
         }

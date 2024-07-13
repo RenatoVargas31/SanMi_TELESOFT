@@ -154,7 +154,9 @@
                                                     class='bx bx-user'></i></button>
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
+                                                    data-bs-toggle="modal"
+                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=viewEvento&id=<%=evento.getIdEventos()%>';"
+                                                    data-bs-target="#modal-ver-incidencia"><i
                                                     class='bx bx-show'></i></button>
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"

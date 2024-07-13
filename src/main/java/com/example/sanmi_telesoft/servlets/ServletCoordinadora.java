@@ -196,6 +196,27 @@ public class ServletCoordinadora extends HttpServlet {
 
                 response.sendRedirect("ServletCoordinadora?action=verMisEventos");
                 break;
+
+            case "borrarInscripcion":
+                if (request.getParameter("id") != null) {
+                    String incIdString = request.getParameter("id");
+                    String user = request.getParameter("user");
+                    int eventoId = 0;
+                    int userId=0;
+                    try {
+                        eventoId = Integer.parseInt(incIdString);
+                        userId = Integer.parseInt(user);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("WEB-INF/coordinadora/error.jsp");
+                    }
+                    daoEvento.borrarInscripcion(userId, eventoId);
+                    response.sendRedirect("ServletCoordinadora?action=verUsuariosporEvento&id="+eventoId);
+
+                }
+
+                break;
+
+
             case "crearEventos":
                 request.setAttribute("activeMenu", "Eventos");
                 request.setAttribute("activeMenuSub", "Eventos2");
