@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-4">
-                                <button class="btn btn-label-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletVecino?action=incidenciasGenerales';">Atrás</button>
+                                <button class="btn btn-label-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/ServletSerenazgo?action=mostrarReportesIncidencias';">Atrás</button>
                             </div>
                         </div>
                     </div>

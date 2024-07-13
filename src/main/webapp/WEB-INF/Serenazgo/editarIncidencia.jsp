@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.example.sanmi_telesoft.beans.Prioridad" %>
+<%@ page import="com.example.sanmi_telesoft.beans.PersonalAmbulancia" %>
+<%@ page import="com.example.sanmi_telesoft.beans.TipoSereno" %><%--
   Created by IntelliJ IDEA.
   User: jaimi
   Date: 16/06/2024
@@ -7,8 +9,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="incidencia" class="com.example.sanmi_telesoft.beans.Incidencia" scope="request"/>
-<%@ page import="com.example.sanmi_telesoft.beans.TipoIncidencia, com.example.sanmi_telesoft.beans.Urbanizacion, java.util.ArrayList" %>
-<%@ page import="com.example.sanmi_telesoft.beans.Urbanizacion, com.example.sanmi_telesoft.beans.Urbanizacion, java.util.ArrayList" %>
 <%
     System.out.println("Incidencia ID: " + incidencia.getIdIncidencias());
     System.out.println("Tipo de Incidencia ID: " + incidencia.getIdTipoIncidencia());
@@ -23,12 +23,16 @@
         return;
     }
 %>
-<jsp:useBean id="urbanizaciones" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Urbanizacion>" scope="request" />
-<jsp:useBean id="tipos" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoIncidencia>" scope="request" />
+<jsp:useBean id="listaAmulancia" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.PersonalAmbulancia>" scope="request" />
+<jsp:useBean id="listaPrioridad" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Prioridad>" scope="request" />
+<jsp:useBean id="listaSereno" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoSereno>" scope="request" />
 <jsp:include page="head.jsp"/>
 
 <body>
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
 <jsp:include page="sideBar.jsp"/>
+    <div class="layout-page">
 <jsp:include page="navBar.jsp"/>
 
 <!-- Content wrapper -->
@@ -44,49 +48,38 @@
                         <form id="actualizarIncidenciaForm" enctype="multipart/form-data">
                             <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
                             <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="fullname">Nombre de la incidencia</label>
-                                    <input type="text" id="fullname" name="fullname" class="form-control" value="<%= incidencia.getNombreIncidencia() == null ? "" : incidencia.getNombreIncidencia()%>" placeholder="Nombre de la incidencia" />
-                                    <div id="nombreIncidenciaError" class="error" style="color: red;"></div>
-                                </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="phone">Teléfono</label>
-                                    <input type="text" class="form-control" name="phone" id="phone" value="<%= incidencia.getTelefono()%>"  placeholder="" />
-                                    <div id="telefonoError" class="error" style="color: red;"></div>
-                                </div>
-
-                                <div class="col-12">
-                                    <label class="form-label" for="LugarExacto">Lugar Exacto</label>
-                                    <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" value="<%= incidencia.getLugarIncidencia() == null ? "" : incidencia.getLugarIncidencia()%>" placeholder="Av, jr, calle."/>
-                                    <div id="lugarExactoError" class="error" style="color: red;"></div>
-                                </div>
-
-                                <div class="col-12">
-                                    <label class="form-label" for="Referencia">Referencia</label>
-                                    <input type="text" id="Referencia" name="Referencia" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." />
-                                    <div id="referenciaError" class="error" style="color: red;"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
-                                    <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
+                                    <label class="form-label" for="tipoPrioridad">Tipo de Incidencia</label>
+                                    <select id="tipoPrioridad" name="tipoPrioridad" class="select2 form-select">
                                         <option value="sinSeleccion">--Seleccione--</option>
-                                        <% for (TipoIncidencia t : tipos) { %>
-                                        <option value="<%= t.getId() %>" <%= (incidencia.getIdTipoIncidencia() ==t.getId()) ? "selected" : "" %>><%= t.getName() %></option>
+                                        <% for (Prioridad p : listaPrioridad) { %>
+                                        <option value="<%= p.getId() %>" <%= (incidencia.getIdTipoIncidencia() ==p.getId()) ? "selected" : "" %>><%= p.getNombre() %></option>
                                         <% } %>
                                     </select>
                                     <div id="tipoIncidenciaError" class="error" style="color: red;"></div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="urbanizacion">Urbanizacion</label>
-                                    <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
+                                    <label class="form-label" for="personalAmbulancia">Urbanizacion</label>
+                                    <select id="personalAmbulancia" name="personalAmbulancia" class="select2 form-select">
                                         <option value="sinSeleccion">--Seleccione--</option>
-                                        <% for (Urbanizacion u : urbanizaciones) { %>
-                                        <option value="<%= u.getId() %>" <%= (incidencia.getIdUrbanizacion() == u.getId()) ? "selected" : "" %>><%= u.getName() %></option>
+                                        <% for (PersonalAmbulancia p : listaAmulancia) { %>
+                                        <option value="<%= p.getId() %>" <%= (incidencia.getIdIncidencias() == p.getId()) ? "selected" : "" %>><%= p.getNombre() + p.getApellido()%> </option>
                                         <% } %>
                                     </select>
                                     <div id="urbanizacionError" class="error" style="color: red;"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="tipoSereno">Urbanizacion</label>
+                                    <select id="tipoSereno" name="tipoSereno" class="select2 form-select">
+                                        <option value="sinSeleccion">--Seleccione--</option>
+                                        <% for (TipoSereno t : listaSereno) { %>
+                                        <option value="<%= t.getNameTipo() %>" <%= (incidencia.getNameUsuario() == t.getNameTipo()) ? "selected" : "" %>><%= t.getNameTipo()%> </option>
+                                        <% } %>
+                                    </select>
+                                    <div id="serenoError" class="error" style="color: red;"></div>
                                 </div>
 
                                 <div class="col-12 d-flex align-items-center">
@@ -189,7 +182,7 @@
                 contentType: false,
                 success: function(response) {
                     if (response.success) {
-                        window.location.href = "${pageContext.request.contextPath}/ServletSerenazgo?action=misIncidencias";
+                        window.location.href = "${pageContext.request.contextPath}/ServletSerenazgova?action=misIncidencias";
                     } else {
                         $(".error").text(""); // Clear previous errors
                         for (var key in response) {

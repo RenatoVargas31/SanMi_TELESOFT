@@ -7,6 +7,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-editarDeCampo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-editarDispatcher.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador/adm-instructores.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Administrador" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Serenazgo/editarIncidencia.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Serenazgo" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/indexVecino.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/inscribirEvento.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/listaEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />

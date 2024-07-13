@@ -115,6 +115,11 @@ public class ServletSerenazgo extends HttpServlet {
 
             case "verDetalleHistorial":
                 verDetallesIncidenciaHistorial(request, response);
+
+            case "mostrarActualizarIncidencia":
+                mostrarActualizarIncidencia(request, response);
+                break;
+
         }
 
     }
@@ -360,6 +365,14 @@ public class ServletSerenazgo extends HttpServlet {
     }
     
     private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //validar usuario
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
         DaoIncidencia incidenciaDao = new DaoIncidencia();
         String id = request.getParameter("id");
         if (id == null) {
@@ -379,6 +392,56 @@ public class ServletSerenazgo extends HttpServlet {
             }
         } catch (SQLException e) {
             throw new ServletException("Error al acceder a la base de datos", e);
+        }
+    }
+
+    private void mostrarActualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //validar usuario
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+
+        DaoIncidencia incidenciaDao = new DaoIncidencia();
+        DaoPrioridad prioridadDao = new DaoPrioridad();
+        DaoPersonalAmbulancia personalAmbulanciaDao = new DaoPersonalAmbulancia();
+        DaoTipoSereno tipoSerenazgoDao = new DaoTipoSereno();
+        String id = request.getParameter("id");
+
+        if(id != null) {
+            try{
+                int idIncidencia = Integer.parseInt(id);
+                Incidencia i = incidenciaDao.obtenerIncidencia(idIncidencia);
+                if(i != null && i.getSerenazgoid() == usuario.getIdUsuarios()) {
+                    ArrayList<Prioridad> listaPrioridad = prioridadDao.getListaPrioridad();
+                    ArrayList<PersonalAmbulancia> listaPersonalAmbulancia = personalAmbulanciaDao.getListaPersonalAmbulancia();
+                    ArrayList<TipoSereno> listaTipoSereno = tipoSerenazgoDao.getListaTipoSereno();
+
+                    request.setAttribute("listaAmbulancia", listaPersonalAmbulancia);
+                    request.setAttribute("listaSereno", listaTipoSereno);
+                    request.setAttribute("listaPrioridad", listaPrioridad);
+                    request.setAttribute("incidencia", i);
+                    request.setAttribute("activeMenuToggle", "Incidencias");
+                    request.setAttribute("activeMenu", "MisReportes");
+                    request.getRequestDispatcher("WEB-INF/Serenazgo/editarIncidencia.jsp").forward(request, response);
+
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarMisIncidencias");
+                }
+
+            } catch (NumberFormatException e){
+                response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarMisIncidencias");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+        } else {
+            response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarMisIncidencias");
         }
     }
 }
