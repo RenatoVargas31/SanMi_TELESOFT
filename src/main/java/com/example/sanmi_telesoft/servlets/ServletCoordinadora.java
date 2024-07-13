@@ -256,14 +256,16 @@ public class ServletCoordinadora extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/coordinadora/crearEvento.jsp").forward(request, response);
                 break;
             case "actualizarEvento":
-                if (request.getParameter("id") != null) {
-                    String idEvento = request.getParameter("id");
+                String idEvento = request.getParameter("id");
+                if (idEvento != null && !idEvento.isEmpty()) {
                     int eventoId = 0;
                     try {
                         eventoId = Integer.parseInt(idEvento);
                     } catch (NumberFormatException ex) {
-                        response.sendRedirect("ServletCoordinadora");
-
+                        // Manejar el caso donde idEvento no es un número válido
+                        // Redirigir a una página de error o a la página principal de coordinadora
+                        response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
+                        return;
                     }
 
                     Evento evento = daoEvento.searchEventobyId(eventoId);
@@ -275,18 +277,42 @@ public class ServletCoordinadora extends HttpServlet {
 
                         request.getRequestDispatcher("WEB-INF/coordinadora/actualizarEvento.jsp").forward(request, response);
                     } else {
-                        response.sendRedirect("ServletCoordinadora");
+                        // Manejar el caso donde no se encontró el evento
+                        // Redirigir a una página de error o a la página principal de coordinadora
+                        response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
                     }
-
                 } else {
-                    response.sendRedirect("ServletCoordinadora");
+                    // Manejar el caso donde el parámetro id es nulo o vacío
+                    // Redirigir a una página de error o a la página principal de coordinadora
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
                 }
                 break;
+
 
             case "viewEvento":
                 request.setAttribute("activeMenuSub", "Eventos1");
                 request.setAttribute("activeMenu", "Eventos");
                 manejarViewEvento(request, response);
+                break;
+            case "banearEvento":
+                request.setAttribute("activeMenuSub", "Eventos3");
+                request.setAttribute("activeMenu", "Eventos");
+                Usuario usuario00 = (Usuario) request.getSession().getAttribute("usuario");
+
+                    String idUsuario00 = String.valueOf(usuario00.getIdUsuarios());
+
+                    // Obtener el idUsuario de los parámetros de la solicitud (si se pasa como parámetro en el GET)
+                    String idUsuarioParametro00 = request.getParameter("idUsuario");
+
+                    // Verificar y asegurar que el idUsuario sea correcto y no nulo
+                    if (idUsuarioParametro00 != null && !idUsuarioParametro00.isEmpty()) {
+                        idUsuario00 = idUsuarioParametro00;
+                    }
+                    ArrayList<Evento> listaMisEventos2 = daoEvento.listaEventosCoordinadora(Integer.parseInt(idUsuario00));
+
+                    // Establecer atributos en el request
+                    request.setAttribute("listaMisEventos", listaMisEventos2);
+                request.getRequestDispatcher("WEB-INF/coordinadora/misEventos.jsp").forward(request, response);
                 break;
 
 
@@ -324,14 +350,10 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
             case "verUsuariosporEvento":
-
-
-                    // Llamar al método listaEventosCoordinadora con el id del usuario
-                ArrayList<Integer> listaUsuariosporEvento = null;
                 try {
                     // Intentar obtener la lista de usuarios inscritos para el evento especificado por 'id'
                     int eventId = Integer.parseInt(request.getParameter("id"));
-                    listaUsuariosporEvento = daoEvento.usuariosInscritosporEvento(eventId);
+                    ArrayList<Integer> listaUsuariosporEvento = daoEvento.usuariosInscritosporEvento(eventId);
 
                     // Establecer atributos en el request para pasar datos a la JSP
                     request.setAttribute("listaUsuariosporEvento", listaUsuariosporEvento);
@@ -340,13 +362,13 @@ public class ServletCoordinadora extends HttpServlet {
 
                     request.getRequestDispatcher("WEB-INF/coordinadora/listaUsuarioPorEvento.jsp").forward(request, response);
 
-
                 } catch (NumberFormatException | SQLException e) {
-                    // Capturar y manejar excepciones
-                    throw new RuntimeException("Error al procesar la solicitud", e);
+                    // En caso de excepción, redirigir a ServletCoordinadora
+                    request.setAttribute("errorMessage", "Error al procesar la solicitud: " + e.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora");
                 }
-
                 break;
+
 
         }
 
@@ -356,10 +378,11 @@ public class ServletCoordinadora extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        String idUsuario;
 
         if (usuario != null) {
             // Obtener el id del usuario como String
-            String idUsuario = String.valueOf(usuario.getIdUsuarios());
+            idUsuario = String.valueOf(usuario.getIdUsuarios());
 
             // Obtener el idUsuario de los parámetros de la solicitud (si se pasa como parámetro en el GET)
             String idUsuarioParametro = request.getParameter("idUsuario");
@@ -391,6 +414,17 @@ public class ServletCoordinadora extends HttpServlet {
             case "buscarEventos":
                 manejarBuscarEventos(request, response,usuario);
                 break;
+
+            case "banearEvento":
+                String baneo = request.getParameter("baneo");
+                int idUsuario2 = Integer.parseInt(request.getParameter("user"));
+                int idEvento2 = Integer.parseInt(request.getParameter("id"));
+                eventoDao.banearUsuario(idUsuario2,idEvento2, baneo);
+                System.out.println(baneo);
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verUsuariosporEvento&id="+request.getParameter("id"));
+
+                break;
+
             case "reportarIncidencia":
                 DaoIncidencia incidenciaDao = new DaoIncidencia();
 
@@ -584,8 +618,17 @@ public class ServletCoordinadora extends HttpServlet {
                         return;
                     }
 
-                    InputStream fotoEvento1 = request.getPart("file").getInputStream();
-                    byte[] fotoEvento3 = fotoEvento1.readAllBytes();
+                    byte[] fotoEvento3 = null;
+                    Part filePart = request.getPart("file");
+                    if (filePart.getSize() > 0) {
+                        InputStream fotoEvento1 = filePart.getInputStream();
+                        fotoEvento3 = fotoEvento1.readAllBytes();
+                    } else {
+                        // Mantener la foto existente
+                        Evento eventoExistente = eventoDao.searchEventobyId(Integer.parseInt(request.getParameter("idEvento")));
+                        fotoEvento3 = eventoExistente.getFotosStart();
+                    }
+
 
                     Evento evento1 = new Evento();
                     evento1.setIdEventos(Integer.parseInt(request.getParameter("idEvento")));
@@ -606,6 +649,7 @@ public class ServletCoordinadora extends HttpServlet {
 
                     // Validacion de la frecuencia
                     String[] diasSeleccionados2 = request.getParameterValues("diasSemana");
+
 
                     if (diasSeleccionados2 != null) {
                         for (String dia : diasSeleccionados2) {
@@ -651,12 +695,17 @@ public class ServletCoordinadora extends HttpServlet {
 
                     eventoDao.actualizarEvento(evento1);
                     response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");
+                } catch (NumberFormatException e) {
+                    // Manejo de error si no se puede parsear el idEvento
+                    request.setAttribute("errorMessage", "Error: el ID del evento no es válido.");
+                    request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
                 } catch (Exception e) {
                     e.printStackTrace();
                     request.setAttribute("errorMessage", "Error al actualizar el evento.");
                     request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
                 }
                 break;
+
 
 
 

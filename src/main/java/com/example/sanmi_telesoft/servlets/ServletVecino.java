@@ -189,10 +189,31 @@ public class ServletVecino extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession(false);
         if (action == null) {
             doGet(request, response);
             return;
         }
+        if (session == null || session.getAttribute("usuario") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        String id = "";
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        int idUsuario = 0;
+        if (usuario != null) {
+            // Obtener el id del usuario como String
+            idUsuario = usuario.getIdUsuarios();
+        }
+        try {
+            ArrayList<Integer> listaIdEventos= eventoDao.eventosInscritosporUsuario(idUsuario);
+            request.setAttribute("eventosUsuario",listaIdEventos);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Evento> listaMisEventos = eventoDao.listaEventosUser(idUsuario);
+        request.setAttribute("listaMisEventos", listaMisEventos);
+
         switch (action) {
             case "reportarIncidencia":
                 reportarIncidencia(request, response);

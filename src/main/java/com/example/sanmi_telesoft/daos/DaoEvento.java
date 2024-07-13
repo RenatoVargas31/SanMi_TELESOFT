@@ -761,8 +761,9 @@ public class DaoEvento extends BaseDao {
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, motivoBanneo);
-            stmt.setInt(2, idUsuario);
-            stmt.setInt(3, idEvento);
+            stmt.setInt(2, idEvento);
+            stmt.setInt(3, idUsuario);
+            borrarInscripcion(idUsuario, idEvento);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

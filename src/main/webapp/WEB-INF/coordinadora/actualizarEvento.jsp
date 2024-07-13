@@ -198,7 +198,7 @@
                                                 <div class="input-group">
                                                     <label class="form-label">Foto del evento</label>
                                                     <div class="col-12">
-                                                        <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
+                                                        <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
                                                     </div>
                                                 </div>
                                             </div>

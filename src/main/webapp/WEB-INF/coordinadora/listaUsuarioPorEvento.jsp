@@ -64,42 +64,6 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
-    <style>
-        /* Personalización adicional del modal */
-        .modal-content {
-            border-radius: 15px;
-            padding: 20px;
-            background: linear-gradient(145deg, #f0f0f0, #cacaca);
-        }
-        .modal-header {
-            background-color: #1A4D8F;
-            color: white;
-            border-bottom: 1px solid #dee2e6;
-            border-radius: 15px 15px 0 0;
-        }
-        .modal-footer {
-            border-top: 1px solid #dee2e6;
-            border-radius: 0 0 15px 15px;
-        }
-        .modal-title {
-            color: white;
-        }
-        .modal-body {
-            font-size: 1.1rem;
-            text-align: center;
-        }
-        .btn-close {
-            background-color: white;
-            border-radius: 50%;
-        }
-        .btn-secondary, .btn-danger {
-            margin: 0 10px;
-        }
-        body {
-            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-    </style>
 
 </head>
 
@@ -123,7 +87,6 @@
                         <div class="card-datatable table-responsive">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h3 class="m-4 fw-bold">Inscritos en <%=daoEvento.searchEventobyId(Integer.parseInt(request.getParameter("id"))).getNombreEvento()%></h3>
-
 
                             </div>
                             <div class="table-responsive">
@@ -153,43 +116,112 @@
                                         <td><%=user.getTelefonoUsuario()%></td>
                                         <td>
 
-                                            <button type="button"
-                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento&id=<%=user.getIdUsuarios()%>';"
-                                                    data-bs-target="#modal-editar-incidencia"><i
-                                                    class='bx bxs-hand'></i></button>
-                                            <button type="button"
-                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=Integer.parseInt(request.getParameter("id"))%>,<%=user.getIdUsuarios()%>)" data-bs-target="#"><i
-                                                    class='bx bx-x'></i></button>
-                                        </td>
-                                    </tr>
-                                    <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalScrollableTitle<%= i %>">Detalles del Reporte.</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
+                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal2"> <i
+                                                    class="fas fa-ban"></i> </button>
 
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
+                                            <div class="modal fade" id="addNewCCModal2" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                                    <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <div class="text-center mb-4">
+                                                                <i class='fas fa-ban' style="font-size: 100px; margin-bottom: 10px; color: rgb(218,92,92);"></i>
+                                                                <h3 style="color: rgb(0,0,0); margin-bottom:40px; font-weight: 650; line-height: 1.5" class="mb-0 pt-1">Ingrese su motivo de prohibición del evento</h3>
+                                                                <hr class="my-4">
+                                                                <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=banearEvento&id=<%= request.getParameter("id")%>&user=<%= user.getIdUsuarios()%>" enctype="multipart/form-data">
+
+                                                                    <!-- Input para el motivo de prohibición -->
+                                                                    <div class="col-12">
+                                                                        <div class="input-group input-group-merge">
+                                                                            <textarea id="baneo" name="baneo" class="form-control credit-card-mask" rows="3" aria-describedby="modalAddCard2"></textarea>
+                                                                            <span class="input-group-text cursor-pointer p-1" id="modalAddCard2"><span class="card-type"></span></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Fin del input -->
+
+                                                                    <hr class="my-4 opacity-0">
+                                                                    <p>Eliminarás su inscripción y se añadirá este suceso al historial de comportamiento</p>
+                                                                    <div class="col-12 text-center">
+                                                                        <!-- Botones dentro del formulario -->
+                                                                        <input type="hidden" name="action" value="banearEvento">
+                                                                        <input type="hidden" name="id" value="<%= request.getParameter("id") %>">
+                                                                        <input type="hidden" name="user" value="<%= user.getIdUsuarios() %>">
+                                                                        <button type="submit" class="btn btn-danger me-sm-3 me-1 mt-3">
+                                                                            Prohibir usuario
+                                                                        </button>
+                                                                        <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                                        <!-- Fin de los botones -->
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+
+
+
+                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal"> <i
+                                                    class='bx bx-x'></i> </button>
+                                            <!-- Add New Credit Card Modal-->
+                                            <div class="modal fade" id="addNewCCModal" tabindex="-1" aria-hidden="true">
+                                                <div class=" modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                                    <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <div class="text-center mb-4">
+                                                                <i class='bx bxs-error-circle' style="font-size: 100px; margin-bottom: 10px; color: rgb(218,92,92);"></i>
+                                                                <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Eliminación de evento</h3>
+                                                                <hr class="my-4">
+
+
+
+                                                                <h5>¿Estás seguro de eliminar la inscripción de <%= user.getNombreUsuario() + " "+user.getApellidoUsuario()%> en el evento <%=daoEvento.searchEventobyId(Integer.parseInt(request.getParameter("id"))).getNombreEvento()%>?</h5>
+                                                                <p>No podrás recuperar esta inscripción a futuro y se habilitará una vacante más</p>
+                                                            </div>
+                                                            <div class="col-12 text-center">
+                                                                <a href="<%= request.getContextPath() %>/ServletCoordinadora?action=borrarInscripcion&id=<%=request.getParameter("id")%>&user=<%= user.getIdUsuarios()%>" class="btn btn-danger me-sm-3 me-1 mt-3">
+                                                                    Eliminar evento
+
+                                                                </a>
+                                                                <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </td>
+                                    </tr>
+
                                     <%
                                             i++;
                                             a++;
                                         } %>
+
                                     </tbody>
+
                                 </table>
 
 
                             </div>
+
                         </div>
                     </div>
+                    <hr class="my-4 opacity-0">
+                    <div class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <a href="${pageContext.request.contextPath}/ServletCoordinadora?action=verMisEventos" class="btn btn-label-primary">Regresar a la lista de eventos</a>
+                        </div>
+                    </div>
+
+
                 </div>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/jquery/jquery.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>

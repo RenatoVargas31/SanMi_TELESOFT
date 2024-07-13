@@ -141,6 +141,7 @@
                                     <div class="modal-body">
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         <div class="text-center mb-4">
+                                            <i class='bx bxs-error-circle' style="font-size: 100px; margin-bottom: 10px; color: rgb(218,92,92);"></i>
                                             <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Eliminación de evento</h3>
                                             <hr class="my-4">
                                             <h5>¿Estás seguro de eliminar de forma permanente el evento <%= evento.getNombreEvento()%>?</h5>
