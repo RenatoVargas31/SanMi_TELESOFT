@@ -1942,7 +1942,7 @@ progress {
 }
 
 .table > :not(caption) > * > * {
-    padding: .625rem 1.25rem;
+    padding: .625rem 0.75rem;
     color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
     background-color: var(--bs-table-bg);
     border-bottom-width: var(--bs-border-width);

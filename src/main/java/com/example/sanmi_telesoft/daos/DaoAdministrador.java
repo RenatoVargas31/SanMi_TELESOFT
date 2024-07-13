@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DaoAdministrador extends BaseDao {
-    //////////Usuatios//////////
+    //////////Usuarios//////////
     public Usuario buscarUsuarioPorId(String id){
             Usuario usuario = new Usuario();
 
@@ -31,6 +31,7 @@ public class DaoAdministrador extends BaseDao {
                         usuario.setDniUsuario(rs.getString("dniUsuario"));
                         usuario.setDireccionUsuario(rs.getString("direccionUsuario"));
                         usuario.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion"));
+                        usuario.setPasswordUsuario(rs.getString("passwordUsuario"));
                     }
                 }
             } catch (SQLException e) {
@@ -63,6 +64,9 @@ public class DaoAdministrador extends BaseDao {
                 usuario.setIsBannedApp(rs.getString("is_bannedApp"));
                 usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
                 usuario.setUrbanizacion(rs.getString("nameUrbanizacion"));
+                usuario.setPostulacion(rs.getString("postulacion"));
+                usuario.setIdTipoCoordinadora(rs.getInt("TipoCoordinadora_idTipoCoordinadora"));
+                usuario.setPasswordUsuario(rs.getString("passwordUsuario"));
                 listaUsuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -82,8 +86,27 @@ public class DaoAdministrador extends BaseDao {
 
         }
     }
-    public void aceptarCoordinadora(String idUsuario) throws SQLException {
-        String sql = "update usuarios set Roles_idRoles='3', is_active='1' where idUsuarios = ?";
+    public void aceptarCoordinadora(Usuario vecino, String idTipo) throws SQLException {
+        String sql = "insert into usuarios (Roles_idRoles, correoUsuario, passwordUsuario, nombreUsuario, apellidoUsuario, dniUsuario, direccionUsuario, telefonoUsuario, Urbanizacion_idUrbanizacion, is_active, nacimientoDate, TipoCoordinadora_idTipoCoordinadora, postulacion) values ('3',?,?,?,?,?,?,?,?,'1',?,?,'0')";
+        try(Connection connection = getConection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,vecino.getCorreoUsuario());
+            pstmt.setString(2,vecino.getPasswordUsuario());
+            pstmt.setString(3,vecino.getNombreUsuario());
+            pstmt.setString(4,vecino.getApellidoUsuario());
+            pstmt.setString(5,vecino.getDniUsuario());
+            pstmt.setString(6,vecino.getDireccionUsuario());
+            pstmt.setString(7,vecino.getTelefonoUsuario());
+            pstmt.setInt(8,vecino.getIdUrbanizacion());
+            pstmt.setString(9,vecino.getNacimientoDate());
+            pstmt.setString(10,idTipo);
+
+            pstmt.executeUpdate();
+        }
+    }
+    public void aceptarVecino(String idUsuario) throws SQLException {
+        String sql = "update usuarios set is_active='1' where idUsuarios = ?";
         try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 
@@ -93,8 +116,8 @@ public class DaoAdministrador extends BaseDao {
 
         }
     }
-    public void aceptarVecino(String idUsuario) throws SQLException {
-        String sql = "update usuarios set is_active='1' where idUsuarios = ?";
+    public void borrarPostulacion(String idUsuario) throws SQLException {
+        String sql = "update usuarios set postulacion='0' where idUsuarios = ?";
         try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 

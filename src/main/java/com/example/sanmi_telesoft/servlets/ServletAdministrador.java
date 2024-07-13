@@ -12,6 +12,7 @@ import com.example.sanmi_telesoft.util.PasswordUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 @WebServlet(name = "ServletAdministrador", value = "/ServletAdministrador")
@@ -54,20 +55,7 @@ public class ServletAdministrador extends HttpServlet {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
                 }
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarSolicitudesRegistro");
-                break;
-            case "aceptarCoordinador":
-                String idUsuarioCoordinador = request.getParameter("idDeUsuario");
-                Usuario usuarioCoordinador = daoAdministrador.buscarUsuarioPorId(idUsuarioCoordinador);
-                if(usuarioCoordinador != null){
-                    System.out.println("Log: usuario encontrado");
-                    try {
-                        daoAdministrador.aceptarCoordinadora(idUsuarioCoordinador);
-                    } catch (SQLException e) {
-                        System.out.println("Log: excepcion: " + e.getMessage());
-                    }
-                }
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarSolicitudesRegistro");
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarPostulaciones");
                 break;
             case "eliminarSolicitudRegistro":
                 String idDeleteUsuario = request.getParameter("idDeUsuario");
@@ -81,6 +69,53 @@ public class ServletAdministrador extends HttpServlet {
                     }
                 }
                 response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarSolicitudesRegistro");
+                break;
+            case "mostrarPostulaciones":
+                request.setAttribute("activeMenuToggle", "Usuarios");
+                request.setAttribute("activeMenu", "mostrarPostulaciones");
+
+                ArrayList<Usuario> listaUsuariosPostulaciones = daoAdministrador.listarUsuarios();
+                //Imprimir los roles de los usuarios
+                for (Usuario usuario : listaUsuariosPostulaciones) {
+                    System.out.println("Log: " + usuario.getRol());
+                    System.out.println("Log: " + usuario.getTipoCoordinadora());
+                    System.out.println("Log: " + usuario.getPostulacion());
+                }
+                request.setAttribute("listaUsuarios", listaUsuariosPostulaciones);
+
+                request.getRequestDispatcher("WEB-INF/Administrador/adm-postulaciones.jsp").forward(request, response);
+                break;
+            case "aceptarCoordinador":
+                System.out.println("Log: aceptarCoordinador");
+                String idUsuarioCoordinador = request.getParameter("idDeUsuario");
+                String idTipo = request.getParameter("idTipo");
+                System.out.println("Log: idUsuarioCoordinador: " + idUsuarioCoordinador);
+                System.out.println("Log: idTipo: " + idTipo);
+                Usuario usuarioCoordinador = daoAdministrador.buscarUsuarioPorId(idUsuarioCoordinador);
+                System.out.println("Log: passUsuario: "+ usuarioCoordinador.getPasswordUsuario());
+                if(usuarioCoordinador != null){
+                    System.out.println("Log: usuario encontrado");
+                    try {
+                        daoAdministrador.borrarPostulacion(idUsuarioCoordinador);
+                        daoAdministrador.aceptarCoordinadora(usuarioCoordinador,idTipo);
+                    } catch (SQLException e) {
+                        System.out.println("Log: excepcion: " + e.getMessage());
+                    }
+                }
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarPostulaciones");
+                break;
+            case "eliminarPostulacion":
+                String idDeleteUsuarioPostulacion = request.getParameter("idDeUsuario");
+                Usuario usuarioDeletePostulacion = daoAdministrador.buscarUsuarioPorId(idDeleteUsuarioPostulacion);
+                if(usuarioDeletePostulacion != null){
+                    System.out.println("Log: usuario encontrado");
+                    try {
+                        daoAdministrador.borrarPostulacion(idDeleteUsuarioPostulacion);
+                    } catch (SQLException e) {
+                        System.out.println("Log: excepcion: " + e.getMessage());
+                    }
+                }
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarPostulaciones");
                 break;
             case "mostrarUsuariosHabilitados":
                 request.setAttribute("activeMenuToggle", "Usuarios");

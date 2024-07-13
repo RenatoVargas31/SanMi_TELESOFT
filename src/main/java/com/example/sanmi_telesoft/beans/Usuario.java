@@ -21,6 +21,7 @@ public class Usuario {
     private String motivoBannedApp;
     private String passwordTemporal;
     private int genero;
+    private String postulacion;
 
     private byte[] fotoPerfil;
 
@@ -34,6 +35,16 @@ public class Usuario {
                 return "Coordinadora";
             case 4:
                 return "Vecino";
+            default:
+                return "Desconocido";
+        }
+    }
+    public String getTipoCoordinadora(){
+        switch (idTipoCoordinadora) {
+            case 1:
+                return "Cultura";
+            case 2:
+                return "Deporte";
             default:
                 return "Desconocido";
         }
@@ -168,5 +179,11 @@ public class Usuario {
         this.urbanizacion = urbanizacion;
     }
 
+    public String getPostulacion() {
+        return postulacion;
+    }
 
+    public void setPostulacion(String postulacion) {
+        this.postulacion = postulacion;
+    }
 }

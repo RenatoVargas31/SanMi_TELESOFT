@@ -107,6 +107,20 @@ $('#table-solicitudRegistro').DataTable({
     ]
 });
 
+$('#table-postulaciones').DataTable({
+    responsive: true,
+    lengthChange: false,
+    pageLength: 5,
+    info: false,
+    language: {
+        url: `//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json`
+    },
+    order: [[2, 'asc']],
+    columnDefs: [
+        {orderable: false, targets: [0, 1, -1]}
+    ]
+});
+
 
 $('#table-usuariosHabilitados').DataTable({
     responsive: true,

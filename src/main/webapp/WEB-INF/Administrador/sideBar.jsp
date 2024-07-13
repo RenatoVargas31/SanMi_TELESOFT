@@ -59,6 +59,11 @@
                         <div class="text-truncate" data-i18n="Solicitudes de registro">Solicitudes de registro</div>
                     </a>
                 </li>
+                <li class="menu-item ${activeMenu == 'mostrarPostulaciones' ? 'active' : ''}">
+                    <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarPostulaciones" class="menu-link"><!--Zona de linkeo href: -->
+                        <div class="text-truncate" data-i18n="Postulaciones">Postulaciones</div>
+                    </a>
+                </li>
                 <li class="menu-item ${activeMenu == 'UsuariosHabilitados' ? 'active' : ''}">
                     <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarUsuariosHabilitados" class="menu-link"><!--Zona de linkeo href: -->
                         <div class="text-truncate" data-i18n="Usuarios habilitados">Usuarios habilitados</div>
