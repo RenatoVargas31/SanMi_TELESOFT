@@ -23,6 +23,8 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
+import javax.security.auth.Subject;
+
 public class EmailService {
 
     public boolean asd(String to, String subject, String body)  {
@@ -165,6 +167,93 @@ public class EmailService {
                 }
             }, delay, TimeUnit.MILLISECONDS);
         }
+    }
+
+    public void aceptarVecino(String correo, String name)  {
+        Properties properties = new Properties();
+        String user = "loliperales17@gmail.com";
+        String password = "xpkwbfgqhgjovpex";
+        String subject = "Solicitud de registro a SanMi";
+
+        //ssl
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(properties,
+                new jakarta.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, password);
+                    }
+                });
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correo));
+            message.setSubject(subject);
+
+            MimeBodyPart bodyPart = new MimeBodyPart();
+            String htmlContent = "<h1>Hola, " + name + "</h1>"
+                    + "<p>Bienvenido a SanMi:</p>"
+                    + "<p>Para poder ingresar a la página debes restablecer tu contraseña y adquirir una nueva contraseña</p>";
+            bodyPart.setContent(htmlContent, "text/html");
+
+
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(bodyPart);
+
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("sent");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } /*catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }*/
+    }
+
+    public void rechazarVecino(String correo, String name)  {
+        Properties properties = new Properties();
+        String user = "loliperales17@gmail.com";
+        String password = "xpkwbfgqhgjovpex";
+        String subject = "Solicitud de registro a SanMi";
+
+        //ssl
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(properties,
+                new jakarta.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, password);
+                    }
+                });
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correo));
+            message.setSubject(subject);
+
+            MimeBodyPart bodyPart = new MimeBodyPart();
+            String htmlContent = "<h1>Hola, " + name + "</h1>"
+                    + "<p>Su solicitud de registro no ha sido aprobada, ya que los datos proporcionados no son correctos</p>";
+            bodyPart.setContent(htmlContent, "text/html");
+
+
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(bodyPart);
+
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("sent");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } /*catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }*/
     }
 
 }

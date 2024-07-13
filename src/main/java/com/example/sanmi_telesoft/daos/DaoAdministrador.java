@@ -485,4 +485,35 @@ public class DaoAdministrador extends BaseDao {
         }
     }
 
+    public ArrayList<Usuario> listarSolicitudesRegistro(){
+        String sql = "select * from usuarios u join urbanizacion b on u.Urbanizacion_idUrbanizacion = b.idUrbanizacion and u.is_active = 0 and u.Roles_idRoles = 4";
+        ArrayList<Usuario> lista = new ArrayList<>();
+
+        try(Connection conn = this.getConection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuarios(rs.getInt("idUsuarios"));
+                usuario.setIdRoles(rs.getInt("Roles_idRoles"));
+                usuario.setCorreoUsuario(rs.getString("correoUsuario"));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                usuario.setApellidoUsuario(rs.getString("apellidoUsuario"));
+                usuario.setTelefonoUsuario(rs.getString("telefonoUsuario"));
+                usuario.setDniUsuario(rs.getString("dniUsuario"));
+                usuario.setDireccionUsuario(rs.getString("direccionUsuario"));
+                usuario.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion"));
+                usuario.setIsActive(rs.getString("is_active"));
+                usuario.setIsBannedApp(rs.getString("is_bannedApp"));
+                usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
+                usuario.setUrbanizacion(rs.getString("nameUrbanizacion"));
+                lista.add(usuario);
+            }
+
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return lista;
+    }
+
 }

@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.beans.Serenazgo;
 import com.example.sanmi_telesoft.beans.TipoSereno;
 import com.example.sanmi_telesoft.beans.Usuario;
 import com.example.sanmi_telesoft.daos.DaoAdministrador;
+import com.example.sanmi_telesoft.daos.EmailService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -23,6 +24,7 @@ public class ServletAdministrador extends HttpServlet {
 
         String action = request.getParameter("action") == null ? "mostrarInicio" : request.getParameter("action");
         DaoAdministrador daoAdministrador = new DaoAdministrador();
+        EmailService emailService = new EmailService();
         //Instancia de la clase DaoAdministrador (métodos)
 
         switch (action){
@@ -34,7 +36,7 @@ public class ServletAdministrador extends HttpServlet {
                 request.setAttribute("activeMenuToggle", "Usuarios");
                 request.setAttribute("activeMenu", "SolicitudesRegistro");
 
-                ArrayList<Usuario> listaUsuariosSolicitudes = daoAdministrador.listarUsuarios();
+                ArrayList<Usuario> listaUsuariosSolicitudes = daoAdministrador.listarSolicitudesRegistro();
                 //Imprimir los roles de los usuarios
                 for (Usuario usuario : listaUsuariosSolicitudes) {
                     System.out.println("Log: " + usuario.getRol());
@@ -50,6 +52,7 @@ public class ServletAdministrador extends HttpServlet {
                     System.out.println("Log: usuario encontrado");
                     try {
                         daoAdministrador.aceptarVecino(idUsuarioVecino);
+                        emailService.aceptarVecino(usuarioVecino.getCorreoUsuario(), usuarioVecino.getNombreUsuario());
                     } catch (SQLException e) {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
@@ -76,6 +79,7 @@ public class ServletAdministrador extends HttpServlet {
                     System.out.println("Log: usuario encontrado");
                     try {
                         daoAdministrador.borrarUsuario(idDeleteUsuario);
+                        emailService.aceptarVecino(usuarioDelete.getCorreoUsuario(), usuarioDelete.getNombreUsuario());
                     } catch (SQLException e) {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
