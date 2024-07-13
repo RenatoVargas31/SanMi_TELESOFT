@@ -128,7 +128,6 @@
                                     <th>Rol</th>
                                     <th>Domicilio</th>
                                     <th>Urbanización</th>
-                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -190,7 +189,6 @@
 
                                 <tbody>
                                 <%for (Usuario usuario : listaUsuarios) {%>
-                                <%if (usuario.getRol().equals("Vecino")){%>
 
                                 <tr>
                                     <td>
@@ -215,21 +213,7 @@
                                         <%=usuario.getUrbanizacion()%>
                                     </td>
                                     <td>
-                                        <%if(usuario.getIsActive().equals("0")){%>
-                                        <span class="badge bg-warning">Pendiente</span>
-                                        <%}else{%>
-                                        <span class="badge bg-success">Aceptado</span>
-                                        <%}%>
-                                    </td>
-                                    <td>
-                                        <%if (usuario.getIsActive().equals("0")){%>
                                         <!-- Modal para confirmar como Vecino -->
-                                        <button type="button"
-                                                class="btn btn-label-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalVecino<%= usuario.getIdUsuarios() %>"><i
-                                                class='bx bx-check-circle'></i>
-                                        </button>
                                         <div class="modal fade" id="modalVecino<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -248,12 +232,6 @@
                                             </div>
                                         </div>
                                         <!-- Modal para confirmar eliminación -->
-                                        <button type="button"
-                                                class="btn  btn-label-primary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
-                                                class='bx bx-x-circle'></i>
-                                        </button>
                                         <div class="modal fade" id="modalDelete<%= usuario.getIdUsuarios() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -271,22 +249,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <%}else{%>
                                         <!-- Modal para confirmar como Vecino -->
                                         <button type="button"
-                                                class="btn btn-label-primary btn-sm disabled">
-                                                <i class='bx bx-check-circle'></i>
+                                                class="btn btn-label-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalVecino<%= usuario.getIdUsuarios() %>"><i
+                                                class='bx bx-check-circle'></i>
                                         </button>
                                         <button type="button"
-                                                class="btn  btn-label-primary btn-sm disabled">
-                                                <i class='bx bx-x-circle'></i>
+                                                class="btn  btn-label-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
+                                                class='bx bx-x-circle'></i>
                                         </button>
-                                        <%}%>
+
                                     </td>
                                 </tr>
 
                                 <% } %>
-                                <% } %>
+
                                 </tbody>
                             </table>
                         </div>

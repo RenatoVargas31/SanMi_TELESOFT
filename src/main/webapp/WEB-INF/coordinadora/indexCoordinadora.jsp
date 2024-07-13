@@ -11,6 +11,9 @@
 <jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 <%
     ArrayList<Evento> lista=(ArrayList<Evento>) request.getAttribute("listarEventos");
+    ArrayList<Evento> listaMisEventos=(ArrayList<Evento>) request.getAttribute("listaMisEventos");
+ int coordiActivos=(int) request.getAttribute("coordiActivos");
+
 %>
 <!DOCTYPE html>
 
@@ -175,7 +178,54 @@
 
                 <%  }  // Fin del bloque de código Java dentro de la etiqueta de script JSP
                 %>
+                            <hr class="my-4">
+                            <p>Tu actividad es importante para mejorar el bienestar de todos los vecinos del
+                                distrito,
+                                tu participación en los eventos y tus reportes de incidencias nos permite
+                                trabajar juntos. </p>
 
+                            <div class="d-flex justify-content-between flex-wrap gap-3 me-5">
+                                <div class="d-flex align-items-center gap-3 me-4 me-sm-0">
+          <span class=" bg-label-primary p-2 rounded">
+            <i class='bx bx-user bx-sm'></i>
+          </span>
+                                    <div class="content-right">
+                                        <p class="mb-0">Coordinadores activos</p>
+                                        <h4 class="text-primary mb-0"><%=coordiActivos%></h4>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+          <span class="bg-label-info p-2 rounded">
+            <i class='bx bx-time bx-sm'></i>
+          </span>
+                                    <div class="content-right">
+                                        <p class="mb-0">Eventos de <%
+                                            if (usuario.getIdTipoCoordinadora() == 1) {
+                                        %>
+                                            Cultura
+                                            <%
+                                            } else if (usuario.getIdTipoCoordinadora() == 2) {
+                                            %>
+                                            Deporte
+                                            <%
+                                                }
+                                            %>en curso</p>
+                                        <h4 class="text-info mb-0"><%=lista.size()%></h4>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+          <span class="bg-label-warning p-2 rounded">
+            <i class='bx bx-check-circle bx-sm'></i>
+          </span>
+                                    <div class="content-right">
+                                        <p class="mb-0">Eventos creados activos </p>
+                                        <h4 class="text-warning mb-0"><%=listaMisEventos.size()%></h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                             <hr class="my-4">
                             <h3 class="mb-1 fw-bold fs-3" style="color: black;">
                                 Eventos de
@@ -191,7 +241,7 @@
                                     }
                                 %>
                             </h3>
-
+                    <hr class="my-4 opacity-0">
                             <% int i = 0; %>
 
                             <div class="row gy-4 mb-4">
