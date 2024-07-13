@@ -58,7 +58,7 @@ public class ServletAdministrador extends HttpServlet {
                         System.out.println("Log: excepcion: " + e.getMessage());
                     }
                 }
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarPostulaciones");
+                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarSolicitudesRegistro");
                 break;
             case "eliminarSolicitudRegistro":
                 String idDeleteUsuario = request.getParameter("idDeUsuario");
