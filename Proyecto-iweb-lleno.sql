@@ -99,7 +99,7 @@ DROP TABLE IF EXISTS `eventos`;
 CREATE TABLE `eventos` (
   `idEventos` int NOT NULL AUTO_INCREMENT,
   `nombreEvento` varchar(100) NOT NULL,
-  `fotosStart` longblob,
+  `fotosStart` longblob DEFAULT NULL,
   `descriptionEvento` varchar(255) NOT NULL,
   `vacantesDisp` int NOT NULL,
   `lugarEvento` varchar(100) NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE `eventos` (
   `horaEventoEnd` time NOT NULL,
   `materialesEvento` varchar(255) DEFAULT NULL,
   `Profesores_idProfesores` int DEFAULT NULL,
-  `fotosEnd` longblob,
+  `fotosEnd` longblob DEFAULT NULL,
   `TipoEvento_idTipoEvento` int NOT NULL,
   `EstadoEvento_idEstadoEvento` int NOT NULL,
   `asistenciaCoordi` tinyint DEFAULT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `eventos` (
   CONSTRAINT `fk_Eventos_EstadoEvento1` FOREIGN KEY (`EstadoEvento_idEstadoEvento`) REFERENCES `estadoevento` (`idEstadoEvento`),
   CONSTRAINT `fk_Eventos_Profesores1` FOREIGN KEY (`Profesores_idProfesores`) REFERENCES `profesores` (`idProfesores`),
   CONSTRAINT `fk_Eventos_TipoEvento1` FOREIGN KEY (`TipoEvento_idTipoEvento`) REFERENCES `tipoevento` (`idTipoEvento`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,13 +139,88 @@ CREATE TABLE `eventos` (
 
 LOCK TABLES `eventos` WRITE;
 /*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES (1,'Taller de Pintura y Dibujo',_binary '','Aprender técnicas de pintura al óleo, acuarela y dibujo a lápiz.',100,'San Miguel, Av. Universitaria 1800, Lima, Perú','2024-10-25','2024-10-26','08:00:00','10:00:00','No hay',2,NULL,1,1,1,'08:00:00','10:00:00',6,1,1,1,1,1,1,1),(2,'Taller de Yoga y Meditación',_binary '','Técnicas de relajación, meditación y posturas de yoga.',100,'San Miguel, Av. Universitaria 1800, Lima, Perú','2024-10-25','2024-10-26','08:00:00','10:00:00','No hay',2,NULL,2,1,1,'08:00:00','10:00:00',6,1,1,1,0,1,1,1),(3,'Taller de Cerámica',_binary '','Creación de piezas de cerámica, desde el modelado hasta el esmaltado.',100,'San Miguel, Av. Universitaria 1800, Lima, Perú','2024-10-25','2024-10-26','08:00:00','10:00:00','No hay',2,NULL,1,1,1,'08:00:00','10:00:00',6,1,1,1,0,1,1,1),(4,'Taller de Zumba',_binary '','Ejercicio aeróbico con música y movimientos de baile.',100,'San Miguel, Av. Universitaria 1800, Lima, Perú','2024-10-25','2024-10-26','08:00:00','10:00:00','No hay',2,NULL,2,1,1,'08:00:00','10:00:00',6,1,1,1,0,1,1,1),(5,'Taller de Teatro',_binary '','Técnicas de actuación, improvisación y montaje de obras.',100,'San Miguel, Av. Universitaria 1800, Lima, Perú','2024-10-25','2024-10-26','08:00:00','10:00:00','No hay',2,NULL,1,1,1,'08:00:00','10:00:00',6,1,1,1,0,1,1,1),(6,'Taller de Danza Folclórica',_binary '','Bailes tradicionales de diferentes regiones.',200,'Estadio Nacional, Lima, Perú','2024-11-10','2024-11-10','18:00:00','22:00:00','No hay',1,NULL,1,1,1,'18:00:00','22:00:00',6,1,1,1,0,1,1,1),(7,'Taller de Artes Marciales (Karate, Taekwondo, Judo)',_binary '','Entrenamiento en artes marciales y defensa personal.',300,'Parque de la Exposición, Lima, Perú','2024-09-15','2024-09-17','10:00:00','20:00:00','No hay',2,NULL,2,1,1,'10:00:00','20:00:00',6,1,1,1,0,1,1,1),(8,'Taller de Natación',_binary '','Técnicas de nado para diferentes niveles, desde principiantes hasta avanzados.',500,'Centro de Lima, Perú','2024-08-05','2024-08-05','06:00:00','14:00:00','No hay',1,NULL,2,1,1,'06:00:00','14:00:00',6,1,1,1,0,1,1,1),(9,'Taller de Música (Guitarra, Piano, Violín)',_binary '','Clases de instrumentos musicales para principiantes y avanzados.',150,'Museo de Arte de Lima, Perú','2024-07-20','2024-07-25','09:00:00','18:00:00','No hay',2,NULL,1,1,1,'09:00:00','18:00:00',6,1,1,1,0,1,1,1),(10,'Taller de Cine y Video',_binary '','Producción, edición y dirección de cortometrajes y videos.',250,'Cineplanet, Lima, Perú','2024-12-01','2024-12-05','15:00:00','23:00:00','No hay',1,NULL,1,1,1,'15:00:00','23:00:00',6,1,1,1,0,1,1,1),(11,'Taller de Atletismo',_binary '','Entrenamiento en carreras, saltos y lanzamientos.',350,'Centro de Convenciones de Lima, Perú','2024-09-30','2024-10-01','09:00:00','17:00:00','No hay',2,NULL,2,1,1,'09:00:00','17:00:00',6,1,1,1,0,1,1,1),(12,'Taller de Fútbol',_binary '','Técnicas tácticas y entrenamiento en equipo.',400,'Jockey Plaza, Lima, Perú','2024-08-20','2024-08-27','10:00:00','21:00:00','No hay',1,NULL,2,1,1,'10:00:00','21:00:00',6,1,1,1,0,1,1,1);
-/*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `eventos` VALUES (
+  1, 'Taller de Pintura y Dibujo', 0x0101, 
+  'Aprender técnicas de pintura al óleo, acuarela y dibujo a lápiz.', 
+  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
+  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+  null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,1,1,1,1
+), (
+  2, 'Taller de Yoga y Meditación', 0x0101, 
+  'Técnicas de relajación, meditación y posturas de yoga.', 
+  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
+  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+  null, 2, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
+),(
+  3, 'Taller de Cerámica', 0x0101, 
+  'Creación de piezas de cerámica, desde el modelado hasta el esmaltado.', 
+  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
+  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+  null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
+),(
+  4, 'Taller de Zumba', 0x0101, 
+  'Ejercicio aeróbico con música y movimientos de baile.', 
+  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
+  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+  null, 2, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
+),(
+  5, 'Taller de Teatro', 0x0101, 
+  'Técnicas de actuación, improvisación y montaje de obras.', 
+  100, 'San Miguel, Av. Universitaria 1800, Lima, Perú', '2024-10-25', 
+  '2024-10-26', '08:00:00', '10:00:00', 'No hay', 2, 
+  null, 1, 1, true, '08:00:00', '10:00:00',6,1,1,1,0,1,1,1
+),(
+  6, 'Taller de Danza Folclórica', 0x0102,
+  'Bailes tradicionales de diferentes regiones.', 
+  200, 'Estadio Nacional, Lima, Perú', '2024-11-10', 
+  '2024-11-10', '18:00:00', '22:00:00', 'No hay', 1, 
+  null, 1,  1, true, '18:00:00', '22:00:00',6,1,1,1,0,1,1,1
+),
+(
+  7, 'Taller de Artes Marciales (Karate, Taekwondo, Judo)', 0x0103,
+  'Entrenamiento en artes marciales y defensa personal.', 
+  300, 'Parque de la Exposición, Lima, Perú', '2024-09-15', 
+  '2024-09-17', '10:00:00', '20:00:00', 'No hay', 2, 
+  null, 2,  1, true, '10:00:00', '20:00:00',6,1,1,1,0,1,1,1
+),
+(
+  8, 'Taller de Natación', 0x0104,
+  'Técnicas de nado para diferentes niveles, desde principiantes hasta avanzados.', 
+  500, 'Centro de Lima, Perú', '2024-08-05', 
+  '2024-08-05', '06:00:00', '14:00:00', 'No hay', 1, 
+  null, 2, 1, true, '06:00:00', '14:00:00',6,1,1,1,0,1,1,1
+),(
+  9, 'Taller de Música (Guitarra, Piano, Violín)', 0x0105,
+  'Clases de instrumentos musicales para principiantes y avanzados.', 
+  150, 'Museo de Arte de Lima, Perú', '2024-07-20', 
+  '2024-07-25', '09:00:00', '18:00:00', 'No hay', 2, 
+  null, 1, 1, true, '09:00:00', '18:00:00',6,1,1,1,0,1,1,1
+),
+(
+  10, 'Taller de Cine y Video', 0x0106,
+  'Producción, edición y dirección de cortometrajes y videos.', 
+  250, 'Cineplanet, Lima, Perú', '2024-12-01', 
+  '2024-12-05', '15:00:00', '23:00:00', 'No hay', 1, 
+  null, 1, 1, true, '15:00:00', '23:00:00',6,1,1,1,0,1,1,1
+),
+(
+  11, 'Taller de Atletismo', 0x0107,
+  'Entrenamiento en carreras, saltos y lanzamientos.', 
+  350, 'Centro de Convenciones de Lima, Perú', '2024-09-30', 
+  '2024-10-01', '09:00:00', '17:00:00', 'No hay', 2, 
+  null, 2, 1, true, '09:00:00', '17:00:00',6,1,1,1,0,1,1,1
+),
+(
+  12, 'Taller de Fútbol', 0x0108,
+  'Técnicas tácticas y entrenamiento en equipo.', 
+  400, 'Jockey Plaza, Lima, Perú', '2024-08-20', 
+  '2024-08-27', '10:00:00', '21:00:00', 'No hay', 1, 
+  null, 2, 1, true, '10:00:00', '21:00:00',6,1,1,1,0,1,1,1
+);
 
---
--- Table structure for table `incidencias`
---
+/*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
+
+UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `incidencias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -167,10 +242,13 @@ CREATE TABLE `incidencias` (
   `EstadoIncidencia_idEstadoIncidencia` int DEFAULT '1',
   `CriticidadIncidencia_idCriticidadIncidencia` int DEFAULT NULL,
   `TipoIncidencia_idTipoIncidencia` int NOT NULL,
-  `enabled` tinyint DEFAULT '1',
-  `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `enabled` tinyint default 1,
+  `fecha_registro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `Urbanizacion_idUrbanizacion` int NOT NULL,
-  `idSerenazgo` int DEFAULT NULL,
+  `idSerenazgo` int NULL,
+  
+
+  
   PRIMARY KEY (`idIncidencias`),
   KEY `fk_Incidencias_Serenazgos1_idx` (`Serenazgos_idSerenazgos`),
   KEY `fk_Incidencias_personalAmbulancia1_idx` (`personalAmbulancia_idpersonalAmbulancia`),
@@ -180,15 +258,15 @@ CREATE TABLE `incidencias` (
   KEY `fk_Incidencias_TipoIncidencia1_idx` (`TipoIncidencia_idTipoIncidencia`),
   KEY `fk_Urbanizacion_idUrbanizacion1_idx` (`Urbanizacion_idUrbanizacion`),
   KEY `fk_idSerenazgo1_idx` (`idSerenazgo`),
-  CONSTRAINT `fk_idSerenazgo1_idx` FOREIGN KEY (`idSerenazgo`) REFERENCES `usuarios` (`idUsuarios`),
   CONSTRAINT `fk_Incidencias_CriticidadIncidencia1` FOREIGN KEY (`CriticidadIncidencia_idCriticidadIncidencia`) REFERENCES `criticidadincidencia` (`idCriticidadIncidencia`),
   CONSTRAINT `fk_Incidencias_EstadoIncidencia1` FOREIGN KEY (`EstadoIncidencia_idEstadoIncidencia`) REFERENCES `estadoincidencia` (`idEstadoIncidencia`),
   CONSTRAINT `fk_Incidencias_personalAmbulancia1` FOREIGN KEY (`personalAmbulancia_idpersonalAmbulancia`) REFERENCES `personalambulancia` (`idpersonalAmbulancia`),
   CONSTRAINT `fk_Incidencias_Serenazgos1` FOREIGN KEY (`Serenazgos_idSerenazgos`) REFERENCES `serenazgos` (`idSerenazgos`),
   CONSTRAINT `fk_Incidencias_TipoIncidencia1` FOREIGN KEY (`TipoIncidencia_idTipoIncidencia`) REFERENCES `tipoincidencia` (`idTipoIncidencia`),
   CONSTRAINT `fk_Incidencias_Usuarios1` FOREIGN KEY (`Usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`),
-  CONSTRAINT `fk_Urbanizacion_idUrbanizacion1_idx` FOREIGN KEY (`Urbanizacion_idUrbanizacion`) REFERENCES `urbanizacion` (`idUrbanizacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+  CONSTRAINT `fk_Urbanizacion_idUrbanizacion1_idx` FOREIGN KEY (`Urbanizacion_idUrbanizacion`) references `urbanizacion` (`idUrbanizacion`),
+  CONSTRAINT `fk_idSerenazgo1_idx` FOREIGN KEY (`idSerenazgo`) references `usuarios` (`idUsuarios`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +275,18 @@ CREATE TABLE `incidencias` (
 
 LOCK TABLES `incidencias` WRITE;
 /*!40000 ALTER TABLE `incidencias` DISABLE KEYS */;
-INSERT INTO `incidencias` VALUES (1,'Arresto en la calle 3','Las causarinas','Cerca al paradero Josias',NULL,'981084527',NULL,NULL,NULL,NULL,NULL,NULL,4,1,NULL,1,1,'2024-02-01 11:00:00',1,NULL),(2,'Robo en tienda','Avenida Principal 123','Frente a la plaza',NULL,'987654321',NULL,NULL,NULL,NULL,NULL,NULL,2,2,3,2,1,'2024-03-01 12:00:00',2,NULL),(3,'Accidente vehicular','Esquina de Calle 5 y 6','Cerca al supermercado',NULL,'912345678',NULL,NULL,NULL,NULL,NULL,NULL,5,1,NULL,3,1,'2024-04-01 13:00:00',3,NULL),(4,'Incendio en vivienda','Calle Los Pinos 456','Al lado del parque',NULL,'923456789',NULL,NULL,NULL,NULL,NULL,NULL,3,3,2,4,1,'2024-05-01 14:00:00',4,NULL),(5,'Vandalismo en escuela','Calle Los Cedros 789','Junto a la biblioteca',NULL,'934567890',NULL,NULL,NULL,NULL,NULL,NULL,6,2,1,5,1,'2024-06-01 15:00:00',5,NULL),(6,'Emergencia médica','Pasaje Las Rosas 101','Frente al banco',NULL,'945678901',NULL,NULL,NULL,NULL,NULL,NULL,7,1,NULL,6,1,'2024-07-01 16:00:00',6,NULL),(7,'Perro perdido','Jirón Las Flores 202','Cerca de la panadería',NULL,'956789012',NULL,NULL,NULL,NULL,NULL,NULL,1,3,1,7,1,'2024-04-01 17:00:00',7,NULL),(8,'Fuga de gas','Avenida Las Palmas 303','A una cuadra del parque',NULL,'967890123',NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,8,1,'2024-02-01 18:00:00',8,NULL),(9,'Pelea callejera','Calle Las Acacias 404','Cerca del mercado',NULL,'978901234',NULL,NULL,NULL,NULL,NULL,NULL,1,2,3,9,1,'2024-06-01 19:00:00',9,NULL),(10,'Ruido excesivo','Jirón Las Lomas 505','A dos cuadras de la iglesia',NULL,'989012345',NULL,NULL,NULL,NULL,NULL,NULL,10,3,1,10,1,'2024-05-01 20:00:00',10,NULL);
+INSERT INTO incidencias (nombreIncidencia, lugarExacto, referenciaIncidencia, contactoIncidencia, Usuarios_idUsuarios, EstadoIncidencia_idEstadoIncidencia, CriticidadIncidencia_idCriticidadIncidencia, fecha_registro, TipoIncidencia_idTipoIncidencia, Urbanizacion_idUrbanizacion) 
+VALUES 
+('Arresto en la calle 3', 'Las causarinas', 'Cerca al paradero Josias', '981084527', 4, 1, null, '2024-02-01 11:00:00', 1, 1),
+('Robo en tienda', 'Avenida Principal 123', 'Frente a la plaza', '987654321', 2, 2, 3, '2024-03-01 12:00:00', 2, 2),
+('Accidente vehicular', 'Esquina de Calle 5 y 6', 'Cerca al supermercado', '912345678', 5, 1, null, '2024-04-01 13:00:00', 3, 3),
+('Incendio en vivienda', 'Calle Los Pinos 456', 'Al lado del parque', '923456789', 3, 3, 2, '2024-05-01 14:00:00', 4, 4),
+('Vandalismo en escuela', 'Calle Los Cedros 789', 'Junto a la biblioteca', '934567890', 6, 2, 1, '2024-06-01 15:00:00',5 , 5),
+('Emergencia médica', 'Pasaje Las Rosas 101', 'Frente al banco', '945678901', 7, 1, null, '2024-07-01 16:00:00', 6, 6),
+('Perro perdido', 'Jirón Las Flores 202', 'Cerca de la panadería', '956789012', 1, 3, 1, '2024-04-01 17:00:00', 7, 7),
+('Fuga de gas', 'Avenida Las Palmas 303', 'A una cuadra del parque', '967890123', 1, 1, null, '2024-02-01 18:00:00', 8, 8),
+('Pelea callejera', 'Calle Las Acacias 404', 'Cerca del mercado', '978901234', 1, 2, 3, '2024-06-01 19:00:00', 9, 9),
+('Ruido excesivo', 'Jirón Las Lomas 505', 'A dos cuadras de la iglesia', '989012345', 10, 3, 1, '2024-05-01 20:00:00', 10, 10);
 /*!40000 ALTER TABLE `incidencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,33 +500,6 @@ INSERT INTO `tiposereno` VALUES (1,'Patrulla'),(2,'Moto'),(3,'En bici'),(4,'A pi
 UNLOCK TABLES;
 
 --
--- Table structure for table `token`
---
-
-DROP TABLE IF EXISTS `token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `token` (
-  `id` varchar(256) NOT NULL,
-  `fecha` timestamp NOT NULL,
-  `usuarios_idUsuarios` int NOT NULL,
-  `tiempo` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_token_usuarios_idx` (`usuarios_idUsuarios`),
-  CONSTRAINT `fk_token_usuarios` FOREIGN KEY (`usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `token`
---
-
-LOCK TABLES `token` WRITE;
-/*!40000 ALTER TABLE `token` DISABLE KEYS */;
-/*!40000 ALTER TABLE `token` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `urbanizacion`
 --
 
@@ -485,9 +547,8 @@ CREATE TABLE `usuarios` (
   `TipoCoordinadora_idTipoCoordinadora` int DEFAULT NULL,
   `is_bannedApp` tinyint NOT NULL DEFAULT '0',
   `motivo_bannedApp` varchar(255) DEFAULT NULL,
-  `genero` int DEFAULT NULL,
-  `fotoPerfil` longblob,
-  `postulacion` tinyint DEFAULT '0',
+  `genero` int NOT NULL,
+  `fotoPerfil` longblob DEFAULT NULL,
   PRIMARY KEY (`idUsuarios`),
   KEY `fk_Usuarios_Roles_idx` (`Roles_idRoles`),
   KEY `fk_Usuarios_Urbanizacion1_idx` (`Urbanizacion_idUrbanizacion`),
@@ -495,19 +556,42 @@ CREATE TABLE `usuarios` (
   CONSTRAINT `fk_Usuarios_Roles` FOREIGN KEY (`Roles_idRoles`) REFERENCES `roles` (`idRoles`),
   CONSTRAINT `fk_Usuarios_TipoCoordinadora1` FOREIGN KEY (`TipoCoordinadora_idTipoCoordinadora`) REFERENCES `tipocoordinadora` (`idTipoCoordinadora`),
   CONSTRAINT `fk_Usuarios_Urbanizacion1` FOREIGN KEY (`Urbanizacion_idUrbanizacion`) REFERENCES `urbanizacion` (`idUrbanizacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `usuarios`
 --
-
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,2,'jose.martinez@gmail.com','db044f19bc0137185286345ccf1f067d2d9ce1c8efb38349b2479696850db69f','Jose','Martinez','74857485','Calle Los Pinos 123','912345678',11,'newtoken12345',1,'1985-06-15',1,0,NULL,1,NULL,0),(2,3,'andrea.lopez@gmail.com','d8a911bace285843d6d7996acbe79ca65814ddb3fd677f75c138b7dbce8539f8','Andrea','Lopez','78543214','Avenida Los Alamos 456','987654321',2,'newtoken67890',1,'1990-08-20',NULL,0,NULL,2,NULL,0),(3,3,'ffernando.garcia709@gmail.com','3aae04c5910cca27a4ccf79ba99de39bc3517c3b948b1be2ec52ee1ebd1b090f','Fernando','Garcia','75896321','Jiron Las Flores 789','912345987',9,'newtoken24680',1,'1988-12-05',NULL,0,NULL,1,NULL,0),(4,4,'laura.perez@gmail.com','6b7a144d3ccd57e1752774b97ec3c1dc3da01302bdb6a37ff5d5e48b48206815','Laura','Perez','76985412','Avenida Los Cedros 101','987654123',8,'newtoken13579',1,'1982-03-22',NULL,0,NULL,2,NULL,1),(5,2,'manuel.ruiz@gmail.com','f76af285f6726403acc0dab9106656376c9e56606c9e2919e08b560066e17781','Manuel','Ruiz','75236485','Calle Las Rosas 202','912349876',14,'newtoken54321',1,'1995-11-10',2,0,NULL,1,NULL,0),(6,3,'monica.sanchez@gmail.com','319ec3e742d3a04898f95a619fe42172baba030c0c00c5deb32968108ffa41e4','Monica','Sanchez','71258963','Pasaje Los Olivos 303','987652341',1,'newtoken67890',1,'1979-07-17',1,0,NULL,2,NULL,0),(7,3,'alejandro.fernandez@gmail.com','c3584620a1582492b99778a334340055a0d3c91ee035f1c4427498e95d111cee','Alejandro','Fernandez','73489562','Avenida Las Palmas 404','912348765',1,'newtoken123456',1,'1993-05-30',1,0,NULL,1,NULL,0),(8,4,'valeria.gonzales@gmail.com','26dcbaddde6eeb068c28f506befdc84bc54ea380f8a82c3eb5690c1a487a4000','Valeria','Gonzales','72986412','Calle Las Acacias 505','987651234',4,'newtoken654321',1,'1986-09-25',NULL,0,NULL,2,NULL,1),(9,4,'adrian.torres@gmail.com','542f03e063b0b0b0bd05f7442631b679c69a66f8d2fc90b68b0df68e3fc2d51f','Adrian','Torres','74561238','Jiron Las Lomas 606','912347654',2,'newtoken789012',0,'1991-04-12',NULL,0,NULL,1,NULL,0),(10,2,'claudia.morales@gmail.com','ff7386f91eb664845af53682fced7c6e0a7e67bf7aaae83e6c79606cd95c317e','Claudia','Morales','73845612','Avenida Los Jazmines 707','987654987',7,'newtoken098765',1,'1984-01-05',NULL,0,NULL,2,NULL,0),(11,1,'administrador@sanmiguel.com','260dc9b989dbf2707179a136aa99e8236591061ff7247da38d32cdc911693d98','Lionel','Messi','74857481','Av. Universitaria 322','912345677',11,NULL,0,'1987-06-24',NULL,0,NULL,1,NULL,0);
+INSERT INTO usuarios VALUES (1,2,'jose.martinez@gmail.com',sha2('martinez',256),'Jose','Martinez','74857485','Calle Los Pinos 123','912345678',11,'newtoken12345',1,'1985-06-15',NULL,0,NULL,1,NULL),(2,3,'andrea.lopez@gmail.com',sha2('lopez00',256),'Andrea','Lopez','78543214','Avenida Los Alamos 456','987654321',2,'newtoken67890',1,'1990-08-20',NULL,0,NULL,2,NULL),(3,3,'ffernando.garcia709@gmail.com',sha2('garcia000',256),'Fernando','Garcia','75896321','Jiron Las Flores 789','912345987',9,'newtoken24680',1,'1988-12-05',NULL,0,NULL,1,NULL),(4,4,'laura.perez@gmail.com',sha2('perez00',256),'Laura','Perez','76985412','Avenida Los Cedros 101','987654123',8,'newtoken13579',1,'1982-03-22',NULL,0,NULL,2,NULL),(5,2,'manuel.ruiz@gmail.com',sha2('ruiz000',256),'Manuel','Ruiz','75236485','Calle Las Rosas 202','912349876',14,'newtoken54321',1,'1995-11-10',NULL,0,NULL,1,NULL),(6,3,'monica.sanchez@gmail.com',sha2('sanchez',256),'Monica','Sanchez','71258963','Pasaje Los Olivos 303','987652341',1,'newtoken67890',1,'1979-07-17',1,0,NULL,2,NULL),(7,3,'alejandro.fernandez@gmail.com',sha2('fernandez',256),'Alejandro','Fernandez','73489562','Avenida Las Palmas 404','912348765',1,'newtoken123456',1,'1993-05-30',1,0,NULL,1,NULL),(8,4,'valeria.gonzales@gmail.com',sha2('gonzales',256),'Valeria','Gonzales','72986412','Calle Las Acacias 505','987651234',4,'newtoken654321',1,'1986-09-25',NULL,0,NULL,2,NULL),(9,4,'adrian.torres@gmail.com',sha2('torres0',256),'Adrian','Torres','74561238','Jiron Las Lomas 606','912347654',2,'newtoken789012',1,'1991-04-12',NULL,0,NULL,1,NULL),(10,2,'claudia.morales@gmail.com',sha2('morales',256),'Claudia','Morales','73845612','Avenida Los Jazmines 707','987654987',7,'newtoken098765',1,'1984-01-05',NULL,0,NULL,2,NULL),(11,1,'administrador@sanmiguel.com',sha2('administrador2024',256),'Lionel','Messi','74857481','Av. Universitaria 322','912345677',11,null,null,'1987-06-24',null,0,NULL,1,NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
-UNLOCK TABLES;
+unlock TABLES;
 
+
+DROP table IF EXISTS `token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE IF NOT EXISTS `token` (
+  `id` VARCHAR(256) NOT NULL,
+  `fecha` timestamp NOT NULL,
+  `usuarios_idUsuarios` INT NOT NULL,
+  `tiempo` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_token_usuarios_idx` (`usuarios_idUsuarios` ASC) VISIBLE,
+  CONSTRAINT `fk_token_usuarios`
+    FOREIGN KEY (`usuarios_idUsuarios`)
+    REFERENCES `proyecto-iweb`.`usuarios` (`idUsuarios`)
+)ENGINE = InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `token`
+--
+LOCK TABLES `token` WRITE;
+/*!40000 ALTER TABLE `token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `token` ENABLE KEYS */;
+unlock TABLES;
 --
 -- Table structure for table `usuarios_has_eventos`
 --
@@ -516,7 +600,7 @@ DROP TABLE IF EXISTS `usuarios_has_eventos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios_has_eventos` (
-  `usuarioEventoInscrito` int NOT NULL AUTO_INCREMENT,
+  `usuarioEventoInscrito` int NOT NULL auto_increment,
   `Usuarios_idUsuarios` int DEFAULT NULL,
   `Eventos_idEventos` int DEFAULT NULL,
   `entradas` int DEFAULT '1',
@@ -527,7 +611,7 @@ CREATE TABLE `usuarios_has_eventos` (
   KEY `fk_Usuarios_has_Eventos_Usuarios1_idx` (`Usuarios_idUsuarios`),
   CONSTRAINT `fk_Usuarios_has_Eventos_Eventos1` FOREIGN KEY (`Eventos_idEventos`) REFERENCES `eventos` (`idEventos`),
   CONSTRAINT `fk_Usuarios_has_Eventos_Usuarios1` FOREIGN KEY (`Usuarios_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB auto_increment = 1 CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -536,13 +620,9 @@ CREATE TABLE `usuarios_has_eventos` (
 
 LOCK TABLES `usuarios_has_eventos` WRITE;
 /*!40000 ALTER TABLE `usuarios_has_eventos` DISABLE KEYS */;
-INSERT INTO `usuarios_has_eventos` VALUES (1,2,1,1,0,NULL),(2,2,2,1,0,NULL),(3,2,3,1,0,NULL),(4,3,4,1,0,NULL),(5,3,5,1,0,NULL),(6,3,6,1,0,NULL),(7,6,7,1,0,NULL),(8,6,8,1,0,NULL),(9,6,9,1,0,NULL),(10,7,10,1,0,NULL),(11,7,11,1,0,NULL),(12,7,12,1,0,NULL);
+insert into usuarios_has_eventos (Usuarios_idUsuarios, Eventos_idEventos) values (2, 1), (2, 2), (2, 3),(3, 4), (3, 5), (3, 6),(6, 7), (6, 8), (6, 9),(7, 10), (7, 11), (7, 12);
 /*!40000 ALTER TABLE `usuarios_has_eventos` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'proyecto-iweb'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -553,4 +633,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-13 18:27:34
+-- Dump completed on 2024-06-16 16:13:58

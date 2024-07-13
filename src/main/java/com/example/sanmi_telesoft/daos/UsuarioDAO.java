@@ -54,6 +54,7 @@ public class UsuarioDAO {
                 usuario.setIsBannedApp(rs.getString("is_bannedApp"));
                 usuario.setMotivoBannedApp(rs.getString("motivo_bannedApp"));
                 usuario.setGenero(rs.getInt("genero"));
+                usuario.setFotoPerfil(rs.getBytes("fotoPerfil"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,6 +96,7 @@ public class UsuarioDAO {
                 String correo = resultSet.getString("correoUsuario");
                 String dni = resultSet.getString("dniUsuario");
                 String telefono =  resultSet.getString("telefonoUsuario");
+
                 // Crear un objeto Usuario con los datos recuperados
                 usuario = new Usuario();
                 usuario.setIdUsuarios(resultSet.getInt(1));
@@ -103,6 +105,7 @@ public class UsuarioDAO {
                 usuario.setCorreoUsuario(correo);
                 usuario.setDniUsuario(dni);
                 usuario.setTelefonoUsuario(telefono);
+                usuario.setFotoPerfil(resultSet.getBytes("fotoPerfil"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -183,14 +186,15 @@ public class UsuarioDAO {
     }
 
     public void actualizarUsuario(Usuario usuario) {
-        String sql = "UPDATE usuarios SET telefonoUsuario = ?, direccionUsuario = ? WHERE idUsuarios = ?";
+        String sql = "UPDATE usuarios SET telefonoUsuario = ?, direccionUsuario = ?, fotoPerfil = ? WHERE idUsuarios = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, usuario.getTelefonoUsuario());
             preparedStatement.setString(2, usuario.getDireccionUsuario());
-            preparedStatement.setInt(3, usuario.getIdUsuarios());
+            preparedStatement.setBytes(3, usuario.getFotoPerfil());
+            preparedStatement.setInt(4, usuario.getIdUsuarios());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="java.util.Base64" %>
+
 <%
     HttpSession session1 = request.getSession(false);
     Usuario usuario = (Usuario) session1.getAttribute("usuario");
@@ -129,32 +131,29 @@
                                     <img src="${pageContext.request.contextPath}/assets/img/pages/profile-banner.png" alt="Banner image" class="rounded-top">
                                 </div>
                                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-                                    <%if(usuario.getGenero()==1){%>
                                     <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/male.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                    </div>
-                                    <% } else if (usuario.getGenero()==2) { %>
-                                    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/female.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                    </div>
-                                    <%} else { %>
-                                    <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/24.png" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                    </div>
-                                    <%} %>
-                                    <div class="flex-grow-1 mt-3 mt-sm-5">
-                                        <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
-                                            <div class="user-profile-info">
-                                                <h4><%= usuario.getNombreUsuario()%> <%=usuario.getApellidoUsuario()%></h4>
-                                                <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                                    <li class="list-inline-item fw-medium">
-                                                        <i class='bx bx-pen'></i> Vecino Sanmiguelino
-                                                    </li>
-                                                    <li class="list-inline-item fw-medium">
-                                                        <i class='bx bx-map'></i> <%=usuario.getDireccionUsuario()%>
-                                                    </li>
-                                                    <li class="list-inline-item fw-medium">
-                                                        <i class='bx bx-calendar-alt'></i> <%=usuario.getNacimientoDate()%>
+                                        <% if (usuario.getFotoPerfil() != null) { %>
+                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                            <img src="data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(usuario.getFotoPerfil()) %>" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                        </div>
+                                        <% } else { %>
+                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/<%= (usuario.getGenero() == 1) ? "male.png" : (usuario.getGenero() == 2) ? "female.png" : "default-avatar.png" %>" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                        </div>
+                                        <% } %>
+                                        <div class="flex-grow-1 mt-3 mt-sm-5">
+                                            <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                                                <div class="user-profile-info">
+                                                    <h4><%= usuario.getNombreUsuario() %> <%= usuario.getApellidoUsuario() %></h4>
+                                                    <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                                        <li class="list-inline-item fw-medium">
+                                                            <i class='bx bx-pen'></i> Vecino Sanmiguelino
+                                                        </li>
+                                                        <li class="list-inline-item fw-medium">
+                                                            <i class='bx bx-map'></i> <%= usuario.getDireccionUsuario() %>
+                                                        </li>
+                                                        <li class="list-inline-item fw-medium">
+                                                            <i class='bx bx-calendar-alt'></i> <%= usuario.getNacimientoDate() %>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -172,27 +171,26 @@
                                 <!-- Account -->
                                 <hr class="my-0">
                                 <div class="card-body">
-                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        <img src="${pageContext.request.contextPath}/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
-                                        <div class="button-wrapper">
-                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                                <span class="d-none d-sm-block">Subir Foto Nueva</span>
-                                                <i class="bx bx-upload d-block d-sm-none"></i>
-                                                <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
-                                            </label>
-                                            <button type="button" class="btn btn-label-secondary account-image-reset mb-4">
-                                                <i class="bx bx-reset d-block d-sm-none"></i>
-                                                <span class="d-none d-sm-block">Resetear a Predeterminado</span>
-                                            </button>
-
-                                            <p class="text-muted mb-0">Solo Formatos Permitidos JPG o PNG.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr class="my-0">
-                                <div class="card-body">
-                                    <form action="ServletCord" method="post">
+                                    <form action="${pageContext.request.contextPath}/ServletCord" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="action" value="updateProfile1">
+                                        <input type="hidden" name="resetPhoto" id="resetPhoto" value="false">
+                                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                            <% if (usuario.getFotoPerfil() != null) { %>
+                                            <img src="data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(usuario.getFotoPerfil()) %>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                            <% } else { %>
+                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/<%= (usuario.getGenero() == 1) ? "male.png" : (usuario.getGenero() == 2) ? "female.png" : "default-avatar.png" %>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                            <% } %>
+                                            <div class="button-wrapper">
+                                                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                                    <span class="d-none d-sm-block">Subir Foto Nueva</span>
+                                                    <i class="bx bx-upload d-block d-sm-none"></i>
+                                                    <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" name="profilePhoto" onchange="previewImage(event)">
+                                                </label>
+                                                <button type="button" class="btn btn-label-secondary mb-4" onclick="resetToDefault()">Resetear a Predeterminado</button>
+                                                <p class="text-muted mb-0">Solo Formatos Permitidos JPG o PNG.</p>
+                                            </div>
+                                        </div>
+                                        <hr class="my-0">
                                         <div class="row">
                                             <div class="mb-3 col-md-6">
                                                 <label for="firstName" class="form-label">Nombres</label>
@@ -286,7 +284,29 @@
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/popper/popper.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('uploadedAvatar');
+            output.src = reader.result;
+            document.getElementById('resetPhoto').value = "false";
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
 
+    function resetToDefault() {
+        document.getElementById('resetPhoto').value = "true";
+        var output = document.getElementById('uploadedAvatar');
+        <% if (usuario.getGenero() == 1) { %>
+        output.src = "${pageContext.request.contextPath}/assets/img/avatars/male.png";
+        <% } else if (usuario.getGenero() == 2) { %>
+        output.src = "${pageContext.request.contextPath}/assets/img/avatars/female.png";
+        <% } else { %>
+        output.src = "${pageContext.request.contextPath}/assets/img/avatars/default-avatar.png";
+        <% } %>
+    }
+</script>
 <script src="${pageContext.request.contextPath}/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
 
