@@ -189,15 +189,15 @@
                                     <td><span class="badge bg-secondary">No asignado</span></td>
                                     <% } %>
                                     <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#<%= modalId %>"><i
-                                                class='bx bx-show'></i></button>
+                                        <a type="button"
+                                            class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                            href="<%= request.getContextPath()%>/ServletSerenazgo?action=verDetallePersonal&id=<%=incidencia.getIdIncidencias()%>">
+                                        <i class='bx bx-show'></i></a>
+
                                         <a type="button"
                                            class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                            href="<%= request.getContextPath()%>/ServletSerenazgo?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>"
-                                        ><i
-                                                class='bx bx-edit'></i></a>
+                                        ><i class='bx bx-edit'></i></a>
 
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"

@@ -147,7 +147,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <a type="button" class="btn btn-danger" href="<%= request.getContextPath()%>/ServletSerenazgo?action=asignarIncidencia&idIncidencia=<%=incidencia.getIdIncidencias()%>">Reportar</a>
+                                                <a type="button" class="btn btn-danger" href="<%= request.getContextPath()%>/ServletSerenazgo?action=asignarIncidencia&idIncidencia=<%=incidencia.getIdIncidencias()%>">Aceptar</a>
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +178,7 @@
                                     <td>
                                         <a type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                href="<%=request.getContextPath()%>/ServletSerenazgo?action=verDetalleIncidencia&id=<%=incidencia.getIdIncidencias()%>"><i
+                                                href="<%=request.getContextPath()%>/ServletSerenazgo?action=verDetalleIncidenciaGeneral&id=<%=incidencia.getIdIncidencias()%>"><i
                                                 class='bx bx-show'></i></a>
                                         <% if(incidencia.getEstado() == 1) {%>
                                         <button type="button"

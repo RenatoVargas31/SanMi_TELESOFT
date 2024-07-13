@@ -268,13 +268,14 @@ public class DaoIncidencia extends BaseDao{
     }
 
     public Incidencia obtenerIncidencia(int idIncidencia) {
-        Incidencia incidencia = new Incidencia();
+        Incidencia incidencia = null;
         String sql = "SELECT * FROM incidencias WHERE idIncidencias = ?";
         try (Connection conn = this.getConection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idIncidencia);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
+                incidencia = new Incidencia();
                 incidencia.setIdIncidencias(rs.getInt("idIncidencias"));
                 incidencia.setNombreIncidencia(rs.getString("nombreIncidencia"));
                 incidencia.setLugarIncidencia(rs.getString("lugarExacto"));
@@ -289,7 +290,8 @@ public class DaoIncidencia extends BaseDao{
                 incidencia.setFechaRegistro(rs.getTimestamp("fecha_registro"));
                 incidencia.setEstado(rs.getInt("EstadoIncidencia_idEstadoIncidencia"));
                 incidencia.setIdTipoIncidencia(rs.getInt("TipoIncidencia_idTipoIncidencia")); // Nuevo campo
-                incidencia.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion")); // Nuevo campo
+                incidencia.setIdUrbanizacion(rs.getInt("Urbanizacion_idUrbanizacion"));
+                incidencia.setSerenazgoid(rs.getInt("idSerenazgo"));// Nuevo campo
 
                 byte[] fotote = rs.getBytes("fotoIncidencia");
                 incidencia.setFotoIncidencia(fotote);
