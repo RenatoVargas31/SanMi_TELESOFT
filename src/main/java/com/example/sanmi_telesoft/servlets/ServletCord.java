@@ -6,10 +6,14 @@ import com.example.sanmi_telesoft.daos.UsuarioDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.Part;
+import java.io.InputStream;
 
 import java.io.IOException;
 
 @WebServlet(name = "ServletCord", value = "/ServletCord")
+@MultipartConfig(maxFileSize = 16177215) // 16MB
+
 public class ServletCord extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,6 +46,8 @@ public class ServletCord extends HttpServlet {
         }
     }
 
+
+
     private void handleUpdateProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phoneNumber = request.getParameter("phoneNumber");
         String direccion = request.getParameter("direccion");
@@ -65,6 +71,8 @@ public class ServletCord extends HttpServlet {
     private void handleUpdateProfile1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phoneNumber = request.getParameter("phoneNumber");
         String direccion = request.getParameter("direccion");
+        Part filePart = request.getPart("profilePhoto");
+        String resetPhoto = request.getParameter("resetPhoto");
 
         if (!validatePhoneNumber(phoneNumber, request, response, "WEB-INF/Vecino/veci-perfil.jsp")) return;
         if (!validateAddress(direccion, request, response, "WEB-INF/Vecino/veci-perfil.jsp")) return;
@@ -74,8 +82,58 @@ public class ServletCord extends HttpServlet {
         usuario.setTelefonoUsuario(phoneNumber);
         usuario.setDireccionUsuario(direccion);
 
+        if ("true".equals(resetPhoto)) {
+            usuario.setFotoPerfil(null);
+        } else if (filePart != null && filePart.getSize() > 0) {
+            // Validar tamaño del archivo
+            long fileSize = filePart.getSize();
+            if (fileSize > 2 * 1024 * 1024) { // 2 MB
+                request.setAttribute("errorMessage", "El tamaño del archivo no debe exceder 2 MB.");
+                request.setAttribute("usuario", usuario);
+                request.getRequestDispatcher("WEB-INF/Vecino/veci-perfil.jsp").forward(request, response);
+                return;
+            }
+
+            // Validar formato del archivo
+            String fileName = filePart.getSubmittedFileName();
+            String[] parts = fileName.split("\\.");
+            if (parts.length < 2) {
+                request.setAttribute("errorMessage", "El nombre del archivo no contiene una extensión válida.");
+                request.setAttribute("usuario", usuario);
+                request.getRequestDispatcher("WEB-INF/Vecino/veci-perfil.jsp").forward(request, response);
+                return;
+            }
+            String fileExtension = parts[parts.length - 1].toLowerCase();
+            if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
+                request.setAttribute("errorMessage", "Formato de archivo no permitido. Solo se permiten JPG o PNG.");
+                request.setAttribute("usuario", usuario);
+                request.getRequestDispatcher("WEB-INF/Vecino/veci-perfil.jsp").forward(request, response);
+                return;
+            }
+
+            // Leer y validar la imagen
+            try (InputStream inputStream = filePart.getInputStream()) {
+                byte[] fotoPerfil = inputStream.readAllBytes();
+                if (fotoPerfil.length == 0) {
+                    request.setAttribute("errorMessage", "El archivo de imagen está vacío o es inválido.");
+                    request.setAttribute("usuario", usuario);
+                    request.getRequestDispatcher("WEB-INF/Vecino/veci-perfil.jsp").forward(request, response);
+                    return;
+                }
+                usuario.setFotoPerfil(fotoPerfil);
+            } catch (IOException e) {
+                request.setAttribute("errorMessage", "Error al procesar la imagen. Intente nuevamente.");
+                request.setAttribute("usuario", usuario);
+                request.getRequestDispatcher("WEB-INF/Vecino/veci-perfil.jsp").forward(request, response);
+                return;
+            }
+        }
+
+
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         usuarioDAO.actualizarUsuario(usuario);
+        session.setAttribute("usuario", usuario);
+
 
         request.setAttribute("successMessage", "Perfil actualizado correctamente.");
         request.setAttribute("usuario", usuario);

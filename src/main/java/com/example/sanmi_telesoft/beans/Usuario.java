@@ -49,6 +49,13 @@ public class Usuario {
                 return "Desconocido";
         }
     }
+    public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
 
     public String getIsActive() {
         return isActive;

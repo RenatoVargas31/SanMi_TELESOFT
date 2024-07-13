@@ -77,9 +77,11 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia">
+                                        <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia"
+                                            <%= request.getParameter("requiereAmbulancia") != null ? "checked" : "" %>>
                                         <label class="form-check-label" for="requiereAmbulancia">Es necesario una ambulancia</label>
                                     </div>
+                                    <div id="requiereAmbulanciaError" class="error" style="color: red;"></div>
                                 </div>
 
                                 <div class="col-12">

@@ -382,19 +382,11 @@ public class ServletVecino extends HttpServlet {
         String referencia = Sanitizer.sanitize(request.getParameter("Referencia"));
         int tipoIncidenciaId;
         int urbanizacionId;
-        boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
         Part fotoPart = request.getPart("file");
+        boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
 
-        try {
-            tipoIncidenciaId = Integer.parseInt(request.getParameter("tipoIncidencia"));
-        } catch (NumberFormatException e) {
-            tipoIncidenciaId = -1; // Valor inválido
-        }
-        try {
-            urbanizacionId = Integer.parseInt(request.getParameter("urbanizacion"));
-        } catch (NumberFormatException e) {
-            urbanizacionId = -1; // Valor inválido
-        }
+
+
 
 
         Map<String, String> errores = new HashMap<>();
@@ -408,6 +400,8 @@ public class ServletVecino extends HttpServlet {
         System.out.println("fotoincidencia: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
 
         // Validaciones
+
+
         if (nombreIncidencia == null || nombreIncidencia.isEmpty() || nombreIncidencia.length() > 100) {
             errores.put("nombreIncidencia", "Nombre de la incidencia no válido.");
         }
@@ -423,23 +417,43 @@ public class ServletVecino extends HttpServlet {
         if (referencia == null || referencia.isEmpty() || referencia.length() > 255) {
             errores.put("referencia", "Referencia no válida.");
         }
-        if (tipoIncidenciaId <= 0) {
-            errores.put("tipoIncidencia", "Tipo de incidencia no válido.");
+        try {
+            tipoIncidenciaId = Integer.parseInt(request.getParameter("tipoIncidencia"));
+            if (tipoIncidenciaId < 1 || tipoIncidenciaId > 13) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            tipoIncidenciaId = -1; // Valor inválido
+            errores.put("tipoIncidencia", "Tipo de incidencia no válido. Debe estar entre 1 y 13.");
         }
 
-        if (urbanizacionId <= 0) {
-            errores.put("urbanizacion", "Urbanización no válida.");
+        try {
+            urbanizacionId = Integer.parseInt(request.getParameter("urbanizacion"));
+            if (urbanizacionId < 1 || urbanizacionId > 16) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            urbanizacionId = -1; // Valor inválido
+            errores.put("urbanizacion", "Urbanización no válida. Debe estar entre 1 y 16.");
         }
+
 
 
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = fotoPart.getSubmittedFileName();
-            if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg")) {
-                errores.put("fotoincidencia", "El archivo debe ser una imagen en formato PNG o JPG.");
-            } else if (fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
-                errores.put("fotoincidencia", "El archivo es demasiado grande. Máximo permitido es 5MB.");
-            } else if (!isImageFile(fotoPart)) {
-                errores.put("fotoincidencia", "El archivo subido no es una imagen válida.");
+            // Validar nombre del archivo
+            String[] parts = fileName.split("\\.");
+            if (parts.length < 2) {
+                errores.put("fotoincidencia", "El nombre del archivo no contiene una extensión válida.");
+            } else {
+                String fileExtension = parts[parts.length - 1].toLowerCase();
+                if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
+                    errores.put("fotoincidencia", "El archivo debe ser una imagen en formato PNG o JPG.");
+                } else if (fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
+                    errores.put("fotoincidencia", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+                } else if (!isImageFile(fotoPart)) {
+                    errores.put("fotoincidencia", "El archivo subido no es una imagen válida.");
+                }
             }
         }
 
@@ -622,19 +636,29 @@ public class ServletVecino extends HttpServlet {
         String referencia = Sanitizer.sanitize(request.getParameter("Referencia"));
         int tipoIncidenciaId;
         int urbanizacionId;
-        boolean requiereAmbulancia = request.getParameter("requiereAmbulancia") != null;
+        boolean requiereAmbulancia = false;
+
+        String requiereAmbulanciaParam = request.getParameter("requiereAmbulancia");
+
+        if (requiereAmbulanciaParam != null) {
+            if ("on".equals(requiereAmbulanciaParam)) {
+                requiereAmbulancia = true;
+            } else {
+                Map<String, String> errores = new HashMap<>();
+                errores.put("requiereAmbulancia", "Valor no válido para requiere ambulancia.");
+                JSONObject jsonResponse = new JSONObject(errores);
+                response.getWriter().write(jsonResponse.toString());
+                return;
+            }
+        }
+
+
+
+
+
+
         Part fotoPart = request.getPart("fotoincidencia");
 
-        try {
-            tipoIncidenciaId = Integer.parseInt(request.getParameter("tipoIncidencia"));
-        } catch (NumberFormatException e) {
-            tipoIncidenciaId = -1; // Valor inválido
-        }
-        try {
-            urbanizacionId = Integer.parseInt(request.getParameter("urbanizacion"));
-        } catch (NumberFormatException e) {
-            urbanizacionId = -1; // Valor inválido
-        }
 
         Map<String, String> errores = new HashMap<>();
 
@@ -658,22 +682,42 @@ public class ServletVecino extends HttpServlet {
         if (referencia == null || referencia.isBlank() || referencia.length() > 255) {
             errores.put("referencia", "Referencia no válida.");
         }
-        if (tipoIncidenciaId <= 0) {
-            errores.put("tipoIncidencia", "Tipo de incidencia no válido.");
+        try {
+            tipoIncidenciaId = Integer.parseInt(request.getParameter("tipoIncidencia"));
+            if (tipoIncidenciaId < 1 || tipoIncidenciaId > 13) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            tipoIncidenciaId = -1; // Valor inválido
+            errores.put("tipoIncidencia", "Tipo de incidencia no válido. Debe estar entre 1 y 13.");
         }
 
-        if (urbanizacionId <= 0) {
-            errores.put("urbanizacion", "Urbanización no válida.");
+        // Validar urbanizacionId
+        try {
+            urbanizacionId = Integer.parseInt(request.getParameter("urbanizacion"));
+            if (urbanizacionId < 1 || urbanizacionId > 16) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            urbanizacionId = -1; // Valor inválido
+            errores.put("urbanizacion", "Urbanización no válida. Debe estar entre 1 y 16.");
         }
 
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String fileName = fotoPart.getSubmittedFileName();
-            if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg")) {
-                errores.put("fotoincidencia", "El archivo debe ser una imagen en formato PNG o JPG.");
-            } else if (fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
-                errores.put("fotoincidencia", "El archivo es demasiado grande. Máximo permitido es 5MB.");
-            } else if (!isImageFile(fotoPart)) {
-                errores.put("fotoincidencia", "El archivo subido no es una imagen válida.");
+            // Validar nombre del archivo
+            String[] parts = fileName.split("\\.");
+            if (parts.length < 2) {
+                errores.put("fotoincidencia", "El nombre del archivo no contiene una extensión válida.");
+            } else {
+                String fileExtension = parts[parts.length - 1].toLowerCase();
+                if (!fileExtension.equals("jpg") && !fileExtension.equals("jpeg") && !fileExtension.equals("png")) {
+                    errores.put("fotoincidencia", "El archivo debe ser una imagen en formato PNG o JPG.");
+                } else if (fotoPart.getSize() > 5 * 1024 * 1024) { // 5 MB máximo
+                    errores.put("fotoincidencia", "El archivo es demasiado grande. Máximo permitido es 5MB.");
+                } else if (!isImageFile(fotoPart)) {
+                    errores.put("fotoincidencia", "El archivo subido no es una imagen válida.");
+                }
             }
         }
 
@@ -742,8 +786,22 @@ public class ServletVecino extends HttpServlet {
 
 
     private boolean isImageFile(Part filePart) {
-        String fileName = filePart.getSubmittedFileName();
-        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png");
+        try (InputStream inputStream = filePart.getInputStream()) {
+            byte[] buffer = new byte[8];
+            inputStream.read(buffer, 0, 8);
+            String format =     bytesToHex(buffer).toUpperCase();
+            return format.startsWith("FFD8FF") || format.startsWith("89504E47"); // JPEG or PNG magic numbers
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 
 
