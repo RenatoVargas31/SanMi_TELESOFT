@@ -24,26 +24,58 @@ public class ServletCoordinadora extends HttpServlet {
         DaoEvento daoEvento = new DaoEvento();
         DaoCoordinadora daoCoordinadora = new DaoCoordinadora();
         request.setAttribute("listaProfesores",daoProfesor.listarProfesores());
+        UserDAO userDAO = new UserDAO();
 
         switch (action){
             case "mostrarInicio":
-                request.setAttribute("activeMenu", "Inicio");
+                // Obtener el usuario de la sesión
                 Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-                String tipoFiltrado="Todo";
-                ArrayList<Evento> lista =null;
-                assert usuario != null;
 
-                if (usuario.getIdTipoCoordinadora()==1){ tipoFiltrado="Cultura";}
-                if (usuario.getIdTipoCoordinadora()==2){ tipoFiltrado="Deporte";}
+                if (usuario != null) {
+                    // Obtener el id del usuario como String
+                    String idUsuario = String.valueOf(usuario.getIdUsuarios());
 
-                if ("Deporte".equals(tipoFiltrado)) {
-                    lista = daoEvento.listaEventosDeporte(0,10000);
-                } else if ("Cultura".equals(tipoFiltrado)) {
-                    lista = daoEvento.listaEventosCultura(0,10000);
+                    // Obtener el idUsuario de los parámetros de la solicitud (si se pasa como parámetro en el GET)
+                    String idUsuarioParametro = request.getParameter("idUsuario");
+
+                    // Verificar y asegurar que el idUsuario sea correcto y no nulo
+                    if (idUsuarioParametro != null && !idUsuarioParametro.isEmpty()) {
+                        idUsuario = idUsuarioParametro;
+                    }
+
+                    // Obtener lista de eventos del coordinador
+                    ArrayList<Evento> listaMisEventos = daoEvento.listaEventosCoordinadora(Integer.parseInt(idUsuario));
+
+                    // Establecer atributos en el request
+                    request.setAttribute("listaMisEventos", listaMisEventos);
+                    request.setAttribute("activeMenu", "Inicio");
+
+                    // Contar coordinadores activos
+                    int contadorCoordi = userDAO.contarCoordi();
+                    request.setAttribute("coordiActivos", contadorCoordi);
+
+                    // Determinar tipo de filtrado (Cultura o Deporte)
+                    String tipoFiltrado = "Todo";
+
+                    if (usuario.getIdTipoCoordinadora() == 1) {
+                        tipoFiltrado = "Cultura";
+                    } else if (usuario.getIdTipoCoordinadora() == 2) {
+                        tipoFiltrado = "Deporte";
+                    }
+
+                    // Obtener lista de eventos según el tipo de filtrado
+                    ArrayList<Evento> listaEventos = null;
+
+                    if ("Deporte".equals(tipoFiltrado)) {
+                        listaEventos = daoEvento.listaEventosDeporte(0, 10000);
+                    } else if ("Cultura".equals(tipoFiltrado)) {
+                        listaEventos = daoEvento.listaEventosCultura(0, 10000);
+                    }
+
+                    request.setAttribute("listarEventos", listaEventos);
                 }
 
-
-                request.setAttribute("listarEventos", lista);
+                // Redirigir al JSP correspondiente
                 request.getRequestDispatcher("WEB-INF/coordinadora/indexCoordinadora.jsp").forward(request, response);
                 break;
 

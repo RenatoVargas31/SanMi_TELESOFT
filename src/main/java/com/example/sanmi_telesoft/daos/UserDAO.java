@@ -56,6 +56,19 @@ public class UserDAO {
         }
         return 0;
     }
+    public int contarCoordi() {
+        String sql = "SELECT COUNT(*) AS total FROM usuarios WHERE Roles_idRoles = 3 and is_active=1";
+        try (Connection connection = this.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 
     public boolean dniExists(String dni) {
         String sql = "SELECT COUNT(*) FROM usuarios WHERE dniUsuario = ?";

@@ -55,42 +55,7 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
     <script src="${pageContext.request.contextPath}/assets/vendor/js/template-customizer.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
-    <style>
-        /* Personalización adicional del modal */
-        .modal-content {
-            border-radius: 15px;
-            padding: 20px;
-            background: linear-gradient(145deg, #f0f0f0, #cacaca);
-        }
-        .modal-header {
-            background-color: #1A4D8F;
-            color: white;
-            border-bottom: 1px solid #dee2e6;
-            border-radius: 15px 15px 0 0;
-        }
-        .modal-footer {
-            border-top: 1px solid #dee2e6;
-            border-radius: 0 0 15px 15px;
-        }
-        .modal-title {
-            color: white;
-        }
-        .modal-body {
-            font-size: 1.1rem;
-            text-align: center;
-        }
-        .btn-close {
-            background-color: white;
-            border-radius: 50%;
-        }
-        .btn-secondary, .btn-danger {
-            margin: 0 10px;
-        }
-        body {
-            background: url('${pageContext.request.contextPath}/assets/img/backgrounds/prueba.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-    </style>
+
 
 </head>
 
@@ -164,11 +129,39 @@
                                                     onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=actualizarEvento&id=<%=evento.getIdEventos()%>';"
                                                     data-bs-target="#modal-editar-incidencia"><i
                                                     class='bx bx-edit'></i></button>
-                                            <button type="button"
-                                                    class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
-                                                    data-bs-toggle="modal" onclick="promptDeletion(<%=evento.getIdEventos()%>)" data-bs-target="#"><i
-                                                    class='bx bx-x'></i></button>
+
+
+
+                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal"> <i
+                                                    class='bx bx-x'></i> </button>
+                        <!-- Add New Credit Card Modal-->
+                        <div class="modal fade" id="addNewCCModal" tabindex="-1" aria-hidden="true">
+                            <div class=" modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
+                                    <div class="modal-body">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="text-center mb-4">
+                                            <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Eliminación de evento</h3>
+                                            <hr class="my-4">
+                                            <h5>¿Estás seguro de eliminar de forma permanente el evento <%= evento.getNombreEvento()%>?</h5>
+                                            <p>No podrás recuperar este evento a futuro</p>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <a href="<%= request.getContextPath() %>/ServletCoordinadora?action=borrarEvento&id=<%= evento.getIdEventos()%>" class="btn btn-danger me-sm-3 me-1 mt-3">
+                                                Eliminar evento
+                                            </a>
+                                            <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
                                         </td>
+
                                     </tr>
                                     <div class="modal fade" id="<%= modalId %>" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-scrollable" role="document">
