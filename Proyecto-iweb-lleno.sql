@@ -542,7 +542,7 @@ CREATE TABLE `usuarios` (
   `telefonoUsuario` varchar(9) NOT NULL,
   `Urbanizacion_idUrbanizacion` int NOT NULL,
   `activation_token` varchar(255) DEFAULT NULL,
-  `is_active` tinyint NOT NULL DEFAULT '1',
+  `is_active` tinyint NOT NULL DEFAULT '0',
   `nacimientoDate` date DEFAULT NULL,
   `TipoCoordinadora_idTipoCoordinadora` int DEFAULT NULL,
   `is_bannedApp` tinyint NOT NULL DEFAULT '0',
