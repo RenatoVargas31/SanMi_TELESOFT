@@ -59,11 +59,6 @@
                         <div class="text-truncate" data-i18n="Solicitudes de registro">Solicitudes de registro</div>
                     </a>
                 </li>
-                <li class="menu-item ${activeMenu == 'mostrarPostulaciones' ? 'active' : ''}">
-                    <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarPostulaciones" class="menu-link"><!--Zona de linkeo href: -->
-                        <div class="text-truncate" data-i18n="Postulaciones">Postulaciones</div>
-                    </a>
-                </li>
                 <li class="menu-item ${activeMenu == 'UsuariosHabilitados' ? 'active' : ''}">
                     <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarUsuariosHabilitados" class="menu-link"><!--Zona de linkeo href: -->
                         <div class="text-truncate" data-i18n="Usuarios habilitados">Usuarios habilitados</div>
@@ -72,6 +67,19 @@
                 <li class="menu-item ${activeMenu == 'UsuariosBaneados' ? 'active' : ''}">
                     <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarUsuariosBaneados" class="menu-link"><!--Zona de linkeo href: -->
                         <div class="text-truncate" data-i18n="Usuarios baneados">Usuarios baneados</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item ${activeMenuToggle == 'Coordinadora' ? 'active' : ''} ">
+            <a href="#" class="menu-link menu-toggle">
+                <i class='menu-icon tf-icons bx bx-calendar-event'></i>
+                <div class="text-truncate" data-i18n="Coordinadora">Coordinadora</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item ${activeMenu == 'mostrarPostulaciones' ? 'active' : ''}">
+                    <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarPostulaciones" class="menu-link"><!--Zona de linkeo href: -->
+                        <div class="text-truncate" data-i18n="Postulaciones">Postulaciones</div>
                     </a>
                 </li>
             </ul>

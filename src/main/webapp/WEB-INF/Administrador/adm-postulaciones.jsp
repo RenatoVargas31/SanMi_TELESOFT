@@ -190,7 +190,7 @@
 
                                 <tbody>
                                 <%for (Usuario usuario : listaUsuarios) {%>
-                                <%if ((usuario.getPostulacion().equals("1") && usuario.getRol().equals("Vecino")) || usuario.getRol().equals("Coordinadora")){%>
+                                <%if (usuario.getPostulacion().equals("1") && usuario.getRol().equals("Vecino")){%>
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">

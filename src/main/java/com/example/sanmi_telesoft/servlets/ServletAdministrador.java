@@ -75,7 +75,7 @@ public class ServletAdministrador extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarSolicitudesRegistro");
                 break;
             case "mostrarPostulaciones":
-                request.setAttribute("activeMenuToggle", "Usuarios");
+                request.setAttribute("activeMenuToggle", "Coordinadora");
                 request.setAttribute("activeMenu", "mostrarPostulaciones");
 
                 ArrayList<Usuario> listaUsuariosPostulaciones = daoAdministrador.listarUsuarios();

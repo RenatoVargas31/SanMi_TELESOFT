@@ -204,7 +204,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <%=usuario.getRol().equals("Desconocido") ? "Sin asignar" : usuario.getRol() %>
+                                        <%=usuario.getRol() %>
                                     </td>
                                     <td>
                                         <%=usuario.getDireccionUsuario()%>
@@ -251,13 +251,13 @@
                                         </div>
                                         <!-- Modal para confirmar como Vecino -->
                                         <button type="button"
-                                                class="btn btn-label-primary btn-sm"
+                                                class="btn btn-label-success btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalVecino<%= usuario.getIdUsuarios() %>"><i
                                                 class='bx bx-check-circle'></i>
                                         </button>
                                         <button type="button"
-                                                class="btn  btn-label-primary btn-sm"
+                                                class="btn  btn-label-danger btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
                                                 class='bx bx-x-circle'></i>
