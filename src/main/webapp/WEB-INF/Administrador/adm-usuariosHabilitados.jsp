@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Random" %><%--
   Created by IntelliJ IDEA.
   User: rlvs_
   Date: 15/06/2024
@@ -130,350 +132,72 @@
 
                                     <th>Nombre y Apellido</th>
                                     <th>Rol</th>
-                                    <th>Contacto</th>
-                                    <th>Acciones</th>
+                                    <th>DNI</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+
                                 </tr>
                                 </thead>
 
-
-
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="modalVerUsuario" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalScrollableTitle1">Detalles del Usuario</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <p>Nombre de Usuario: Victoria Ruiz Vega</p>
-
-                                                <p>Correo: vic.vega@gmail.com </p>
-
-                                                <p>DNI: 87422011</p>
-
-                                                <p>Dirección: Jr Las Magnolias 166</p>
-
-                                                <p>Teléfono: 992130132</p>
-
-                                                <p>Nacimiento: 13/05/1989</p>
-
-                                                <p>Urbanización: San Miguelito</p>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">OK</button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <!-- /Modal -->
+                                <%
+                                    ArrayList<Usuario> listaUsuarios = (ArrayList<Usuario>) request.getAttribute("listaUsuarios");
+                                    ArrayList<String> listaColors = new ArrayList<>();
+                                    listaColors.add("primary");
+                                    listaColors.add("secondary");
+                                    listaColors.add("success");
+                                    listaColors.add("danger");
+                                    listaColors.add("warning");
+                                    listaColors.add("info");
+                                    listaColors.add("dark");
+                                    listaColors.add("twitter");
+                                    listaColors.add("youtube");
+                                    listaColors.add("reddit");
+                                    listaColors.add("instagram");
+                                    listaColors.add("pinterest");
+                                    listaColors.add("facebook");
+                                    listaColors.add("slack");
+                                    listaColors.add("github");
+                                    listaColors.add("vimeo");
 
+                                    Random rand = new Random();
+                                %>
 
                                 <tbody>
-                                <tr>
-
-                                    <td>Arturo Martinez Lara</td>
-                                    <td>Vecino</td>
-                                    <td><span>985632145</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>José García López</td>
-                                    <td>Serenazgo Dispatcher</td>
-                                    <td><span>985632145</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Sofía Martínez Valdez</td>
-                                    <td>Vecino</td>
-                                    <td><span>742198563</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Alejandro García Sánchez</td>
-                                    <td>Vecino</td>
-                                    <td><span>316895247</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Valentina Rodríguez Reyes</td>
-                                    <td>Coordinadora - Cultura</td>
-                                    <td><span>524178936</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Juan López Ramírez</td>
-                                    <td>Vecino</td>
-                                    <td><span>897451236</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Isabella Pérez Gómez</td>
-                                    <td>Coordinadora - Deporte</td>
-                                    <td><span>631254789</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Diego Hernández Flores</td>
-                                    <td>Vecino</td>
-                                    <td><span>458796321</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Camila Díaz Mendoza</td>
-                                    <td>Vecino</td>
-                                    <td><span>369857412</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Lucas González Cruz</td>
-                                    <td>Vecino</td>
-                                    <td><span>214563897</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Emma Vázquez Morales</td>
-                                    <td>Vecino</td>
-                                    <td><span>785632149</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Mateo Torres Ortiz</td>
-                                    <td>Vecino</td>
-                                    <td><span>632145789</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Victoria Ruiz Vega</td>
-                                    <td>Vecino</td>
-                                    <td><span>159487632</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalVerUsuario"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                onclick="promptDeletion();" id="confirm-color"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Nicolás Castro Jiménez</td>
-                                    <td>Vecino</td>
-                                    <td><span>874596321</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Olivia Herrera Silva</td>
-                                    <td>Vecino</td>
-                                    <td><span>365214978</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modal-ver-incidencia"><i
-                                                class='bx bx-show'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
+                                <%for (Usuario usuario : listaUsuarios) {%>
+                                <%if ((usuario.getIsBannedApp().equals("0")) && (!usuario.getRol().equals("Administrador")) && (usuario.getIsActive().equals("1"))){%>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-wrapper">
+                                                    <div class="avatar me-2">
+                                                        <span class="avatar-initial rounded-circle bg-label-<%=listaColors.get(rand.nextInt(listaColors.size()))%>"><%=usuario.getNombreUsuario().charAt(0)%><%=usuario.getApellidoUsuario().charAt(0)%></span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <span class="emp_name text-truncate"><%= usuario.getNombreUsuario() %> <%= usuario.getApellidoUsuario() %></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getRol()%> <%=(usuario.getTipoCoordinadora().equals("Desconocido") ? "" : (" - "+usuario.getTipoCoordinadora()))%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getDniUsuario()%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getCorreoUsuario()%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getTelefonoUsuario()%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getDireccionUsuario()%>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% } %>
                                 </tbody>
                             </table>
                         </div>

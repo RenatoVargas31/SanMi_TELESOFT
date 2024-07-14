@@ -126,6 +126,7 @@
                                 <tr>
                                     <th>Nombre y Apellido</th>
                                     <th>Rol</th>
+                                    <th>Correo Electrónico</th>
                                     <th>Domicilio</th>
                                     <th>Urbanización</th>
                                     <th>Acciones</th>
@@ -207,6 +208,9 @@
                                         <%=usuario.getRol() %>
                                     </td>
                                     <td>
+                                        <%=usuario.getCorreoUsuario()%>
+                                    </td>
+                                    <td>
                                         <%=usuario.getDireccionUsuario()%>
                                     </td>
                                     <td>
@@ -251,13 +255,13 @@
                                         </div>
                                         <!-- Modal para confirmar como Vecino -->
                                         <button type="button"
-                                                class="btn btn-label-success btn-sm"
+                                                class="btn btn-success btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalVecino<%= usuario.getIdUsuarios() %>"><i
                                                 class='bx bx-check-circle'></i>
                                         </button>
                                         <button type="button"
-                                                class="btn  btn-label-danger btn-sm"
+                                                class="btn  btn-danger btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
                                                 class='bx bx-x-circle'></i>

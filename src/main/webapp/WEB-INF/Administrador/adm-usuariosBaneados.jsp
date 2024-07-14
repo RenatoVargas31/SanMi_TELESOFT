@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.example.sanmi_telesoft.beans.Usuario" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Random" %><%--
   Created by IntelliJ IDEA.
   User: rlvs_
   Date: 15/06/2024
@@ -17,14 +19,12 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>SanMi  |  Usuarios Baneados</title>
+    <title>SanMi  | Usuarios Habilitados</title>
 
 
     <meta name="description"
           content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/illustrations/logo-San-Miguel-1.webp"/>
@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/flatpickr/flatpickr.css"/>
+
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.css" />
@@ -131,265 +132,72 @@
 
                                     <th>Nombre y Apellido</th>
                                     <th>Rol</th>
-                                    <th>Motivo</th>
-                                    <th>Acciones</th>
+                                    <th>DNI</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+
                                 </tr>
                                 </thead>
+
+                                <!-- /Modal -->
+                                <%
+                                    ArrayList<Usuario> listaUsuarios = (ArrayList<Usuario>) request.getAttribute("listaUsuarios");
+                                    ArrayList<String> listaColors = new ArrayList<>();
+                                    listaColors.add("primary");
+                                    listaColors.add("secondary");
+                                    listaColors.add("success");
+                                    listaColors.add("danger");
+                                    listaColors.add("warning");
+                                    listaColors.add("info");
+                                    listaColors.add("dark");
+                                    listaColors.add("twitter");
+                                    listaColors.add("youtube");
+                                    listaColors.add("reddit");
+                                    listaColors.add("instagram");
+                                    listaColors.add("pinterest");
+                                    listaColors.add("facebook");
+                                    listaColors.add("slack");
+                                    listaColors.add("github");
+                                    listaColors.add("vimeo");
+
+                                    Random rand = new Random();
+                                %>
+
                                 <tbody>
-                                <tr>
-
-                                    <td>Arturo Martinez Lara</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cambio de Localidad</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                onclick="promptDeletion();" id="confirm-color"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>José García López</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Sofía Martínez Valdez</td>
-                                    <td>Coordinadora - Deporte</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Alejandro García Sánchez</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cambio de localidad</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Valentina Rodríguez Reyes</td>
-                                    <td>Coordinadora - Cultura</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Juan López Ramírez</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Isabella Pérez Gómez</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cambio de Localidad</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Diego Hernández Flores</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Camila Díaz Mendoza</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cambio de Localidad</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Lucas González Cruz</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cambio de Localidad</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Emma Vázquez Morales</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Mateo Torres Ortiz</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cambio de Localidad</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Victoria Ruiz Vega</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Nicolás Castro Jiménez</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Olivia Herrera Silva</td>
-                                    <td>Vecino</td>
-                                    <td><span>Cumplio el máximo de reportes falsos</span></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="window.location.href='vecino-ActualizarIncidencia.html';"  data-bs-target="#modal-editar-incidencia"><i
-                                                class='bx bx-edit'></i></button>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
-                                                data-bs-toggle="modal" onclick="promptDeletion();" data-bs-target="#modal-eliminar-incidencia"><i
-                                                class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
+                                <%for (Usuario usuario : listaUsuarios) {%>
+                                <%if ((usuario.getIsBannedApp().equals("1")) && (!usuario.getRol().equals("Administrador")) && (usuario.getIsActive().equals("1"))){%>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-wrapper">
+                                                    <div class="avatar me-2">
+                                                        <span class="avatar-initial rounded-circle bg-label-<%=listaColors.get(rand.nextInt(listaColors.size()))%>"><%=usuario.getNombreUsuario().charAt(0)%><%=usuario.getApellidoUsuario().charAt(0)%></span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <span class="emp_name text-truncate"><%= usuario.getNombreUsuario() %> <%= usuario.getApellidoUsuario() %></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getRol()%> <%=(usuario.getTipoCoordinadora().equals("Desconocido") ? "" : (" - "+usuario.getTipoCoordinadora()))%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getDniUsuario()%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getCorreoUsuario()%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getTelefonoUsuario()%>
+                                        </td>
+                                        <td>
+                                            <%=usuario.getDireccionUsuario()%>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -495,7 +303,6 @@
 
                 <!-- Page JS -->
                 <script src="${pageContext.request.contextPath}/assets/js/init-datatables.js"></script>
-
 
                 <script src="${pageContext.request.contextPath}/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/extended-ui-sweetalert2.js"></script>

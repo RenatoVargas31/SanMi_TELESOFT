@@ -190,7 +190,7 @@
 
                                 <tbody>
                                 <%for (Usuario usuario : listaUsuarios) {%>
-                                <%if (usuario.getPostulacion().equals("1") && usuario.getRol().equals("Vecino")){%>
+                                <%if ((usuario.getPostulacion().equals("1") && usuario.getRol().equals("Vecino")) || usuario.getRol().equals("Coordinadora")){%>
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -224,7 +224,7 @@
                                             <%if (usuario.getRol().equals("Vecino")){%>
                                                 <!-- Modal para aceptar como coordinadora de Cultura -->
                                                 <button type="button"
-                                                        class="btn btn-label-primary btn-sm"
+                                                        class="btn btn-instagram btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modalCultura<%= usuario.getIdUsuarios() %>"><i
                                                         class='bx bx-book-open'></i>
@@ -248,7 +248,7 @@
                                                 </div>
                                                 <!-- Modal para aceptar como coordinadora de Deporte -->
                                                 <button type="button"
-                                                        class="btn btn-label-primary btn-sm"
+                                                        class="btn btn-info btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modalDeporte<%= usuario.getIdUsuarios() %>"><i
                                                         class='bx bx-tennis-ball'></i>
@@ -272,7 +272,7 @@
                                                 </div>
                                                 <!-- Modal para confirmar eliminación -->
                                                 <button type="button"
-                                                        class="btn  btn-label-primary btn-sm"
+                                                        class="btn  btn-danger btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modalDelete<%= usuario.getIdUsuarios() %>"><i
                                                         class='bx bx-x-circle'></i>
@@ -296,15 +296,15 @@
                                                 </div>
                                             <%}else{%>
                                                 <button type="button"
-                                                        class="btn btn-label-primary btn-sm disabled">
+                                                        class="btn btn-label-instagram btn-sm disabled">
                                                     <i class='bx bx-book-open'></i>
                                                 </button>
                                                 <button type="button"
-                                                        class="btn  btn-label-primary btn-sm disabled">
+                                                        class="btn  btn-label-info btn-sm disabled">
                                                     <i class='bx bx-tennis-ball'></i>
                                                 </button>
                                                 <button type="button"
-                                                        class="btn  btn-label-primary btn-sm disabled">
+                                                        class="btn  btn-label-danger btn-sm disabled">
                                                         <i class='bx bx-x-circle'></i>
                                                 </button>
                                             <%}%>
