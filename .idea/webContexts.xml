@@ -11,7 +11,10 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/indexVecino.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/inscribirEvento.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/listaEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/veci-perfil.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-ActualizarIncidencia.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-detallesIncidencia.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-detallesIncidenciaGeneral.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-incidenciasGenerales.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/vecino-reportarIncidencia.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino/viewEventos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/Vecino" />

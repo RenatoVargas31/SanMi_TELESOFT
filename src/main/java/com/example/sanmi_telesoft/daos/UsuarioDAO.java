@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.sql.*;
 
 public class UsuarioDAO {
-    private String jdbcURL = "jdbc:mysql://127.0.0.1:3306/proyecto-iweb";
+    private String jdbcURL = "jdbc:mysql://34.139.185.159:3306/proyecto-iweb?serverTimezone=America/Lima&useSSL=false&allowPublicKeyRetrieval=true";
     private String jdbcUsername = "root";
     private String jdbcPassword = "root";
     private String jdbcDriver = "com.mysql.cj.jdbc.Driver";
