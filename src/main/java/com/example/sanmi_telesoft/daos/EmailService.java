@@ -29,8 +29,8 @@ public class EmailService {
 
     public boolean asd(String to, String subject, String body)  {
         Properties properties = new Properties();
-        String user = "loliperales17@gmail.com";
-        String password = "xpkwbfgqhgjovpex";
+        String user = "telesoft.iweb@gmail.com";
+        String password = "bxbhficpibnizans";
 
         //ssl
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -77,8 +77,8 @@ public class EmailService {
 
     public void enviarLink(String to, String subject, String link)  {
         Properties properties = new Properties();
-        String user = "loliperales17@gmail.com";
-        String password = "xpkwbfgqhgjovpex";
+        String user = "telesoft.iweb@gmail.com";
+        String password = "bxbhficpibnizans";
 
         //ssl
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -120,8 +120,8 @@ public class EmailService {
 
     public void recordatorioEvento(String to, String subject, Evento evento, ArrayList<DiaconHoras> fechasUtilizadas) {
         Properties properties = new Properties();
-        String user = "loliperales17@gmail.com";
-        String password = "xpkwbfgqhgjovpex";
+        String user = "telesoft.iweb@gmail.com";
+        String password = "bxbhficpibnizans";
 
         // SSL
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -171,8 +171,8 @@ public class EmailService {
 
     public void aceptarVecino(String correo, String name)  {
         Properties properties = new Properties();
-        String user = "loliperales17@gmail.com";
-        String password = "xpkwbfgqhgjovpex";
+        String user = "telesoft.iweb@gmail.com";
+        String password = "bxbhficpibnizans";
         String subject = "Solicitud de registro a SanMi";
 
         //ssl
@@ -215,8 +215,8 @@ public class EmailService {
 
     public void rechazarVecino(String correo, String name)  {
         Properties properties = new Properties();
-        String user = "loliperales17@gmail.com";
-        String password = "xpkwbfgqhgjovpex";
+        String user = "telesoft.iweb@gmail.com";
+        String password = "bxbhficpibnizans";
         String subject = "Solicitud de registro a SanMi";
 
         //ssl

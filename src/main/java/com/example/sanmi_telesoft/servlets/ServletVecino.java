@@ -261,38 +261,49 @@ public class ServletVecino extends HttpServlet {
             return;
         }
 
-        int idIncidencia = Integer.parseInt(request.getParameter("id"));
-        Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+        String id = request.getParameter("id");
+        if (id != null) {
+            try{
+                int idIncidencia = Integer.parseInt(id);
+                Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+                if(incidencia != null){
+                    DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
+                    DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
 
-        DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
-        DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
+                    ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
+                    ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
 
-        ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
-        ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
+                    TipoIncidencia tipoIncidencia = null;
+                    for (TipoIncidencia t : tipos) {
+                        if (t.getId() == incidencia.getIdTipoIncidencia()) {
+                            tipoIncidencia = t;
+                            break;
+                        }
+                    }
 
-        TipoIncidencia tipoIncidencia = null;
-        for (TipoIncidencia t : tipos) {
-            if (t.getId() == incidencia.getIdTipoIncidencia()) {
-                tipoIncidencia = t;
-                break;
+                    Urbanizacion urbanizacion = null;
+                    for (Urbanizacion u : urbanizaciones) {
+                        if (u.getId() == incidencia.getIdUrbanizacion()) {
+                            urbanizacion = u;
+                            break;
+                        }
+                    }
+
+                    String nombreCompleto = incidenciaDao.obtenerNombreUsuarioPorIdIncidencia(idIncidencia);
+                    request.setAttribute("nombreCompletoUsuario", nombreCompleto);
+                    request.setAttribute("incidencia", incidencia);
+                    request.setAttribute("tipoIncidencia", tipoIncidencia);
+                    request.setAttribute("urbanizacion", urbanizacion);
+                    request.getRequestDispatcher("WEB-INF/Vecino/vecino-detallesIncidenciaGeneral.jsp").forward(request, response);
+
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
+                }
+
+            } catch (NumberFormatException e){
+                response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
             }
-        }
 
-        Urbanizacion urbanizacion = null;
-        for (Urbanizacion u : urbanizaciones) {
-            if (u.getId() == incidencia.getIdUrbanizacion()) {
-                urbanizacion = u;
-                break;
-            }
-        }
-
-        if (incidencia != null) {
-            String nombreCompleto = incidenciaDao.obtenerNombreUsuarioPorIdIncidencia(idIncidencia);
-            request.setAttribute("nombreCompletoUsuario", nombreCompleto);
-            request.setAttribute("incidencia", incidencia);
-            request.setAttribute("tipoIncidencia", tipoIncidencia);
-            request.setAttribute("urbanizacion", urbanizacion);
-            request.getRequestDispatcher("WEB-INF/Vecino/vecino-detallesIncidenciaGeneral.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/ServletVecino?action=incidenciasGenerales");
         }
@@ -305,27 +316,36 @@ public class ServletVecino extends HttpServlet {
             return;
         }
 
+        try{
+            int idIncidencia = Integer.parseInt(request.getParameter("id"));
+            Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
 
-        DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
-        DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
+            if(incidencia != null && incidencia.getUsuarioId() == usuario.getIdUsuarios()){
+                DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
+                DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
+
+                ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
+                ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
+
+                request.setAttribute("tipos", tipos);
+                request.setAttribute("urbanizaciones", urbanizaciones);
+
+                request.setAttribute("incidencia", incidencia);
+
+                System.out.println("Tipo de Incidencia ID: " + incidencia.getIdTipoIncidencia());
+                System.out.println("Urbanizacion ID: " + incidencia.getIdUrbanizacion());
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-ActualizarIncidencia.jsp");
+                dispatcher.forward(request, response);
+            }else {
+                response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+            }
+
+        } catch (NumberFormatException e){
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+        }
 
 
-        ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
-        ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
-
-        request.setAttribute("tipos", tipos);
-        request.setAttribute("urbanizaciones", urbanizaciones);
-
-
-        int idIncidencia = Integer.parseInt(request.getParameter("id"));
-        Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
-        request.setAttribute("incidencia", incidencia);
-
-        System.out.println("Tipo de Incidencia ID: " + incidencia.getIdTipoIncidencia());
-        System.out.println("Urbanizacion ID: " + incidencia.getIdUrbanizacion());
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-ActualizarIncidencia.jsp");
-        dispatcher.forward(request, response);
     }
     private void verDetallesIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -336,47 +356,55 @@ public class ServletVecino extends HttpServlet {
             return;
         }
 
+        String id = request.getParameter("id");
 
-        int idIncidencia = Integer.parseInt(request.getParameter("id"));
-        Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+        if(id != null){
+            try{
+                int idIncidencia = Integer.parseInt(id);
+                Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
 
-        if (incidencia.getUsuarioId() != usuario.getIdUsuarios()) {
-            request.setAttribute("errorMessage", "No tiene permiso para ver esta incidencia.");
-            request.getRequestDispatcher("WEB-INF/Vecino/vecino-incidenciasGenerales.jsp").forward(request, response);
-            return;
-        }
+                if(incidencia != null && incidencia.getUsuarioId() == usuario.getIdUsuarios()){
+                    DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
+                    DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
 
-        DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
-        DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
+                    ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
+                    ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
 
-        ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
-        ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
+                    TipoIncidencia tipoIncidencia = null;
+                    for (TipoIncidencia t : tipos) {
+                        if (t.getId() == incidencia.getIdTipoIncidencia()) {
+                            tipoIncidencia = t;
+                            break;
+                        }
+                    }
 
-        TipoIncidencia tipoIncidencia = null;
-        for (TipoIncidencia t : tipos) {
-            if (t.getId() == incidencia.getIdTipoIncidencia()) {
-                tipoIncidencia = t;
-                break;
+                    Urbanizacion urbanizacion = null;
+                    for (Urbanizacion u : urbanizaciones) {
+                        if (u.getId() == incidencia.getIdUrbanizacion()) {
+                            urbanizacion = u;
+                            break;
+                        }
+                    }
+
+                    request.setAttribute("incidencia", incidencia);
+                    request.setAttribute("tipoIncidencia", tipoIncidencia);
+                    request.setAttribute("urbanizacion", urbanizacion);
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-detallesIncidencia.jsp");
+                    dispatcher.forward(request, response);
+
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+                }
+
+
+            } catch (NumberFormatException e){
+                response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
+
             }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=misIncidencias");
         }
-
-        Urbanizacion urbanizacion = null;
-        for (Urbanizacion u : urbanizaciones) {
-            if (u.getId() == incidencia.getIdUrbanizacion()) {
-                urbanizacion = u;
-                break;
-            }
-        }
-
-        request.setAttribute("incidencia", incidencia);
-        request.setAttribute("tipoIncidencia", tipoIncidencia);
-        request.setAttribute("urbanizacion", urbanizacion);
-
-
-
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Vecino/vecino-detallesIncidencia.jsp");
-        dispatcher.forward(request, response);
     }
 
     private void actualizarIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -391,9 +419,6 @@ public class ServletVecino extends HttpServlet {
         int urbanizacionId;
         Part fotoPart = request.getPart("file");
         boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
-
-
-
 
 
         Map<String, String> errores = new HashMap<>();
