@@ -106,20 +106,19 @@
                                         int i = 1;
                                         int a = 15000;
                                         for (Integer integer : lista) {
-                                            Usuario user =usuarioDAO.obtenerDatosporId(integer);
+                                            Usuario user = usuarioDAO.obtenerDatosporId(integer);
                                             String modalId = "modalScrollable" + i;
+                                            String addNewCCModalId = "addNewCCModal" + i;
+                                            String addNewCCModal2Id = "addNewCCModal2" + i;
                                     %>
                                     <tr>
-                                        <td><%=user.getNombreUsuario() +" "+user.getApellidoUsuario() %></td>
-                                        <td><%=user.getCorreoUsuario()%></td>
-                                        <td><%=user.getDniUsuario()%></td>
-                                        <td><%=user.getTelefonoUsuario()%></td>
+                                        <td><%= user.getNombreUsuario() + " " + user.getApellidoUsuario() %></td>
+                                        <td><%= user.getCorreoUsuario() %></td>
+                                        <td><%= user.getDniUsuario() %></td>
+                                        <td><%= user.getTelefonoUsuario() %></td>
                                         <td>
-
-                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal2"> <i
-                                                    class="fas fa-ban"></i> </button>
-
-                                            <div class="modal fade" id="addNewCCModal2" tabindex="-1" aria-hidden="true">
+                                            <!-- Modal for banning user -->
+                                            <div class="modal fade" id="<%= addNewCCModal2Id %>" tabindex="-1" aria-hidden="true">
                                                 <div class="modal-dialog-centered1 modal-simple modal-add-new-cc">
                                                     <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
                                                         <div class="modal-body">
@@ -128,8 +127,7 @@
                                                                 <i class='fas fa-ban' style="font-size: 100px; margin-bottom: 10px; color: rgb(218,92,92);"></i>
                                                                 <h3 style="color: rgb(0,0,0); margin-bottom:40px; font-weight: 650; line-height: 1.5" class="mb-0 pt-1">Ingrese su motivo de prohibición del evento</h3>
                                                                 <hr class="my-4">
-                                                                <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=banearEvento&id=<%= request.getParameter("id")%>&user=<%= user.getIdUsuarios()%>" enctype="multipart/form-data">
-
+                                                                <form class="row g-3" method="post" action="<%= request.getContextPath() %>/ServletCoordinadora?action=banearEvento&id=<%= request.getParameter("id") %>&user=<%= user.getIdUsuarios() %>" enctype="multipart/form-data">
                                                                     <!-- Input para el motivo de prohibición -->
                                                                     <div class="col-12">
                                                                         <div class="input-group input-group-merge">
@@ -138,7 +136,6 @@
                                                                         </div>
                                                                     </div>
                                                                     <!-- Fin del input -->
-
                                                                     <hr class="my-4 opacity-0">
                                                                     <p>Eliminarás su inscripción y se añadirá este suceso al historial de comportamiento</p>
                                                                     <div class="col-12 text-center">
@@ -146,9 +143,7 @@
                                                                         <input type="hidden" name="action" value="banearEvento">
                                                                         <input type="hidden" name="id" value="<%= request.getParameter("id") %>">
                                                                         <input type="hidden" name="user" value="<%= user.getIdUsuarios() %>">
-                                                                        <button type="submit" class="btn btn-danger me-sm-3 me-1 mt-3">
-                                                                            Prohibir usuario
-                                                                        </button>
+                                                                        <button type="submit" class="btn btn-danger me-sm-3 me-1 mt-3">Prohibir usuario</button>
                                                                         <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
                                                                         <!-- Fin de los botones -->
                                                                     </div>
@@ -159,53 +154,37 @@
                                                 </div>
                                             </div>
 
-
-
-                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal"> <i
-                                                    class='bx bx-x'></i> </button>
-                                            <!-- Add New Credit Card Modal-->
-                                            <div class="modal fade" id="addNewCCModal" tabindex="-1" aria-hidden="true">
-                                                <div class=" modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                            <!-- Modal for deleting event -->
+                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#<%= addNewCCModalId %>"> <i class='bx bx-x'></i> </button>
+                                            <div class="modal fade" id="<%= addNewCCModalId %>" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog-centered1 modal-simple modal-add-new-cc">
                                                     <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
                                                         <div class="modal-body">
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             <div class="text-center mb-4">
                                                                 <i class='bx bxs-error-circle' style="font-size: 100px; margin-bottom: 10px; color: rgb(218,92,92);"></i>
-                                                                <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Eliminación de evento</h3>
+                                                                <h3 style="color: rgb(0,0,0); margin-bottom:40px; font-weight: 650; line-height: 1.5" class="mb-0 pt-1">Eliminación de inscripción</h3>
                                                                 <hr class="my-4">
-
-
-
-                                                                <h5>¿Estás seguro de eliminar la inscripción de <%= user.getNombreUsuario() + " "+user.getApellidoUsuario()%> en el evento <%=daoEvento.searchEventobyId(Integer.parseInt(request.getParameter("id"))).getNombreEvento()%>?</h5>
+                                                                <h5>¿Estás seguro de eliminar la inscripción de <%= user.getNombreUsuario() + " " + user.getApellidoUsuario() %> en el evento <%= daoEvento.searchEventobyId(Integer.parseInt(request.getParameter("id"))).getNombreEvento() %>?</h5>
                                                                 <p>No podrás recuperar esta inscripción a futuro y se habilitará una vacante más</p>
                                                             </div>
                                                             <div class="col-12 text-center">
-                                                                <a href="<%= request.getContextPath() %>/ServletCoordinadora?action=borrarInscripcion&id=<%=request.getParameter("id")%>&user=<%= user.getIdUsuarios()%>" class="btn btn-danger me-sm-3 me-1 mt-3">
-                                                                    Eliminar evento
-
-                                                                </a>
+                                                                <a href="<%= request.getContextPath() %>/ServletCoordinadora?action=borrarInscripcion&id=<%= request.getParameter("id") %>&user=<%= user.getIdUsuarios() %>" class="btn btn-danger me-sm-3 me-1 mt-3">Eliminar evento</a>
                                                                 <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
                                                             </div>
-
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
-
-
                                         </td>
                                     </tr>
-
                                     <%
                                             i++;
                                             a++;
-                                        } %>
-
+                                        }
+                                    %>
                                     </tbody>
+
 
                                 </table>
 

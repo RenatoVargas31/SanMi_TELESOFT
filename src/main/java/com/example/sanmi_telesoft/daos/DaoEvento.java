@@ -720,7 +720,7 @@ public class DaoEvento extends BaseDao {
 
     public ArrayList<Integer> eventosInscritosporUsuario(int idUsuario) throws SQLException {
         ArrayList<Integer> lista = new ArrayList<>();
-        String sql = "SELECT * FROM usuarios_has_eventos WHERE Usuarios_idUsuarios = ?";
+        String sql = "SELECT * FROM usuarios_has_eventos WHERE Usuarios_idUsuarios = ? and is_bannedEvento=1";
 
         try (Connection connection = this.getConection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -777,21 +777,20 @@ public class DaoEvento extends BaseDao {
 
     }
 
-    public void banearUsuario(int idUsuario, int idEvento,String motivoBanneo){
-        String sql = "UPDATE usuarios_has_eventos SET is_bannedEvento=1 AND motivo_bannedEvento=? WHERE Eventos_idEventos = ? AND Usuarios_idUsuarios=?";
+    public void banearUsuario(int idUsuario, int idEvento, String motivoBanneo) {
+        String sql = "UPDATE usuarios_has_eventos SET motivo_bannedEvento = ? WHERE Eventos_idEventos = ? AND Usuarios_idUsuarios = ?";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, motivoBanneo);
             stmt.setInt(2, idEvento);
             stmt.setInt(3, idUsuario);
-            borrarInscripcion(idUsuario, idEvento);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
 
     public ArrayList<Integer> usuariosInscritosporEvento(int idEvento) throws SQLException {
         ArrayList<Integer> lista = new ArrayList<>();
@@ -813,6 +812,31 @@ public class DaoEvento extends BaseDao {
 
         return lista;
     }
+
+    public int baneado(int idEvento, int idUsuario) throws SQLException {
+        String sql = "SELECT is_bannedEvento FROM usuarios_has_eventos WHERE Eventos_idEventos = ? AND Usuarios_idUsuarios = ?";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idEvento);
+            pstmt.setInt(2, idUsuario);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retornar el valor de la columna is_bannedEvento
+                    return rs.getInt("is_bannedEvento");
+                } else {
+                    // Si no hay resultados, el usuario no está baneado
+                    return 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al verificar si el usuario está baneado en el evento", e);
+        }
+    }
+
+
 
     public ArrayList<DiaconHoras> fechasUtilizadas(Integer eventId) {
         ArrayList<DiaconHoras> diasConHoras = new ArrayList<>();

@@ -174,17 +174,6 @@
                                                                 <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Confirmación de asistenicia</h3>
                                                                 <hr class="my-4">
 
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label class="form-label ">Foto de asistencia</label>
-                                                                        <div class="col-12">
-                                                                            <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
-                                                                            <div id="fileFeedback1" style="color: red; display: none;">Solo se permiten archivos de imagen (JPEG, PNG).</div>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <hr class="my-4 opacity-0">
 
                                                                 <h5>¿Estás seguro de marcar tu asistencia al evento <%= evento.getNombreEvento()%>?</h5>
                                                             </div>

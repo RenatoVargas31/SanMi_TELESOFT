@@ -11,6 +11,7 @@
 <%
     ArrayList<Integer> usuarioEvento=(ArrayList<Integer>) request.getAttribute("eventosUsuario");%>
 <jsp:useBean id="evento" type="com.example.sanmi_telesoft.beans.Evento" scope="request"/>
+<jsp:useBean id="usuario" type="com.example.sanmi_telesoft.beans.Usuario" scope="session" class="com.example.sanmi_telesoft.beans.Usuario"/>
 
 <!DOCTYPE html>
 <!-- =========================================================
@@ -350,30 +351,34 @@
                                                                             traslapado = true;
                                                                             break;
                                                                         }
-                                                                    }%>
-                                                                <% if (evento.getVacantesDisp()==0) { %>
-                                                                <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
-                                                                <button class="btn btn-primary" style="flex: auto;" disabled>
-                                                                    No hay vacantes </button>
-                                                                <% }else { %>
-                                                                <button class="btn btn-primary" style="flex: auto;" disabled>Ya inscrito</button>
-                                                                <%} %>
+                                                                    }
+                                                                int baneado =0;
 
+                                                                %>
+
+
+                                                                <% if (baneado==1) { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>Estás prohibido a este evento</button>
                                                                 <% } else { %>
 
+                                                                <% if (evento.getVacantesDisp() == 0) { %>
+                                                                <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>No hay vacantes</button>
+                                                                <% } else { %>
+                                                                <button class="btn btn-primary" style="flex: auto;" disabled>Ya inscrito</button>
+                                                                <% } %>
+                                                                <% } else { %>
                                                                 <% if (traslapado) { %>
                                                                 <button class="btn btn-primary" style="flex: auto;" disabled>
                                                                     El horario de este evento interfiere con el del evento <%= daoEvento.searchEventobyId(eventoTraslapado).getNombreEvento() %>
                                                                 </button>
                                                                 <% } else { %>
-
                                                                 <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
                                                                 <a href="<%= request.getContextPath() %>/ServletVecino?action=inscribirEvento&id=<%= evento.getIdEventos() %>" class="btn btn-primary" style="flex: auto;">Inscríbete aquí</a>
-
-                                                                <% }else { %>
+                                                                <% } else { %>
                                                                 <button class="btn btn-primary" style="flex: auto;" disabled>Ya inscrito</button>
-                                                                <%} %>
-
+                                                                <% } %>
+                                                                <% } %>
                                                                 <% } %>
                                                                 <% } %>
 
