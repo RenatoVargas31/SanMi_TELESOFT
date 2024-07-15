@@ -26,6 +26,33 @@ public class ServletLoguin extends HttpServlet {
         String correoUsuario = request.getParameter("email-username");
         String passwordUsuario = request.getParameter("password");
         String rememberMe = request.getParameter("remember-me");
+        // Validaciones
+        boolean valid = true;
+        StringBuilder errorMsg = new StringBuilder();
+
+        // Validar correo
+        if (correoUsuario == null || correoUsuario.trim().isEmpty()) {
+            valid = false;
+            errorMsg.append("El correo es obligatorio.<br>");
+        } else if (!correoUsuario.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            valid = false;
+            errorMsg.append("El formato del correo es incorrecto.<br>");
+        }
+
+        // Validar contraseña
+        if (passwordUsuario == null || passwordUsuario.trim().isEmpty()) {
+            valid = false;
+            errorMsg.append("La contraseña es obligatoria.<br>");
+        } else if (passwordUsuario.length() < 6) {
+            valid = false;
+            errorMsg.append("La contraseña debe tener al menos 6 caracteres.<br>");
+        }
+
+        if (!valid) {
+            request.setAttribute("error", errorMsg.toString());
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            return;
+        }
 
         Usuario usuario = usuarioDAO.validarUsuario(correoUsuario, passwordUsuario);
 

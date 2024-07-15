@@ -97,14 +97,28 @@
                                     <h5 class="card-title text-white mb-0">Reportar Incidencia</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3">
-                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=reportarIncidencia" enctype="multipart/form-data">
-
+                                    <form id="reportarIncidenciaForm" enctype="multipart/form-data">
+                                        <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label" for="fullname">Nombre</label>
-                                                <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nombre" required/>
+                                                <label for="nombreIncidencia" class="form-label">Nombre de la Incidencia</label>
+                                                <input type="text" class="form-control" id="nombreIncidencia" name="nombreIncidencia" placeholder="Nombre de la Incidencia" required>
+                                                <div id="nombreIncidenciaError" class="error" style="color: red;"></div>
                                             </div>
-
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="phone">Teléfono</label>
+                                                <input type="text" id="phone" name="phone" class="form-control" placeholder="Opcional" />
+                                                <div id="telefonoError" class="error" style="color: red;"></div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="LugarExacto">Lugar Exacto</label>
+                                                <textarea name="LugarExacto" class="form-control" id="LugarExacto" rows="2" placeholder="Av, jr, calle." required></textarea>
+                                                <div id="lugarExactoError" class="error" style="color: red;"></div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="Referencia">Referencia</label>
+                                                <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required />
+                                                <div id="referenciaError" class="error" style="color: red;"></div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
                                                 <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
@@ -113,13 +127,8 @@
                                                     <option value="<%=t.getId()%>"><%=t.getName()%></option>
                                                     <%}%>
                                                 </select>
+                                                <div id="tipoIncidenciaError" class="error" style="color: red;"></div>
                                             </div>
-
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="LugarExacto">Lugar Exacto</label>
-                                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" placeholder="Av, jr, calle." required/>
-                                            </div>
-
                                             <div class="col-md-6">
                                                 <label class="form-label" for="urbanizacion">Urbanizacion</label>
                                                 <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
@@ -128,39 +137,36 @@
                                                     <option value="<%=u.getId()%>"><%=u.getName()%></option>
                                                     <%}%>
                                                 </select>
+                                                <div id="urbanizacionError" class="error" style="color: red;"></div>
                                             </div>
-
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="Referencia">Referencia</label>
-                                                <input type="text" id="Referencia" name="Referencia" class="form-control" placeholder="Cerca a . . ." required/>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="phone">Telefono</label>
-                                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="" required/>
-                                            </div>
-
                                             <div class="col-12">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" value="a" id="ambulancia" name="ambulancia" >
-                                                    <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia"
+                                                        <%= request.getParameter("requiereAmbulancia") != null ? "checked" : "" %>>
+                                                    <label class="form-check-label" for="requiereAmbulancia">Es necesario una ambulancia</label>
                                                 </div>
+                                                <div id="requiereAmbulanciaError" class="error" style="color: red;"></div>
                                             </div>
 
                                             <div class="col-12">
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
+                                                    <input type="file" class="form-control" id="file" name="fotoincidencia" accept="image/jpeg, image/png">
+                                                    <div id="fotoincidenciaError" class="error" style="color: red;"></div>
                                                 </div>
                                             </div>
-
-                                            <div class="d-flex justify-content-between align-items-center mt-4">
-                                                <button class="btn btn-label-primary" onclick="checkFieldsAndGoBack();">Atrás</button>
-                                                <div class="flex-grow-1 d-flex justify-content-center">
-                                                    <input type="submit" value="Guardar" class="btn btn-primary"/>
-                                                </div>
-                                                <div style="width: 86px;"></div>
+                                            <div class="col-12 mt-3 text-center">
+                                                <label for="previewImage" class="form-label">Imagen a subir:</label>
+                                                <img id="previewImage" style="max-width: 400px; display: none; margin: 0 auto;"/>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-4">
+                                            <button class="btn btn-label-primary" type="button" onclick="checkFieldsAndGoBack();">Atrás</button>
+                                            <div class="flex-grow-1 d-flex justify-content-center">
+                                                <button class="btn btn-primary" type="submit" style="background-color: #33CCFF; color: white; text-align: center;">Reportar</button>
+                                            </div>
+                                            <div style="width: 86px;"></div> <!-- This empty div serves as a spacer to maintain balance -->
+                                        </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -303,29 +309,84 @@
     </div>
 </div>
 <script>
-    function closeModal() {
-        const modal = document.getElementById('deletionModal');
-        modal.style.display = 'none'; // Oculta el modal
-    }
-    function promptDeletion() {
-        var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
-        myModal.show(); // This is the correct way to show a mod
+    function validateForm() {
+        let nombreIncidencia = document.getElementById('nombreIncidencia').value.trim();
+        let lugarExacto = document.getElementById('LugarExacto').value.trim();
+        let referencia = document.getElementById('Referencia').value.trim();
+
+        if (!nombreIncidencia || !lugarExacto || !referencia) {
+            alert('Por favor, complete todos los campos obligatorios .');
+            return false; // Previene el envío del formulario
+        }
+        return true; // Permite el envío del formulario
     }
 
-    function submitDeletion() {
-        const reason = document.getElementById('deleteReason').value;
-        if (reason === '') {
-            alert('Por favor, ingrese un motivo para la eliminación.');
-            return;
-        }
+    function areFieldsFilled() {
+        const nombreIncidencia = document.getElementById('nombreIncidencia').value.trim();
+        const LugarExacto = document.getElementById('LugarExacto').value.trim();
+        const referencia = document.getElementById('Referencia').value.trim();
 
-        if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
-            console.log('Motivo:', reason); // Aquí deberías enviar el motivo a la base de datos
-            alert('La incidencia ha sido eliminada correctamente.');
-            closeModal();
-            // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
+        return nombreIncidencia && LugarExacto && referencia > 0;
+    }
+
+    function checkFieldsAndGoBack() {
+        if (areFieldsFilled()) {
+            const confirmLeave = confirm('Todavía no ha reportado su incidencia. ¿Desea regresar de todas formas o reportar la incidencia ahora? OK para regresar, Cancelar para seguir escribiendo.');
+            if (confirmLeave) {
+                window.location.href = '${pageContext.request.contextPath}/ServletCoordinadora?action=listarIncidencias';
+            }
+        } else {
+            const confirmLeaveNoReport = confirm('No ha registrado los datos necesarios, ¿Está seguro que quiere volver? No se registrará su incidencia. Aceptar: Volver a lista general de incidencias. Cancelar: Seguir llenando los campos');
+            if (confirmLeaveNoReport) {
+                window.location.href = '${pageContext.request.contextPath}/ServletCoordinadora?action=listarIncidencias';
+            }
         }
     }
+
+    document.getElementById('inputGroupFile03').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        if (!allowedExtensions.exec(file.name)) {
+            alert('Solo puedes subir imágenes (archivos con terminación jpg o png)');
+            event.target.value = '';
+        } else {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imagePreview = document.createElement('img');
+                imagePreview.src = e.target.result;
+                imagePreview.style.maxWidth = '200px';
+                document.body.appendChild(imagePreview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $(document).ready(function() {
+        $("#reportarIncidenciaForm").submit(function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/ServletCoordinadora?action=reportarIncidencia",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = "${pageContext.request.contextPath}/ServletCoordinadora?action=listarMisIncidencias";
+                    } else {
+                        $(".error").text(""); // Clear previous errors
+                        for (var key in response) {
+                            $("#" + key + "Error").text(response[key]);
+                        }
+                    }
+                }
+            });
+        });
+    });
 </script>
 
 </body>

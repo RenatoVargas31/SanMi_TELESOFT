@@ -96,84 +96,93 @@
                         <div class="col-12 col-lg-8">
                             <div class="card">
                                 <div class="card-header" style="background-color: #33CCFF; color: white; text-align: center;">
-                                    <h5 class="card-title text-white mb-0">Editar Incidencia</h5>
+                                    <h5 class="card-title text-white mb-0">Actualizar Incidencia</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3">
-                                        <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=resetIncidencia" enctype="multipart/form-data">
-                                            <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
+                                    <form id="actualizarIncidenciaForm" enctype="multipart/form-data">
+                                        <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
+                                        <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label" for="fullname">Nombre</label>
-                                                <input type="text" id="fullname" name="fullname" class="form-control" value="<%= incidencia.getNombreIncidencia() == null ? "" : incidencia.getNombreIncidencia()%>" placeholder="Nombre" />
+                                                <label class="form-label" for="fullname">Nombre de la incidencia</label>
+                                                <input type="text" id="fullname" name="fullname" class="form-control" value="<%= incidencia.getNombreIncidencia() == null ? "" : incidencia.getNombreIncidencia()%>" placeholder="Nombre de la incidencia" />
+                                                <div id="nombreIncidenciaError" class="error" style="color: red;"></div>
                                             </div>
 
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="phone">Teléfono</label>
+                                                <input type="text" class="form-control" name="phone" id="phone" value="<%= incidencia.getTelefono()%>"  placeholder="" />
+                                                <div id="telefonoError" class="error" style="color: red;"></div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label" for="LugarExacto">Lugar Exacto</label>
+                                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" value="<%= incidencia.getLugarIncidencia() == null ? "" : incidencia.getLugarIncidencia()%>" placeholder="Av, jr, calle."/>
+                                                <div id="lugarExactoError" class="error" style="color: red;"></div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label" for="Referencia">Referencia</label>
+                                                <input type="text" id="Referencia" name="Referencia" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." />
+                                                <div id="referenciaError" class="error" style="color: red;"></div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="tipoIncidencia">Tipo de Incidencia</label>
                                                 <select id="tipoIncidencia" name="tipoIncidencia" class="select2 form-select">
-                                                    <% for (TipoIncidencia t : tipos) {
-                                                        String selected = "";
-                                                        if (incidencia.getIdTipoIncidencia()==t.getId()) {
-                                                            selected = "selected";
-                                                        }
-                                                    %>
-                                                    <option value="<%=t.getId()%>" <%=selected%>><%=t.getName()%></option>
-                                                    <%}%>
-
+                                                    <option value="sinSeleccion">--Seleccione--</option>
+                                                    <% for (TipoIncidencia t : tipos) { %>
+                                                    <option value="<%= t.getId() %>" <%= (incidencia.getIdTipoIncidencia() ==t.getId()) ? "selected" : "" %>><%= t.getName() %></option>
+                                                    <% } %>
                                                 </select>
-                                            </div>
-
-
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="LugarExacto">Lugar Exacto</label>
-                                                <input type="text" id="LugarExacto" name="LugarExacto" class="form-control" value="<%= incidencia.getLugarIncidencia() == null ? "" : incidencia.getLugarIncidencia()%>" placeholder="Av, jr, calle."/>
+                                                <div id="tipoIncidenciaError" class="error" style="color: red;"></div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label class="form-label" for="urbanizacion">Urbanizacion</label>
                                                 <select id="urbanizacion" name="urbanizacion" class="select2 form-select">
-                                                    <% for (Urbanizacion u : urbanizaciones) {
-                                                        String selected = "";
-                                                        if (incidencia.getIdUrbanizacion()==u.getId()) {
-                                                            selected = "selected";
-                                                        }
-                                                    %>
-                                                    <option value="<%=u.getId()%>" <%=selected%>><%=u.getName()%></option>
-                                                    <%}%>
-
+                                                    <option value="sinSeleccion">--Seleccione--</option>
+                                                    <% for (Urbanizacion u : urbanizaciones) { %>
+                                                    <option value="<%= u.getId() %>" <%= (incidencia.getIdUrbanizacion() == u.getId()) ? "selected" : "" %>><%= u.getName() %></option>
+                                                    <% } %>
                                                 </select>
+                                                <div id="urbanizacionError" class="error" style="color: red;"></div>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="Referencia">Referencia</label>
-                                                <input type="text" id="Referencia" name="Referencia" class="form-control" value="<%= incidencia.getReferenciaIncidencia() == null ? "" : incidencia.getReferenciaIncidencia()%>" placeholder="Cerca a . . ." />
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="phone">Telefono</label>
-                                                <input type="text" class="form-control" name="phone" id="phone" value="<%= incidencia.getTelefono()%>"  placeholder="" />
-                                            </div>
-
-                                            <div class="col-12">
+                                            <div class="col-12 d-flex align-items-center">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" <% if(incidencia.isRequiereAmbulancia()) { %> checked="" <%}%> >
                                                     <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
                                                 </div>
+                                                <div class="input-group ms-3">
+                                                    <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                                    <div id="fotoincidenciaError" class="error" style="color: red;"></div>
+                                                </div>
                                             </div>
 
-                                            <div class="col-12">
-                                                <div class="input-group">
-                                                    <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
+                                            <div class="col-12 mt-3 text-center">
+                                                <label for="currentImage" class="form-label">Imagen actual:</label>
+                                                <% if (incidencia.getFotoIncidencia() != null) { %>
+                                                <div>
+                                                    <img id="currentImage" src="<%=request.getContextPath()%>/ServletCoordinadora?action=servirImagenIncidencia&id=<%= incidencia.getIdIncidencias() %>" alt="Imagen actual" style="max-width: 400px;"/>
+                                                </div>
+                                                <% } else { %>
+                                                <div class="alert alert-warning" role="alert">
+                                                    No hay foto adjunta para este reporte.
+                                                </div>
+                                                <% } %>
+                                                <div>
+                                                    <img id="previewImage" style="max-width: 400px; display: none; margin: 0 auto;"/>
                                                 </div>
                                             </div>
 
                                             <div class="d-flex justify-content-between align-items-center mt-4">
-                                                <button class="btn btn-label-primary" onclick="checkFieldsAndGoBack();">Atrás</button>
+                                                <button class="btn btn-label-primary" type="button" onclick="checkFieldsAndGoBack();">Atrás</button>
                                                 <div class="flex-grow-1 d-flex justify-content-center">
-                                                    <input type="submit" value="Guardar" class="btn btn-primary"/>
+                                                    <button class="btn btn-primary" type="submit" style="background-color: #33CCFF; color: white; text-align: center;">Guardar</button>
                                                 </div>
                                                 <div style="width: 86px;"></div>
                                             </div>
-                                        </form>
+                                        </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -294,51 +303,53 @@
         })
     });
 </script>
-<div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar este elemento?</p>
-                <div class="mb-3">
-                    <label for="deleteReason" class="form-label">Motivo de la eliminación:</label>
-                    <input type="text" class="form-control" id="deleteReason" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
+<
 <script>
-    function closeModal() {
-        const modal = document.getElementById('deletionModal');
-        modal.style.display = 'none'; // Oculta el modal
-    }
-    function promptDeletion() {
-        var myModal = new bootstrap.Modal(document.getElementById('deletionModal'));
-        myModal.show(); // This is the correct way to show a mod
-    }
+    $(document).ready(function() {
+        $("#actualizarIncidenciaForm").submit(function(event) {
+            event.preventDefault();
 
-    function submitDeletion() {
-        const reason = document.getElementById('deleteReason').value;
-        if (reason === '') {
-            alert('Por favor, ingrese un motivo para la eliminación.');
-            return;
-        }
+            var formData = new FormData(this);
 
-        if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
-            console.log('Motivo:', reason); // Aquí deberías enviar el motivo a la base de datos
-            alert('La incidencia ha sido eliminada correctamente.');
-            closeModal();
-            // Aquí deberías implementar la lógica para eliminar la fila del servidor/base de datos
-        }
-    }
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/ServletCoordinadora?action=actualizarIncidencia",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = "${pageContext.request.contextPath}/ServletCoordinadora?action=listarMisIncidencias";
+                    } else {
+                        $(".error").text(""); // Clear previous errors
+                        for (var key in response) {
+                            $("#" + key + "Error").text(response[key]);
+                        }
+                    }
+                }
+            });
+        });
+
+        document.getElementById('file').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+            if (!allowedExtensions.exec(file.name)) {
+                alert('Solo puedes subir imágenes (archivos con terminación jpg o png)');
+                event.target.value = '';
+            } else {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImage = document.getElementById('previewImage');
+                    const currentImage = document.getElementById('currentImage');
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    currentImage.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 </script>
 
 </body>
