@@ -183,7 +183,7 @@
                                         <td> <span class="badge bg-label-hover-success">Deporte</span></td>
                                         <% } %>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/ServletVecino?action=viewEvento&id=<%=evento.getIdEventos() %>" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm">
+                                            <a href="${pageContext.request.contextPath}/ServletVecino?action=viewMiEvento&id=<%=evento.getIdEventos() %>" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm">
                                                 <i class='bx bx-show'></i>
                                             </a>
 

@@ -739,6 +739,28 @@ public class DaoEvento extends BaseDao {
         return lista;
     }
 
+    public boolean isEventosInscritosporUsuario(int idUsuario, int idEvento) throws SQLException {
+        ArrayList<Integer> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usuarios_has_eventos WHERE Usuarios_idUsuarios = ? and Eventos_idEventos = ?";
+
+        try (Connection connection = this.getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idUsuario);
+            pstmt.setInt(2, idEvento);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(rs.getInt(1));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Error al listar eventos inscritos por usuario", e);
+            }
+        }
+
+        return !lista.isEmpty();
+    }
+
     public void borrarInscripcion(int idUsuario, int idEvento){
         String sql = "DELETE FROM usuarios_has_eventos WHERE Eventos_idEventos = ? AND Usuarios_idUsuarios=?";
 

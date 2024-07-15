@@ -105,6 +105,12 @@ public class ServletVecino extends HttpServlet {
                 manejarViewEvento(request, response);
                 break;
 
+            case "viewMiEvento":
+                request.setAttribute("activeMenu", "EventosInscritos");
+                request.setAttribute("activeMenuToggle", "Eventos");
+                manejarViewMiEvento(request, response);
+                break;
+
             case "inscribirEvento":
                 request.setAttribute("activeMenu", "CatalogoEventos");
                 request.setAttribute("activeMenuToggle", "Eventos");
@@ -117,6 +123,7 @@ public class ServletVecino extends HttpServlet {
 
                 request.getRequestDispatcher("WEB-INF/Vecino/eventosInscritos.jsp").forward(request, response);
                 break;
+
 
             case "incidenciasGenerales":
                 request.setAttribute("activeMenu", "IncidenciasGenerales");
@@ -885,13 +892,13 @@ public class ServletVecino extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/viewEventos.jsp");
                     view.forward(request, response);
                 } else {
-                    manejarErrorEvento(request, response, "Evento no encontrado");
+                    response.sendRedirect(request.getContextPath() + "/ServletVecino?action=listaEventos");
                 }
             } catch (NumberFormatException e) {
-                manejarErrorEvento(request, response, "ID de evento inválido");
+                response.sendRedirect(request.getContextPath() + "/ServletVecino?action=listaEventos");
             }
         } else {
-            manejarErrorEvento(request, response, "ID de evento no proporcionado");
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=listaEventos");
         }
     }
 
@@ -1005,6 +1012,33 @@ public class ServletVecino extends HttpServlet {
             e.printStackTrace(); // o registra el error en los logs del servidor
             // Puedes redirigir a una página de error si es necesario
             // response.sendRedirect(request.getContextPath() + "/error.jsp");
+        }
+    }
+
+    private void manejarViewMiEvento(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        DaoEvento dao = new DaoEvento();
+
+        if (id != null && !id.isEmpty()) {
+            try {
+                int eventId = Integer.parseInt(id);
+                boolean existe = dao.isEventosInscritosporUsuario(usuario.getIdUsuarios(), eventId);
+                if (existe) {
+                    Evento evento = eventoDao.searchEventobyId(eventId);
+                    request.setAttribute("evento", evento);
+                    RequestDispatcher view = request.getRequestDispatcher("WEB-INF/Vecino/viewEventos.jsp");
+                    view.forward(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/ServletVecino?action=eventosInscritos");
+                }
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/ServletVecino?action=eventosInscritos");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/ServletVecino?action=eventosInscritos");
         }
     }
 
