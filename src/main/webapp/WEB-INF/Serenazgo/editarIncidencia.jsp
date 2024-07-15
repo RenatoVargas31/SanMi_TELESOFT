@@ -1,6 +1,7 @@
 <%@ page import="com.example.sanmi_telesoft.beans.Prioridad" %>
 <%@ page import="com.example.sanmi_telesoft.beans.PersonalAmbulancia" %>
-<%@ page import="com.example.sanmi_telesoft.beans.TipoSereno" %><%--
+<%@ page import="com.example.sanmi_telesoft.beans.TipoSereno" %>
+<%@ page import="com.example.sanmi_telesoft.dto.serenoYtipo" %><%--
   Created by IntelliJ IDEA.
   User: jaimi
   Date: 16/06/2024
@@ -23,9 +24,9 @@
         return;
     }
 %>
-<jsp:useBean id="listaAmulancia" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.PersonalAmbulancia>" scope="request" />
+<jsp:useBean id="listaAmbulancia" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.PersonalAmbulancia>" scope="request" />
 <jsp:useBean id="listaPrioridad" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.Prioridad>" scope="request" />
-<jsp:useBean id="listaSereno" type="java.util.ArrayList<com.example.sanmi_telesoft.beans.TipoSereno>" scope="request" />
+<jsp:useBean id="listaSereno" type="java.util.ArrayList<com.example.sanmi_telesoft.dto.serenoYtipo>" scope="request" />
 <jsp:include page="head.jsp"/>
 
 <body>
@@ -42,72 +43,67 @@
             <div class="col-12 col-lg-8">
                 <div class="card">
                     <div class="card-header" style="background-color: #33CCFF; color: white; text-align: center;">
-                        <h5 class="card-title text-white mb-0">Actualizar Incidencia</h5>
+                        <h5 class="card-title text-white mb-0">Guardar respuesta</h5>
                     </div>
                     <div class="card-body">
-                        <form id="actualizarIncidenciaForm" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=solucionIncidencia" enctype="multipart/form-data">
+                        <form id="actualizarIncidenciaForm" method="post" action="<%=request.getContextPath()%>/ServletSerenazgo?action=solucionIncidencia" enctype="multipart/form-data">
                             <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
                             <div class="row g-3">
-
                                 <div class="col-md-6">
-                                    <label class="form-label" for="tipoPrioridad">Tipo de Incidencia</label>
+                                    <label class="form-label" for="tipoPrioridad">Criticidad</label>
                                     <select id="tipoPrioridad" name="tipoPrioridad" class="select2 form-select">
                                         <option value="sinSeleccion">--Seleccione--</option>
                                         <% for (Prioridad p : listaPrioridad) { %>
-                                        <option value="<%= p.getId() %>" <%= (incidencia.getIdTipoIncidencia() ==p.getId()) ? "selected" : "" %>><%= p.getNombre() %></option>
+                                        <option value="<%= p.getId() %>" <%= (incidencia.getIdTipoIncidencia() == p.getId()) ? "selected" : "" %>><%= p.getNombre() %></option>
                                         <% } %>
                                     </select>
                                     <div id="tipoIncidenciaError" class="error" style="color: red;"></div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="personalAmbulancia">Urbanizacion</label>
+                                    <label class="form-label" for="personalAmbulancia">Personal de Ambulancia</label>
                                     <select id="personalAmbulancia" name="personalAmbulancia" class="select2 form-select">
                                         <option value="sinSeleccion">--Seleccione--</option>
-                                        <% for (PersonalAmbulancia p : listaAmulancia) { %>
-                                        <option value="<%= p.getId() %>" <%= (incidencia.getIdIncidencias() == p.getId()) ? "selected" : "" %>><%= p.getNombre() + p.getApellido()%> </option>
+                                        <% for (PersonalAmbulancia p : listaAmbulancia) { %>
+                                        <option value="<%= p.getId() %>" <%= (incidencia.getIdIncidencias() == p.getId()) ? "selected" : "" %>><%= p.getNombre() + " "+p.getApellido()%></option>
                                         <% } %>
                                     </select>
                                     <div id="urbanizacionError" class="error" style="color: red;"></div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label class="form-label" for="tipoSereno">Urbanizacion</label>
-                                    <select id="tipoSereno" name="tipoSereno" class="select2 form-select">
-                                        <option value="sinSeleccion">--Seleccione--</option>
-                                        <% for (TipoSereno t : listaSereno) { %>
-                                        <option value="<%= t.getNameTipo() %>" <%= (incidencia.getNameUsuario() == t.getNameTipo()) ? "selected" : "" %>><%= t.getNameTipo()%> </option>
-                                        <% } %>
-                                    </select>
-                                    <div id="serenoError" class="error" style="color: red;"></div>
-                                </div>
+
+
 
                                 <div class="col-12 d-flex align-items-center">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" <% if(incidencia.isRequiereAmbulancia()) { %> checked="" <%}%> >
                                         <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
                                     </div>
-                                    <div class="input-group ms-3">
-                                        <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png">
-                                        <div id="fotoincidenciaError" class="error" style="color: red;"></div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="" id="policia" name="policia" <% if(incidencia.isRequierePolicia()) { %> checked="" <%}%> >
+                                        <label class="form-check-label" for="ambulancia">Es necesario llamar a la policía</label>
                                     </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="" id="bombero" name="bombero" <% if(incidencia.isRequierePolicia()) { %> checked="" <%}%> >
+                                        <label class="form-check-label" for="bombero">Es necesario un bombero</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="tipoSereno">Tipo de serenazgo</label>
+                                        <select id="tipoSereno" name="tipoSereno" class="select2 form-select">
+                                            <option value="sinSeleccion">--Seleccione--</option>
+                                            <% for (serenoYtipo t : listaSereno) { %>
+                                            <option value="<%= t.getId() %>" <%= (incidencia.getNameUsuario() == t.getNombre()) ? "selected" : "" %>><%= t.getNombre()%> - <%= t.getTipo()%></option>
+                                            <% } %>
+                                        </select>
+                                        <div id="serenoError" class="error" style="color: red;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label" for="descrpcion">Descripción </label>
+                                    <input type="text" class="form-control" name="descrpcion" id="descrpcion" maxlength="255"/>
                                 </div>
 
-                                <div class="col-12 mt-3 text-center">
-                                    <label for="currentImage" class="form-label">Imagen actual:</label>
-                                    <% if (incidencia.getFotoIncidencia() != null) { %>
-                                    <div>
-                                        <img id="currentImage" src="<%=request.getContextPath()%>/ServletSerenazgo?action=servirImagenIncidencia&id=<%= incidencia.getIdIncidencias() %>" alt="Imagen actual" style="max-width: 400px;"/>
-                                    </div>
-                                    <% } else { %>
-                                    <div class="alert alert-warning" role="alert">
-                                        No hay foto adjunta para este reporte.
-                                    </div>
-                                    <% } %>
-                                    <div>
-                                        <img id="previewImage" style="max-width: 400px; display: none; margin: 0 auto;"/>
-                                    </div>
-                                </div>
+
 
                                 <div class="d-flex justify-content-between align-items-center mt-4">
                                     <button class="btn btn-label-primary" type="button" onclick="checkFieldsAndGoBack();">Atrás</button>
@@ -118,6 +114,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -127,92 +124,79 @@
 
 <jsp:include page="styles.jsp"/>
 
-<script>
-    // Verifica que todos los campos de texto estén llenos y que un archivo haya sido cargado
-    function validateForm() {
-        let lugarExacto = document.getElementById('LugarExacto-actualizarProfesor').value.trim();
-        let referencia = document.getElementById('Referencia-actualizarProfesor').value.trim();
-        let fileInput = document.getElementById('inputGroupFile03-actualizarProfesor');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('actualizarIncidenciaForm');
+            const tipoPrioridad = document.getElementById('tipoPrioridad');
+            const personalAmbulancia = document.getElementById('personalAmbulancia');
+            const tipoSereno = document.getElementById('tipoSereno');
+            const fileInput = document.getElementById('file');
+            const previewImage = document.getElementById('previewImage');
 
-        if (!lugarExacto || !referencia || fileInput.files.length === 0) {
-            alert('Por favor, complete todos los campos obligatorios y suba una imagen.');
-            return false;
-        }
-        return true;
-    }
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
 
-    function checkFieldsAndGoBack() {
-        var confirmLeaveNoReport = confirm('No se ha actualizado su incidencia. ¿Está seguro que quiere volver? Aceptar: Volver . Cancelar: Seguir llenando los campos');
-        if (confirmLeaveNoReport) {
-            window.location.href = '${pageContext.request.contextPath}/ServletSerenazgo?action=misIncidencias';
-        }
-    }
+                // Validar tipoPrioridad
+                if (tipoPrioridad.value === 'sinSeleccion') {
+                    showError('tipoIncidenciaError', 'Debe seleccionar una criticidad.');
+                    isValid = false;
+                } else {
+                    clearError('tipoIncidenciaError');
+                }
 
-    document.getElementById('inputGroupFile03-actualizarProfesor').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                // Validar personalAmbulancia
+                if (personalAmbulancia.value === 'sinSeleccion') {
+                    showError('urbanizacionError', 'Debe seleccionar el personal de ambulancia.');
+                    isValid = false;
+                } else {
+                    clearError('urbanizacionError');
+                }
 
-        if (!allowedExtensions.exec(file.name)) {
-            alert('Solo puedes subir imágenes !(archivos con terminación jpg o png)');
-            event.target.value = '';
-        } else {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var imagePreview = document.createElement('img');
-                imagePreview.src = e.target.result;
-                imagePreview.style.maxWidth = '200px';
-                document.body.appendChild(imagePreview);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $("#actualizarIncidenciaForm").submit(function(event) {
-            event.preventDefault();
+                // Validar tipoSereno
+                if (tipoSereno.value === 'sinSeleccion') {
+                    showError('serenoError', 'Debe seleccionar el tipo de serenazgo.');
+                    isValid = false;
+                } else {
+                    clearError('serenoError');
+                }
 
-            var formData = new FormData(this);
-
-            $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/Servlet?action=actualizarIncidencia",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        window.location.href = "${pageContext.request.contextPath}/ServletSerenazgova?action=misIncidencias";
+                // Validar archivo (opcional, si no es obligatorio)
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const validTypes = ['image/jpeg', 'image/png'];
+                    if (!validTypes.includes(file.type)) {
+                        showError('fotoincidenciaError', 'El archivo debe ser una imagen en formato JPEG o PNG.');
+                        isValid = false;
                     } else {
-                        $(".error").text(""); // Clear previous errors
-                        for (var key in response) {
-                            $("#" + key + "Error").text(response[key]);
-                        }
+                        clearError('fotoincidenciaError');
+                        // Mostrar imagen previa
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                            previewImage.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
                     }
                 }
+
+                if (!isValid) {
+                    event.preventDefault();
+                }
             });
+
+            function showError(id, message) {
+                document.getElementById(id).textContent = message;
+            }
+
+            function clearError(id) {
+                document.getElementById(id).textContent = '';
+            }
+
+            function checkFieldsAndGoBack() {
+                // Aquí puedes implementar la lógica para regresar a la página anterior
+                window.history.back();
+            }
         });
-    });
-
-    document.getElementById('file').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-
-        if (!allowedExtensions.exec(file.name)) {
-            alert('Solo puedes subir imágenes (archivos con terminación jpg o png)');
-            event.target.value = '';
-        } else {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const previewImage = document.getElementById('previewImage');
-                const currentImage = document.getElementById('currentImage');
-                previewImage.src = e.target.result;
-                previewImage.style.display = 'block';
-                currentImage.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
+    </script>
 </body>
 </html>

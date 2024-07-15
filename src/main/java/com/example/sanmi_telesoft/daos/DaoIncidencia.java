@@ -208,6 +208,28 @@ public class DaoIncidencia extends BaseDao{
             e.printStackTrace();
         }
     }
+
+    public void guardarSolucion(boolean ambulancia, boolean policia, boolean bombero, int idTipoIncidencia, int idAmbulancia, int idSereno, int idIncidencias) {
+        String sql = "UPDATE incidencias SET requiereAmbulancia = ?, requierePolicia = ?, requiereBombero = ?, CriticidadIncidencia_idCriticidadIncidencia = ?, personalAmbulancia_idpersonalAmbulancia = ?, Serenazgos_idSerenazgos = ? WHERE idIncidencias = ?";
+
+        try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setBoolean(1, ambulancia);
+            pstmt.setBoolean(2,policia);
+            pstmt.setBoolean(3, bombero);
+            pstmt.setInt(4,idTipoIncidencia);
+            pstmt.setInt(5,idAmbulancia);
+            pstmt.setInt(6,idSereno);
+            pstmt.setInt(7,idIncidencias);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     public byte[] obtenerFotoIncidencia(int idIncidencia) throws SQLException {
         byte[] foto = null;
         String sql = "SELECT fotoIncidencia FROM incidencias WHERE idIncidencias = ?";
