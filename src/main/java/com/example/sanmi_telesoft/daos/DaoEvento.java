@@ -720,7 +720,7 @@ public class DaoEvento extends BaseDao {
 
     public ArrayList<Integer> eventosInscritosporUsuario(int idUsuario) throws SQLException {
         ArrayList<Integer> lista = new ArrayList<>();
-        String sql = "SELECT * FROM usuarios_has_eventos WHERE Usuarios_idUsuarios = ? and is_bannedEvento=1";
+        String sql = "SELECT * FROM usuarios_has_eventos WHERE Usuarios_idUsuarios = ? ";
 
         try (Connection connection = this.getConection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {

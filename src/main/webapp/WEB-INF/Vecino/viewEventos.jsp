@@ -357,9 +357,6 @@
                                                                 %>
 
 
-                                                                <% if (baneado==1) { %>
-                                                                <button class="btn btn-primary" style="flex: auto;" disabled>Estás prohibido a este evento</button>
-                                                                <% } else { %>
 
                                                                 <% if (evento.getVacantesDisp() == 0) { %>
                                                                 <% if (!usuarioEvento.contains(evento.getIdEventos())) { %>
@@ -380,7 +377,7 @@
                                                                 <% } %>
                                                                 <% } %>
                                                                 <% } %>
-                                                                <% } %>
+
 
 
                                                             </div>
