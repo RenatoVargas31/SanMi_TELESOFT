@@ -197,14 +197,13 @@
                                                     <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Recuerda que:</h3>
                                                     </div>
                                         <div class ="row lh-lg pr-3 "  style="padding-right: 30px">
-                                        <h5 style="color: rgb(55,55,55);margin-top:20px;margin-left: 15px;line-height: 1.5 ;text-align: justify" >- El uso de entradas están bajo responsabilidad del usuario actual</h5></div>
-                                        <div class ="row lh-lg pr-3" style="padding-right: 30px" ><h5 style="color: rgb(55,55,55);margin-left: 15px;line-height: 1.5;text-align: justify">- El máximo de entradas es 4, con el fin de mantener el orden</h5></div>
-                                            <div class ="row lh-lg " style="padding-right: 30px"><h5 style="color: rgb(55,55,55);margin-left: 15px;line-height: 1.5;text-align: justify">- El uso indebido de las entradas puede terminar en la suspensión de tu cuenta </h5></div>
+
+                                        <h5 style="color: rgb(55,55,55);margin-top:20px;margin-left: 15px;line-height: 1.5 ;text-align: justify" >- El uso de vacantes están bajo responsabilidad del usuario actual</h5></div>
+
+                                            <div class ="row lh-lg " style="padding-right: 30px"><h5 style="color: rgb(55,55,55);margin-left: 15px;line-height: 1.5;text-align: justify">- El uso indebido de las vacantes puede terminar en la suspensión de tu cuenta </h5></div>
+                                        <div class ="row lh-lg " style="padding-right: 30px"><h5 style="color: rgb(55,55,55);margin-left: 15px;line-height: 1.5;text-align: justify">- Elija adecuadamente sus vacantes para que no se traslape con otros eventos</h5></div>
 
                                         <form method="post" action="<%= request.getContextPath() %>/ServletVecino?action=guardarInscripcion&id=<%= evento.getIdEventos() %> ">
-
-
-
 
 
                                             <div class="container mt-4">
@@ -255,9 +254,7 @@
                                                 <h5 style="color: rgb(0,0,0); font-weight: 600">Organizado por:</h5>
                                                 <div class="d-flex justify-content-start align-items-start user-name">
                                                     <div class="d-flex flex-column" >
-                                                        <div class="avatar avatar-lg me-4">
-                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle img-fluid">
-                                                        </div>
+
                                                     </div>
                                                     <div class="d-flex flex-column">
                                                         <% int idCoordi = evento.getIdCoordinadora(); %>
@@ -276,11 +273,7 @@
                                             <div class="col-md-5 mt-lg-0 mt-3">
                                                 <h5 style="color: rgb(0,0,0);font-weight: 600" >Profesor:</h5>
                                                 <div class="d-flex justify-content-start align-items-start user-name">
-                                                    <div class="d-flex flex-column" >
-                                                        <div class="avatar avatar-lg me-4">
-                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle img-fluid">
-                                                        </div>
-                                                    </div>
+
                                                     <div class="d-flex flex-column">
                                                         <span class="fs-6"  style="color: rgb(0,0,0);font-weight: 650">
                                                             <%= evento.getProfesor().getNombreProfesor() + " " + evento.getProfesor().getApellidoProfesor() %>

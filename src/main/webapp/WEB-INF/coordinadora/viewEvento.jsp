@@ -208,9 +208,7 @@
                                                 <h5 style="color: rgb(0,0,0); font-weight: 650">Organizado por:</h5>
                                                 <div class="d-flex justify-content-start align-items-start user-name">
                                                     <div class="d-flex flex-column" >
-                                                        <div class="avatar avatar-lg me-4">
-                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle img-fluid">
-                                                        </div>
+
                                                     </div>
                                                     <div class="d-flex flex-column">
                                                         <% int idCoordi = evento.getIdCoordinadora(); %>
@@ -230,9 +228,7 @@
                                                 <h5 style="color: rgb(0,0,0);font-weight: 650" >Profesor:</h5>
                                                 <div class="d-flex justify-content-start align-items-start user-name">
                                                     <div class="d-flex flex-column" >
-                                                        <div class="avatar avatar-lg me-4">
-                                                            <img src="${pageContext.request.contextPath}/assets/img/avatars/11.png" alt="Avatar" class="rounded-circle img-fluid">
-                                                        </div>
+
                                                     </div>
                                                     <div class="d-flex flex-column">
                                                         <span class="fs-6"  style="color: rgb(0,0,0);font-weight: 650">

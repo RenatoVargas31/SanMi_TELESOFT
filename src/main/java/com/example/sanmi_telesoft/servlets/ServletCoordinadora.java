@@ -119,6 +119,8 @@ public class ServletCoordinadora extends HttpServlet {
                 }
                 break;
 
+
+
             case "listarMisIncidencias":
                 DaoIncidencia daoIncidencia1 = new DaoIncidencia();
                 ArrayList<Incidencia> listaMisIncidencias = daoIncidencia1.listarMisIncidencias(1);
@@ -487,86 +489,118 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
             case "guardarEventos":
-                String nombreEvento = request.getParameter("nombre");
-                String vacantes = request.getParameter("vacantes");
-                String descripcion = request.getParameter("descripcion");
-                String ubicacion = request.getParameter("LugarExacto");
-                String FechaInicio = request.getParameter("FechaInicio");
-                String FechaFin = request.getParameter("FechaFin");
-                String Materiales = request.getParameter("materiales");
-                int idEvento = Integer.parseInt((((request.getParameter("tipoEvento")))));
-                String horaInicio = request.getParameter("horaInicio");
-                int idProfesor = Integer.parseInt((((request.getParameter("profesorId")))));
-                String horaFin = request.getParameter("horaFin");
-                int idCoordinadora= Integer.parseInt((((request.getParameter("idCoordinadora")))));
+                try {
+                    String nombreEvento = request.getParameter("nombre");
+                    String vacantes = request.getParameter("vacantes");
+                    String descripcion = request.getParameter("descripcion");
+                    String ubicacion = request.getParameter("LugarExacto");
+                    String FechaInicio = request.getParameter("FechaInicio");
+                    String FechaFin = request.getParameter("FechaFin");
+                    String Materiales = request.getParameter("materiales");
+                    int idEvento = Integer.parseInt(request.getParameter("tipoEvento"));
+                    String horaInicio = request.getParameter("horaInicio");
+                    int idProfesor = Integer.parseInt(request.getParameter("profesorId"));
+                    String horaFin = request.getParameter("horaFin");
+                    int idCoordinadora = Integer.parseInt(request.getParameter("idCoordinadora"));
 
-                InputStream fotoEvento = request.getPart("file").getInputStream();
-                byte[] fotoEvento2 = fotoEvento.readAllBytes();
+                    // Validaciones
+                    if (nombreEvento.isEmpty()) {
+                        request.setAttribute("errorMessage", "El nombre del evento no puede ser nulo.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+                    if (descripcion.length() > 255) {
+                        request.setAttribute("errorMessage", "La descripción no puede exceder los 255 caracteres.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+                    if (Materiales != null && Materiales.length() > 255) {
+                        request.setAttribute("errorMessage", "Los materiales no pueden exceder los 255 caracteres.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+                    if (FechaFin.compareTo(FechaInicio) < 0) {
+                        request.setAttribute("errorMessage", "La fecha de fin debe ser mayor o igual a la fecha de inicio.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
+                    if (FechaFin.equals(FechaInicio) && horaFin.compareTo(horaInicio) <= 0) {
+                        request.setAttribute("errorMessage", "Si la fecha de fin es igual a la fecha de inicio, la hora de fin debe ser mayor a la hora de inicio.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
 
-                Evento evento = new Evento();
-                evento.setNombreEvento(nombreEvento);
-                evento.setVacantesDisp(Integer.parseInt(vacantes));
-                evento.setDescriptionEvento(descripcion);
-                evento.setLugarEvento(ubicacion);
-                evento.setFechaEventoStart(FechaInicio);
-                evento.setFechaEventoEnd(FechaFin);
-                evento.setMaterialesEvento(Materiales);
-                evento.setHoraEventoStart(horaInicio);
-                evento.setHoraEventoEnd(horaFin);
-                evento.setFotosStart(fotoEvento2);
-                Profesor profesor = new Profesor();
-                profesor.setIdProfesores(idProfesor);
-                evento.setProfesor(profesor);
-                TipoEvento tipoEvento1 = new TipoEvento();
-                tipoEvento1.setIdTipoEvento(idEvento);
+                    InputStream fotoEvento = request.getPart("file").getInputStream();
+                    byte[] fotoEvento2 = fotoEvento.readAllBytes();
 
-                //Validacion de la frecuencia
+                    Evento evento = new Evento();
+                    evento.setNombreEvento(nombreEvento);
+                    evento.setVacantesDisp(Integer.parseInt(vacantes));
+                    evento.setDescriptionEvento(descripcion);
+                    evento.setLugarEvento(ubicacion);
+                    evento.setFechaEventoStart(FechaInicio);
+                    evento.setFechaEventoEnd(FechaFin);
+                    evento.setMaterialesEvento(Materiales);
+                    evento.setHoraEventoStart(horaInicio);
+                    evento.setHoraEventoEnd(horaFin);
+                    evento.setFotosStart(fotoEvento2);
 
-                String[] diasSeleccionados = request.getParameterValues("diasSemana");
+                    Profesor profesor = new Profesor();
+                    profesor.setIdProfesores(idProfesor);
+                    evento.setProfesor(profesor);
 
-                if (diasSeleccionados != null) {
-                    for (String dia : diasSeleccionados) {
-                        switch (dia) {
-                            case "lunesActive":
-                                lunesActive = true;
-                                break;
-                            case "martesActive":
-                                martesActive = true;
-                                break;
-                            case "miercolesActive":
-                                miercolesActive = true;
-                                break;
-                            case "juevesActive":
-                                juevesActive = true;
-                                break;
-                            case "viernesActive":
-                                viernesActive = true;
-                                break;
-                            case "sabadoActive":
-                                sabadoActive = true;
-                                break;
-                            case "domingoActive":
-                                domingoActive = true;
-                                break;
+                    TipoEvento tipoEvento1 = new TipoEvento();
+                    tipoEvento1.setIdTipoEvento(idEvento);
+                    evento.setTipoEvento(tipoEvento1);
+
+                    // Validacion de la frecuencia
+                    String[] diasSeleccionados = request.getParameterValues("diasSemana");
+
+                    if (diasSeleccionados != null) {
+                        for (String dia : diasSeleccionados) {
+                            switch (dia) {
+                                case "lunesActive":
+                                    evento.setLunesActive(true);
+                                    break;
+                                case "martesActive":
+                                    evento.setMartesActive(true);
+                                    break;
+                                case "miercolesActive":
+                                    evento.setMiercolesActive(true);
+                                    break;
+                                case "juevesActive":
+                                    evento.setJuevesActive(true);
+                                    break;
+                                case "viernesActive":
+                                    evento.setViernesActive(true);
+                                    break;
+                                case "sabadoActive":
+                                    evento.setSabadoActive(true);
+                                    break;
+                                case "domingoActive":
+                                    evento.setDomingoActive(true);
+                                    break;
+                            }
                         }
                     }
-                }
 
-                evento.setLunesActive(lunesActive);
-                evento.setMartesActive(martesActive);
-                evento.setMiercolesActive(miercolesActive);
-                evento.setJuevesActive(juevesActive);
-                evento.setViernesActive(viernesActive);
-                evento.setSabadoActive(sabadoActive);
-                evento.setDomingoActive(domingoActive);
-                EstadoEvento estadoEvento = new EstadoEvento();
-                //Todos se inicializan con el estado NoIniciado
-                estadoEvento.setIdEstadoEvento(1);
-                evento.setIdCoordinadora(idCoordinadora);
-                evento.setEstadoEvento(estadoEvento);
-                evento.setTipoEvento(tipoEvento1);
-                eventoDao.crearEvento(evento);
-                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");
+                    EstadoEvento estadoEvento = new EstadoEvento();
+                    estadoEvento.setIdEstadoEvento(1); // Estado NoIniciado
+                    evento.setEstadoEvento(estadoEvento);
+
+                    evento.setIdCoordinadora(idCoordinadora);
+
+                    eventoDao.crearEvento(evento);
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=verMisEventos");
+                } catch (NumberFormatException e) {
+                    // Manejo de error si no se puede parsear algún número
+                    request.setAttribute("errorMessage", "Error: uno de los valores numéricos no es válido.");
+                    request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage", "Error al guardar el evento.");
+                    request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                }
                 break;
 
 
@@ -585,6 +619,12 @@ public class ServletCoordinadora extends HttpServlet {
                     String materiales1 = request.getParameter("materiales");
 
                     // Validaciones
+
+                    if (nombreEvento1.isEmpty()) {
+                        request.setAttribute("errorMessage", "El nombre del evento no tiene que ser nulo.");
+                        request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
+                        return;
+                    }
                     if (descripcion1.length() > 255) {
                         request.setAttribute("errorMessage", "La descripción no puede exceder los 255 caracteres.");
                         request.getRequestDispatcher("WEB-INF/coordinadora/error.jsp").forward(request, response);
