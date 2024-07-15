@@ -111,6 +111,10 @@
                                         <td><%=evento.getVacantesDisp()%></td>
                                         <td><%=evento.getFechaEventoStart()%></td>
                                         <td>
+                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal3"> <i
+                                                    class='bx bx-check'></i> </button>
+                                            <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal4"> <i
+                                                    class='bx bx-exit'></i> </button>
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                     data-bs-toggle="modal"
@@ -130,10 +134,9 @@
                                                     data-bs-target="#modal-editar-incidencia"><i
                                                     class='bx bx-edit'></i></button>
 
-
-
                                             <button type="button" class="btn btn-icon btn-icon-only btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCCModal"> <i
                                                     class='bx bx-x'></i> </button>
+
                         <!-- Add New Credit Card Modal-->
                         <div class="modal fade" id="addNewCCModal" tabindex="-1" aria-hidden="true">
                             <div class=" modal-dialog-centered1 modal-simple modal-add-new-cc">
@@ -159,6 +162,80 @@
                                 </div>
                             </div>
                         </div>
+
+
+                                            <div class="modal fade" id="addNewCCModal3" tabindex="-1" aria-hidden="true">
+                                                <div class=" modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                                    <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <div class="text-center mb-4">
+
+                                                                <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Confirmación de asistenicia</h3>
+                                                                <hr class="my-4">
+
+                                                                <div class="col-12">
+                                                                    <div class="input-group">
+                                                                        <label class="form-label ">Foto de asistencia</label>
+                                                                        <div class="col-12">
+                                                                            <input type="file" class="form-control" id="file" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
+                                                                            <div id="fileFeedback1" style="color: red; display: none;">Solo se permiten archivos de imagen (JPEG, PNG).</div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr class="my-4 opacity-0">
+
+                                                                <h5>¿Estás seguro de marcar tu asistencia al evento <%= evento.getNombreEvento()%>?</h5>
+                                                            </div>
+                                                            <div class="col-12 text-center">
+                                                                <a href="<%= request.getContextPath() %>/ServletCoordinadora?action=verMisEventos" class="btn btn-primary me-sm-3 me-1 mt-3">
+                                                                    Confirmar asistencia
+                                                                </a>
+                                                                <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal fade" id="addNewCCModal4" tabindex="-1" aria-hidden="true">
+                                                <div class=" modal-dialog-centered1 modal-simple modal-add-new-cc">
+                                                    <div class="modal-content p-3 p-md-5 modal-dialog modal-simple modal-add-new-cc">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <div class="text-center mb-4">
+
+                                                                <h3 style=" color: rgb(0,0,0); margin-bottom:40px; font-weight: 650;;line-height: 1.5" class="mb-0 pt-1">Confirmación de salida</h3>
+                                                                <hr class="my-4">
+                                                                <div class="col-12">
+                                                                    <div class="input-group">
+                                                                        <label class="form-label">Foto de salida</label>
+                                                                        <div class="col-12">
+                                                                            <input type="file" class="form-control" id="file2" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload" accept="image/jpeg, image/png" required>
+                                                                            <div id="fileFeedback2" style="color: red; display: none;">Solo se permiten archivos de imagen (JPEG, PNG).</div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr class="my-4 opacity-0">
+                                                                <h5>¿Estás seguro de marcar tu salida del evento <%= evento.getNombreEvento()%>?</h5>
+                                                            </div>
+                                                            <div class="col-12 text-center">
+                                                                <a href="<%= request.getContextPath() %>/ServletCoordinadora?action=verMisEventos" class="btn btn-primary me-sm-3 me-1 mt-3">
+                                                                    Confirmar salida
+                                                                </a>
+                                                                <button type="reset" class="btn btn-label-secondary btn-reset mt-3" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
 
                                         </td>
@@ -236,6 +313,31 @@
                             <script>
                                 document.write(new Date().getFullYear())
 
+                            </script>
+                            <script>
+                                function validateFile(inputId, feedbackId) {
+                                    const fileInput = document.getElementById(inputId);
+                                    const file = fileInput.files[0];
+                                    const feedback = document.getElementById(feedbackId);
+
+                                    if (file) {
+                                        const validExtensions = ['image/jpeg', 'image/png'];
+                                        if (!validExtensions.includes(file.type)) {
+                                            fileInput.value = '';  // Limpiar el input
+                                            feedback.style.display = 'block';
+                                        } else {
+                                            feedback.style.display = 'none';
+                                        }
+                                    }
+                                }
+
+                                document.getElementById('file').addEventListener('change', function() {
+                                    validateFile('file', 'fileFeedback1');
+                                });
+
+                                document.getElementById('file2').addEventListener('change', function() {
+                                    validateFile('file2', 'fileFeedback2');
+                                });
                             </script>
                             , made by <a href="https://themeselection.com/" target="_blank"
                                          class="footer-link fw-medium">Telesoft</a>
