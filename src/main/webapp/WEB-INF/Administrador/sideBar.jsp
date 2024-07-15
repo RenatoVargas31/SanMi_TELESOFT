@@ -71,19 +71,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item ${activeMenuToggle == 'Coordinadora' ? 'active' : ''} ">
-            <a href="#" class="menu-link menu-toggle">
-                <i class='menu-icon tf-icons bx bx-calendar-event'></i>
-                <div class="text-truncate" data-i18n="Coordinadora">Coordinadora</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item ${activeMenu == 'mostrarPostulaciones' ? 'active' : ''}">
-                    <a href="<%=request.getContextPath()%>/ServletAdministrador?action=mostrarPostulaciones" class="menu-link"><!--Zona de linkeo href: -->
-                        <div class="text-truncate" data-i18n="Postulaciones">Postulaciones</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+
         <!-- Academy menu end -->
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text" data-i18n="Personal de Serenazgo">Personal de Serenazgo</span>
