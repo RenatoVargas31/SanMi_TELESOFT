@@ -124,7 +124,7 @@
                                             <button type="button"
                                                     class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                                     data-bs-toggle="modal"
-                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=viewEvento&id=<%=evento.getIdEventos()%>';"
+                                                    onclick="window.location.href='<%= request.getContextPath()%>/ServletCoordinadora?action=miViewEvento&id=<%=evento.getIdEventos()%>';"
                                                     data-bs-target="#modal-ver-incidencia"><i
                                                     class='bx bx-show'></i></button>
                                             <button type="button"
