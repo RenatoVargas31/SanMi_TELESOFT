@@ -98,10 +98,38 @@ public class EmailService {
             message.setSubject(subject);
 
             MimeBodyPart bodyPart = new MimeBodyPart();
-            String htmlContent = "<h1>Hola,</h1>"
+            String htmlContent = "<!DOCTYPE html>"
+                    + "<html>"
+                    + "<head>"
+                    + "<style>"
+                    + "body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }"
+                    + "h1 { color: #004080; }"
+                    + "p { font-size: 14px; color: #333333; }"
+                    + ".container { background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }"
+                    + ".header { text-align: center; }"
+                    + ".logo { width: 150px; }"
+                    + "a { color: #004080; text-decoration: none; font-weight: bold; }"
+                    + "a:hover { text-decoration: underline; }"
+                    + ".footer { text-align: center; margin-top: 20px; font-size: 12px; color: #777777; }"
+                    + "</style>"
+                    + "</head>"
+                    + "<body>"
+                    + "<div class='container'>"
+                    + "<div class='header'>"
+                    + "<img src='https://empleabilidad.iesrp.edu.pe/wp-content/uploads/2023/07/San-Miguel.jpg' alt='Municipalidad de San Miguel' class='logo' />"
+                    + "</div>"
+                    + "<h1>Hola,</h1>"
                     + "<p>Haz clic en el siguiente enlace para más información:</p>"
-                    + "<a href=\"" + link + "\">Enlace</a>";
+                    + "<a href='" + link + "'>Enlace</a>"
+                    + "</div>"
+                    + "<div class='footer'>"
+                    + "<p>Municipalidad de San Miguel - Lima, Perú</p>"
+                    + "<p><a href='https://www.sanmiguel.gob.pe'>www.sanmiguel.gob.pe</a></p>"
+                    + "</div>"
+                    + "</body>"
+                    + "</html>";
             bodyPart.setContent(htmlContent, "text/html");
+
 
 
             MimeMultipart multipart = new MimeMultipart();
@@ -193,10 +221,39 @@ public class EmailService {
             message.setSubject(subject);
 
             MimeBodyPart bodyPart = new MimeBodyPart();
-            String htmlContent = "<h1>Hola, " + name + "</h1>"
+            String htmlContent = "<!DOCTYPE html>"
+                    + "<html>"
+                    + "<head>"
+                    + "<style>"
+                    + "body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }"
+                    + "h1 { color: #004080; }"
+                    + "p { font-size: 14px; color: #333333; }"
+                    + ".container { background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }"
+                    + ".header { text-align: center; }"
+                    + ".logo { width: 150px; }"
+                    + ".footer { text-align: center; margin-top: 20px; font-size: 12px; color: #777777; }"
+                    + "</style>"
+                    + "</head>"
+                    + "<body>"
+                    + "<div class='container'>"
+                    + "<div class='header'>"
+                    + "<img src='https://empleabilidad.iesrp.edu.pe/wp-content/uploads/2023/07/San-Miguel.jpg' alt='Municipalidad de San Miguel' class='logo' />"
+                    + "</div>"
+                    + "<h1>Hola, " + name + "</h1>"
                     + "<p>Bienvenido a SanMi:</p>"
-                    + "<p>Para poder ingresar a la página debes restablecer tu contraseña y adquirir una nueva contraseña</p>";
+                    + "<p>Para poder ingresar a la página, debes restablecer tu contraseña y adquirir una nueva.</p>"
+                    + "<p>Si necesitas ayuda, no dudes en contactarnos.</p>"
+                    + "<p class='signature'>Atentamente,<br>El equipo de SanMi</p>"
+                    + "</div>"
+                    + "<div class='footer'>"
+                    + "<p>Municipalidad de San Miguel - Lima, Perú</p>"
+                    + "<p><a href='https://www.sanmiguel.gob.pe'>www.sanmiguel.gob.pe</a></p>"
+                    + "</div>"
+                    + "</body>"
+                    + "</html>";
             bodyPart.setContent(htmlContent, "text/html");
+
+
 
 
             MimeMultipart multipart = new MimeMultipart();
@@ -237,9 +294,39 @@ public class EmailService {
             message.setSubject(subject);
 
             MimeBodyPart bodyPart = new MimeBodyPart();
-            String htmlContent = "<h1>Hola, " + name + "</h1>"
-                    + "<p>Su solicitud de registro no ha sido aprobada, ya que los datos proporcionados no son correctos</p>";
+            String htmlContent = "<!DOCTYPE html>"
+                    + "<html>"
+                    + "<head>"
+                    + "<style>"
+                    + "body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }"
+                    + "h1 { color: #004080; }"
+                    + "p { font-size: 14px; color: #333333; }"
+                    + ".container { background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }"
+                    + ".header { text-align: center; }"
+                    + ".logo { width: 150px; }"
+                    + ".signature { margin-top: 20px; }"
+                    + ".footer { text-align: center; margin-top: 20px; font-size: 12px; color: #777777; }"
+                    + "</style>"
+                    + "</head>"
+                    + "<body>"
+                    + "<div class='container'>"
+                    + "<div class='header'>"
+                    + "<img src='https://empleabilidad.iesrp.edu.pe/wp-content/uploads/2023/07/San-Miguel.jpg' alt='Municipalidad de San Miguel' class='logo' />"
+                    + "</div>"
+                    + "<h1>Estimado/a " + name + ",</h1>"
+                    + "<p>Lamentamos informarle que su solicitud de registro no ha sido aprobada debido a que los datos proporcionados no son correctos.</p>"
+                    + "<p>Por favor, revise y actualice la información para poder continuar con el proceso.</p>"
+                    + "<p>Gracias por su comprensión.</p>"
+                    + "<p class='signature'>Atentamente,<br>El equipo de soporte</p>"
+                    + "</div>"
+                    + "<div class='footer'>"
+                    + "<p>Municipalidad de San Miguel - Lima, Perú</p>"
+                    + "<p><a href='https://www.sanmiguel.gob.pe'>www.sanmiguel.gob.pe</a></p>"
+                    + "</div>"
+                    + "</body>"
+                    + "</html>";
             bodyPart.setContent(htmlContent, "text/html");
+
 
 
             MimeMultipart multipart = new MimeMultipart();

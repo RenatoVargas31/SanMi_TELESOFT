@@ -45,7 +45,7 @@
                         <h5 class="card-title text-white mb-0">Actualizar Incidencia</h5>
                     </div>
                     <div class="card-body">
-                        <form id="actualizarIncidenciaForm" enctype="multipart/form-data">
+                        <form id="actualizarIncidenciaForm" method="post" action="<%=request.getContextPath()%>/ServletCoordinadora?action=solucionIncidencia" enctype="multipart/form-data">
                             <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
                             <div class="row g-3">
 

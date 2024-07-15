@@ -5,6 +5,7 @@ import com.example.sanmi_telesoft.beans.*;
 import com.example.sanmi_telesoft.daos.*;
 
 import com.example.sanmi_telesoft.dto.IncidenciasFalsas;
+import com.example.sanmi_telesoft.dto.serenoYtipo;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -115,6 +116,7 @@ public class ServletSerenazgo extends HttpServlet {
 
             case "verDetalleHistorial":
                 verDetallesIncidenciaHistorial(request, response);
+                break;
 
             case "mostrarActualizarIncidencia":
                 mostrarActualizarIncidencia(request, response);
@@ -418,7 +420,7 @@ public class ServletSerenazgo extends HttpServlet {
                 if(i != null && i.getSerenazgoid() == usuario.getIdUsuarios()) {
                     ArrayList<Prioridad> listaPrioridad = prioridadDao.getListaPrioridad();
                     ArrayList<PersonalAmbulancia> listaPersonalAmbulancia = personalAmbulanciaDao.getListaPersonalAmbulancia();
-                    ArrayList<TipoSereno> listaTipoSereno = tipoSerenazgoDao.getListaTipoSereno();
+                    ArrayList<serenoYtipo> listaTipoSereno = tipoSerenazgoDao.getListaTipoSereno();
 
                     request.setAttribute("listaAmbulancia", listaPersonalAmbulancia);
                     request.setAttribute("listaSereno", listaTipoSereno);
