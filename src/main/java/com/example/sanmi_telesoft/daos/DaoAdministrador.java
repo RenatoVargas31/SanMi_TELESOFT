@@ -316,7 +316,7 @@ public class DaoAdministrador extends BaseDao {
         return dispatcher;
     };
     public void crearDispatcher(String nombreDispatcher, String apellidodDispatcher, String dniDispatcher, String telefonoDispatcher, String correoDispatcher, String nacimientoDispatcher, String direccionDispatcher, String passwordDispatcher){
-        String sql = "insert into usuarios (nombreUsuario, apellidoUsuario, dniUsuario, telefonoUsuario, correoUsuario, nacimientoDate,direccionUsuario, passwordUsuario, Roles_idRoles) values (?,?,?,?,?,?,?,?,'2'); ";
+        String sql = "insert into usuarios (nombreUsuario, apellidoUsuario, dniUsuario, telefonoUsuario, correoUsuario, nacimientoDate,direccionUsuario, passwordUsuario, Roles_idRoles, is_active) values (?,?,?,?,?,?,?,?,'2','1'); ";
         try(Connection connection = getConection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 

@@ -125,18 +125,60 @@
                                 <label class="form-label" for="nombreDeCampo">Nombres</label>
                                 <input type="text" id="nombreDeCampo" name="nombreDeCampo" class="form-control" value="<%=deCampo.getNombreSereno()%>" />
                             </div>
+                            <script>
+                                document.getElementById('nombreDeCampo').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="apellidoDeCampo">Apellidos</label>
                                 <input type="text" id="apellidoDeCampo" name="apellidoDeCampo" class="form-control" value="<%=deCampo.getApellidoSereno()%>" />
                             </div>
+                            <script>
+                                document.getElementById('apellidoDeCampo').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="dniDeCampo">DNI</label>
                                 <input type="text" id="dniDeCampo" name="dniDeCampo" class="form-control" value="<%=deCampo.getDniSereno()%>" />
                             </div>
+                            <script>
+                                document.getElementById('dniDeCampo').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Verificar si el input cumple con la longitud deseada y el regex
+                                    if (!regex.test(key) || this.value.length >= 8) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="telefonoDeCampo">Teléfono</label>
                                 <input type="text" id="telefonoDeCampo" name="telefonoDeCampo" class="form-control" value="<%=deCampo.getTelefonoSereno()%>" />
                             </div>
+                            <script>
+                                document.getElementById('telefonoDeCampo').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Verificar si el input cumple con la longitud deseada y el regex
+                                    if (!regex.test(key) || this.value.length >= 9) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="tipoDeCampo">Tipo</label>
                                 <select id="tipoDeCampo" name="tipoDeCampo" class="select2 form-select">
@@ -174,6 +216,16 @@
                                 <label class="form-label" for="direccionDeCampo">Dirección</label>
                                 <input type="text" id="direccionDeCampo" name="direccionDeCampo" class="form-control" value="<%=deCampo.getDireccionSereno()%>" />
                             </div>
+                            <script>
+                                document.getElementById('direccionDeCampo').addEventListener('keypress', function(event) {
+
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if ((key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div>
                                 <input type="hidden" id="idDeCampo" name="idDeCampo" value="<%= deCampo.getIdSerenazgos() %>">
                             </div>

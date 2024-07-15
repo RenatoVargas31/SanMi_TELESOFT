@@ -185,14 +185,14 @@
                                     <td><%= profesor.getDniProfesor() %></td>
                                     <td><%= profesor.getCursoProfesor()%></td>
                                     <td>
-                                        <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarProfesor&idProfesor=<%= profesor.getIdProfesores() %>">
+                                        <a type="button" class="btn btn-info btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarProfesor&idProfesor=<%= profesor.getIdProfesores() %>">
                                             <i class='bx bx-edit'></i>
                                         </a>
                                         <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
+                                                class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalToggle<%= profesor.getIdProfesores() %>"><i
-                                                class='bx bx-trash'></i>
+                                                class='bx bx-x-circle'></i>
                                         </button>
 
 

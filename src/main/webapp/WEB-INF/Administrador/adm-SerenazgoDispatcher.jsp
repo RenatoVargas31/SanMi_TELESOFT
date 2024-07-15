@@ -142,7 +142,7 @@
                                     <th>DNI</th>
                                     <th>Correo Electrónico</th>
                                     <th>Teléfono</th>
-                                    <th>Cuenta</th>
+                                    <th>Domicilio</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -171,6 +171,7 @@
                                 <tbody>
 
                                 <%for (Usuario dispatcher : listaDispatchers) {%>
+                                <%if(dispatcher.getIsActive().equals("1")){%>
                                 <tr>
                                     <td><div class="d-flex align-items-center">
                                         <div class="avatar-wrapper">
@@ -185,14 +186,14 @@
                                     <td><%= dispatcher.getDniUsuario() %></td>
                                     <td><%= dispatcher.getCorreoUsuario() %></td>
                                     <td><%= dispatcher.getTelefonoUsuario()%></td>
-                                    <td><%= dispatcher.getIsActive().equals("1") ? "Activada" : "No activada" %></td>
+                                    <td><%=dispatcher.getDireccionUsuario()%></td>
                                     <td>
-                                        <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDispatcher&idDispatcher=<%= dispatcher.getIdUsuarios() %>">
+                                        <a type="button" class="btn btn-info btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDispatcher&idDispatcher=<%= dispatcher.getIdUsuarios() %>">
                                             <i class='bx bx-edit'></i>
                                         </a>
-                                        <% if(dispatcher.getIsActive().equals("1") ) {%>
+
                                         <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm <%= dispatcher.getIsActive().equals("0") ? "disabled" : "" %>"
+                                                class="btn btn-danger btn-sm <%= dispatcher.getIsActive().equals("0") ? "disabled" : "" %>"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalToggle<%= dispatcher.getIdUsuarios() %>"><i
                                                 class='bx bx-trash'></i>
@@ -214,19 +215,9 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <%} else{%>
-                                        <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm disabled"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#"><i
-                                                class='bx bx-trash'></i>
-                                        </button>
-
-                                        <% } %>
-
                                     </td>
                                 </tr>
+                                <% } %>
                                 <% } %>
                                 </tbody>
                             </table>

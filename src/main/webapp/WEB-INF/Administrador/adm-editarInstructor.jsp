@@ -126,7 +126,14 @@
                             <h3 class="address-title fw-bold">Editar Instructor</h3>
                         </div>
                         <form class="row g-3" method="post" action="<%=request.getContextPath()%>/ServletAdministrador?action=editarProfesor">
-
+                            <%
+                                String validaEmpty = (String) request.getSession().getAttribute("validaEmpty");
+                                String validaTipo = (String) request.getSession().getAttribute("validaTipo");
+                                String validaNombre = (String) request.getSession().getAttribute("validaNombre");
+                                String validaApellido = (String) request.getSession().getAttribute("validaApellido");
+                                String validaCurso = (String) request.getSession().getAttribute("validaCurso");
+                                String validaDNI = (String) request.getSession().getAttribute("validaDNI");
+                            %>
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-md mb-md-0 mb-3">
@@ -153,29 +160,94 @@
                                     </div>
                                 </div>
                             </div>
+                            <%if(!(validaTipo==null)){%>
+                            <span style="color: red"><%=validaTipo%></span>
+                            <% session.removeAttribute("validaTipo"); %>
+                            <%}%>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="nombreProfesor">Nombre</label>
                                 <input type="text" id="nombreProfesor" name="nombreProfesor" class="form-control" value="<%= profesor.getNombreProfesor()%>" />
+                                <%if(!(validaNombre==null)){%>
+                                <span style="color: red"><%=validaNombre%></span>
+                                <% session.removeAttribute("validaNombre"); %>
+                                <%}%>
                             </div>
+                            <script>
+                                document.getElementById('nombreProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="apellidoProfesor">Apellidos</label>
                                 <input type="text" id="apellidoProfesor" name="apellidoProfesor" class="form-control" value="<%= profesor.getApellidoProfesor()%>" />
+                                <%if(!(validaApellido==null)){%>
+                                <span style="color: red"><%=validaApellido%></span>
+                                <% session.removeAttribute("validaApellido"); %>
+                                <%}%>
                             </div>
+                            <script>
+                                document.getElementById('apellidoProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="dniProfesor">DNI</label>
                                 <input type="text" id="dniProfesor" name="dniProfesor" class="form-control" value="<%= profesor.getDniProfesor()%>" />
+                                <%if(!(validaDNI==null)){%>
+                                <% session.removeAttribute("validaDNI"); %>
+                                <span style="color: red"><%=validaDNI%></span>
+                                <%}%>
                             </div>
+                            <script>
+                                document.getElementById('dniProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Verificar si el input cumple con la longitud deseada y el regex
+                                    if (!regex.test(key) || this.value.length >= 8) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="cursoProfesor">Curso</label>
                                 <input type="text" id="cursoProfesor" name="cursoProfesor" class="form-control" value="<%= profesor.getCursoProfesor()%>" />
+                                <%if(!(validaCurso==null)){%>
+                                <span style="color: red"><%=validaCurso%></span>
+                                <% session.removeAttribute("validaCurso"); %>
+                                <%}%>
                             </div>
-
+                            <script>
+                                document.getElementById('cursoProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div>
                                 <input type="hidden" id="idProfesor" name="idProfesor" value="<%= profesor.getIdProfesores() %>">
                             </div>
+
                             <div class="col-12 col-md-6">
                                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Guardar</button>
                                 <a href="ServletAdministrador?action=mostrarInstructores" class="btn btn-label-secondary">Cancelar</a>
+                                <%if(!(validaEmpty==null)){%>
+                                <span style="color: red"><%=validaEmpty%></span>
+                                <% session.removeAttribute("validaEmpty"); %>
+                                <%}%>
                             </div>
                         </form>
                     </div>

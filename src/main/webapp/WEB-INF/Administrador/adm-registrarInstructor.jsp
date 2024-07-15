@@ -152,25 +152,72 @@
                                     </div>
                                 </div>
                             </div>
+                            <span style="color: red">${validaTipo}</span>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="nombreProfesor">Nombre</label>
                                 <input type="text" id="nombreProfesor" name="nombreProfesor" class="form-control" placeholder="Nombre" />
+                                <span style="color: red">${validaNombre}</span>
                             </div>
+                            <script>
+                                document.getElementById('nombreProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="apellidoProfesor">Apellidos</label>
                                 <input type="text" id="apellidoProfesor" name="apellidoProfesor" class="form-control" placeholder="Apellido" />
+                                <span style="color: red">${validaApellido}</span>
                             </div>
+                            <script>
+                                document.getElementById('apellidoProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="dniProfesor">DNI</label>
                                 <input type="text" id="dniProfesor" name="dniProfesor" class="form-control" placeholder="DNI (8 dígitos)" />
+                                <span style="color: red">${validaDNI}</span>
                             </div>
+                            <script>
+                                document.getElementById('dniProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Verificar si el input cumple con la longitud deseada y el regex
+                                    if (!regex.test(key) || this.value.length >= 8) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="cursoProfesor">Curso</label>
                                 <input type="text" id="cursoProfesor" name="cursoProfesor" class="form-control" placeholder="Curso a dictar" />
+                                <span style="color: red">${validaCurso}</span>
                             </div>
+                            <script>
+                                document.getElementById('cursoProfesor').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>
                                 <a href="ServletAdministrador?action=mostrarInstructores" class="btn btn-label-secondary">Cancelar</a>
+                                <span style="color: red">${validaNull}</span>
                             </div>
                         </form>
                     </div>

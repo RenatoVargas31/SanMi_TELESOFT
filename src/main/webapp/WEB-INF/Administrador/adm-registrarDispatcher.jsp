@@ -128,30 +128,103 @@
                                 <label class="form-label" for="nombreDispatcher">Nombres</label>
                                 <input type="text" id="nombreDispatcher" name="nombreDispatcher" class="form-control" placeholder="Nombre" />
                             </div>
+                            <script>
+                                document.getElementById('nombreDispatcher').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="apellidoDispatcher">Apellidos</label>
                                 <input type="text" id="apellidoDispatcher" name="apellidoDispatcher" class="form-control" placeholder="Apellido" />
                             </div>
+                            <script>
+                                document.getElementById('apellidoDispatcher').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if (!regex.test(key) || (key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="dniDispatcher">DNI</label>
                                 <input type="text" id="dniDispatcher" name="dniDispatcher" class="form-control" placeholder="DNI" />
                             </div>
+                            <script>
+                                document.getElementById('dniDispatcher').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Verificar si el input cumple con la longitud deseada y el regex
+                                    if (!regex.test(key) || this.value.length >= 8) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="telefonoDispatcher">Teléfono</label>
                                 <input type="text" id="telefonoDispatcher" name="telefonoDispatcher" class="form-control" placeholder="Teléfono" />
                             </div>
+                            <script>
+                                document.getElementById('telefonoDispatcher').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Verificar si el input cumple con la longitud deseada y el regex
+                                    if (!regex.test(key) || this.value.length >= 9) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="correoDispatcher">Correo Electrónico</label>
                                 <input type="text" id="correoDispatcher" name="correoDispatcher" class="form-control" placeholder="Correo Electrónico" />
                             </div>
+                            <script>
+                                document.getElementById('correoDispatcher').addEventListener('keypress', function(event) {
+
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if ((key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 col-md-6">
                                 <label class="form-label" for="nacimientoDispatcher">Fecha de nacimiento</label>
                                 <input type="text" id="nacimientoDispatcher" name="nacimientoDispatcher" class="form-control" placeholder="Fecha de nacimiento" />
                             </div>
+                            <script>
+                                document.getElementById('nacimientoDispatcher').addEventListener('keypress', function(event) {
+                                    var regex = new RegExp("^[0-9-]+$");
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    // Permitir solo números y el guion "-"
+                                    if (!regex.test(key)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
                             <div class="col-12 ">
                                 <label class="form-label" for="direccionDispatcher">Dirección</label>
                                 <input type="text" id="direccionDispatcher" name="direccionDispatcher" class="form-control" placeholder="Dirección" />
                             </div>
+                            <script>
+                                document.getElementById('direccionDispatcher').addEventListener('keypress', function(event) {
+
+                                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                                    if ((key === ' ' && this.value.length === 0)) {
+                                        event.preventDefault();
+                                        return false;
+                                    }
+                                });
+                            </script>
 
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Registrar</button>

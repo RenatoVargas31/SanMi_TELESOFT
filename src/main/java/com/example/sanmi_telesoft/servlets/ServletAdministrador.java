@@ -384,8 +384,51 @@ public class ServletAdministrador extends HttpServlet {
                 String apellidoProfesor = request.getParameter("apellidoProfesor");
                 String dniProfesor = request.getParameter("dniProfesor");
                 String cursoProfesor = request.getParameter("cursoProfesor");
-                daoAdministrador.crearProfesores(nombreProfesor, apellidoProfesor, dniProfesor, tipoProfesor, cursoProfesor);
-                response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+
+                boolean validaNullCrearProfe= tipoProfesor != null && nombreProfesor != null && apellidoProfesor != null && dniProfesor != null && cursoProfesor != null;
+
+                if(validaNullCrearProfe) {
+                    boolean validaTipoProfesor = tipoProfesor.equals("Deporte") || tipoProfesor.equals("Cultura");
+                    boolean validaNombreProfesor = nombreProfesor.length() < 101;
+                    boolean validaApellidoProfesor = apellidoProfesor.length() < 101;
+                    boolean validaCursoProfesor = cursoProfesor.length() < 101;
+                    boolean validaDniProfesor = dniProfesor.length() == 8;
+                    boolean validoCrearProfesor;
+
+                    validoCrearProfesor = validaTipoProfesor && validaNombreProfesor && validaApellidoProfesor && validaCursoProfesor && validaDniProfesor && validaNullCrearProfe;
+
+                    if (validoCrearProfesor) {
+                        daoAdministrador.crearProfesores(nombreProfesor, apellidoProfesor, dniProfesor, tipoProfesor, cursoProfesor);
+                        response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+                    } else {
+                        if (!validaTipoProfesor) {
+                            String mensaje = "* El tipo de profesor no es válido";
+                            request.setAttribute("validaTipo", mensaje);
+                        }
+                        if (!validaNombreProfesor) {
+                            String mensaje = "* El nombre no puede tener más de 100 caracteres";
+                            request.setAttribute("validaNombre", mensaje);
+                        }
+                        if (!validaApellidoProfesor) {
+                            String mensaje = "* El apellido no puede tener más de 100 caracteres";
+                            request.setAttribute("validaApellido", mensaje);
+                        }
+                        if (!validaCursoProfesor) {
+                            String mensaje = "* El curso no puede tener más de 100 caracteres";
+                            request.setAttribute("validaCurso", mensaje);
+                        }
+                        if (!validaDniProfesor) {
+                            String mensaje = "* El DNI debe tener 8 dígitos";
+                            request.setAttribute("validaDNI", mensaje);
+                        }
+                        request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarInstructor.jsp").forward(request, response);
+                    }
+
+                }else{
+                    String mensaje = "* Todos los campos son obligatorios";
+                    request.setAttribute("validaNull", mensaje);
+                    request.getRequestDispatcher("WEB-INF/Administrador/adm-registrarInstructor.jsp").forward(request, response);
+                }
                 break;
             case "editarProfesor":
                 String tipoProfesorEdit = request.getParameter("tipoProfesor");
@@ -394,27 +437,56 @@ public class ServletAdministrador extends HttpServlet {
                 String dniProfesorEdit = request.getParameter("dniProfesor");
                 String cursoProfesorEdit = request.getParameter("cursoProfesor");
                 String idProfesorEdit = request.getParameter("idProfesor");
+                ///////////////////////////////////////////////////////////////
+                boolean validaEmptyEditarProfe= !tipoProfesorEdit.isEmpty() && !nombreProfesorEdit.isEmpty() && !apellidoProfesorEdit.isEmpty() && !dniProfesorEdit.isEmpty() && !cursoProfesorEdit.isEmpty();
 
-                boolean isAllValid2 = true;
+                if(validaEmptyEditarProfe) {
+                    boolean validaTipoProfesor = tipoProfesorEdit.equals("Deporte") || tipoProfesorEdit.equals("Cultura");
+                    boolean validaNombreProfesor = nombreProfesorEdit.length() < 101;
+                    boolean validaApellidoProfesor = apellidoProfesorEdit.length() < 101;
+                    boolean validaCursoProfesor = cursoProfesorEdit.length() < 101;
+                    boolean validaDniProfesor = dniProfesorEdit.length() == 8;
+                    boolean validoEditarProfesor;
 
-                if(dniProfesorEdit.length() > 8){
-                    isAllValid2 = false;
-                }
-                if(isAllValid2) {
-                    Profesor profesor = new Profesor();
-                    profesor.setNombreProfesor(nombreProfesorEdit);
-                    profesor.setApellidoProfesor(apellidoProfesorEdit);
-                    profesor.setDniProfesor(dniProfesorEdit);
-                    profesor.setTipoProfesor(tipoProfesorEdit);
-                    profesor.setCursoProfesor(cursoProfesorEdit);
-                    profesor.setIdProfesores(Integer.parseInt(idProfesorEdit));
+                    validoEditarProfesor = validaTipoProfesor && validaNombreProfesor && validaApellidoProfesor && validaCursoProfesor && validaDniProfesor && validaEmptyEditarProfe;
 
-                    daoAdministrador.actualizarProfesor(profesor);
-                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
-                }else{
-                        request.setAttribute("profesor",daoAdministrador.buscarProfesorPorId(dniProfesorEdit));
-                        request.getRequestDispatcher("WEB-INF/Administrador/adm-inicio.jsp").forward(request,response);
+                    if (validoEditarProfesor) {
+                        Profesor profesor = new Profesor();
+                        profesor.setNombreProfesor(nombreProfesorEdit);
+                        profesor.setApellidoProfesor(apellidoProfesorEdit);
+                        profesor.setDniProfesor(dniProfesorEdit);
+                        profesor.setTipoProfesor(tipoProfesorEdit);
+                        profesor.setCursoProfesor(cursoProfesorEdit);
+                        profesor.setIdProfesores(Integer.parseInt(idProfesorEdit));
+
+                        daoAdministrador.actualizarProfesor(profesor);
+                        response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=mostrarInstructores");
+                    } else {
+                        if (!validaTipoProfesor) {
+                            request.getSession().setAttribute("validaTipo", "* El tipo de profesor no es válido");
+                        }
+                        if (!validaNombreProfesor) {
+                            request.getSession().setAttribute("validaNombre", "* El nombre no puede tener más de 100 caracteres");
+                        }
+                        if (!validaApellidoProfesor) {
+                            request.getSession().setAttribute("validaApellido", "* El apellido no puede tener más de 100 caracteres");
+                        }
+                        if (!validaCursoProfesor) {
+                            request.getSession().setAttribute("validaCurso", "* El curso no puede tener más de 100 caracteres");
+                        }
+                        if (!validaDniProfesor) {
+                            request.getSession().setAttribute("validaDNI", "* El DNI debe tener 8 dígitos");
+                        }
+                        response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=actualizarProfesor&idProfesor="+idProfesorEdit);
                     }
+                    System.out.println("log: funciona la condicional");
+                }else{
+
+                    request.getSession().setAttribute("validaEmpty", "* Todos los campos son obligatorios");
+                    response.sendRedirect(request.getContextPath() + "/ServletAdministrador?action=actualizarProfesor&idProfesor="+idProfesorEdit);
+
+                }
+
                 break;
         }
     }

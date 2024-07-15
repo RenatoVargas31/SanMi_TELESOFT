@@ -190,15 +190,15 @@
                                     <td><%= deCampo.getTurnoSereno()%></td>
                                     <td><%= deCampo.getDireccionSereno()%></td>
                                     <td>
-                                        <a type="button" class="btn btn-icon btn-icon-only btn-label-primary btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDeCampo&idDeCampo=<%= deCampo.getIdSerenazgos() %>">
+                                        <a type="button" class="btn btn-info btn-sm " href="<%=request.getContextPath()%>/ServletAdministrador?action=actualizarDeCampo&idDeCampo=<%= deCampo.getIdSerenazgos() %>">
                                             <i class='bx bx-edit'></i>
                                         </a>
 
                                         <button type="button"
-                                                class="btn btn-icon btn-icon-only btn-label-primary btn-sm"
+                                                class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalToggle<%= deCampo.getIdSerenazgos() %>"><i
-                                                class='bx bx-trash'></i>
+                                                class='bx bx-x-circle'></i>
                                         </button>
                                         <div class="modal fade" id="modalToggle<%= deCampo.getIdSerenazgos() %>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
