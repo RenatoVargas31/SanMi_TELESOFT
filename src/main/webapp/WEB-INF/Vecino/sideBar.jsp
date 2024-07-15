@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sergio
-  Date: 20/06/2024
-  Time: 21:22
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
 
