@@ -97,7 +97,8 @@
                                     <h5 class="card-title text-white mb-0">Reportar Incidencia</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form id="reportarIncidenciaForm" enctype="multipart/form-data">
+                                    <form id="reportarIncidenciaForm" enctype="multipart/form-data" method="POST" action="${pageContext.request.contextPath}/ServletCoordinadora?action=reportarIncidencia">
+                                        <input type="hidden" name="action" value="reportarIncidencia">
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label for="nombreIncidencia" class="form-label">Nombre de la Incidencia</label>
@@ -141,13 +142,11 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="mb-3 form-check">
-                                                    <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia"
-                                                        <%= request.getParameter("requiereAmbulancia") != null ? "checked" : "" %>>
+                                                    <input type="checkbox" class="form-check-input" id="requiereAmbulancia" name="requiereAmbulancia">
                                                     <label class="form-check-label" for="requiereAmbulancia">Es necesario una ambulancia</label>
                                                 </div>
                                                 <div id="requiereAmbulanciaError" class="error" style="color: red;"></div>
                                             </div>
-
                                             <div class="col-12">
                                                 <div class="input-group">
                                                     <input type="file" class="form-control" id="file" name="fotoincidencia" accept="image/jpeg, image/png">
@@ -164,7 +163,7 @@
                                             <div class="flex-grow-1 d-flex justify-content-center">
                                                 <button class="btn btn-primary" type="submit" style="background-color: #33CCFF; color: white; text-align: center;">Reportar</button>
                                             </div>
-                                            <div style="width: 86px;"></div> <!-- This empty div serves as a spacer to maintain balance -->
+                                            <div style="width: 86px;"></div> <!-- Spacer -->
                                         </div>
                                     </form>
                                     </div>
@@ -227,87 +226,12 @@
 </div>
 
 <script>
-    $(function () {
-        var e = $(".select2");
-        e.length && e.each(function () {
-            var e = $(this);
-            e.wrap('<div class="position-relative"></div>').select2({
-                placeholder: "Seleccione",
-                dropdownParent: e.parent()
-            })
-        })
-    }), document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("addNewAddress").addEventListener("show.bs.modal", function (e) {
-            window.Helpers.initCustomOptionCheck()
-        }), FormValidation.formValidation(document.getElementById("addNewAddressForm"), {
-            fields: {
-                modalAddressFirstName: {
-                    validators: {
-                        notEmpty: {message: "Please enter your first name"},
-                        regexp: {regexp: /^[a-zA-Zs]+$/, message: "The first name can only consist of alphabetical"}
-                    }
-                },
-                modalAddressLastName: {
-                    validators: {
-                        notEmpty: {message: "Please enter your last name"},
-                        regexp: {regexp: /^[a-zA-Zs]+$/, message: "The last name can only consist of alphabetical"}
-                    }
-                }
-            },
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger,
-                bootstrap5: new FormValidation.plugins.Bootstrap5({eleValidClass: "", rowSelector: ".col-12"}),
-                submitButton: new FormValidation.plugins.SubmitButton,
-                autoFocus: new FormValidation.plugins.AutoFocus
-            }
-        })
-    });
+
 </script>
 <script>
-    $(function () {
-        var e = $(".select2");
-        e.length && e.each(function () {
-            var e = $(this);
-            e.wrap('<div class="position-relative"></div>').select2({
-                placeholder: "Seleccione",
-                dropdownParent: e.parent()
-            })
-        })
-    }), document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("editarPersonal").addEventListener("show.bs.modal", function (e) {
-            window.Helpers.initCustomOptionCheck()
-        }), FormValidation.formValidation(document.getElementById("editarPersonalForm"), {
 
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger,
-                bootstrap5: new FormValidation.plugins.Bootstrap5({eleValidClass: "", rowSelector: ".col-12"}),
-                submitButton: new FormValidation.plugins.SubmitButton,
-                autoFocus: new FormValidation.plugins.AutoFocus
-            }
-        })
-    });
 </script>
-<div class="modal fade" id="deletionModal" tabindex="-1" aria-labelledby="deletionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deletionModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar este elemento?</p>
-                <div class="mb-3">
-                    <label for="deleteReason" class="form-label">Motivo de la eliminación:</label>
-                    <input type="text" class="form-control" id="deleteReason" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="submitDeletion()">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <script>
     function validateForm() {
         let nombreIncidencia = document.getElementById('nombreIncidencia').value.trim();
@@ -374,6 +298,7 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                dataType: 'json', // Aseguramos que la respuesta sea interpretada como JSON
                 success: function(response) {
                     if (response.success) {
                         window.location.href = "${pageContext.request.contextPath}/ServletCoordinadora?action=listarMisIncidencias";
@@ -383,6 +308,9 @@
                             $("#" + key + "Error").text(response[key]);
                         }
                     }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la solicitud AJAX: ", status, error);
                 }
             });
         });

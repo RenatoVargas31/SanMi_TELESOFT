@@ -28,6 +28,7 @@ public class ServletCoordinadora extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         incidenciaDao = new DaoIncidencia();
+
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,10 +40,17 @@ public class ServletCoordinadora extends HttpServlet {
         request.setAttribute("listaProfesores",daoProfesor.listarProfesores());
         UserDAO userDAO = new UserDAO();
 
+
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+
+
+
         switch (action){
             case "mostrarInicio":
                 // Obtener el usuario de la sesión
-                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
 
                 if (usuario != null) {
                     // Obtener el id del usuario como String
@@ -99,7 +107,9 @@ public class ServletCoordinadora extends HttpServlet {
             case "mostrarReportarIncidencias":
                 mostrarFormularioReportarIncidencia(request, response);
                 break;
-
+            case "verDetallesIncidencia":
+                verDetallesIncidencia(request, response);
+                break;
             case "listarIncidencias":
                 DaoIncidencia daoIncidencia = new DaoIncidencia();
                 ArrayList<Incidencia> listaIncidencias = daoIncidencia.listarIncidencias();
@@ -345,6 +355,7 @@ public class ServletCoordinadora extends HttpServlet {
 
     }
 
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
@@ -361,7 +372,7 @@ public class ServletCoordinadora extends HttpServlet {
             if (idUsuarioParametro != null && !idUsuarioParametro.isEmpty()) {
                 idUsuario = idUsuarioParametro;
             }
-            }
+        }
 
         response.setContentType("text/html");
         String action = request.getParameter("action");
@@ -396,6 +407,7 @@ public class ServletCoordinadora extends HttpServlet {
                 break;
 
             case "reportarIncidencia":
+
                 reportarIncidencia(request, response);
                 break;
             case "actualizarIncidencia":
@@ -663,6 +675,73 @@ public class ServletCoordinadora extends HttpServlet {
         }
 
     }
+    private void verDetallesIncidencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/ServletLoguin");
+            return;
+        }
+
+        String id = request.getParameter("id");
+        if (id != null) {
+            try {
+                int idIncidencia = Integer.parseInt(id);
+                Incidencia incidencia = incidenciaDao.obtenerIncidencia(idIncidencia);
+
+                if (incidencia != null && incidencia.getUsuarioId() == usuario.getIdUsuarios()) {
+                    DaoTipoIncidencias tipoIncidenciaDAO = new DaoTipoIncidencias();
+                    DaoUrbanizacion urbanizacionDAO = new DaoUrbanizacion();
+
+                    ArrayList<TipoIncidencia> tipos = tipoIncidenciaDAO.getTipoIncidencias();
+                    ArrayList<Urbanizacion> urbanizaciones = urbanizacionDAO.getUrbanizaciones();
+
+                    TipoIncidencia tipoIncidencia = null;
+                    for (TipoIncidencia t : tipos) {
+                        if (t.getId() == incidencia.getIdTipoIncidencia()) {
+                            tipoIncidencia = t;
+                            break;
+                        }
+                    }
+
+                    Urbanizacion urbanizacion = null;
+                    for (Urbanizacion u : urbanizaciones) {
+                        if (u.getId() == incidencia.getIdUrbanizacion()) {
+                            urbanizacion = u;
+                            break;
+                        }
+                    }
+
+                    request.setAttribute("incidencia", incidencia);
+                    request.setAttribute("tipoIncidencia", tipoIncidencia);
+                    request.setAttribute("urbanizacion", urbanizacion);
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/coordinadora/detallesIncidencia.jsp");
+                    dispatcher.forward(request, response);
+
+                } else {
+                    // Log the reason for redirection for debugging purposes
+                    if (incidencia == null) {
+                        System.out.println("Incidencia not found for id: " + idIncidencia);
+                    } else if (incidencia.getUsuarioId() != usuario.getIdUsuarios()) {
+                        System.out.println("User ID mismatch: expected " + usuario.getIdUsuarios() + " but got " + incidencia.getUsuarioId());
+                    }
+                    response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("NumberFormatException for id: " + id);
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
+            } catch (Exception e) {
+                System.out.println("Exception occurred: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
+            }
+        } else {
+            System.out.println("ID is null");
+            response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
+        }
+    }
+
     private void servirImagenIncidencia(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             int idIncidencia = Integer.parseInt(request.getParameter("id"));
@@ -924,6 +1003,13 @@ public class ServletCoordinadora extends HttpServlet {
             response.getWriter().write(jsonResponse.toString());
             return;
         }
+        System.out.println("Parametros recibidos:");
+        System.out.println("nombreIncidencia: " + nombreIncidencia);
+        System.out.println("telefono: " + telefono);
+        System.out.println("lugarExacto: " + lugarExacto);
+        System.out.println("referencia: " + referencia);
+        System.out.println("requiereAmbulancia: " + requiereAmbulancia);
+        System.out.println("fotoincidencia: " + (fotoPart != null ? fotoPart.getSubmittedFileName() : "null"));
 
         HttpSession session = request.getSession(false);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -931,6 +1017,7 @@ public class ServletCoordinadora extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/ServletLoguin");
             return;
         }
+        System.out.println("Usuario ID: " + usuario.getIdUsuarios());
 
         Incidencia incidencia = new Incidencia();
         incidencia.setNombreIncidencia(nombreIncidencia);
@@ -954,11 +1041,8 @@ public class ServletCoordinadora extends HttpServlet {
         }
 
         try {
-            DaoIncidencia incidenciaDao = new DaoIncidencia();
-            incidenciaDao.insertarIncidencia(incidencia);
-            JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("success", true);
-            response.getWriter().write(jsonResponse.toString());
+            incidenciaDao.insertarIncidencia_vecino(incidencia);
+            response.sendRedirect(request.getContextPath() + "/ServletCoordinadora?action=listarMisIncidencias");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Error al insertar la incidencia", e);
