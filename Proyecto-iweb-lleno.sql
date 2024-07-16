@@ -85,7 +85,7 @@ CREATE TABLE `estadoincidencia` (
 
 LOCK TABLES `estadoincidencia` WRITE;
 /*!40000 ALTER TABLE `estadoincidencia` DISABLE KEYS */;
-INSERT INTO `estadoincidencia` VALUES (1,'Nueva'),(2,'En proceso'),(3,'Resuelta'), (4,'En camino');
+INSERT INTO `estadoincidencia` VALUES (1,'Nueva'),(2,'En proceso'),(3,'Resuelta'), (4, 'En camino');
 /*!40000 ALTER TABLE `estadoincidencia` ENABLE KEYS */;
 UNLOCK TABLES;
 
