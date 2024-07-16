@@ -108,7 +108,7 @@ public class DaoIncidencia extends BaseDao{
         String sql = "SELECT i.*, CONCAT(u.nombreUsuario, ' ', u.apellidoUsuario) AS name_completo " +
                 "FROM incidencias i " +
                 "JOIN usuarios u ON i.Usuarios_idUsuarios = u.idUsuarios " +
-                "WHERE i.enabled = 1 AND i.EstadoIncidencia_idEstadoIncidencia = 2 AND idSerenazgo = ? order by i.fecha_registro desc";
+                "WHERE i.enabled = 1 AND (i.EstadoIncidencia_idEstadoIncidencia = 2 or i.EstadoIncidencia_idEstadoIncidencia = 4) AND idSerenazgo = ? order by i.fecha_registro desc";
 
         try (Connection conn = this.getConection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -209,17 +209,17 @@ public class DaoIncidencia extends BaseDao{
         }
     }
 
-    public void guardarSolucion(boolean ambulancia, boolean policia, boolean bombero, int idTipoIncidencia, int idAmbulancia, int idSereno, int idIncidencias) {
-        String sql = "UPDATE incidencias SET requiereAmbulancia = ?, requierePolicia = ?, requiereBombero = ?, CriticidadIncidencia_idCriticidadIncidencia = ?, personalAmbulancia_idpersonalAmbulancia = ?, Serenazgos_idSerenazgos = ? WHERE idIncidencias = ?";
+    public void guardarSolucion( boolean policia, boolean bombero, int idTipoIncidencia, int idAmbulancia, int idSereno, String descripcion, int id) {
+        String sql = "UPDATE incidencias SET requierePolicia = ?, requiereBombero = ?, CriticidadIncidencia_idCriticidadIncidencia = ?, personalAmbulancia_idpersonalAmbulancia = ?, Serenazgos_idSerenazgos = ?, EstadoIncidencia_idEstadoIncidencia = 4, descriptionSolucion = ? WHERE idIncidencias = ?";
 
         try (Connection conn = this.getConection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setBoolean(1, ambulancia);
-            pstmt.setBoolean(2,policia);
-            pstmt.setBoolean(3, bombero);
-            pstmt.setInt(4,idTipoIncidencia);
-            pstmt.setInt(5,idAmbulancia);
-            pstmt.setInt(6,idSereno);
-            pstmt.setInt(7,idIncidencias);
+            pstmt.setBoolean(1,policia);
+            pstmt.setBoolean(2, bombero);
+            pstmt.setInt(3,idTipoIncidencia);
+            pstmt.setInt(4,idAmbulancia);
+            pstmt.setInt(5,idSereno);
+            pstmt.setString(6,descripcion);
+            pstmt.setInt(7, id);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -517,6 +517,19 @@ public class DaoIncidencia extends BaseDao{
         } catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public void dale(int id){
+        String sql = "update incidencias set EstadoIncidencia_idEstadoIncidencia = 3";
+
+        try (Connection conn = this.getConection();
+             Statement stmt = conn.createStatement()){
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
 }

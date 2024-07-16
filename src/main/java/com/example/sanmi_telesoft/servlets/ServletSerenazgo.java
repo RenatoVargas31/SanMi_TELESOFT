@@ -26,6 +26,12 @@ public class ServletSerenazgo extends HttpServlet {
         DaoIncidencia daoIncidencia = new DaoIncidencia();
 
         switch (action){
+            case "mostrarOkIncidencia":
+                int ga = Integer.parseInt(request.getParameter("id"));
+                DaoIncidencia dao = new DaoIncidencia();
+                dao.dale(ga);
+                response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarMisIncidencias");
+                break;
             case "mostrarInicio":
                 request.setAttribute("activeMenu", "Inicio");
                 request.getRequestDispatcher("WEB-INF/Serenazgo/indexSerenazgo.jsp").forward(request, response);
@@ -170,16 +176,43 @@ public class ServletSerenazgo extends HttpServlet {
                 break;
 
             case "solucionIncidencia":
+                int personalAmbulancia;
+                int id;
+                int tipoPrioridad;
+                int tipoSereno;
                 // Obtén los parámetros del formulario
-                String tipoPrioridad = request.getParameter("tipoPrioridad");
-                String personalAmbulancia = request.getParameter("personalAmbulancia");
-                String tipoSereno = request.getParameter("tipoSereno");
+                try{
+                    id = Integer.parseInt(request.getParameter("incidencia_id"));
+                } catch (NumberFormatException e){
+                     id = 0;
+                }
+
+                try{
+                    tipoPrioridad = Integer.parseInt(request.getParameter("tipoPrioridad"));
+                } catch (NumberFormatException e){
+                    tipoPrioridad = 0;
+                }
+
+                try{
+                    personalAmbulancia = Integer.parseInt(request.getParameter("personalAmbulancia"));
+                } catch (NumberFormatException e){
+                    personalAmbulancia = 0;
+                }
+
+                try{
+                     tipoSereno = Integer.parseInt(request.getParameter("tipoSereno"));
+                } catch (NumberFormatException e){
+                     tipoSereno = 0;
+                }
+
+
                 String descripcion = request.getParameter("descripcion");
-                boolean requiereAmbulancia = request.getParameter("ambulancia") != null;
+                boolean requiereBombero = request.getParameter("policia") != null;
+                boolean requierPolicia = request.getParameter("bombero") != null;
 
-                // Aquí deberías agregar la lógica para procesar y actualizar la incidencia
+                DaoIncidencia dao = new DaoIncidencia();
+                dao.guardarSolucion(requierPolicia, requiereBombero, tipoPrioridad, personalAmbulancia, tipoSereno, descripcion,id );
 
-                // Redirigir a la página de "mis incidencias"
                 response.sendRedirect(request.getContextPath() + "/ServletSerenazgo?action=mostrarMisIncidencias");
                 break;
 

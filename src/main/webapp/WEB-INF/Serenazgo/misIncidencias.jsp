@@ -194,10 +194,19 @@
                                             href="<%= request.getContextPath()%>/ServletSerenazgo?action=verDetallePersonal&id=<%=incidencia.getIdIncidencias()%>">
                                         <i class='bx bx-show'></i></a>
 
+                                        <% if(incidencia.getEstado() == 2){%>
                                         <a type="button"
                                            class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
                                            href="<%= request.getContextPath()%>/ServletSerenazgo?action=mostrarActualizarIncidencia&id=<%=incidencia.getIdIncidencias()%>"
                                         ><i class='bx bx-edit'></i></a>
+
+                                        <%} else {%>
+                                        <a type="button"
+                                           class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"
+                                           href="<%= request.getContextPath()%>/ServletSerenazgo?action=mostrarOkIncidencia&id=<%=incidencia.getIdIncidencias()%>"
+                                        ><i class='bx bx-check'></i></a>
+                                        <%}%>
+
 
                                         <button type="button"
                                                 class="btn btn-icon btn-icon-only btn-outline-primary btn-sm"

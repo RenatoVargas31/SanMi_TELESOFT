@@ -46,7 +46,7 @@
                         <h5 class="card-title text-white mb-0">Guardar respuesta</h5>
                     </div>
                     <div class="card-body">
-                        <form id="actualizarIncidenciaForm" method="post" action="<%=request.getContextPath()%>/ServletSerenazgo?action=solucionIncidencia" enctype="multipart/form-data">
+                        <form id="actualizarIncidenciaForm" method="post" action="<%=request.getContextPath()%>/ServletSerenazgo?action=solucionIncidencia">
                             <input type="hidden" name="incidencia_id" value="<%= incidencia.getIdIncidencias()%>"/>
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -71,36 +71,31 @@
                                     <div id="urbanizacionError" class="error" style="color: red;"></div>
                                 </div>
 
-
+                                <div class="col-md-6">
+                                    <label class="form-label" for="tipoSereno">Tipo de serenazgo</label>
+                                    <select id="tipoSereno" name="tipoSereno" class="select2 form-select">
+                                        <option value="sinSeleccion">--Seleccione--</option>
+                                        <% for (serenoYtipo t : listaSereno) { %>
+                                        <option value="<%= t.getId() %>" <%= (incidencia.getNameUsuario() == t.getNombre()) ? "selected" : "" %>><%= t.getNombre()%> - <%= t.getTipo()%></option>
+                                        <% } %>
+                                    </select>
+                                    <div id="serenoError" class="error" style="color: red;"></div>
+                                </div>
 
 
                                 <div class="col-12 d-flex align-items-center">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="" id="ambulancia" name="ambulancia" <% if(incidencia.isRequiereAmbulancia()) { %> checked="" <%}%> >
-                                        <label class="form-check-label" for="ambulancia">Es necesario una ambulancia</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" value="" id="policia" name="policia" <% if(incidencia.isRequierePolicia()) { %> checked="" <%}%> >
-                                        <label class="form-check-label" for="ambulancia">Es necesario llamar a la policía</label>
+                                        <label class="form-check-label" for="policia">Es necesario llamar a la policía</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" value="" id="bombero" name="bombero" <% if(incidencia.isRequierePolicia()) { %> checked="" <%}%> >
                                         <label class="form-check-label" for="bombero">Es necesario un bombero</label>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="tipoSereno">Tipo de serenazgo</label>
-                                        <select id="tipoSereno" name="tipoSereno" class="select2 form-select">
-                                            <option value="sinSeleccion">--Seleccione--</option>
-                                            <% for (serenoYtipo t : listaSereno) { %>
-                                            <option value="<%= t.getId() %>" <%= (incidencia.getNameUsuario() == t.getNombre()) ? "selected" : "" %>><%= t.getNombre()%> - <%= t.getTipo()%></option>
-                                            <% } %>
-                                        </select>
-                                        <div id="serenoError" class="error" style="color: red;"></div>
-                                    </div>
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label" for="descrpcion">Descripción </label>
-                                    <input type="text" class="form-control" name="descrpcion" id="descrpcion" maxlength="255"/>
+                                    <label class="form-label" for="descripcion">Descripción </label>
+                                    <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="255"/>
                                 </div>
 
 
