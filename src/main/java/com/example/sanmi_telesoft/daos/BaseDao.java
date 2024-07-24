@@ -16,7 +16,7 @@ public abstract class BaseDao {
         String password = "root";
         String database = "proyecto-iweb";
         String params = "serverTimezone=America/Lima&useSSL=false&allowPublicKeyRetrieval=true";
-        String url = "jdbc:mysql://34.139.185.159:3306/" + database + "?" + params;
+        String url = "jdbc:mysql://localhost:3306/" + database + "?" + params;
 
         return DriverManager.getConnection(url, username, password);
 

@@ -520,11 +520,12 @@ public class DaoIncidencia extends BaseDao{
     }
 
     public void dale(int id){
-        String sql = "update incidencias set EstadoIncidencia_idEstadoIncidencia = 3";
+        String sql = "update incidencias set EstadoIncidencia_idEstadoIncidencia = 3 where idIncidencias = ?";
 
         try (Connection conn = this.getConection();
-             Statement stmt = conn.createStatement()){
-            stmt.executeUpdate(sql);
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
 
         } catch (SQLException e){
             e.printStackTrace();

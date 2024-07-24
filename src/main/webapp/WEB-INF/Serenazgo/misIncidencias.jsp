@@ -178,6 +178,8 @@
                                     <td><span class="badge bg-warning">Procesando</span></td>
                                     <% } else if(incidencia.getEstado() == 3) { %>
                                     <td><span class="badge bg-success">Resuelta</span></td>
+                                    <% } else { %>
+                                    <td><span class="badge bg-success">Resuelta</span></td>
                                     <% } %>
                                     <% if(incidencia.getCriticidad() == 1) { %>
                                     <td><span class="badge bg-primary">Baja</span></td>

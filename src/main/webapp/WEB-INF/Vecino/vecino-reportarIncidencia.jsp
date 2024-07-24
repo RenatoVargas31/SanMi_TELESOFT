@@ -85,10 +85,10 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="input-group">
+
                                         <input type="file" class="form-control" id="file" name="fotoincidencia" accept="image/jpeg, image/png">
                                         <div id="fotoincidenciaError" class="error" style="color: red;"></div>
-                                    </div>
+
                                 </div>
                                 <div class="col-12 mt-3 text-center">
                                     <label for="previewImage" class="form-label">Imagen a subir:</label>
